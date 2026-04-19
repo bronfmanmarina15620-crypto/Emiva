@@ -19,8 +19,7 @@ non-app and live in the home environment. This roadmap covers what Emiva
 
 ## 🟡 Next (within 1–2 weeks)
 
-1. **Activate `/schedule` agents** — per [ADR-002](docs/adr/002-scheduled-rituals.md). Marina runs `/schedule` to create weekly devlog + monthly milestone triggers. Due 2026-04-20.
-2. **MATH-BAT9-001** — Emilia's math content start (fractions introductory items). Full Emilia pedagogy follows per `MyLevel.docx §3.1`. Waits for ≥ 1 week of Evelyn real-usage data.
+1. **MATH-BAT9-001** — Emilia's math content start (fractions introductory items). Full Emilia pedagogy follows per `MyLevel.docx §3.1`. Waits for ≥ 1 week of Evelyn real-usage data.
 
 ---
 

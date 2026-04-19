@@ -122,10 +122,12 @@ suffer from drift under memory-only enforcement.
 
 ## Activation checklist
 
-ADR is only half. The other half is running `/schedule` to create the
-two triggers. Marina commits to doing this **within 24 hours of this
-ADR merging** — otherwise the ADR is a paper win and the risk it closes
-stays open. Tracked in `tasks/BACKLOG.md` if not completed by 2026-04-20.
+- [x] **2026-04-19** — GitHub repo created: `bronfmanmarina15620-crypto/Emiva` (public).
+- [x] **2026-04-19** — Weekly devlog trigger created (`trig_012zozdhu8XtiqezdThPeVAn`, cron `0 15 * * 5` UTC = Fri 18:00 IDT).
+- [x] **2026-04-19** — Monthly milestone trigger created (`trig_01RGFkCgxFWxajbRv8AM6uui`, cron `0 6 1 * *` UTC = 1st 09:00 IDT).
+- [ ] **2026-10-26** (next DST boundary) — verify Jerusalem timezone: IDT → IST shifts local run time from 18:00 → 17:00. If needed, update cron to `0 16 * * 5` (17:00 UTC) and `0 7 1 * *`.
+- [ ] **2026-05-01** — first milestone PR merged; review draft quality.
+- [ ] **2026-04-24** — first weekly devlog PR merged; review draft quality.
 
 ## References
 
