@@ -1,0 +1,36 @@
+[
+  { "id": "as100-001", "skill": "add_sub_100", "difficulty": 1, "prompt": "3 + 4 = ?", "answer": 7, "operands": [3, 4], "op": "+" },
+  { "id": "as100-002", "skill": "add_sub_100", "difficulty": 1, "prompt": "5 + 2 = ?", "answer": 7, "operands": [5, 2], "op": "+" },
+  { "id": "as100-003", "skill": "add_sub_100", "difficulty": 1, "prompt": "6 + 3 = ?", "answer": 9, "operands": [6, 3], "op": "+" },
+  { "id": "as100-004", "skill": "add_sub_100", "difficulty": 1, "prompt": "9 - 4 = ?", "answer": 5, "operands": [9, 4], "op": "-" },
+  { "id": "as100-005", "skill": "add_sub_100", "difficulty": 1, "prompt": "8 - 3 = ?", "answer": 5, "operands": [8, 3], "op": "-" },
+  { "id": "as100-006", "skill": "add_sub_100", "difficulty": 1, "prompt": "7 - 2 = ?", "answer": 5, "operands": [7, 2], "op": "-" },
+
+  { "id": "as100-011", "skill": "add_sub_100", "difficulty": 2, "prompt": "7 + 5 = ?", "answer": 12, "operands": [7, 5], "op": "+" },
+  { "id": "as100-012", "skill": "add_sub_100", "difficulty": 2, "prompt": "8 + 6 = ?", "answer": 14, "operands": [8, 6], "op": "+" },
+  { "id": "as100-013", "skill": "add_sub_100", "difficulty": 2, "prompt": "9 + 4 = ?", "answer": 13, "operands": [9, 4], "op": "+" },
+  { "id": "as100-014", "skill": "add_sub_100", "difficulty": 2, "prompt": "13 - 8 = ?", "answer": 5, "operands": [13, 8], "op": "-" },
+  { "id": "as100-015", "skill": "add_sub_100", "difficulty": 2, "prompt": "15 - 7 = ?", "answer": 8, "operands": [15, 7], "op": "-" },
+  { "id": "as100-016", "skill": "add_sub_100", "difficulty": 2, "prompt": "14 - 6 = ?", "answer": 8, "operands": [14, 6], "op": "-" },
+
+  { "id": "as100-021", "skill": "add_sub_100", "difficulty": 3, "prompt": "42 + 5 = ?", "answer": 47, "operands": [42, 5], "op": "+" },
+  { "id": "as100-022", "skill": "add_sub_100", "difficulty": 3, "prompt": "63 + 4 = ?", "answer": 67, "operands": [63, 4], "op": "+" },
+  { "id": "as100-023", "skill": "add_sub_100", "difficulty": 3, "prompt": "71 + 6 = ?", "answer": 77, "operands": [71, 6], "op": "+" },
+  { "id": "as100-024", "skill": "add_sub_100", "difficulty": 3, "prompt": "56 - 3 = ?", "answer": 53, "operands": [56, 3], "op": "-" },
+  { "id": "as100-025", "skill": "add_sub_100", "difficulty": 3, "prompt": "48 - 5 = ?", "answer": 43, "operands": [48, 5], "op": "-" },
+  { "id": "as100-026", "skill": "add_sub_100", "difficulty": 3, "prompt": "89 - 4 = ?", "answer": 85, "operands": [89, 4], "op": "-" },
+
+  { "id": "as100-031", "skill": "add_sub_100", "difficulty": 4, "prompt": "37 + 8 = ?", "answer": 45, "operands": [37, 8], "op": "+" },
+  { "id": "as100-032", "skill": "add_sub_100", "difficulty": 4, "prompt": "46 + 7 = ?", "answer": 53, "operands": [46, 7], "op": "+" },
+  { "id": "as100-033", "skill": "add_sub_100", "difficulty": 4, "prompt": "58 + 9 = ?", "answer": 67, "operands": [58, 9], "op": "+" },
+  { "id": "as100-034", "skill": "add_sub_100", "difficulty": 4, "prompt": "52 - 6 = ?", "answer": 46, "operands": [52, 6], "op": "-" },
+  { "id": "as100-035", "skill": "add_sub_100", "difficulty": 4, "prompt": "74 - 8 = ?", "answer": 66, "operands": [74, 8], "op": "-" },
+  { "id": "as100-036", "skill": "add_sub_100", "difficulty": 4, "prompt": "63 - 9 = ?", "answer": 54, "operands": [63, 9], "op": "-" },
+
+  { "id": "as100-041", "skill": "add_sub_100", "difficulty": 5, "prompt": "37 + 28 = ?", "answer": 65, "operands": [37, 28], "op": "+" },
+  { "id": "as100-042", "skill": "add_sub_100", "difficulty": 5, "prompt": "46 + 35 = ?", "answer": 81, "operands": [46, 35], "op": "+" },
+  { "id": "as100-043", "skill": "add_sub_100", "difficulty": 5, "prompt": "29 + 54 = ?", "answer": 83, "operands": [29, 54], "op": "+" },
+  { "id": "as100-044", "skill": "add_sub_100", "difficulty": 5, "prompt": "62 - 35 = ?", "answer": 27, "operands": [62, 35], "op": "-" },
+  { "id": "as100-045", "skill": "add_sub_100", "difficulty": 5, "prompt": "81 - 47 = ?", "answer": 34, "operands": [81, 47], "op": "-" },
+  { "id": "as100-046", "skill": "add_sub_100", "difficulty": 5, "prompt": "73 - 28 = ?", "answer": 45, "operands": [73, 28], "op": "-" }
+]

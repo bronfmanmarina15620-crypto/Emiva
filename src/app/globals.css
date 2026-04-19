@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #faf6ee;
+  --surface: #ffffff;
+  --text: #2b2735;
+  --text-muted: #6b6578;
+  --primary: #e87a5d;
+  --primary-dark: #d46849;
+  --success: #7ba881;
+  --success-soft: #dce7dd;
+  --accent: #f5c26b;
+  --accent-soft: #fcebcb;
+  --indigo: #6b8ace;
+  --indigo-soft: #e2e8f5;
+  --line: #e8e2d4;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-rubik), var(--font-heebo), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heebo), system-ui, sans-serif;
+  font-weight: 800;
+}
+
+button {
+  font-family: inherit;
+}
