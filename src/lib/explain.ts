@@ -1,6 +1,6 @@
-import type { Item } from "./types";
+import type { AddSubItem } from "./types";
 
-export function explain(item: Item): string {
+export function explain(item: AddSubItem): string {
   const [a, b] = item.operands;
   return item.op === "+" ? explainAddition(a, b) : explainSubtraction(a, b);
 }

@@ -19,7 +19,9 @@ non-app and live in the home environment. This roadmap covers what Emiva
 
 ## 🟡 Next (within 1–2 weeks)
 
-1. **MATH-BAT9-001** — Emilia's math content start (fractions introductory items). Full Emilia pedagogy follows per `MyLevel.docx §3.1`. Waits for ≥ 1 week of Evelyn real-usage data.
+1. **MATH-BAT9-002** — Operations up to 1000 (add/sub extension, then mul). Emilia slice 2.
+2. **MATH-BAT9-003** — Long division with CPA steps. Emilia slice 3.
+3. **MATH-EMILIA-BARMODELS-001** — Bar Models for word problems (Singapore). Reuses `FractionViz` visual language.
 
 ---
 
@@ -33,7 +35,7 @@ non-app and live in the home environment. This roadmap covers what Emiva
 | MATH-MVP-001 | Evelyn (7) | Add/sub up to 100 | ✅ Day 1 |
 | **MATH-EVELYN-MULT-001** | Evelyn | Multiplication tables | 🔲 planned |
 | **MATH-EVELYN-MONEY-001** | Evelyn | Money-context word problems (3/5 of exercises) | 🔲 planned |
-| **MATH-BAT9-001** | Emilia (9) | Fractions, ops up to 1000, long division | 🔲 planned (next queue) |
+| **MATH-BAT9-001** | Emilia (9) | Fractions, ops up to 1000, long division | 🟨 slice 1 shipped (fractions intro) |
 | **MATH-EMILIA-BARMODELS-001** | Emilia | Bar Models for Word Problems (Singapore CPA) | 🔲 planned |
 
 ### Hebrew reading (`MyLevel.docx §3.2`)

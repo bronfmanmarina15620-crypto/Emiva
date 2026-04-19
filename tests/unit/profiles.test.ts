@@ -41,8 +41,11 @@ describe("profiles", () => {
     it("age 8 → add_sub_100", () => {
       expect(allowedSkillsForAge(8)).toEqual(["add_sub_100"]);
     });
-    it("age 9 → empty (content not built yet)", () => {
-      expect(allowedSkillsForAge(9)).toEqual([]);
+    it("age 9 → fractions_intro", () => {
+      expect(allowedSkillsForAge(9)).toEqual(["fractions_intro"]);
+    });
+    it("age 10 → fractions_intro", () => {
+      expect(allowedSkillsForAge(10)).toEqual(["fractions_intro"]);
     });
     it("age 5 → empty", () => {
       expect(allowedSkillsForAge(5)).toEqual([]);
@@ -96,14 +99,32 @@ describe("profiles", () => {
     it("profileAllowsSkill works", () => {
       const p = createProfile("C", 7);
       expect(profileAllowsSkill(p, "add_sub_100")).toBe(true);
+      expect(profileAllowsSkill(p, "fractions_intro")).toBe(false);
       const p9 = createProfile("D", 9);
       expect(profileAllowsSkill(p9, "add_sub_100")).toBe(false);
+      expect(profileAllowsSkill(p9, "fractions_intro")).toBe(true);
     });
 
     it("saveProfiles overwrites", () => {
       createProfile("X", 7);
       saveProfiles([]);
       expect(loadProfiles()).toEqual([]);
+    });
+
+    it("loadProfiles re-derives allowedSkills from age (stale-cache safe)", () => {
+      // Simulate a profile stored before a curriculum change, with empty allowedSkills.
+      const stale = [
+        {
+          id: "p1",
+          name: "Stale",
+          age: 9,
+          allowedSkills: [] as const,
+          createdAt: 1,
+        },
+      ];
+      saveProfiles(stale as unknown as ReturnType<typeof loadProfiles>);
+      const reloaded = loadProfiles();
+      expect(reloaded[0]?.allowedSkills).toEqual(["fractions_intro"]);
     });
   });
 });

@@ -13,7 +13,8 @@ basis, not progressive-school pedagogy.
 - v1 scope: **Math first.** Hebrew reading and English follow after the math MVP ships.
 - v1 users: two daughters, ages 7 and 9. They are ground truth, not personas.
 
-Full pedagogy and curriculum rationale: `master_curriculum.docx`.
+Full pedagogy and curriculum rationale: `MyLevel.docx` (legacy filename
+from pre-rebrand — same file as `master_curriculum.docx`).
 Do not duplicate that content here.
 
 ## Stack
@@ -221,22 +222,39 @@ Do not mix without explicit separation.
 - Read-only investigation before any write or destructive command
 - Minimum tools, minimum permissions
 
-## Response format (every substantive reply)
+## Response format
+
+Match response size to request.
+
+### Micro (ack · error · small explanation)
+- **Ack / task done:** one line + ✅. Example: "קומיט נכנס ✅".
+- **Error:** מה קרה + מה לעשות. ≤ 2 שורות.
+- **Small explanation:** ≤ 3 שורות. בלי headers.
+
+### Substantive reply (decision · recommendation · plan)
+
+Use this scaffold **when applicable**. Skip a field if it forces invention.
 
 1. **החלטה**
 2. **למה זה נכון** (one line)
 3. **עד 3 צעדים לביצוע**
 4. **סיכון מרכזי**
 
-Modifiers:
-- High confidence → add one falsifier
-- Changed mind → "פספסתי ___ כי ___"
-- Stable decision → "⚠️ הצעה לעדכון CLAUDE.md: ___"
+### Modifiers (apply to any tier)
+- High confidence → add one falsifier.
+- **IMPORTANT: Changed mind → "פספסתי ___ כי ___". בלי "צודקת".**
+- Stable decision worth CLAUDE.md → at end of interaction propose text
+  for approval (`⚠️ הצעה לעדכון CLAUDE.md: ___`). Don't silently edit.
+- Long reply → open with "זו תשובה ארוכה כי: ___".
 
-Communication: Hebrew. No preamble, no repetition. Long reply only with
-stated reason: "זו תשובה ארוכה כי: ___".
+### Always
+- Hebrew.
+- No preamble, no trailing summary.
+- **IMPORTANT: Don't quote back what the user wrote — go straight to meaning.**
+- Prose unless list has ≥ 3 items. No tables for ≤ 3 rows. No headers
+  for replies under ~200 words.
 
-Conflict rule: **Execution > Format. דיוק > תמציתיות.**
+**Conflict rule:** Execution > Format. דיוק > תמציתיות.
 
 ## Updating this file
 

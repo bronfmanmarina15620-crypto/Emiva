@@ -3,6 +3,31 @@
 All notable changes to Emiva. Based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Dates are `YYYY-MM-DD`.
 
+## [0.2.0] — 2026-04-19
+
+Second slice: Emilia's math track opens — introductory fractions.
+
+### Added — Fractions introductory (MATH-BAT9-001 slice 1)
+- New skill `fractions_intro`, gated for ages 9–10.
+- Item bank: 26 items, 5 difficulty tiers, 5 item types (identify, name_to_visual, halving, compare, equivalent).
+- `src/lib/fractions.ts` — gcd, reduce, parse, equivalence, validation. Accepts any equivalent form for identify items (`2/4` and `1/2` both correct).
+- `src/components/FractionViz.tsx` — horizontal bar SVG with sage-filled parts over cream ground (Singapore CPA pictorial).
+- Method-based reveal: fraction viz + one-line explanation per item, matching `CLAUDE.md §Exercise UX rule`.
+- Session page branches by profile skill: age 7–8 → `add_sub_100`, age 9–10 → `fractions_intro`.
+
+### Changed — Per-skill mastery storage
+- `emiva.mastery.v1.{profileId}` → `emiva.mastery.v1.{profileId}.{skill}`.
+- Automatic one-shot migration on first load of legacy key; corrupt legacy values are dropped without crashing.
+- Per-skill mastery isolation: Evelyn's add/sub progress and Emilia's fractions progress are independent.
+
+### Added — Engineering
+- `src/lib/items.ts` — skill-agnostic adapter (`isItemCorrect`, `canonicalAnswer`).
+- 30 new tests: fractions validation (15), bank integrity (8), storage migration (7). Total tests: 92 passing (was 61).
+
+### Known-open
+- `MATH-BAT9-002` (ops up to 1000) and `MATH-BAT9-003` (long division) not yet started.
+- `MATH-EMILIA-BARMODELS-001` — Bar Models for word problems — not yet started.
+
 ## [0.1.0] — 2026-04-19
 
 First day: pre-scaffold → working MVP with brand + per-profile isolation.

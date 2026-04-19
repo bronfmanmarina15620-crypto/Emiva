@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { explain } from "@/lib/explain";
-import type { Item } from "@/lib/types";
+import type { AddSubItem } from "@/lib/types";
 
 function item(
   op: "+" | "-",
   a: number,
   b: number,
-  difficulty: Item["difficulty"] = 1,
-): Item {
+  difficulty: AddSubItem["difficulty"] = 1,
+): AddSubItem {
   return {
     id: "t",
     skill: "add_sub_100",

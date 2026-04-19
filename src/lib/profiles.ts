@@ -13,6 +13,7 @@ const ACTIVE_KEY = "emiva.active_profile.v1";
 
 export function allowedSkillsForAge(age: number): Skill[] {
   if (age >= 7 && age <= 8) return ["add_sub_100"];
+  if (age >= 9 && age <= 10) return ["fractions_intro"];
   return [];
 }
 
@@ -29,7 +30,10 @@ export function loadProfiles(): Profile[] {
     const raw = window.localStorage.getItem(PROFILES_KEY);
     if (!raw) return [];
     const arr = JSON.parse(raw) as Profile[];
-    return Array.isArray(arr) ? arr : [];
+    if (!Array.isArray(arr)) return [];
+    // Re-derive allowedSkills from age on every read so curriculum changes
+    // propagate to existing profiles without a separate migration step.
+    return arr.map((p) => ({ ...p, allowedSkills: allowedSkillsForAge(p.age) }));
   } catch {
     return [];
   }

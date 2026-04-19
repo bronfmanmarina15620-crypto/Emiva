@@ -1,0 +1,320 @@
+[
+  {
+    "id": "fi-id-001",
+    "skill": "fractions_intro",
+    "difficulty": 1,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 2, "filled": 1 },
+    "answer": { "kind": "fraction", "num": 1, "den": 2 },
+    "explanation": "הסרגל מחולק לשני חלקים שווים, חלק אחד צבוע. זה 1/2 — חצי."
+  },
+  {
+    "id": "fi-id-002",
+    "skill": "fractions_intro",
+    "difficulty": 1,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 4, "filled": 1 },
+    "answer": { "kind": "fraction", "num": 1, "den": 4 },
+    "explanation": "ארבעה חלקים שווים, חלק אחד צבוע. 1 מתוך 4 — זה 1/4, רבע."
+  },
+  {
+    "id": "fi-id-003",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 3, "filled": 1 },
+    "answer": { "kind": "fraction", "num": 1, "den": 3 },
+    "explanation": "שלושה חלקים שווים, אחד צבוע. זה 1/3 — שליש."
+  },
+  {
+    "id": "fi-id-004",
+    "skill": "fractions_intro",
+    "difficulty": 3,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 4, "filled": 3 },
+    "answer": { "kind": "fraction", "num": 3, "den": 4 },
+    "explanation": "ארבעה חלקים שווים, שלושה צבועים. 3 מתוך 4 — זה 3/4."
+  },
+  {
+    "id": "fi-id-005",
+    "skill": "fractions_intro",
+    "difficulty": 4,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 6, "filled": 2 },
+    "answer": { "kind": "fraction", "num": 2, "den": 6 },
+    "explanation": "שישה חלקים שווים, שניים צבועים. 2 מתוך 6 — זה 2/6. זה אותו דבר כמו 1/3.",
+    "external_test_eligible": true
+  },
+  {
+    "id": "fi-id-006",
+    "skill": "fractions_intro",
+    "difficulty": 5,
+    "type": "identify",
+    "prompt": "איזה חלק צבוע?",
+    "viz": { "parts": 8, "filled": 3 },
+    "answer": { "kind": "fraction", "num": 3, "den": 8 },
+    "explanation": "שמונה חלקים שווים, שלושה צבועים. 3 מתוך 8 — זה 3/8."
+  },
+
+  {
+    "id": "fi-ntv-001",
+    "skill": "fractions_intro",
+    "difficulty": 1,
+    "type": "name_to_visual",
+    "prompt": "איפה רואים 1/2?",
+    "answer": {
+      "kind": "choice",
+      "correct": "1/2",
+      "options": ["1/2", "1/3", "1/4", "2/3"]
+    },
+    "explanation": "1/2 זה חלק אחד מתוך שניים שווים. חצי."
+  },
+  {
+    "id": "fi-ntv-002",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "name_to_visual",
+    "prompt": "איפה רואים 1/3?",
+    "answer": {
+      "kind": "choice",
+      "correct": "1/3",
+      "options": ["1/2", "1/3", "2/3", "3/4"]
+    },
+    "explanation": "1/3 זה חלק אחד מתוך שלושה שווים."
+  },
+  {
+    "id": "fi-ntv-003",
+    "skill": "fractions_intro",
+    "difficulty": 3,
+    "type": "name_to_visual",
+    "prompt": "איפה רואים 2/3?",
+    "answer": {
+      "kind": "choice",
+      "correct": "2/3",
+      "options": ["1/3", "2/3", "1/2", "3/4"]
+    },
+    "explanation": "2/3 זה שני חלקים מתוך שלושה שווים."
+  },
+  {
+    "id": "fi-ntv-004",
+    "skill": "fractions_intro",
+    "difficulty": 4,
+    "type": "name_to_visual",
+    "prompt": "איפה רואים 2/5?",
+    "answer": {
+      "kind": "choice",
+      "correct": "2/5",
+      "options": ["1/5", "2/5", "3/5", "4/5"]
+    },
+    "explanation": "2/5 זה שני חלקים מתוך חמישה שווים.",
+    "external_test_eligible": true
+  },
+  {
+    "id": "fi-ntv-005",
+    "skill": "fractions_intro",
+    "difficulty": 5,
+    "type": "name_to_visual",
+    "prompt": "איפה רואים 5/6?",
+    "answer": {
+      "kind": "choice",
+      "correct": "5/6",
+      "options": ["3/6", "4/6", "5/6", "6/6"]
+    },
+    "explanation": "5/6 זה חמישה חלקים מתוך שישה שווים — כמעט הכל מלא."
+  },
+
+  {
+    "id": "fi-hv-001",
+    "skill": "fractions_intro",
+    "difficulty": 1,
+    "type": "halving",
+    "prompt": "חצי מ-10 הוא?",
+    "viz": { "parts": 2, "filled": 1 },
+    "answer": { "kind": "numeric", "correct": 5 },
+    "explanation": "חצי פירושו לחלק ל-2 חלקים שווים. 10 מחולק ב-2 זה 5."
+  },
+  {
+    "id": "fi-hv-002",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "halving",
+    "prompt": "חצי מ-16 הוא?",
+    "viz": { "parts": 2, "filled": 1 },
+    "answer": { "kind": "numeric", "correct": 8 },
+    "explanation": "מחלקים 16 ל-2 חלקים שווים: 8 ו-8. חצי = 8."
+  },
+  {
+    "id": "fi-hv-003",
+    "skill": "fractions_intro",
+    "difficulty": 3,
+    "type": "halving",
+    "prompt": "שליש מ-9 הוא?",
+    "viz": { "parts": 3, "filled": 1 },
+    "answer": { "kind": "numeric", "correct": 3 },
+    "explanation": "שליש = לחלק ל-3 חלקים שווים. 9 מחולק ב-3 זה 3."
+  },
+  {
+    "id": "fi-hv-004",
+    "skill": "fractions_intro",
+    "difficulty": 4,
+    "type": "halving",
+    "prompt": "רבע מ-12 הוא?",
+    "viz": { "parts": 4, "filled": 1 },
+    "answer": { "kind": "numeric", "correct": 3 },
+    "explanation": "רבע = לחלק ל-4 חלקים שווים. 12 מחולק ב-4 זה 3.",
+    "external_test_eligible": true
+  },
+  {
+    "id": "fi-hv-005",
+    "skill": "fractions_intro",
+    "difficulty": 5,
+    "type": "halving",
+    "prompt": "רבע מ-20 הוא?",
+    "viz": { "parts": 4, "filled": 1 },
+    "answer": { "kind": "numeric", "correct": 5 },
+    "explanation": "מחלקים 20 ל-4 חלקים שווים: 5, 5, 5, 5. רבע = 5."
+  },
+
+  {
+    "id": "fi-cmp-001",
+    "skill": "fractions_intro",
+    "difficulty": 1,
+    "type": "compare",
+    "prompt": "מה גדול יותר: 1/2 או 1/4?",
+    "answer": {
+      "kind": "choice",
+      "correct": "1/2",
+      "options": ["1/2", "1/4"]
+    },
+    "explanation": "אותו עוגה, שתי חלוקות. מחלקים ל-2 חלקים — כל חלק גדול. מחלקים ל-4 — כל חלק קטן יותר. אז 1/2 גדול יותר מ-1/4."
+  },
+  {
+    "id": "fi-cmp-002",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "compare",
+    "prompt": "מה גדול יותר: 1/3 או 1/5?",
+    "answer": {
+      "kind": "choice",
+      "correct": "1/3",
+      "options": ["1/3", "1/5"]
+    },
+    "explanation": "כשמחלקים לפחות חלקים — כל חלק גדול יותר. 3 חלקים > 5 חלקים, אז 1/3 גדול מ-1/5."
+  },
+  {
+    "id": "fi-cmp-003",
+    "skill": "fractions_intro",
+    "difficulty": 3,
+    "type": "compare",
+    "prompt": "מה גדול יותר: 2/3 או 1/2?",
+    "answer": {
+      "kind": "choice",
+      "correct": "2/3",
+      "options": ["2/3", "1/2"]
+    },
+    "explanation": "2/3 זה יותר מחצי — לקחת 2 מתוך 3 חלקים זה יותר מחצי העוגה."
+  },
+  {
+    "id": "fi-cmp-004",
+    "skill": "fractions_intro",
+    "difficulty": 4,
+    "type": "compare",
+    "prompt": "מה גדול יותר: 3/4 או 2/3?",
+    "answer": {
+      "kind": "choice",
+      "correct": "3/4",
+      "options": ["3/4", "2/3"]
+    },
+    "explanation": "3/4 זה רבע מתחת לשלם. 2/3 זה שליש מתחת לשלם. רבע < שליש, אז 3/4 קרוב יותר לשלם, כלומר גדול יותר."
+  },
+  {
+    "id": "fi-cmp-005",
+    "skill": "fractions_intro",
+    "difficulty": 5,
+    "type": "compare",
+    "prompt": "מה גדול יותר: 4/6 או 3/4?",
+    "answer": {
+      "kind": "choice",
+      "correct": "3/4",
+      "options": ["4/6", "3/4"]
+    },
+    "explanation": "4/6 זה 2/3 (יחס 2:3). 3/4 זה רבע מתחת לשלם, 2/3 זה שליש מתחת. רבע קטן משליש, אז 3/4 גדול יותר.",
+    "external_test_eligible": true
+  },
+
+  {
+    "id": "fi-eq-001",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "equivalent",
+    "prompt": "2/4 זה אותו דבר כמו:",
+    "viz": { "parts": 4, "filled": 2 },
+    "answer": {
+      "kind": "choice",
+      "correct": "1/2",
+      "options": ["1/2", "1/3", "1/4", "3/4"]
+    },
+    "explanation": "בתוך 2/4 יש 2 חלקים צבועים מתוך 4. זה בדיוק חצי מהעוגה — 1/2."
+  },
+  {
+    "id": "fi-eq-002",
+    "skill": "fractions_intro",
+    "difficulty": 2,
+    "type": "equivalent",
+    "prompt": "3/6 זה אותו דבר כמו:",
+    "viz": { "parts": 6, "filled": 3 },
+    "answer": {
+      "kind": "choice",
+      "correct": "1/2",
+      "options": ["1/2", "2/3", "1/3", "1/6"]
+    },
+    "explanation": "3 מתוך 6 זה חצי מהחלקים. לכן 3/6 = 1/2."
+  },
+  {
+    "id": "fi-eq-003",
+    "skill": "fractions_intro",
+    "difficulty": 3,
+    "type": "equivalent",
+    "prompt": "2/6 זה אותו דבר כמו:",
+    "viz": { "parts": 6, "filled": 2 },
+    "answer": {
+      "kind": "choice",
+      "correct": "1/3",
+      "options": ["1/2", "1/3", "2/3", "1/4"]
+    },
+    "explanation": "אפשר לקבץ את 6 החלקים לזוגות. יש 3 זוגות. 2 חלקים = זוג אחד מתוך 3 = 1/3."
+  },
+  {
+    "id": "fi-eq-004",
+    "skill": "fractions_intro",
+    "difficulty": 4,
+    "type": "equivalent",
+    "prompt": "4/8 זה אותו דבר כמו:",
+    "viz": { "parts": 8, "filled": 4 },
+    "answer": {
+      "kind": "choice",
+      "correct": "1/2",
+      "options": ["1/2", "1/4", "2/4", "3/4"]
+    },
+    "explanation": "4 מתוך 8 = חצי מהחלקים. 4/8 = 1/2."
+  },
+  {
+    "id": "fi-eq-005",
+    "skill": "fractions_intro",
+    "difficulty": 5,
+    "type": "equivalent",
+    "prompt": "3/9 זה אותו דבר כמו:",
+    "viz": { "parts": 9, "filled": 3 },
+    "answer": {
+      "kind": "choice",
+      "correct": "1/3",
+      "options": ["1/2", "1/3", "3/6", "1/4"]
+    },
+    "explanation": "מקבצים את 9 החלקים לשלישיות — יש 3 שלישיות. 3 חלקים = שלישייה אחת = 1/3."
+  }
+]

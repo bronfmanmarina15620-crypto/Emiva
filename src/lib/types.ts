@@ -1,16 +1,44 @@
 export type Difficulty = 1 | 2 | 3 | 4 | 5;
 
-export type Skill = "add_sub_100";
+export type Skill = "add_sub_100" | "fractions_intro";
 
-export type Item = {
+export type AddSubItem = {
   id: string;
-  skill: Skill;
+  skill: "add_sub_100";
   difficulty: Difficulty;
   prompt: string;
   answer: number;
   operands: [number, number];
   op: "+" | "-";
 };
+
+export type FractionItemType =
+  | "identify"
+  | "name_to_visual"
+  | "halving"
+  | "compare"
+  | "equivalent";
+
+export type FractionViz = { parts: number; filled: number };
+
+export type FractionAnswer =
+  | { kind: "choice"; correct: string; options: string[] }
+  | { kind: "numeric"; correct: number }
+  | { kind: "fraction"; num: number; den: number };
+
+export type FractionItem = {
+  id: string;
+  skill: "fractions_intro";
+  difficulty: Difficulty;
+  type: FractionItemType;
+  prompt: string;
+  viz?: FractionViz;
+  answer: FractionAnswer;
+  explanation: string;
+  external_test_eligible?: boolean;
+};
+
+export type Item = AddSubItem | FractionItem;
 
 export type Attempt = {
   itemId: string;

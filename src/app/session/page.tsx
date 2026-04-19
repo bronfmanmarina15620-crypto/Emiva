@@ -2,8 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import bank from "@/content/math/add-sub-100.json";
-import type { Item, MasteryState } from "@/lib/types";
+import addSubBank from "@/content/math/add-sub-100.json";
+import fractionsBank from "@/content/math/fractions-intro.json";
+import type {
+  FractionItem,
+  Item,
+  MasteryState,
+  Skill,
+} from "@/lib/types";
 import { MASTERY_TARGET } from "@/lib/types";
 import {
   emptyMastery,
@@ -29,19 +35,26 @@ import {
 import { exportTelemetry, logEvent } from "@/lib/telemetry";
 import {
   getActiveProfile,
-  profileAllowsSkill,
   setActiveProfileId,
   type Profile,
 } from "@/lib/profiles";
 import { MasteryJar } from "@/components/MasteryJar";
+import { FractionViz } from "@/components/FractionViz";
+import { isItemCorrect } from "@/lib/items";
+import { parseFraction } from "@/lib/fractions";
 
 const ITEMS_PER_SESSION = Math.max(
   1,
   Number(process.env.NEXT_PUBLIC_ITEMS_PER_SESSION) || 10,
 );
 const MAX_ATTEMPTS = 3;
-const SKILL = "add_sub_100" as const;
-const TYPED_BANK = bank as unknown as readonly Item[];
+
+const ADD_SUB_BANK = addSubBank as unknown as readonly Item[];
+const FRACTIONS_BANK = fractionsBank as unknown as readonly Item[];
+
+function bankForSkill(skill: Skill): readonly Item[] {
+  return skill === "add_sub_100" ? ADD_SUB_BANK : FRACTIONS_BANK;
+}
 
 type Phase =
   | "loading"
@@ -72,8 +85,11 @@ async function fireCelebration(): Promise<void> {
 export default function SessionPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [skill, setSkill] = useState<Skill | null>(null);
   const [phase, setPhase] = useState<Phase>("loading");
-  const [state, setState] = useState<MasteryState>(() => emptyMastery(SKILL));
+  const [state, setState] = useState<MasteryState>(() =>
+    emptyMastery("add_sub_100"),
+  );
   const [current, setCurrent] = useState<Item | null>(null);
   const [usedIds, setUsedIds] = useState<Set<string>>(new Set());
   const [answered, setAnswered] = useState(0);
@@ -97,15 +113,18 @@ export default function SessionPage() {
     }
     setProfile(active);
 
-    if (!profileAllowsSkill(active, SKILL)) {
+    const chosenSkill = active.allowedSkills[0];
+    if (!chosenSkill) {
       setPhase("no_content");
       return;
     }
+    setSkill(chosenSkill);
 
-    const loaded = loadMastery(active.id, SKILL);
+    const bank = bankForSkill(chosenSkill);
+    const loaded = loadMastery(active.id, chosenSkill);
     const fresh = incrementSession(decaySrsForNewSession(loaded));
     startMasteryRef.current = masteryScore(loaded);
-    const first = selectNextItem(fresh, TYPED_BANK, new Set());
+    const first = selectNextItem(fresh, bank, new Set());
     setState(fresh);
     firstItemRef.current = first;
     setGreeting(buildGreeting(loadLastSessionTime(active.id), active.name));
@@ -113,7 +132,10 @@ export default function SessionPage() {
   }, [router]);
 
   useEffect(() => {
-    if (phase === "active" || phase === "retry") inputRef.current?.focus();
+    if (phase === "active" || phase === "retry") {
+      // Only auto-focus numeric inputs; choice-based items use buttons.
+      if (current && needsTextInput(current)) inputRef.current?.focus();
+    }
   }, [phase, current]);
 
   useEffect(() => {
@@ -133,7 +155,7 @@ export default function SessionPage() {
   );
 
   function beginSession() {
-    if (!profile) return;
+    if (!profile || !skill) return;
     const first = firstItemRef.current;
     if (!first) {
       setPhase("summary");
@@ -144,7 +166,7 @@ export default function SessionPage() {
     logEvent(profile.id, {
       t: "session_start",
       at: Date.now(),
-      skill: SKILL,
+      skill,
     });
     logEvent(profile.id, {
       t: "item_shown",
@@ -168,14 +190,12 @@ export default function SessionPage() {
     setAnswered((n) => n + 1);
   }
 
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
+  function processAnswer(rawInput: string) {
     if (!current || !profile) return;
     if (phase !== "active" && phase !== "retry") return;
-    const parsed = Number(input.trim());
-    if (input.trim() === "" || Number.isNaN(parsed)) return;
+    if (rawInput.trim() === "") return;
 
-    const correct = parsed === current.answer;
+    const correct = isItemCorrect(current, rawInput);
     const nextAttempts = attempts + 1;
     const attemptIdx = attempts as 0 | 1 | 2;
     logEvent(profile.id, {
@@ -233,8 +253,18 @@ export default function SessionPage() {
     setPhase("reveal");
   }
 
+  function submitText(e: React.FormEvent) {
+    e.preventDefault();
+    processAnswer(input);
+  }
+
+  function submitChoice(choice: string) {
+    setInput(choice);
+    processAnswer(choice);
+  }
+
   function advance() {
-    if (!profile) return;
+    if (!profile || !skill) return;
     const newUsed = current
       ? new Set([...usedIds, current.id])
       : new Set(usedIds);
@@ -246,19 +276,19 @@ export default function SessionPage() {
       logEvent(profile.id, {
         t: "session_end",
         at: Date.now(),
-        skill: SKILL,
+        skill,
         answered,
         correctFirstTry: correctCount,
       });
       setPhase("summary");
       return;
     }
-    const next = selectNextItem(state, TYPED_BANK, newUsed);
+    const next = selectNextItem(state, bankForSkill(skill), newUsed);
     if (!next) {
       logEvent(profile.id, {
         t: "session_end",
         at: Date.now(),
-        skill: SKILL,
+        skill,
         answered,
         correctFirstTry: correctCount,
       });
@@ -428,32 +458,20 @@ export default function SessionPage() {
         </div>
 
         {current && (
-          <div className="bg-surface rounded-3xl shadow-soft py-10 px-6">
-            <div className="text-7xl font-display font-extrabold text-center tabular-nums text-warm-dark">
-              {current.prompt}
-            </div>
-          </div>
+          <ItemPrompt item={current} />
         )}
 
-        <form onSubmit={submit} className="space-y-4">
-          <input
-            ref={inputRef}
-            type="number"
-            inputMode="numeric"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={formLocked}
-            className="w-full text-4xl text-center bg-surface border-2 border-warm-line rounded-2xl py-4 focus:border-terracotta focus:outline-none tabular-nums disabled:bg-warm-line/30 text-warm-dark"
-            autoFocus
+        {current && (
+          <ItemInput
+            item={current}
+            input={input}
+            setInput={setInput}
+            locked={formLocked}
+            onSubmitText={submitText}
+            onChoose={submitChoice}
+            inputRef={inputRef}
           />
-          <button
-            type="submit"
-            disabled={formLocked || input.trim() === ""}
-            className="w-full bg-terracotta text-white py-4 rounded-2xl text-xl font-semibold shadow-warm disabled:bg-warm-line disabled:text-warm-muted disabled:shadow-none hover:bg-terracotta-dark transition"
-          >
-            בדיקה
-          </button>
-        </form>
+        )}
 
         {phase === "retry" && (
           <div className="text-center text-lg font-semibold py-4 px-5 rounded-2xl bg-mustard-soft text-warm-dark border border-mustard">
@@ -474,27 +492,217 @@ export default function SessionPage() {
         )}
 
         {phase === "reveal" && current && (
-          <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
-            <div className="text-lg font-semibold text-warm-dark">
-              {revealText}{" "}
-              <span className="font-display font-extrabold text-warm-indigo">
-                {current.answer}
-              </span>
-            </div>
-            <div className="text-base text-warm-dark leading-relaxed">
-              {explain(current)}
-            </div>
-            <button
-              onClick={advance}
-              className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
-            >
-              הבנתי — המשך
-            </button>
-          </div>
+          <ItemReveal item={current} introText={revealText} onAdvance={advance} />
         )}
       </div>
     </main>
   );
+}
+
+function needsTextInput(item: Item): boolean {
+  if (item.skill === "add_sub_100") return true;
+  return item.answer.kind === "numeric" || item.answer.kind === "fraction";
+}
+
+function ItemPrompt({ item }: { item: Item }) {
+  if (item.skill === "add_sub_100") {
+    return (
+      <div className="bg-surface rounded-3xl shadow-soft py-10 px-6">
+        <div className="text-7xl font-display font-extrabold text-center tabular-nums text-warm-dark">
+          {item.prompt}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-surface rounded-3xl shadow-soft py-8 px-6 space-y-5">
+      <div className="text-2xl font-display font-extrabold text-center text-warm-dark">
+        {item.prompt}
+      </div>
+      {item.viz && (
+        <div className="flex justify-center">
+          <FractionViz parts={item.viz.parts} filled={item.viz.filled} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+type InputProps = {
+  item: Item;
+  input: string;
+  setInput: (v: string) => void;
+  locked: boolean;
+  onSubmitText: (e: React.FormEvent) => void;
+  onChoose: (choice: string) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+};
+
+function ItemInput({
+  item,
+  input,
+  setInput,
+  locked,
+  onSubmitText,
+  onChoose,
+  inputRef,
+}: InputProps) {
+  if (item.skill === "add_sub_100") {
+    return (
+      <form onSubmit={onSubmitText} className="space-y-4">
+        <input
+          ref={inputRef}
+          type="number"
+          inputMode="numeric"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={locked}
+          className="w-full text-4xl text-center bg-surface border-2 border-warm-line rounded-2xl py-4 focus:border-terracotta focus:outline-none tabular-nums disabled:bg-warm-line/30 text-warm-dark"
+          autoFocus
+        />
+        <button
+          type="submit"
+          disabled={locked || input.trim() === ""}
+          className="w-full bg-terracotta text-white py-4 rounded-2xl text-xl font-semibold shadow-warm disabled:bg-warm-line disabled:text-warm-muted disabled:shadow-none hover:bg-terracotta-dark transition"
+        >
+          בדיקה
+        </button>
+      </form>
+    );
+  }
+
+  const frac = item as FractionItem;
+
+  if (frac.answer.kind === "choice") {
+    const isVisualType = frac.type === "name_to_visual";
+    return (
+      <div
+        className={`grid gap-3 ${
+          isVisualType ? "grid-cols-2" : frac.answer.options.length === 2 ? "grid-cols-2" : "grid-cols-2"
+        }`}
+      >
+        {frac.answer.options.map((opt) => {
+          const parsed = parseFraction(opt);
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => onChoose(opt)}
+              disabled={locked}
+              className="bg-surface border-2 border-warm-line rounded-2xl p-4 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft flex flex-col items-center gap-2"
+            >
+              {isVisualType && parsed && (
+                <FractionViz
+                  parts={parsed.den}
+                  filled={parsed.num}
+                  width={140}
+                  height={48}
+                />
+              )}
+              <span className="text-2xl font-display font-extrabold text-warm-dark tabular-nums">
+                {opt}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // numeric or fraction text input
+  const isFraction = frac.answer.kind === "fraction";
+  return (
+    <form onSubmit={onSubmitText} className="space-y-4">
+      <input
+        ref={inputRef}
+        type="text"
+        inputMode={isFraction ? "text" : "numeric"}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        disabled={locked}
+        placeholder={isFraction ? "לדוגמה: 1/2" : ""}
+        className="w-full text-4xl text-center bg-surface border-2 border-warm-line rounded-2xl py-4 focus:border-terracotta focus:outline-none tabular-nums disabled:bg-warm-line/30 text-warm-dark placeholder:text-warm-muted placeholder:text-xl"
+        autoFocus
+      />
+      <button
+        type="submit"
+        disabled={locked || input.trim() === ""}
+        className="w-full bg-terracotta text-white py-4 rounded-2xl text-xl font-semibold shadow-warm disabled:bg-warm-line disabled:text-warm-muted disabled:shadow-none hover:bg-terracotta-dark transition"
+      >
+        בדיקה
+      </button>
+    </form>
+  );
+}
+
+function ItemReveal({
+  item,
+  introText,
+  onAdvance,
+}: {
+  item: Item;
+  introText: string;
+  onAdvance: () => void;
+}) {
+  if (item.skill === "add_sub_100") {
+    return (
+      <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
+        <div className="text-lg font-semibold text-warm-dark">
+          {introText}{" "}
+          <span className="font-display font-extrabold text-warm-indigo">
+            {item.answer}
+          </span>
+        </div>
+        <div className="text-base text-warm-dark leading-relaxed">
+          {explain(item)}
+        </div>
+        <button
+          onClick={onAdvance}
+          className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
+        >
+          הבנתי — המשך
+        </button>
+      </div>
+    );
+  }
+
+  const answerText = canonicalFractionAnswer(item);
+  return (
+    <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
+      <div className="text-lg font-semibold text-warm-dark">
+        {introText}{" "}
+        <span className="font-display font-extrabold text-warm-indigo tabular-nums">
+          {answerText}
+        </span>
+      </div>
+      {item.viz && (
+        <div className="flex justify-center py-2">
+          <FractionViz parts={item.viz.parts} filled={item.viz.filled} />
+        </div>
+      )}
+      <div className="text-base text-warm-dark leading-relaxed">
+        {item.explanation}
+      </div>
+      <button
+        onClick={onAdvance}
+        className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
+      >
+        הבנתי — המשך
+      </button>
+    </div>
+  );
+}
+
+function canonicalFractionAnswer(item: FractionItem): string {
+  switch (item.answer.kind) {
+    case "choice":
+      return item.answer.correct;
+    case "numeric":
+      return String(item.answer.correct);
+    case "fraction":
+      return `${item.answer.num}/${item.answer.den}`;
+  }
 }
 
 function Stat({ label, value }: { label: string; value: string }) {

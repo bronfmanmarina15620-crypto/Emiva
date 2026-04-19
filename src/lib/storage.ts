@@ -4,18 +4,41 @@ import { emptyMastery } from "./mastery";
 const MASTERY_PREFIX = "emiva.mastery.v1";
 const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 
-function masteryKey(profileId: string): string {
+function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
+}
+
+function masteryKey(profileId: string, skill: Skill): string {
+  return `${MASTERY_PREFIX}.${profileId}.${skill}`;
 }
 
 function lastSessionKey(profileId: string): string {
   return `${LAST_SESSION_PREFIX}.${profileId}`;
 }
 
+function migrateLegacyIfPresent(profileId: string): void {
+  if (typeof window === "undefined") return;
+  const legacy = window.localStorage.getItem(legacyMasteryKey(profileId));
+  if (!legacy) return;
+  try {
+    const parsed = JSON.parse(legacy) as MasteryState;
+    if (parsed && typeof parsed.skill === "string") {
+      const newKey = masteryKey(profileId, parsed.skill);
+      if (!window.localStorage.getItem(newKey)) {
+        window.localStorage.setItem(newKey, legacy);
+      }
+    }
+  } catch {
+    // corrupt legacy value — drop it
+  }
+  window.localStorage.removeItem(legacyMasteryKey(profileId));
+}
+
 export function loadMastery(profileId: string, skill: Skill): MasteryState {
   if (typeof window === "undefined") return emptyMastery(skill);
+  migrateLegacyIfPresent(profileId);
   try {
-    const raw = window.localStorage.getItem(masteryKey(profileId));
+    const raw = window.localStorage.getItem(masteryKey(profileId, skill));
     if (!raw) return emptyMastery(skill);
     const parsed = JSON.parse(raw) as MasteryState;
     if (parsed.skill !== skill) return emptyMastery(skill);
@@ -27,12 +50,15 @@ export function loadMastery(profileId: string, skill: Skill): MasteryState {
 
 export function saveMastery(profileId: string, state: MasteryState): void {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(masteryKey(profileId), JSON.stringify(state));
+  window.localStorage.setItem(
+    masteryKey(profileId, state.skill),
+    JSON.stringify(state),
+  );
 }
 
-export function resetMastery(profileId: string): void {
+export function resetMastery(profileId: string, skill: Skill): void {
   if (typeof window === "undefined") return;
-  window.localStorage.removeItem(masteryKey(profileId));
+  window.localStorage.removeItem(masteryKey(profileId, skill));
 }
 
 export function loadLastSessionTime(profileId: string): number | null {

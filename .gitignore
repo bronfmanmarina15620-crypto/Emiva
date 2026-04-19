@@ -7,5 +7,8 @@ out/
 coverage/
 .vscode/
 .obsidian/
+.docx-extract/
+~$*.docx
+~$*.xlsx
 tsconfig.tsbuildinfo
 next-env.d.ts
