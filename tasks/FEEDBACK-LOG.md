@@ -29,4 +29,5 @@ YYYY-MM-DD | observer | subject | observation
 
 ```
 2026-04-19 | Marina | tone | הטקסט "לא נכון. נסה שוב" מרגיש מתנשא לבת 7. החלפתי לטון growth-mindset.
+2026-04-19 | Marina | ui | הפרופיל של Emilia (שנוצר בסבב QA הראשון) הראה "בקרוב" גם אחרי שנפתח skill fractions_intro. גורם שורש: allowedSkills נשמר ב-localStorage במועד היצירה ולא מעודכן. תוקן: loadProfiles מחשב מחדש לפי גיל בכל טעינה.
 ```

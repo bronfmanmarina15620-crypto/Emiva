@@ -22,11 +22,25 @@ Second slice: Emilia's math track opens — introductory fractions.
 
 ### Added — Engineering
 - `src/lib/items.ts` — skill-agnostic adapter (`isItemCorrect`, `canonicalAnswer`).
-- 30 new tests: fractions validation (15), bank integrity (8), storage migration (7). Total tests: 92 passing (was 61).
+- 45 new tests across 4 files: fractions validation (15), bank integrity (8), storage migration (7), items adapter (14), profiles re-derive (1). Total tests: **107 passing** (was 61).
+
+### Fixed — Stale `allowedSkills` on existing profiles
+- `loadProfiles` now re-derives `allowedSkills` from age on every read. Previously, a profile created before a curriculum update kept its stale `allowedSkills: []`, causing the "בקרוב" screen to appear for Emilia even after the curriculum was extended. Now curriculum changes propagate to existing profiles automatically.
+
+### Changed — CLAUDE.md governance
+- `§Response format` restructured: added **Micro tier** (ack / error / small explanation), `IMPORTANT` tokens on two critical rules, formatting rule (prose unless list ≥ 3 items), "no 'צודקת'" norm, scaffold explicitly marked "when applicable".
+- Clarified that `MyLevel.docx` = `master_curriculum.docx` (same file, legacy filename).
+- `§Ritual cadence` now references [ADR-002](docs/adr/002-scheduled-rituals.md) instead of `ADR-0xx` placeholder.
+
+### Added — Infrastructure (ADR-002)
+- GitHub repo (public): `bronfmanmarina15620-crypto/Emiva`.
+- Two `/schedule` remote triggers: weekly devlog (Fri 18:00 IDT) + monthly milestone (1st 09:00 IDT).
+- [ADR-002 — Scheduled Rituals](docs/adr/002-scheduled-rituals.md) codifies the ritual-adherence risk fix identified in ADR-001.
 
 ### Known-open
 - `MATH-BAT9-002` (ops up to 1000) and `MATH-BAT9-003` (long division) not yet started.
 - `MATH-EMILIA-BARMODELS-001` — Bar Models for word problems — not yet started.
+- Full manual QA of Emilia fractions session not completed (stale-profile bug interrupted the first attempt; fix verified via unit test, not via a full session in browser).
 
 ## [0.1.0] — 2026-04-19
 
