@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   allowedSkillsForAge,
   createProfile,
+  deleteProfile,
   getActiveProfile,
   getActiveProfileId,
   loadProfiles,
@@ -9,9 +10,15 @@ import {
   saveProfiles,
   setActiveProfileId,
 } from "@/lib/profiles";
+import { hasGraduatedFlag, markGraduated, saveMastery } from "@/lib/storage";
+import { logEvent } from "@/lib/telemetry";
+import { emptyMastery, recordAttempt } from "@/lib/mastery";
 
 class MemoryStorage {
   private store = new Map<string, string>();
+  get length(): number {
+    return this.store.size;
+  }
   getItem(k: string) {
     return this.store.get(k) ?? null;
   }
@@ -20,6 +27,9 @@ class MemoryStorage {
   }
   removeItem(k: string) {
     this.store.delete(k);
+  }
+  key(i: number): string | null {
+    return [...this.store.keys()][i] ?? null;
   }
   clear() {
     this.store.clear();
@@ -35,17 +45,27 @@ beforeEach(() => {
 
 describe("profiles", () => {
   describe("allowedSkillsForAge", () => {
-    it("age 7 → add_sub_100", () => {
-      expect(allowedSkillsForAge(7)).toEqual(["add_sub_100"]);
+    it("age 7 → add_sub_100 then multiplication (ordered)", () => {
+      expect(allowedSkillsForAge(7)).toEqual(["add_sub_100", "multiplication"]);
     });
-    it("age 8 → add_sub_100", () => {
-      expect(allowedSkillsForAge(8)).toEqual(["add_sub_100"]);
+    it("age 8 → add_sub_100 then multiplication (ordered)", () => {
+      expect(allowedSkillsForAge(8)).toEqual(["add_sub_100", "multiplication"]);
     });
-    it("age 9 → fractions_intro", () => {
-      expect(allowedSkillsForAge(9)).toEqual(["fractions_intro"]);
+    it("age 9 → fractions_intro, ops_1000, long_division, bar_models (ordered)", () => {
+      expect(allowedSkillsForAge(9)).toEqual([
+        "fractions_intro",
+        "ops_1000",
+        "long_division",
+        "bar_models",
+      ]);
     });
-    it("age 10 → fractions_intro", () => {
-      expect(allowedSkillsForAge(10)).toEqual(["fractions_intro"]);
+    it("age 10 → fractions_intro, ops_1000, long_division, bar_models (ordered)", () => {
+      expect(allowedSkillsForAge(10)).toEqual([
+        "fractions_intro",
+        "ops_1000",
+        "long_division",
+        "bar_models",
+      ]);
     });
     it("age 5 → empty", () => {
       expect(allowedSkillsForAge(5)).toEqual([]);
@@ -65,7 +85,7 @@ describe("profiles", () => {
       expect(all.length).toBe(1);
       expect(all[0]?.name).toBe("Alpha");
       expect(all[0]?.age).toBe(7);
-      expect(all[0]?.allowedSkills).toEqual(["add_sub_100"]);
+      expect(all[0]?.allowedSkills).toEqual(["add_sub_100", "multiplication"]);
       expect(p.id).toBeTruthy();
     });
 
@@ -99,16 +119,67 @@ describe("profiles", () => {
     it("profileAllowsSkill works", () => {
       const p = createProfile("C", 7);
       expect(profileAllowsSkill(p, "add_sub_100")).toBe(true);
+      expect(profileAllowsSkill(p, "multiplication")).toBe(true);
       expect(profileAllowsSkill(p, "fractions_intro")).toBe(false);
+      expect(profileAllowsSkill(p, "ops_1000")).toBe(false);
       const p9 = createProfile("D", 9);
       expect(profileAllowsSkill(p9, "add_sub_100")).toBe(false);
+      expect(profileAllowsSkill(p9, "multiplication")).toBe(false);
       expect(profileAllowsSkill(p9, "fractions_intro")).toBe(true);
+      expect(profileAllowsSkill(p9, "ops_1000")).toBe(true);
     });
 
     it("saveProfiles overwrites", () => {
       createProfile("X", 7);
       saveProfiles([]);
       expect(loadProfiles()).toEqual([]);
+    });
+
+    describe("deleteProfile", () => {
+      it("removes profile from list", () => {
+        const a = createProfile("A", 7);
+        const b = createProfile("B", 9);
+        deleteProfile(a.id);
+        const remaining = loadProfiles();
+        expect(remaining.map((p) => p.id)).toEqual([b.id]);
+      });
+
+      it("clears active profile id when deleting the active one", () => {
+        const a = createProfile("A", 7);
+        setActiveProfileId(a.id);
+        deleteProfile(a.id);
+        expect(getActiveProfileId()).toBeNull();
+      });
+
+      it("keeps active id when deleting a different profile", () => {
+        const a = createProfile("A", 7);
+        const b = createProfile("B", 9);
+        setActiveProfileId(a.id);
+        deleteProfile(b.id);
+        expect(getActiveProfileId()).toBe(a.id);
+      });
+
+      it("purges mastery, graduation flag, and telemetry for the deleted profile only", () => {
+        const a = createProfile("A", 7);
+        const b = createProfile("B", 9);
+
+        // seed storage for both
+        saveMastery(a.id, recordAttempt(emptyMastery("add_sub_100"), "i1", true));
+        saveMastery(b.id, recordAttempt(emptyMastery("fractions_intro"), "j1", true));
+        markGraduated(a.id, "add_sub_100");
+        markGraduated(b.id, "fractions_intro");
+        logEvent(a.id, { t: "session_start", at: 1, skill: "add_sub_100" });
+        logEvent(b.id, { t: "session_start", at: 1, skill: "fractions_intro" });
+
+        deleteProfile(a.id);
+
+        // A's data is gone
+        expect(hasGraduatedFlag(a.id, "add_sub_100")).toBe(false);
+        expect(loadProfiles().map((p) => p.id)).toEqual([b.id]);
+
+        // B's data intact
+        expect(hasGraduatedFlag(b.id, "fractions_intro")).toBe(true);
+      });
     });
 
     it("loadProfiles re-derives allowedSkills from age (stale-cache safe)", () => {
@@ -124,7 +195,12 @@ describe("profiles", () => {
       ];
       saveProfiles(stale as unknown as ReturnType<typeof loadProfiles>);
       const reloaded = loadProfiles();
-      expect(reloaded[0]?.allowedSkills).toEqual(["fractions_intro"]);
+      expect(reloaded[0]?.allowedSkills).toEqual([
+        "fractions_intro",
+        "ops_1000",
+        "long_division",
+        "bar_models",
+      ]);
     });
   });
 });

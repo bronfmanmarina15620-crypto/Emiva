@@ -15,7 +15,8 @@ export type TelemetryEvent =
   | { t: "item_shown"; at: number; itemId: string; difficulty: number }
   | { t: "attempt"; at: number; itemId: string; attemptIdx: 0 | 1 | 2; correct: boolean }
   | { t: "reveal"; at: number; itemId: string }
-  | { t: "feedback_text"; at: number; kind: "retry" | "correct" | "reveal"; text: string };
+  | { t: "feedback_text"; at: number; kind: "retry" | "correct" | "reveal"; text: string }
+  | { t: "skill_graduated"; at: number; skill: string; firstAttemptCorrect: number; sessionCount: number; gapMs: number };
 
 function key(profileId: string): string {
   return `${PREFIX}.${profileId}`;

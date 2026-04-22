@@ -3,6 +3,145 @@
 All notable changes to Emiva. Based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Dates are `YYYY-MM-DD`.
 
+## [Unreleased]
+
+### Added — bar_models skill (MATH-EMILIA-BARMODELS-001)
+- **New skill `bar_models`** — Singapore-style word problems with bar
+  diagrams. Unlocked for age 9–10, ordered after `long_division`.
+- **New `BarModelItem` type** + `BarModelBar` + `BarModelSegment`. Items
+  carry Hebrew prompt, 1–2 bars (each with labeled segments and optional
+  total/row labels), numeric answer, and Hebrew CPA explanation.
+- **Item bank:** 30 items across 5 tiers (`src/content/math/bar-models.json`).
+  T1: single-bar part-whole, single-digit. T2: 2-digit part-whole.
+  T3: two-bar comparison. T4: two-step + multi-part split.
+  T5: ratio-style ("פי X", groups).
+- **New component `BarModelViz`** (`src/components/BarModelViz.tsx`):
+  non-interactive SVG renderer. Cream background, sage segment fills,
+  dashed sage border on unknown segments, RTL Hebrew labels, optional
+  row-labels and bottom total-labels. Responsive via `viewBox`.
+- **Session page:** `ItemPrompt` renders the word problem + bar diagram;
+  `ItemInput` reuses numeric input path; `ItemReveal` re-shows the bar
+  with answer + method explanation.
+- **`isItemCorrect` / `canonicalAnswer`** extended for `bar_models` (numeric
+  integer compare).
+- **Tests:** `tests/unit/bar-models.test.ts` (11 cases: size, tier
+  distribution, positive-integer answers, 1–2 bars, ≥1 `?` per item,
+  positive segment weights, banned-phrase scan, integration).
+  `profiles.test.ts` updated for age 9–10 now returning 4 skills.
+  Total: **196 passing** (was 185).
+
+### Added — long_division skill (MATH-BAT9-003)
+- **New skill `long_division`** — division with integer quotients, no remainders.
+  Unlocked for age 9–10, ordered after `ops_1000`.
+- **Item bank:** 60 items across 5 tiers (`src/content/math/long-division.json`).
+  T1: basic (answer ≤ 10). T2: 2-digit ÷ single-digit (answer single-digit).
+  T3: 2-digit (answer 11–20). T4: 3-digit (answer ≤ 30). T5: 3-digit (answer 30–72).
+  All divide evenly.
+- **New `DivisionItem` type** + widened `isArithmeticItem`. Same numeric input,
+  same reveal pattern. Prompt-size rule extended: 3-digit divisions use `text-5xl`.
+- **`explain.ts` division branch:** small cases use counting framing; 3-digit
+  cases mention long-division steps. Every reveal includes the multiplication
+  check (`B × answer = A`).
+- **Tests:** `tests/unit/long-division.test.ts` (10 cases: bank size, tier
+  distribution, even-division invariant, divisor range, prompt regex,
+  integration). `items.test.ts` +4 (narrowing, correctness, canonical).
+  `explain.test.ts` +3 (small, 2-digit, 3-digit). `profiles.test.ts` updated.
+  Total: **185 passing** (was 168).
+
+### Added — Bank expansion, softened difficulty, anti-repeat bias
+- All four math banks expanded to ≥60 items: `add_sub_100` (30→60),
+  `multiplication` (30→60), `ops_1000` (30→60), `fractions_intro` (26→60).
+- `selectNextItem` now uses `DIFFICULTY_TOLERANCE = 1` — pool includes items
+  within ±1 of the target difficulty, so each session draws from roughly 3×
+  the previous pool.
+- New `MasteryState.itemLastSeen: Record<itemId, sessionCount>`. Session page
+  records `recordItemShown` on every first/next item. Ties within tolerance
+  now resolved by staleness — least-recently-seen wins.
+- All existing saves normalize missing `itemLastSeen` to `{}`; no migration.
+
+### Added — Delete profile + age-range validation
+- Home screen: each profile row has an `×` button. `deleteProfile(id)`
+  removes the profile and purges per-profile mastery, graduation flags,
+  last-session timestamp, and telemetry. Active profile is cleared if deleted.
+- `purgeProfileStorage` in `storage.ts` sweeps all keys under `emiva.*.{profileId}`.
+- `/profiles/new` age input tightened to 7–10 (was 3–18); `submitting` state
+  prevents double-submit. Profiles with out-of-range age on the home screen
+  show "אין תוכן" in terracotta.
+- Tests: `profiles.test.ts` +4 deletion cases. `storage.test.ts` extended with
+  pre-graduation-schema normalization check.
+
+### Added — multiplication skill (MATH-EVELYN-MULT-001)
+- **New skill `multiplication`** — multiplication tables 2–10. Unlocked for
+  age 7–8 profiles, ordered after `add_sub_100`.
+- **New `MultItem` type** — structurally like `AddSubItem` but `op: "*"`.
+  `Item` union widened; `isArithmeticItem` type-guard now narrows to
+  `AddSubItem | MultItem`, so existing session UI flows through unchanged.
+- **Item bank:** `src/content/math/multiplication.json` — 30 items across 5
+  tiers. Covers every table 2–10. Tiers: T1 (×2/×5/×10 anchors) →
+  T2 (×3/×4) → T3 (×6/×9) → T4 (×7/×8) → T5 (mixed / commuted hardest).
+- **Method-based reveals in `src/lib/explain.ts`:**
+  - ×2 → doubling (`4 × 2 = 4 + 4 = 8`)
+  - ×10 → add a zero
+  - ×5 → "half of ×10" anchor (`4 × 5 = half of 4 × 10 = 20`)
+  - ×9 → "×10 minus one" trick (`7 × 9 = 70 − 7 = 63`)
+  - default → skip counting groups (`3 × 7 = 3 קבוצות של 7: 7, 14, 21`)
+  - long skip-count lists truncate to 4 stops + `...`
+  - anchor detection is commute-agnostic (`2 × 7` and `7 × 2` both framed as ×2)
+- **Auto-routing:** when Evelyn graduates `add_sub_100`, the session picks
+  `multiplication` via existing `pickActiveSkill`. No new routing code.
+- **Tests:** `tests/unit/multiplication.test.ts` (12 cases: size, tier
+  distribution, op consistency, full 2–10 table coverage, prompt regex,
+  integration). `tests/unit/items.test.ts` +4. `tests/unit/explain.test.ts`
+  +7 (each anchor + default + truncation). `tests/unit/profiles.test.ts`
+  updated for new 7–8 age mapping. Total tests: **162 passing** (was 139).
+
+### Added — ops_1000 skill (MATH-BAT9-002)
+- **New skill `ops_1000`** — add/sub operations with numbers up to 999. Unlocked
+  for age 9–10 profiles, ordered after `fractions_intro`.
+- **Item bank:** `src/content/math/ops-1000.json` — 30 items across 5 tiers
+  (3-digit + 1-digit → 3-digit + 3-digit with multi-carry). 15 add + 15 sub.
+  All answers validated at test-time against `operands + op` (computed check).
+- **Auto-routing after graduation:** `pickActiveSkill(allowed, profileId)` in
+  `src/app/session/page.tsx` picks the first non-graduated skill from
+  `allowedSkills`. When Emilia graduates `fractions_intro`, the next session
+  automatically routes to `ops_1000`. No explicit parent action needed.
+- **Type widening:** `AddSubItem.skill` now accepts `"add_sub_100" | "ops_1000"`.
+  Same numeric shape, same `isItemCorrect` logic, same `explain.ts` method-based
+  reveals. Added `isArithmeticItem(item)` type-guard helper to
+  `src/lib/items.ts` to avoid scattered `skill === "..."` checks.
+- **Prompt sizing:** `ops_1000` items render at `text-5xl` (down from `text-7xl`)
+  so 3-digit + 3-digit prompts like `347 + 256 = ?` don't overflow on tablets.
+- **Tests:** `tests/unit/ops-1000.test.ts` (13 cases: bank size, tier distribution,
+  add/sub balance, computed-answer consistency, range, tier-1/tier-5 structure,
+  prompt regex, integration with `isItemCorrect`).
+  `tests/unit/items.test.ts` extended (+8 cases: `isArithmeticItem` narrowing,
+  `isItemCorrect` + `canonicalAnswer` + `itemSkill` for `ops_1000`).
+  `tests/unit/profiles.test.ts` updated for new age→skill mapping.
+  Total tests: **139 passing** (was 118).
+
+### Added — Skill graduation (MATH-GRADUATION-001)
+- **Criterion in code:** `skillGraduated(state)` in `src/lib/mastery.ts`. Three
+  conditions, all required: ≥ 20 first-attempt-correct answers, ≥ 2 distinct
+  sessions, ≥ 24h between first and latest session. Constants in `types.ts`
+  (`GRADUATION_MIN_CORRECT`, `GRADUATION_MIN_SESSIONS`, `GRADUATION_MIN_GAP_MS`).
+- **Session-timestamp tracking:** `MasteryState.sessionTimestamps: number[]`
+  pushed on every `incrementSession(...)`. Legacy saves without the field
+  normalize to `[]` via `normalizeMastery` in `storage.ts` — no migration step,
+  no regression for Evelyn/Emilia's existing progress.
+- **Graduation UI:** session-summary page shows a dedicated sage-bordered banner
+  when graduated ("סיימת את הנושא! 🎉"). Confetti intensity ramps up
+  (`fireGraduation`). Reduced-motion honored.
+- **One-shot telemetry:** `skill_graduated` event logged exactly once per
+  `profileId × skill` via localStorage flag `emiva.graduated.v1.{profileId}.{skill}`
+  (`hasGraduatedFlag` / `markGraduated` in `storage.ts`).
+- **Tests:** `tests/unit/mastery-graduation.test.ts` (7 cases: empty, under-correct,
+  1-session, <24h, all-three-hold, first-attempt-only, monotonicity).
+  `tests/unit/storage.test.ts` extended (+4 cases: pre-graduation schema normalizes,
+  flag absence/set/profile-scoping). Total tests: **118 passing** (was 107).
+
+### Added — Parent-facing docs
+- [docs/parent-guide.md](docs/parent-guide.md) — מדריך הורה בעברית, 10 סעיפים: מנגנון המוצר (3-ניסיונות, level-up, SRS-Leitner, graduation) + ההקשר הפדגוגי מ-MyLevel (זמן סשן מומלץ, מבחן חיצוני רבעוני, טבלת החלטה להורה, בדיקת תשתית שינה/קריאה/זמן-ריק/אווירה). §4 עודכן מ-proposed ל-implemented בעקבות MATH-GRADUATION-001. Source-of-truth pointers למקומות בקוד שמקודדים את הכללים.
+
 ## [0.2.0] — 2026-04-19
 
 Second slice: Emilia's math track opens — introductory fractions.

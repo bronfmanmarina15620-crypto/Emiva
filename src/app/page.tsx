@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
+  allowedSkillsForAge,
+  deleteProfile,
   getActiveProfileId,
   loadProfiles,
   setActiveProfileId,
@@ -20,6 +22,15 @@ export default function Home() {
   function choose(id: string) {
     setActiveProfileId(id);
     window.location.href = "/session";
+  }
+
+  function handleDelete(p: Profile) {
+    const ok = window.confirm(
+      `למחוק את הפרופיל של ${p.name} (גיל ${p.age})?\nכל ההיסטוריה והטלמטריה יימחקו לצמיתות. לא ניתן לשחזר.`,
+    );
+    if (!ok) return;
+    deleteProfile(p.id);
+    setProfiles(loadProfiles());
   }
 
   if (profiles === null) {
@@ -43,20 +54,39 @@ export default function Home() {
             {profiles.map((p) => {
               const activeId = getActiveProfileId();
               const active = activeId === p.id;
+              const hasContent = allowedSkillsForAge(p.age).length > 0;
               return (
-                <button
+                <div
                   key={p.id}
-                  type="button"
-                  onClick={() => choose(p.id)}
-                  className={`w-full bg-surface rounded-3xl shadow-soft py-5 px-6 flex items-center justify-between hover:shadow-warm transition ${
+                  className={`w-full bg-surface rounded-3xl shadow-soft flex items-center hover:shadow-warm transition ${
                     active ? "ring-2 ring-terracotta" : ""
                   }`}
                 >
-                  <span className="text-xl font-display font-extrabold text-warm-dark">
-                    {p.name}
-                  </span>
-                  <span className="text-sm text-warm-muted">גיל {p.age}</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => choose(p.id)}
+                    className="flex-1 flex items-center justify-between py-5 px-6 text-right"
+                  >
+                    <span className="text-xl font-display font-extrabold text-warm-dark">
+                      {p.name}
+                    </span>
+                    <span
+                      className={`text-sm ${
+                        hasContent ? "text-warm-muted" : "text-terracotta-dark"
+                      }`}
+                    >
+                      {hasContent ? `גיל ${p.age}` : `גיל ${p.age} · אין תוכן`}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(p)}
+                    aria-label={`מחיקת הפרופיל של ${p.name}`}
+                    className="px-4 py-5 text-warm-muted hover:text-terracotta-dark transition border-r border-warm-line/50"
+                  >
+                    ✕
+                  </button>
+                </div>
               );
             })}
           </div>

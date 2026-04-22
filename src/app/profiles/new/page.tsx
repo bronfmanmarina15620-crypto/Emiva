@@ -3,16 +3,22 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createProfile, setActiveProfileId } from "@/lib/profiles";
+import {
+  allowedSkillsForAge,
+  createProfile,
+  setActiveProfileId,
+} from "@/lib/profiles";
 
 export default function NewProfilePage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | "">("");
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (submitting) return;
     setError(null);
     const trimmed = name.trim();
     if (!trimmed) {
@@ -24,10 +30,15 @@ export default function NewProfilePage() {
       return;
     }
     const ageN = Number(age);
-    if (!Number.isFinite(ageN) || ageN < 3 || ageN > 18) {
-      setError("גיל בין 3 ל־18");
+    if (!Number.isFinite(ageN) || ageN < 7 || ageN > 10) {
+      setError("כרגע יש תוכן לגילאים 7–10");
       return;
     }
+    if (allowedSkillsForAge(ageN).length === 0) {
+      setError("עדיין אין תוכן מתאים לגיל הזה");
+      return;
+    }
+    setSubmitting(true);
     const profile = createProfile(trimmed, ageN);
     setActiveProfileId(profile.id);
     router.push("/session");
@@ -61,14 +72,17 @@ export default function NewProfilePage() {
             <span className="text-sm font-semibold text-warm-dark">גיל</span>
             <input
               type="number"
-              min={3}
-              max={18}
+              min={7}
+              max={10}
               value={age}
               onChange={(e) =>
                 setAge(e.target.value === "" ? "" : Number(e.target.value))
               }
               className="w-full text-lg bg-cream border-2 border-warm-line rounded-2xl py-3 px-4 focus:border-terracotta focus:outline-none text-warm-dark tabular-nums"
             />
+            <span className="block text-xs text-warm-muted pt-1">
+              כרגע 7–10. טווחים נוספים ייפתחו כשייכנס תוכן חדש.
+            </span>
           </label>
 
           {error && (
@@ -77,9 +91,10 @@ export default function NewProfilePage() {
 
           <button
             type="submit"
-            className="w-full bg-terracotta text-white py-4 rounded-2xl text-lg font-semibold shadow-warm hover:bg-terracotta-dark transition"
+            disabled={submitting}
+            className="w-full bg-terracotta text-white py-4 rounded-2xl text-lg font-semibold shadow-warm hover:bg-terracotta-dark transition disabled:bg-warm-line disabled:text-warm-muted disabled:shadow-none disabled:cursor-not-allowed"
           >
-            שמירה
+            {submitting ? "שומרת..." : "שמירה"}
           </button>
           <Link
             href="/"

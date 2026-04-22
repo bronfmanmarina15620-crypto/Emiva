@@ -1,7 +1,19 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { loadMastery, saveMastery, resetMastery } from "@/lib/storage";
+import {
+  hasGraduatedFlag,
+  loadMastery,
+  markGraduated,
+  resetMastery,
+  saveMastery,
+} from "@/lib/storage";
 import { emptyMastery, recordAttempt } from "@/lib/mastery";
-import type { MasteryState } from "@/lib/types";
+
+type LegacyMasteryShape = {
+  skill: "add_sub_100" | "fractions_intro";
+  attempts: Array<{ itemId: string; correct: boolean; at: number }>;
+  srs: Record<string, unknown>;
+  sessionCount: number;
+};
 
 class MemoryStorage {
   private store = new Map<string, string>();
@@ -73,7 +85,7 @@ describe("storage — legacy migration", () => {
   it("migrates legacy emiva.mastery.v1.{profileId} to per-skill key", () => {
     const mem = installMemoryStorage();
 
-    const legacy: MasteryState = {
+    const legacy: LegacyMasteryShape = {
       skill: "add_sub_100",
       attempts: [{ itemId: "old-1", correct: true, at: 1 }],
       srs: {},
@@ -95,7 +107,7 @@ describe("storage — legacy migration", () => {
   it("migration does not leak to other skills", () => {
     const mem = installMemoryStorage();
 
-    const legacy: MasteryState = {
+    const legacy: LegacyMasteryShape = {
       skill: "add_sub_100",
       attempts: [{ itemId: "old-1", correct: true, at: 1 }],
       srs: {},
@@ -119,5 +131,43 @@ describe("storage — legacy migration", () => {
     const state = loadMastery("p1", "add_sub_100");
     expect(state.attempts).toEqual([]);
     expect(mem.getItem("emiva.mastery.v1.p1")).toBeNull();
+  });
+
+  it("mastery stored without sessionTimestamps normalizes to empty array", () => {
+    const mem = installMemoryStorage();
+    const preGraduationSchema: LegacyMasteryShape = {
+      skill: "add_sub_100",
+      attempts: [{ itemId: "i1", correct: true, at: 1 }],
+      srs: {},
+      sessionCount: 5,
+    };
+    mem.setItem(
+      "emiva.mastery.v1.p1.add_sub_100",
+      JSON.stringify(preGraduationSchema),
+    );
+
+    const loaded = loadMastery("p1", "add_sub_100");
+    expect(loaded.sessionTimestamps).toEqual([]);
+    expect(loaded.attempts.length).toBe(1);
+    expect(loaded.sessionCount).toBe(5);
+  });
+});
+
+describe("storage — graduation flag (one-shot)", () => {
+  it("flag is absent by default", () => {
+    expect(hasGraduatedFlag("p1", "add_sub_100")).toBe(false);
+  });
+
+  it("markGraduated sets the flag; hasGraduatedFlag reads it back", () => {
+    markGraduated("p1", "fractions_intro");
+    expect(hasGraduatedFlag("p1", "fractions_intro")).toBe(true);
+    // Other skill unaffected
+    expect(hasGraduatedFlag("p1", "add_sub_100")).toBe(false);
+  });
+
+  it("flag is profile-scoped", () => {
+    markGraduated("p1", "add_sub_100");
+    expect(hasGraduatedFlag("p1", "add_sub_100")).toBe(true);
+    expect(hasGraduatedFlag("p2", "add_sub_100")).toBe(false);
   });
 });

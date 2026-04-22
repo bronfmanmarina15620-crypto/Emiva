@@ -1,0 +1,356 @@
+[
+  {
+    "id": "bm-001",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "לעמיליה 8 תפוחים. 3 אדומים והשאר ירוקים. כמה תפוחים ירוקים?",
+    "bars": [
+      { "segments": [{ "label": "3", "weight": 3 }, { "label": "?", "weight": 5 }], "totalLabel": "8" }
+    ],
+    "answer": 5,
+    "explanation": "סה\"כ 8, מתוכם 3 אדומים. השאר הירוק = 8 − 3 = 5."
+  },
+  {
+    "id": "bm-002",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "בכיתה 12 ילדים. 5 בנות והשאר בנים. כמה בנים?",
+    "bars": [
+      { "segments": [{ "label": "5", "weight": 5 }, { "label": "?", "weight": 7 }], "totalLabel": "12" }
+    ],
+    "answer": 7,
+    "explanation": "סה\"כ 12, 5 בנות. הבנים = 12 − 5 = 7."
+  },
+  {
+    "id": "bm-003",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "לדני 4 עטים כחולים ו-3 אדומים. כמה עטים בסך הכל?",
+    "bars": [
+      { "segments": [{ "label": "4", "weight": 4 }, { "label": "3", "weight": 3 }], "totalLabel": "?" }
+    ],
+    "answer": 7,
+    "explanation": "מחברים את שני החלקים: 4 + 3 = 7."
+  },
+  {
+    "id": "bm-004",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "יותם אסף 6 קונכיות בבוקר ו-4 בצהריים. כמה אסף בסך הכל?",
+    "bars": [
+      { "segments": [{ "label": "6", "weight": 6 }, { "label": "4", "weight": 4 }], "totalLabel": "?" }
+    ],
+    "answer": 10,
+    "explanation": "6 + 4 = 10 קונכיות."
+  },
+  {
+    "id": "bm-005",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "לעלמה 10 סוכריות. אכלה 3. כמה נשאר לה?",
+    "bars": [
+      { "segments": [{ "label": "3", "weight": 3 }, { "label": "?", "weight": 7 }], "totalLabel": "10" }
+    ],
+    "answer": 7,
+    "explanation": "היו 10, אכלה 3. נשאר = 10 − 3 = 7."
+  },
+  {
+    "id": "bm-006",
+    "skill": "bar_models",
+    "difficulty": 1,
+    "prompt": "לנעמי 9 משחקים. קיבלה עוד 4. כמה יש לה עכשיו?",
+    "bars": [
+      { "segments": [{ "label": "9", "weight": 9 }, { "label": "4", "weight": 4 }], "totalLabel": "?" }
+    ],
+    "answer": 13,
+    "explanation": "9 + 4 = 13 משחקים."
+  },
+
+  {
+    "id": "bm-011",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "בכיתה א' 24 ילדים ובכיתה ב' 18 ילדים. כמה ילדים בשתי הכיתות יחד?",
+    "bars": [
+      { "segments": [{ "label": "24", "weight": 24 }, { "label": "18", "weight": 18 }], "totalLabel": "?" }
+    ],
+    "answer": 42,
+    "explanation": "24 + 18 = 42."
+  },
+  {
+    "id": "bm-012",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "לאורי 35 כרטיסי משחק. נתן 12 לחברו. כמה נשארו לו?",
+    "bars": [
+      { "segments": [{ "label": "12", "weight": 12 }, { "label": "?", "weight": 23 }], "totalLabel": "35" }
+    ],
+    "answer": 23,
+    "explanation": "35 − 12 = 23 כרטיסים."
+  },
+  {
+    "id": "bm-013",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "בגינה 17 ורדים אדומים ו-24 ורדים לבנים. כמה ורדים יש בגינה?",
+    "bars": [
+      { "segments": [{ "label": "17", "weight": 17 }, { "label": "24", "weight": 24 }], "totalLabel": "?" }
+    ],
+    "answer": 41,
+    "explanation": "17 + 24 = 41 ורדים."
+  },
+  {
+    "id": "bm-014",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "לרועי 50 ש\"ח. קנה גלידה ב-14. כמה נשאר לו?",
+    "bars": [
+      { "segments": [{ "label": "14", "weight": 14 }, { "label": "?", "weight": 36 }], "totalLabel": "50" }
+    ],
+    "answer": 36,
+    "explanation": "50 − 14 = 36 ש\"ח."
+  },
+  {
+    "id": "bm-015",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "ליואב 45 חיילי צעצוע, וליורם 28. כמה יש להם יחד?",
+    "bars": [
+      { "segments": [{ "label": "45", "weight": 45 }, { "label": "28", "weight": 28 }], "totalLabel": "?" }
+    ],
+    "answer": 73,
+    "explanation": "45 + 28 = 73."
+  },
+  {
+    "id": "bm-016",
+    "skill": "bar_models",
+    "difficulty": 2,
+    "prompt": "בספרייה 60 ספרים. שאלו 25. כמה נשארו?",
+    "bars": [
+      { "segments": [{ "label": "25", "weight": 25 }, { "label": "?", "weight": 35 }], "totalLabel": "60" }
+    ],
+    "answer": 35,
+    "explanation": "60 − 25 = 35 ספרים."
+  },
+
+  {
+    "id": "bm-021",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "לרוני 18 מדבקות. לעדי 12 מדבקות. בכמה יותר לרוני?",
+    "bars": [
+      { "rowLabel": "רוני", "segments": [{ "label": "12", "weight": 12 }, { "label": "?", "weight": 6 }], "totalLabel": "18" },
+      { "rowLabel": "עדי", "segments": [{ "label": "12", "weight": 12 }], "totalLabel": "12" }
+    ],
+    "answer": 6,
+    "explanation": "ההפרש בין הסרגלים: 18 − 12 = 6."
+  },
+  {
+    "id": "bm-022",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "הכלב שוקל 14 ק\"ג, החתול 6 ק\"ג. בכמה הכלב כבד יותר מהחתול?",
+    "bars": [
+      { "rowLabel": "כלב", "segments": [{ "label": "6", "weight": 6 }, { "label": "?", "weight": 8 }], "totalLabel": "14" },
+      { "rowLabel": "חתול", "segments": [{ "label": "6", "weight": 6 }], "totalLabel": "6" }
+    ],
+    "answer": 8,
+    "explanation": "14 − 6 = 8 ק\"ג."
+  },
+  {
+    "id": "bm-023",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "ללירי 32 בלונים. לטל 19. בכמה יותר ללירי?",
+    "bars": [
+      { "rowLabel": "לירי", "segments": [{ "label": "19", "weight": 19 }, { "label": "?", "weight": 13 }], "totalLabel": "32" },
+      { "rowLabel": "טל", "segments": [{ "label": "19", "weight": 19 }], "totalLabel": "19" }
+    ],
+    "answer": 13,
+    "explanation": "32 − 19 = 13 בלונים."
+  },
+  {
+    "id": "bm-024",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "יוסי קרא 25 עמודים. אחיו קרא 40. בכמה עמודים האח קרא יותר?",
+    "bars": [
+      { "rowLabel": "יוסי", "segments": [{ "label": "25", "weight": 25 }], "totalLabel": "25" },
+      { "rowLabel": "האח", "segments": [{ "label": "25", "weight": 25 }, { "label": "?", "weight": 15 }], "totalLabel": "40" }
+    ],
+    "answer": 15,
+    "explanation": "40 − 25 = 15 עמודים."
+  },
+  {
+    "id": "bm-025",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "בכיתה של שחר 28 ילדים. בכיתה של נעם 33. בכמה יש יותר אצל נעם?",
+    "bars": [
+      { "rowLabel": "שחר", "segments": [{ "label": "28", "weight": 28 }], "totalLabel": "28" },
+      { "rowLabel": "נעם", "segments": [{ "label": "28", "weight": 28 }, { "label": "?", "weight": 5 }], "totalLabel": "33" }
+    ],
+    "answer": 5,
+    "explanation": "33 − 28 = 5 ילדים."
+  },
+  {
+    "id": "bm-026",
+    "skill": "bar_models",
+    "difficulty": 3,
+    "prompt": "תפוח אדמה עולה 15 ש\"ח, עגבנייה עולה 8 ש\"ח. בכמה תפוח האדמה יקר יותר?",
+    "bars": [
+      { "rowLabel": "תפו\"א", "segments": [{ "label": "8", "weight": 8 }, { "label": "?", "weight": 7 }], "totalLabel": "15" },
+      { "rowLabel": "עגבניה", "segments": [{ "label": "8", "weight": 8 }], "totalLabel": "8" }
+    ],
+    "answer": 7,
+    "explanation": "15 − 8 = 7 ש\"ח."
+  },
+
+  {
+    "id": "bm-031",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "לטל 50 ש\"ח. קנתה 2 מחברות ב-9 ש\"ח כל אחת. כמה נשאר לה?",
+    "bars": [
+      { "segments": [{ "label": "9", "weight": 9 }, { "label": "9", "weight": 9 }, { "label": "?", "weight": 32 }], "totalLabel": "50" }
+    ],
+    "answer": 32,
+    "explanation": "שתי מחברות = 9 + 9 = 18. מה שנשאר = 50 − 18 = 32."
+  },
+  {
+    "id": "bm-032",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "באולם 80 כיסאות. 3 שורות של 12 כיסאות מלאות. כמה כיסאות ריקים?",
+    "bars": [
+      { "segments": [{ "label": "12", "weight": 12 }, { "label": "12", "weight": 12 }, { "label": "12", "weight": 12 }, { "label": "?", "weight": 44 }], "totalLabel": "80" }
+    ],
+    "answer": 44,
+    "explanation": "3 שורות × 12 = 36 תפוסים. הריקים = 80 − 36 = 44."
+  },
+  {
+    "id": "bm-033",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "לרותי ולדניאל יחד 48 ש\"ח. לרותי 30 ש\"ח. כמה לדניאל?",
+    "bars": [
+      { "segments": [{ "label": "30", "weight": 30 }, { "label": "?", "weight": 18 }], "totalLabel": "48" }
+    ],
+    "answer": 18,
+    "explanation": "48 − 30 = 18 ש\"ח."
+  },
+  {
+    "id": "bm-034",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "יש 100 קוביות. 35 אדומות, 28 כחולות, והשאר צהובות. כמה צהובות?",
+    "bars": [
+      { "segments": [{ "label": "35", "weight": 35 }, { "label": "28", "weight": 28 }, { "label": "?", "weight": 37 }], "totalLabel": "100" }
+    ],
+    "answer": 37,
+    "explanation": "100 − 35 − 28 = 37 צהובות."
+  },
+  {
+    "id": "bm-035",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "בגן שותלים 5 עצים ביום. כמה עצים ייוצרו אחרי 4 ימים?",
+    "bars": [
+      { "segments": [{ "label": "5", "weight": 5 }, { "label": "5", "weight": 5 }, { "label": "5", "weight": 5 }, { "label": "5", "weight": 5 }], "totalLabel": "?" }
+    ],
+    "answer": 20,
+    "explanation": "4 ימים × 5 עצים = 20."
+  },
+  {
+    "id": "bm-036",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "4 חברים חולקים 36 חטיפים שווה-בשווה. כמה חטיפים לכל אחד?",
+    "bars": [
+      { "segments": [{ "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }], "totalLabel": "36" }
+    ],
+    "answer": 9,
+    "explanation": "36 ÷ 4 = 9 חטיפים לכל ילד."
+  },
+
+  {
+    "id": "bm-041",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "רותי גבוהה פי 2 מדניאל. ביחד גובהם 150 ס\"מ. מה גובה דניאל?",
+    "bars": [
+      { "rowLabel": "דניאל", "segments": [{ "label": "?", "weight": 1 }] },
+      { "rowLabel": "רותי", "segments": [{ "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }] }
+    ],
+    "answer": 50,
+    "explanation": "3 יחידות שוות = 150. יחידה אחת (דניאל) = 150 ÷ 3 = 50."
+  },
+  {
+    "id": "bm-042",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "לטל פי 3 מדבקות מלעידן. ביחד יש להם 48 מדבקות. כמה לעידן?",
+    "bars": [
+      { "rowLabel": "עידן", "segments": [{ "label": "?", "weight": 1 }] },
+      { "rowLabel": "טל", "segments": [{ "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }] }
+    ],
+    "answer": 12,
+    "explanation": "4 יחידות שוות = 48. יחידה אחת (עידן) = 48 ÷ 4 = 12."
+  },
+  {
+    "id": "bm-043",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "סבתא בת פי 6 מהנכדה. ביחד הן 56. בת כמה הנכדה?",
+    "bars": [
+      { "rowLabel": "נכדה", "segments": [{ "label": "?", "weight": 1 }] },
+      { "rowLabel": "סבתא", "segments": [
+        { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 },
+        { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }
+      ] }
+    ],
+    "answer": 8,
+    "explanation": "7 יחידות שוות = 56. יחידה אחת (הנכדה) = 56 ÷ 7 = 8."
+  },
+  {
+    "id": "bm-044",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "לילדה 5 שקיות, בכל שקית 8 מדבקות. כמה מדבקות בסך הכל?",
+    "bars": [
+      { "segments": [
+        { "label": "8", "weight": 1 }, { "label": "8", "weight": 1 }, { "label": "8", "weight": 1 },
+        { "label": "8", "weight": 1 }, { "label": "8", "weight": 1 }
+      ], "totalLabel": "?" }
+    ],
+    "answer": 40,
+    "explanation": "5 × 8 = 40 מדבקות."
+  },
+  {
+    "id": "bm-045",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "ליאת קנתה 3 קבוצות של 7 תפוחים. כמה תפוחים בסך הכל?",
+    "bars": [
+      { "segments": [
+        { "label": "7", "weight": 1 }, { "label": "7", "weight": 1 }, { "label": "7", "weight": 1 }
+      ], "totalLabel": "?" }
+    ],
+    "answer": 21,
+    "explanation": "3 × 7 = 21 תפוחים."
+  },
+  {
+    "id": "bm-046",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "אבא חילק 42 עוגיות שווה-בשווה בין 6 ילדים. כמה לכל ילד?",
+    "bars": [
+      { "segments": [
+        { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 },
+        { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }, { "label": "?", "weight": 1 }
+      ], "totalLabel": "42" }
+    ],
+    "answer": 7,
+    "explanation": "42 ÷ 6 = 7 עוגיות לכל ילד."
+  }
+]

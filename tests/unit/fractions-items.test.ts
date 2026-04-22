@@ -5,8 +5,8 @@ import type { FractionItem } from "@/lib/types";
 const ITEMS = bank as unknown as FractionItem[];
 
 describe("fractions-intro bank integrity", () => {
-  it("has at least 25 items", () => {
-    expect(ITEMS.length).toBeGreaterThanOrEqual(25);
+  it("has at least 60 items", () => {
+    expect(ITEMS.length).toBeGreaterThanOrEqual(60);
   });
 
   it("all items have skill=fractions_intro", () => {

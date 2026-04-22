@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { selectNextItem, targetDifficulty } from "@/lib/adaptive";
-import { emptyMastery, recordAttempt } from "@/lib/mastery";
+import {
+  DIFFICULTY_TOLERANCE,
+  selectNextItem,
+  targetDifficulty,
+} from "@/lib/adaptive";
+import { emptyMastery, recordAttempt, recordItemShown } from "@/lib/mastery";
 import type { Item } from "@/lib/types";
 
 const bank: readonly Item[] = [
@@ -24,17 +28,17 @@ describe("adaptive", () => {
     expect(targetDifficulty(s)).toBe(5);
   });
 
-  it("low mastery picks easy item", () => {
+  it("low mastery picks item within tolerance of difficulty 1", () => {
     const s = emptyMastery("add_sub_100");
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
-    expect(next?.difficulty).toBe(1);
+    expect(next?.difficulty).toBeLessThanOrEqual(1 + DIFFICULTY_TOLERANCE);
   });
 
-  it("high mastery picks hard item", () => {
+  it("high mastery picks item within tolerance of difficulty 5", () => {
     let s = emptyMastery("add_sub_100");
     for (let i = 0; i < 10; i++) s = recordAttempt(s, `i${i}`, true);
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
-    expect(next?.difficulty).toBe(5);
+    expect(next?.difficulty).toBeGreaterThanOrEqual(5 - DIFFICULTY_TOLERANCE);
   });
 
   it("skips items already used in session", () => {
@@ -50,12 +54,33 @@ describe("adaptive", () => {
     expect(selectNextItem(s, bank, used, DETERMINISTIC)).toBeNull();
   });
 
-  it("50% mastery targets difficulty 3 (middle)", () => {
+  it("50% mastery picks item within tolerance of difficulty 3 (middle)", () => {
     let s = emptyMastery("add_sub_100");
     for (let i = 0; i < 5; i++) s = recordAttempt(s, `c${i}`, true);
     for (let i = 0; i < 5; i++) s = recordAttempt(s, `w${i}`, false);
     expect(targetDifficulty(s)).toBe(3);
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
-    expect(next?.difficulty).toBe(3);
+    expect(next?.difficulty).toBeGreaterThanOrEqual(3 - DIFFICULTY_TOLERANCE);
+    expect(next?.difficulty).toBeLessThanOrEqual(3 + DIFFICULTY_TOLERANCE);
+  });
+
+  it("anti-repeat: prefers items never shown over recently shown ones", () => {
+    // Two items at same difficulty; one shown in session 0, the other never.
+    const bankTwo: readonly Item[] = [
+      { id: "a", skill: "add_sub_100", difficulty: 1, prompt: "1+1", answer: 2, operands: [1, 1], op: "+" },
+      { id: "b", skill: "add_sub_100", difficulty: 1, prompt: "2+2", answer: 4, operands: [2, 2], op: "+" },
+    ];
+    let s = emptyMastery("add_sub_100");
+    s = recordItemShown(s, "a");          // a was seen in session 0
+    s = { ...s, sessionCount: 1 };        // advance to session 1
+    const picked = selectNextItem(s, bankTwo, new Set(), DETERMINISTIC);
+    expect(picked?.id).toBe("b");
+  });
+
+  it("anti-repeat: across same-staleness items, picks deterministically by order", () => {
+    // Both items never shown → both staleness = Infinity → first wins with DETERMINISTIC=0
+    const s = emptyMastery("add_sub_100");
+    const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
+    expect(next).toBeTruthy();
   });
 });

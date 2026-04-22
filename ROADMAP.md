@@ -13,15 +13,15 @@ non-app and live in the home environment. This roadmap covers what Emiva
 
 ## 🟢 Now (active)
 
-*Nothing in active development. Day 1 shipped.*
+*All Day 4 items shipped.*
 
 ---
 
 ## 🟡 Next (within 1–2 weeks)
 
-1. **MATH-BAT9-002** — Operations up to 1000 (add/sub extension, then mul). Emilia slice 2.
-2. **MATH-BAT9-003** — Long division with CPA steps. Emilia slice 3.
-3. **MATH-EMILIA-BARMODELS-001** — Bar Models for word problems (Singapore). Reuses `FractionViz` visual language.
+1. **MATH-EVELYN-MONEY-001** — Money-context word problems for Evelyn.
+2. Hebrew reading track (planning conversation pending).
+3. English track (after Hebrew).
 
 ---
 
@@ -33,10 +33,10 @@ non-app and live in the home environment. This roadmap covers what Emiva
 | Task | User | Content (per `MyLevel.docx §3.1`) | Status |
 |---|---|---|---|
 | MATH-MVP-001 | Evelyn (7) | Add/sub up to 100 | ✅ Day 1 |
-| **MATH-EVELYN-MULT-001** | Evelyn | Multiplication tables | 🔲 planned |
+| **MATH-EVELYN-MULT-001** | Evelyn | Multiplication tables | ✅ Day 4 |
 | **MATH-EVELYN-MONEY-001** | Evelyn | Money-context word problems (3/5 of exercises) | 🔲 planned |
-| **MATH-BAT9-001** | Emilia (9) | Fractions, ops up to 1000, long division | 🟨 slice 1 shipped (fractions intro) |
-| **MATH-EMILIA-BARMODELS-001** | Emilia | Bar Models for Word Problems (Singapore CPA) | 🔲 planned |
+| **MATH-BAT9-001** | Emilia (9) | Fractions, ops up to 1000, long division | ✅ all 3 slices shipped (Day 4: fractions, ops-1000, long_division) |
+| **MATH-EMILIA-BARMODELS-001** | Emilia | Bar Models for Word Problems (Singapore CPA) | ✅ Day 4 |
 
 ### Hebrew reading (`MyLevel.docx §3.2`)
 | Task | User | Content | Status |
@@ -112,6 +112,18 @@ Items live in [tasks/BACKLOG.md](tasks/BACKLOG.md) with explicit triggers.
 
 Authoritative: [CHANGELOG.md](CHANGELOG.md). Narrative: [docs/devlog/](docs/devlog/).
 
+### Day 4 (2026-04-22)
+
+| Task | Outcome |
+|---|---|
+| [MATH-GRADUATION-001](tasks/MATH-GRADUATION-001/INSTRUCTIONS.md) | Skill graduation criterion: 20 first-attempt-correct × ≥2 sessions × ≥24h gap. UI + one-shot telemetry + parent-guide sync. |
+| [MATH-BAT9-002](tasks/MATH-BAT9-002/INSTRUCTIONS.md) | `ops_1000` skill: 30-item bank across 5 tiers (3-digit ± 1/2/3-digit). Auto-routing after `fractions_intro` graduation. |
+| [MATH-EVELYN-MULT-001](tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md) | `multiplication` skill: 30-item bank, tables 2–10, anchor-based CPA reveals (×2 doubling, ×5 half-of-×10, ×9 trick). Auto-routing after `add_sub_100` graduation. |
+| [MATH-BAT9-003](tasks/MATH-BAT9-003/INSTRUCTIONS.md) | `long_division` skill: 60-item bank across 5 tiers, no remainders, CPA explain with multiplication-check verification. Auto-routing after `ops_1000` graduation. |
+| [MATH-EMILIA-BARMODELS-001](tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md) | `bar_models` skill: 30 Hebrew word problems with Singapore-style bar diagrams (SVG). Part-whole, comparison, two-step, and ratio bars. Auto-routing after `long_division` graduation. |
+| **Bank expansion + adaptive softening + anti-repeat** | All 4 banks expanded 30→60 (fractions 26→60). Difficulty matching now ±1 tolerance. Sessions remember item history per skill to avoid recent repeats. |
+| **Delete profile** | Home screen × button; purges all mastery/telemetry/graduation state for deleted profile. Age validation tightened to 7–10. |
+
 ### Day 1 (2026-04-19)
 
 | Task | Outcome |
@@ -135,4 +147,4 @@ Authoritative: [CHANGELOG.md](CHANGELOG.md). Narrative: [docs/devlog/](docs/devl
 - **When starting next track:** convert 🔲 *planned* to **Now** by creating `tasks/<TASK-ID>/INSTRUCTIONS.md`.
 - Items marked 🔲 are scope commitments without specs. They're in the plan but not yet broken down. Specs are written when the task enters **Next**.
 
-*See also: [tasks/BACKLOG.md](tasks/BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [docs/devlog/](docs/devlog/) · [docs/adr/](docs/adr/).*
+*See also: [tasks/BACKLOG.md](tasks/BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [docs/devlog/](docs/devlog/) · [docs/adr/](docs/adr/) · [docs/parent-guide.md](docs/parent-guide.md).*

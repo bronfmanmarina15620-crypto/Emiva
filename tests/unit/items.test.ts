@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { canonicalAnswer, isItemCorrect, itemSkill } from "@/lib/items";
-import type { AddSubItem, FractionItem } from "@/lib/types";
+import {
+  canonicalAnswer,
+  isArithmeticItem,
+  isItemCorrect,
+  itemSkill,
+} from "@/lib/items";
+import type {
+  AddSubItem,
+  DivisionItem,
+  FractionItem,
+  MultItem,
+} from "@/lib/types";
 
 const ADDSUB: AddSubItem = {
   id: "as-1",
@@ -10,6 +20,36 @@ const ADDSUB: AddSubItem = {
   answer: 7,
   operands: [3, 4],
   op: "+",
+};
+
+const OPS1K: AddSubItem = {
+  id: "ops-1",
+  skill: "ops_1000",
+  difficulty: 5,
+  prompt: "347 + 256 = ?",
+  answer: 603,
+  operands: [347, 256],
+  op: "+",
+};
+
+const MULT: MultItem = {
+  id: "mult-1",
+  skill: "multiplication",
+  difficulty: 3,
+  prompt: "6 × 7 = ?",
+  answer: 42,
+  operands: [6, 7],
+  op: "*",
+};
+
+const DIV: DivisionItem = {
+  id: "div-1",
+  skill: "long_division",
+  difficulty: 4,
+  prompt: "144 ÷ 6 = ?",
+  answer: 24,
+  operands: [144, 6],
+  op: "/",
 };
 
 function fracItem(
@@ -100,5 +140,78 @@ describe("itemSkill", () => {
   it("returns skill for fractions_intro", () => {
     const item = fracItem({ kind: "numeric", correct: 1 });
     expect(itemSkill(item)).toBe("fractions_intro");
+  });
+  it("returns skill for ops_1000", () => {
+    expect(itemSkill(OPS1K)).toBe("ops_1000");
+  });
+});
+
+describe("isArithmeticItem — narrowing", () => {
+  it("true for add_sub_100", () => {
+    expect(isArithmeticItem(ADDSUB)).toBe(true);
+  });
+  it("true for ops_1000", () => {
+    expect(isArithmeticItem(OPS1K)).toBe(true);
+  });
+  it("true for multiplication", () => {
+    expect(isArithmeticItem(MULT)).toBe(true);
+  });
+  it("true for long_division", () => {
+    expect(isArithmeticItem(DIV)).toBe(true);
+  });
+  it("false for fractions_intro", () => {
+    expect(isArithmeticItem(fracItem({ kind: "numeric", correct: 1 }))).toBe(false);
+  });
+});
+
+describe("isItemCorrect — ops_1000", () => {
+  it("correct numeric answer → true", () => {
+    expect(isItemCorrect(OPS1K, "603")).toBe(true);
+  });
+  it("wrong numeric → false", () => {
+    expect(isItemCorrect(OPS1K, "602")).toBe(false);
+  });
+  it("whitespace trimmed", () => {
+    expect(isItemCorrect(OPS1K, " 603 ")).toBe(true);
+  });
+});
+
+describe("canonicalAnswer — ops_1000", () => {
+  it("returns stringified answer", () => {
+    expect(canonicalAnswer(OPS1K)).toBe("603");
+  });
+});
+
+describe("isItemCorrect — multiplication", () => {
+  it("correct numeric answer → true", () => {
+    expect(isItemCorrect(MULT, "42")).toBe(true);
+  });
+  it("wrong → false", () => {
+    expect(isItemCorrect(MULT, "41")).toBe(false);
+    expect(isItemCorrect(MULT, "")).toBe(false);
+    expect(isItemCorrect(MULT, "abc")).toBe(false);
+  });
+});
+
+describe("canonicalAnswer — multiplication", () => {
+  it("returns stringified answer", () => {
+    expect(canonicalAnswer(MULT)).toBe("42");
+  });
+});
+
+describe("isItemCorrect — long_division", () => {
+  it("correct numeric answer → true", () => {
+    expect(isItemCorrect(DIV, "24")).toBe(true);
+  });
+  it("wrong → false", () => {
+    expect(isItemCorrect(DIV, "23")).toBe(false);
+    expect(isItemCorrect(DIV, "")).toBe(false);
+    expect(isItemCorrect(DIV, "abc")).toBe(false);
+  });
+});
+
+describe("canonicalAnswer — long_division", () => {
+  it("returns stringified answer", () => {
+    expect(canonicalAnswer(DIV)).toBe("24");
   });
 });

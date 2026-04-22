@@ -1,4 +1,6 @@
 import type { Skill } from "./types";
+import { purgeProfileStorage } from "./storage";
+import { clearTelemetry } from "./telemetry";
 
 export type Profile = {
   id: string;
@@ -12,8 +14,10 @@ const PROFILES_KEY = "emiva.profiles.v1";
 const ACTIVE_KEY = "emiva.active_profile.v1";
 
 export function allowedSkillsForAge(age: number): Skill[] {
-  if (age >= 7 && age <= 8) return ["add_sub_100"];
-  if (age >= 9 && age <= 10) return ["fractions_intro"];
+  if (age >= 7 && age <= 8) return ["add_sub_100", "multiplication"];
+  if (age >= 9 && age <= 10) {
+    return ["fractions_intro", "ops_1000", "long_division", "bar_models"];
+  }
   return [];
 }
 
@@ -79,4 +83,12 @@ export function getActiveProfile(): Profile | null {
 
 export function profileAllowsSkill(profile: Profile, skill: Skill): boolean {
   return profile.allowedSkills.includes(skill);
+}
+
+export function deleteProfile(id: string): void {
+  const remaining = loadProfiles().filter((p) => p.id !== id);
+  saveProfiles(remaining);
+  if (getActiveProfileId() === id) setActiveProfileId(null);
+  purgeProfileStorage(id);
+  clearTelemetry(id);
 }
