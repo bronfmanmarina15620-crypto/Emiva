@@ -145,4 +145,4 @@ IDs: `mult-001..030`.
 | פרופילים ישנים עם `allowedSkills: ["add_sub_100"]` בלבד | `loadProfiles` מחזיר נגזרת מגיל בכל טעינה — אוטומטי |
 
 ## הגדרת DoD
-ראה `tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md §Definition of Done`.
+ראה `tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md §הגדרת DoD`.

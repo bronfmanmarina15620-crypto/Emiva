@@ -104,7 +104,7 @@ export function incrementSession(
 `skillGraduated(state).graduated === true` **ו**-הדגל one-shot לא הופעל —
 בלוק נפרד עם כותרת, הודעה ו-CTA משוב.
 
-**Copy (growth-mindset, CLAUDE.md §Tone):**
+**Copy (growth-mindset, CLAUDE.md §טון):**
 - כותרת: "סיימת את הנושא! 🎉"
 - גוף: "עבדת קשה ולמדת המון. פרק חדש מחכה לך בקרוב."
 - מישני: "ההורה שלך תקבל התראה שהגיע הזמן לקוריקולום הבא."

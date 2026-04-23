@@ -8,9 +8,9 @@
 - target_branch: feat/dashboard-parent-001
 - references:
   - `tasks/DASHBOARD-PARENT-001/research.md` — יומן מחקר ארבעה-סיבובים
-  - `CLAUDE.md §Measurement rule` — proxy פנימי חייב להיות נראה
-  - `CLAUDE.md §Tone` — growth-mindset לכל מחרוזת פונה-למשתמש
-  - `CLAUDE.md §Research source rule` — (a) מדע קוגניטיבי מופרד מ-(b) פרקטיקת מוצר
+  - `CLAUDE.md §כלל מדידה` — proxy פנימי חייב להיות נראה
+  - `CLAUDE.md §טון` — growth-mindset לכל מחרוזת פונה-למשתמש
+  - `CLAUDE.md §כלל מקור מחקר` — (a) מדע קוגניטיבי מופרד מ-(b) פרקטיקת מוצר
   - Lu, Vasilyeva & Laski 2025 — מסגור מגן-אוטונומיה (מחייב)
   - Bergman 2021 — מנגנון תיקון-אמונה (מחייב)
   - Squirrel AI MCM — "tracing the source" (השראה)
@@ -224,7 +224,7 @@
   - סדר עדיפויות: תקיעות > חוסר פעילות > SRS > ברירת מחדל.
   - Template interpolation לכל טריגר.
   - **Lint ביטוי-אסור:** כל פלט עובר את בודק ביטויי-אסורים של
-    `growth-mindset` מ-CLAUDE.md §Tone.
+    `growth-mindset` מ-CLAUDE.md §טון.
 - `tests/unit/parent-dashboard-wheel-spin.test.ts`
   - < 20 ניסיונות → ללא flag.
   - ≥ 20 ניסיונות + ≥ 3 סשנים + ≤ 40% → flag.
@@ -309,7 +309,7 @@
 9. שלחי הערת אמונה → טעני מחדש → תצוגת השוואה מחליפה את הטופס.
 10. דף הבית: אמתי שקישור "הורים" ב-footer הוא דיסקרטי (צבע שני,
     פונט קטן), לא כפתור בולט.
-11. **ביקורת טון:** שום ביטוי אסור מ-CLAUDE.md §Tone מופיע על
+11. **ביקורת טון:** שום ביטוי אסור מ-CLAUDE.md §טון מופיע על
     הדשבורד (סריקה ידנית של כל המחרוזות המרונדרות).
 12. **ביקורת אוטונומיה:** כל פלט שורת-פעולה מתחיל ב-*"את
     יכולה..."* או צורת הזמנה שווה; ללא ציוויים.

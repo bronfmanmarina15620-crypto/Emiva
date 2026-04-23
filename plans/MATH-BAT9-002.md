@@ -115,4 +115,4 @@ export function isArithmeticItem(item: Item): item is AddSubItem {
 | Active skill selection שבורה לפרופיל ישן (בלי ops_1000 ב-allowedSkills) | `loadProfiles` re-derives `allowedSkillsForAge` בכל טעינה — אוטומטי |
 
 ## הגדרת DoD
-ראה `tasks/MATH-BAT9-002/INSTRUCTIONS.md §Definition of Done`.
+ראה `tasks/MATH-BAT9-002/INSTRUCTIONS.md §הגדרת DoD`.

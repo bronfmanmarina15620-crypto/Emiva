@@ -8,7 +8,7 @@
 - target_branch: feat/math-graduation-001
 - references:
   - `docs/parent-guide.md §4` — קריטריון מוצע, כעת מיישמים
-  - `CLAUDE.md §Exercise UX rule` — קרדיט שליטה רק בניסיון 1
+  - `CLAUDE.md §כלל UX של תרגול` — קרדיט שליטה רק בניסיון 1
   - `MyLevel.docx §3 Core`, `§11.3` — הקשר Bloom 80% + מבחן חיצוני
   - `src/lib/mastery.ts`, `src/lib/types.ts`, `src/app/session/page.tsx`
 
@@ -108,7 +108,7 @@
 - [ ] QA ידני: בלוק graduation מופיע פעם אחת, telemetry `skill_graduated`
   נפלט בדיוק פעם אחת לכל פרופיל × מיומנות.
 - [ ] בדיקת טון: כל מחרוזת פונה-למשתמש בבלוק graduation היא
-  growth-mindset (CLAUDE.md §Tone), ללא ביטויים אסורים.
+  growth-mindset (CLAUDE.md §טון), ללא ביטויים אסורים.
 
 ## סיכונים ומיטיגציות
 

@@ -103,7 +103,7 @@ type Answer =
 9. `CHANGELOG.md` + `ROADMAP.md` עדכון.
 
 ## ולידציה
-ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §Validation Required`.
+ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §ולידציה נדרשת`.
 
 ## סיכונים ומיטיגציה
 | סיכון | מיטיגציה |
@@ -115,4 +115,4 @@ type Answer =
 | Tone-drift ב-explanations (15+ מחרוזות חדשות) | חובה banned-phrase scan לפני commit; כל explanation עובר סריקה |
 
 ## הגדרת DoD
-ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §Definition of Done`.
+ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §הגדרת DoD`.

@@ -117,7 +117,7 @@ Falsifier נעול (כלל honest-about-not-working): אם אחרי 4 שבועו
 `evals/backlog/dashboard-followthrough.eval.ts` הופך לאדום → עצירה,
 חשיבה מחדש.
 
-## מקורות לפי סוג (לפי CLAUDE.md §Research source rule)
+## מקורות לפי סוג (לפי CLAUDE.md §כלל מקור מחקר)
 
 ### (a) מדע קוגניטיבי / מחקר למידה
 

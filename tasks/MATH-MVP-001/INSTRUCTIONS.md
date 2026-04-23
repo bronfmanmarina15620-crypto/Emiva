@@ -178,7 +178,7 @@ Difficulty + Spaced Repetition — שמאפשרת לבת 7 לבצע סשן יו�
 - [ ] `CLAUDE.md` מעודכן: Commands section משקף scaffold אמיתי.
 - [ ] אין TODO ללא בעלים או follow-up location.
 
-## Measurement Hooks (לפי CLAUDE.md §Measurement rule)
+## Measurement Hooks (לפי CLAUDE.md §כלל מדידה)
 
 כל החלטה במוצר חייבת מדידה בשני ממדים — (א) proxy פנימי, (ב) מבחן
 חיצוני. בטאסק הזה:
