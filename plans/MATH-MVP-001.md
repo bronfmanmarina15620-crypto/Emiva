@@ -1,4 +1,4 @@
-# Plan — MATH-MVP-001
+# תוכנית — MATH-MVP-001
 
 ## מטרה
 Scaffold + לולאת Model A (Mastery Gating + Adaptive Difficulty + SRS)
@@ -22,7 +22,7 @@ Scaffold + לולאת Model A (Mastery Gating + Adaptive Difficulty + SRS)
 - `useReducer` לסשן הפעיל, `localStorage` ל-`mastery_state_v1`.
 - טעינה ב-`useEffect` כדי להימנע מ-SSR mismatch.
 
-### 4. Item representation
+### 4. ייצוג פריט
 ```ts
 type Item = {
   id: string;           // "add-2d-1d-001"
@@ -34,44 +34,44 @@ type Item = {
   op: "+" | "-";
 };
 ```
-Difficulty קבוע ב-bank (לא מחושב דינמית). 5 רמות × ≥6 items = ≥30.
+הקושי קבוע ב-bank (לא מחושב דינמית). 5 רמות × ≥6 items = ≥30.
 
-### 5. Mastery score
+### 5. ציון שליטה
 - Running average על 10 attempts אחרונים (window).
 - `mastery ∈ [0, 1]`. יעד: ≥ 0.8 לפני "מעבר" (UI hint בלבד ב-MVP).
-- `selectNextItem`: difficulty מוצע = `round(mastery * 5) + jitter(±1)`, clamp ל-[1,5].
+- `selectNextItem`: הקושי המוצע = `round(mastery * 5) + jitter(±1)`, clamp ל-[1,5].
 
-### 6. Session flow
-- 10 items/session (קבוע ב-MVP; דינמי בטאסק עתידי).
+### 6. זרימת סשן
+- 10 פריטים בסשן (קבוע ב-MVP; דינמי בטאסק עתידי).
 - פידבק מיידי: ✓/✗ + התשובה הנכונה.
-- Summary בסוף: accuracy %, mastery delta, הצעת סשן הבא.
+- סיכום בסוף: accuracy %, mastery delta, הצעת סשן הבא.
 
 ## סדר מימוש
-1. Config files (package.json, tsconfig, tailwind, next.config, postcss).
+1. קבצי Config (package.json, tsconfig, tailwind, next.config, postcss).
 2. `src/lib/mastery.ts` + test.
 3. `src/lib/srs.ts` + test.
 4. `src/lib/adaptive.ts` + test (תלוי ב-mastery + srs).
-5. `src/content/math/add-sub-100.json` (30+ items).
+5. `src/content/math/add-sub-100.json` (30+ פריטים).
 6. `src/app/layout.tsx` (RTL baseline).
 7. `src/app/session/page.tsx` (UI + reducer + localStorage).
-8. Update `CLAUDE.md` Commands.
-9. Validation (דורש Node — יבוצע אחרי התקנה).
+8. עדכון `CLAUDE.md` Commands.
+9. ולידציה (דורש Node — תבוצע אחרי התקנה).
 
-## Validation (אחרי npm install)
+## ולידציה (אחרי npm install)
 - `npm run typecheck`
 - `npm run lint`
 - `npm test`
 - `npm run build`
-- Manual: `npm run dev` → `localhost:3000/session` → 10 items כבת 7 →
-  רענון → סשן 2 עם items שונים.
+- ידני: `npm run dev` → `localhost:3000/session` → 10 פריטים כבת 7 →
+  רענון → סשן 2 עם פריטים שונים.
 
 ## סיכונים ומיטיגציה
 | סיכון | מיטיגציה |
 |-------|----------|
-| Node לא מותקן | סימון מפורש למשתמשת; scaffold קבצים ידני; validation מחכה |
+| Node לא מותקן | סימון מפורש למשתמשת; scaffold קבצים ידני; ולידציה מחכה |
 | RTL viewport (פס לבן) | `dir="rtl"` על `<html>` כברירת מחדל; בדיקה ידנית; fallback ל-container |
 | SSR/localStorage mismatch | `useEffect` לטעינה, fallback למצב ריק ב-render ראשוני |
-| Item bank מונוטוני | ≥ 6 items לכל רמת קושי, אופרציות חיבור וחיסור מעורבבות |
+| מאגר פריטים מונוטוני | ≥ 6 פריטים לכל רמת קושי, אופרציות חיבור וחיסור מעורבבות |
 
-## Definition of Done (לפי INSTRUCTIONS)
-ראה `tasks/MATH-MVP-001/INSTRUCTIONS.md` §Definition of Done.
+## הגדרת DoD (לפי INSTRUCTIONS)
+ראה `tasks/MATH-MVP-001/INSTRUCTIONS.md §Definition of Done`.

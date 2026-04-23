@@ -1,55 +1,55 @@
 # INSTRUCTIONS.md — MATH-BAT9-003
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: MATH-BAT9-003
-- title: Long division — Emilia slice 3
+- title: חלוקה ארוכה — אמיליה סלייס 3
 - owner: Marina
 - priority: P1
 - references:
-  - `MyLevel.docx §3.1` — Emilia: "חלוקה ארוכה"
-  - `tasks/MATH-BAT9-002/INSTRUCTIONS.md` — parallel slice pattern
-  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — graduation gate
+  - `MyLevel.docx §3.1` — אמיליה: "חלוקה ארוכה"
+  - `tasks/MATH-BAT9-002/INSTRUCTIONS.md` — תבנית סלייס מקבילה
+  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — שער graduation
 
-## Objective
-Third skill on Emilia's track: **long division with quotient-only results (no
-remainders)**. Unlocks automatically after she graduates `ops_1000`. Same
-loop, same UI pattern, same graduation criterion.
+## מטרה
+מיומנות שלישית במסלול של אמיליה: **חלוקה ארוכה עם תוצאות מנה-בלבד (ללא
+שאריות)**. נפתח אוטומטית אחרי שהיא עוברת graduation ב-`ops_1000`. אותה
+לולאה, אותה תבנית UI, אותו קריטריון graduation.
 
-## In Scope
-- New skill `long_division` added to the age-9–10 skill list, after `ops_1000`.
-- 60-item bank across 5 difficulty tiers (all items divide evenly — no
-  remainder handling in this slice).
-  - T1: small integer divisions, answer ≤ 10 (6÷2, 12÷3, etc.)
-  - T2: 2-digit ÷ 1-digit, answer single-digit
-  - T3: 2-digit ÷ 1-digit, answer 10–20
-  - T4: 3-digit ÷ 1-digit, answer ≤ 30
-  - T5: 3-digit ÷ 1-digit, answer 30–72
-- New item type `DivisionItem` (`op: "/"`).
-- `isArithmeticItem` widens to include it.
-- `explain.ts` gets a division branch: verification via multiplication
-  (`A÷B=C → B×C=A`) with a step-by-step hint for 3-digit cases.
-- Session page: bank routing for `long_division`.
-- Auto-routing: after `ops_1000` graduates, next skill in the list is
+## בטווח
+- מיומנות חדשה `long_division` נוספת לרשימת המיומנויות גיל-9–10, אחרי `ops_1000`.
+- מאגר 60 פריטים על פני 5 דרגות קושי (כל הפריטים מתחלקים בשלמות — ללא
+  טיפול בשאריות בסלייס הזה).
+  - T1: חלוקות שלמות קטנות, תשובה ≤ 10 (6÷2, 12÷3, וכו')
+  - T2: דו-ספרתי ÷ חד-ספרתי, תשובה חד-ספרתית
+  - T3: דו-ספרתי ÷ חד-ספרתי, תשובה 10–20
+  - T4: תלת-ספרתי ÷ חד-ספרתי, תשובה ≤ 30
+  - T5: תלת-ספרתי ÷ חד-ספרתי, תשובה 30–72
+- סוג פריט חדש `DivisionItem` (`op: "/"`).
+- `isArithmeticItem` מורחב לכלול אותו.
+- `explain.ts` מקבל ענף חלוקה: אימות דרך כפל
+  (`A÷B=C → B×C=A`) עם רמז שלב-אחר-שלב למקרים תלת-ספרתיים.
+- דף סשן: ניתוב מאגר ל-`long_division`.
+- Auto-routing: אחרי graduation של `ops_1000`, המיומנות הבאה ברשימה היא
   `long_division`.
 
-## Out of Scope
-- **Remainders.** Clean quotients only. Remainder-handling is a separate
-  slice (or future backlog item).
-- **Visual long-division layout** (column-wise arithmetic rendering). The
-  reveal is a one-line method explanation, same pattern as add/sub.
-- **Division into fractions** — out of scope (tied to fractions track).
+## מחוץ לטווח
+- **שאריות.** מנות נקיות בלבד. טיפול-בשאריות הוא סלייס נפרד
+  (או פריט backlog עתידי).
+- **פריסת חלוקה ארוכה ויזואלית** (רנדור אריתמטיקה עמודתי). ה-
+  חשיפה היא הסבר שיטה חד-שורה, אותה תבנית כמו חיבור/חיסור.
+- **חלוקה לשברים** — מחוץ לטווח (קשור למסלול שברים).
 
-## Validation
-- Type check / lint / tests / build all clean.
-- All existing tests still pass.
-- Bank tests: ≥60 items, all tiers ≥10, every answer consistent with operands,
-  all answers are positive integers (no remainders).
-- Manual QA: Emilia profile → graduate ops_1000 via devtools → session shows
-  long_division items.
+## ולידציה
+- Type check / lint / tests / build הכל נקי.
+- כל הטסטים הקיימים עדיין עוברים.
+- טסטי מאגר: ≥60 פריטים, כל הדרגות ≥10, כל תשובה עקבית עם operands,
+  כל התשובות מספרים שלמים חיוביים (ללא שאריות).
+- QA ידני: פרופיל אמיליה → graduate ל-ops_1000 דרך devtools → סשן מציג
+  פריטי long_division.
 
-## Risks
-- **Explain feels too abstract for 3-digit cases.** Mitigation: add a
-  decomposition hint for T4/T5 ("124÷4: 12÷4=3, 4÷4=1, יחד 31").
-- **Children expect remainders when dividing.** All items here divide evenly
-  — the prompt format makes that implicit. If confusion arises, add a note
-  in parent-guide.
+## סיכונים
+- **Explain מרגיש מופשט מדי למקרים תלת-ספרתיים.** מיטיגציה: להוסיף
+  רמז פירוק ל-T4/T5 ("124÷4: 12÷4=3, 4÷4=1, יחד 31").
+- **ילדות מצפות לשאריות כשמחלקים.** כל הפריטים כאן מתחלקים בשלמות
+  — פורמט השאלה הופך זאת למובלע. אם נוצר בלבול, להוסיף הערה
+  ב-parent-guide.

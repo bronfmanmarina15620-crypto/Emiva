@@ -1,125 +1,125 @@
-# Research log — DASHBOARD-PARENT-001
+# יומן מחקר — DASHBOARD-PARENT-001
 
-Four rounds of research preceded this task's INSTRUCTIONS. Summary below;
-full source links at the end.
+ארבעה סיבובי מחקר קדמו ל-INSTRUCTIONS של המשימה הזו. סיכום למטה;
+קישורי מקור מלאים בסוף.
 
-## Round 1 — Western edtech + design authorities
+## סיבוב 1 — edtech מערבי + סמכויות עיצוב
 
-Products reviewed: Khan Academy, Duolingo, Prodigy, IXL, DreamBox, ALEKS,
-Zearn, Beast Academy, Math Academy, Matific. Authorities: Stephen Few
+מוצרים שנסקרו: Khan Academy, Duolingo, Prodigy, IXL, DreamBox, ALEKS,
+Zearn, Beast Academy, Math Academy, Matific. סמכויות: Stephen Few
 (Information Dashboard Design), Avinash Kaushik (Action Dashboard),
 Stacey Barr (KPI traffic-light critique).
 
-Key signals:
-- Single traffic-light per child is the weakest pattern (Stacey Barr).
-  Leaders use per-metric indicators, never per-person.
-- Mastery-first products split *not-started / in-progress / mastered*
+אותות מפתח:
+- Traffic-light יחיד לכל ילד הוא הדפוס החלש ביותר (Stacey Barr).
+  מובילים משתמשים במדדים לכל מטריקה, לעולם לא לכל אדם.
+- מוצרי mastery-first מפצלים *not-started / in-progress / mastered*
   (ALEKS pie, Beast 0/1/2/3 stars, DreamBox Standards).
-- Dominant "first glance" metric is a time goal or streak, not accuracy
-  (Duolingo, Math Academy). Accuracy reads judgmental.
-- The "Action Dashboard" pattern (Kaushik) — every dashboard should
-  convert data to a next-step recommendation. IXL "Trouble Spots",
-  DreamBox "Standards Report", ALEKS "Ready to Learn" all do this.
-- Wheel-spinning (ASSISTments, Beck & Gong 2013; Botelho et al. 2019)
-  is the strongest research-backed struggle signal.
+- המטריקה הדומיננטית ל"מבט ראשון" היא יעד זמן או streak, לא דיוק
+  (Duolingo, Math Academy). דיוק נקרא שיפוטי.
+- דפוס "Action Dashboard" (Kaushik) — כל דשבורד צריך
+  להמיר נתונים להמלצה לצעד הבא. IXL "Trouble Spots",
+  DreamBox "Standards Report", ALEKS "Ready to Learn" כולם עושים זאת.
+- תקיעות (ASSISTments, Beck & Gong 2013; Botelho et al. 2019)
+  הוא אות הקושי החזק ביותר המגובה במחקר.
 
-## Round 2a — Asian edtech (China + India)
+## סיבוב 2a — edtech אסייתי (סין + הודו)
 
-Products reviewed: Byju's (India), Squirrel AI (China), Yuanfudao,
+מוצרים שנסקרו: Byju's (הודו), Squirrel AI (סין), Yuanfudao,
 17zuoye, Xueersi/TAL, Kumon Connect, WhiteHat Jr, Toppr.
 
-Key signals:
-- **Squirrel AI's "tracing the source":** every difficulty flag names
-  the upstream weak skill likely causing it. Converts status report to
-  diagnostic tool. Claims 56→89% mastery gain from this single affordance.
-- **Xueersi xPad:** push-to-parent, not pull. Parent doesn't open a
-  dashboard — weekly personalized report arrives via messaging app.
-- **Byju's Parent Connect:** separate SKU. Framed as "Strengths & Areas
-  of Improvement", not "wrong answers". Weekly + monthly cadence.
-- **Kumon Connect:** time × accuracy (both tracked on every worksheet);
-  star chart for daily-work completion framed as habit discipline,
-  not gamification.
-- **Zhixuewang ranking culture (China):** real pattern, culturally
-  hostile to Emiva's growth-mindset rule. **Explicitly rejected.**
+אותות מפתח:
+- **"Tracing the source" של Squirrel AI:** כל flag של קושי שם
+  את המיומנות החלשה במעלה-הזרם שסבירה גורמת לו. ממיר דוח סטטוס
+  לכלי אבחוני. טוען רווח שליטה מ-56→89% מ-affordance בודד זה.
+- **Xueersi xPad:** push-to-parent, לא pull. ההורה לא פותח
+  דשבורד — דוח שבועי מותאם מגיע דרך אפליקציית הודעות.
+- **Byju's Parent Connect:** SKU נפרד. ממוסגר כ-"Strengths & Areas
+  of Improvement", לא "תשובות שגויות". קצב שבועי + חודשי.
+- **Kumon Connect:** זמן × דיוק (שניהם נמדדים בכל גיליון עבודה);
+  star chart להשלמת עבודה יומית ממוסגר כמשמעת הרגל,
+  לא gamification.
+- **תרבות דירוג של Zhixuewang (סין):** דפוס אמיתי,
+  עוין תרבותית לכלל growth-mindset של Emiva. **נדחה במפורש.**
 
-## Round 2b — Academic research on parent-dashboard efficacy
+## סיבוב 2b — מחקר אקדמי על יעילות דשבורד הורים
 
-This round changed the plan the most.
+סיבוב זה שינה את התוכנית הכי הרבה.
 
-Key papers:
-1. **Lu, Vasilyeva & Laski 2025 (Child Development, n=122 dyads age 5):**
-   Informational priming (telling parents what math to work on) **increased
-   parents' controlling language, decreased child autonomy support,
-   increased child disengagement**. Medium effect sizes. The closest
-   analog to a parent dashboard for young kids that exists in the
-   literature — and the direction is wrong.
-2. **Bergman 2021 (JPE):** Biweekly info to parents raised GPA +0.10 SD;
-   **49% of the effect mediated by *belief correction*** — parents
-   systematically over-estimate child effort. This is the strongest
-   causal mechanism. No state-test effect.
-3. **Bergman & Chan 2021 (JHR, n=22 schools):** Automated weekly alerts
-   cut course failures by 27%, boosted attendance 12%. No state-test
-   movement. Cost: $63 total.
-4. **Kraft & Rogers 2015 (EER):** Weekly one-sentence teacher-to-parent
-   messages cut failure rate 41%. Messages about *what to improve*
-   beat messages about *what's going well*.
-5. **Kaliisa et al. 2024 (LAK systematic review, 38 studies):** Most
-   LADs show negligible-to-small effects on achievement. Engagement ≠
-   outcomes is the open question.
-6. **EWIMS RCT (REL-Midwest 2017, n=35k):** Early-warning + monitoring
-   cut absence and course failure; GPA unmoved. **Dashboards move
-   consistency, not learning.**
+מאמרי מפתח:
+1. **Lu, Vasilyeva & Laski 2025 (Child Development, n=122 דיאדות גיל 5):**
+   Priming מידעי (לומר להורים על מה לעבוד במתמטיקה) **הגדיל
+   שפה שולטת של הורים, הפחית תמיכה באוטונומיית ילד,
+   הגדיל פרישה של ילד**. גדלי אפקט בינוניים. האנלוג הקרוב ביותר
+   לדשבורד הורים לילדים צעירים שקיים ב-
+   ספרות — והכיוון שגוי.
+2. **Bergman 2021 (JPE):** מידע דו-שבועי להורים העלה GPA +0.10 SD;
+   **49% מהאפקט מתווך על ידי *תיקון-אמונה*** — הורים
+   באופן שיטתי מעריכים יתר את מאמץ הילד. זה המנגנון הסיבתי
+   החזק ביותר. ללא אפקט על מבחן מדינה.
+3. **Bergman & Chan 2021 (JHR, n=22 בתי ספר):** התראות שבועיות אוטומטיות
+   חתכו כישלונות בקורסים ב-27%, העלו נוכחות ב-12%. ללא תנועת
+   מבחן מדינה. עלות: $63 סה"כ.
+4. **Kraft & Rogers 2015 (EER):** הודעות מורה-להורה חד-שבועיות
+   חתכו שיעור כישלון ב-41%. הודעות על *מה לשפר*
+   ניצחו הודעות על *מה טוב*.
+5. **Kaliisa et al. 2024 (סקירה שיטתית LAK, 38 מחקרים):** רוב
+   LADs מראים אפקטים זניחים-לקטנים על הישגים. Engagement ≠
+   תוצאות הוא השאלה הפתוחה.
+6. **EWIMS RCT (REL-Midwest 2017, n=35k):** אזהרה-מוקדמת + ניטור
+   חתכו היעדרות וכישלון בקורסים; GPA לא זז. **דשבורדים מזיזים
+   עקביות, לא למידה.**
 
-Implications locked in:
-- Action line must be **invitational, not instructional** (Lu 2025).
-- Dashboard must be **closed when child is present** (Lu 2025).
-- **Belief calibration** is the active mechanism — include a parent
-  weekly note + reality comparison (Bergman).
-- Don't overclaim: expected impact is on **engagement/consistency**,
-  not on test scores.
+השלכות נעולות:
+- שורת פעולה חייבת להיות **ממוסגרת-כהזמנה, לא הוראתית** (Lu 2025).
+- הדשבורד חייב להיות **סגור כשהילדה נוכחת** (Lu 2025).
+- **כיול אמונות** הוא המנגנון הפעיל — לכלול הערת הורה
+  שבועית + השוואת מציאות (Bergman).
+- אל תטעני-יתר: השפעה צפויה היא על **מעורבות/עקביות**,
+  לא על ציוני מבחן.
 
-## Round 2c — Non-edtech parent dashboards
+## סיבוב 2c — דשבורדי הורים שאינם edtech
 
-Products reviewed: Greenlight, GoHenry, Bark, Nanit, Qustodio, Apple
+מוצרים שנסקרו: Greenlight, GoHenry, Bark, Nanit, Qustodio, Apple
 Screen Time, Google Family Link, Cozi, FamilyWall.
 
-Key signals:
-- **Bark anatomy (weekly email):** analyzed / flagged / top items /
-  one recommendation. Skim in 20 seconds. Parents don't dashboard,
-  they glance.
-- **Nanit verdict framing:** "on track / watch / act." Never raw
-  numbers in the primary view.
-- **Greenlight dual view:** same data, kid sees their own framing.
-  Eliminates parent-kid asymmetry.
-- **Sensitivity slider for alerts** to fight false-positive fatigue.
-- **Anti-patterns to reject:** sibling comparison (cortisol, not
-  motivation), parent-streak gamification (turns parent into nagger),
-  real-time push per session (trains parent to interrupt).
+אותות מפתח:
+- **אנטומיית Bark (אימייל שבועי):** נותח / סומן / פריטים מובילים /
+  המלצה אחת. skim ב-20 שניות. הורים לא עושים dashboard,
+  הם מציצים.
+- **מסגור verdict של Nanit:** "on track / watch / act." לעולם לא מספרים
+  גולמיים בתצוגה הראשית.
+- **תצוגה כפולה של Greenlight:** אותם נתונים, הילד רואה מסגור משלו.
+  מבטל אסימטריית הורה-ילד.
+- **סליידר רגישות להתראות** לחימה בעייפות false-positive.
+- **Anti-patterns לדחות:** השוואת אחיות (קורטיזול, לא
+  מוטיבציה), parent-streak gamification (הופך הורה ל-nagger),
+  real-time push לכל סשן (מאמן הורה לקטוע).
 
-## Design decisions derived from research
+## החלטות עיצוב שנגזרו ממחקר
 
-Locked in INSTRUCTIONS.md:
-1. Verdict badge per daughter (Nanit), not traffic-light on the person.
-2. Invitation-framed action line (Lu 2025).
-3. "Possible cause" line naming upstream weak skill (Squirrel).
-4. Skill-tile grid, not 3-bucket pipeline bar (Squirrel, ALEKS).
-5. Weekly belief-correction form + reality comparison (Bergman).
-6. Wheel-spinning indicator (ASSISTments).
-7. Product rule: dashboard closed when child present (Lu 2025).
-8. Weekly digest as primary artifact (Bark anatomy).
-9. Banned patterns: sibling comparison, parent-streak gamification,
-   real-time push, informational priming without autonomy framing.
-10. Honest scope: expect consistency improvement, not learning gains
+נעולות ב-INSTRUCTIONS.md:
+1. verdict badge לכל בת (Nanit), לא traffic-light על האדם.
+2. שורת פעולה ממוסגרת-כהזמנה (Lu 2025).
+3. שורת "סיבה אפשרית" הנוקבת במיומנות חלשה במעלה-הזרם (Squirrel).
+4. רשת אריחי-מיומנות, לא pipeline bar של 3-buckets (Squirrel, ALEKS).
+5. טופס תיקון-אמונה שבועי + השוואת מציאות (Bergman).
+6. חיווי תקיעות (ASSISTments).
+7. כלל מוצר: דשבורד סגור כשהילדה נוכחת (Lu 2025).
+8. תקציר שבועי כ-artifact ראשי (אנטומיית Bark).
+9. דפוסים אסורים: השוואת אחיות, parent-streak gamification,
+   real-time push, priming מידעי ללא מסגור אוטונומיה.
+10. טווח כן: לצפות שיפור עקביות, לא רווחי למידה
     (Kaliisa, EWIMS).
 
-Falsifier locked in (honest-about-not-working rule): if after 4 weeks
-the parent submits fewer than 2 belief-correction notes, the eval
-`evals/backlog/dashboard-followthrough.eval.ts` goes red → stop,
-rethink.
+Falsifier נעול (כלל honest-about-not-working): אם אחרי 4 שבועות
+ההורה שולחת פחות מ-2 הערות תיקון-אמונה, ה-eval
+`evals/backlog/dashboard-followthrough.eval.ts` הופך לאדום → עצירה,
+חשיבה מחדש.
 
-## Sources by type (per CLAUDE.md §Research source rule)
+## מקורות לפי סוג (לפי CLAUDE.md §Research source rule)
 
-### (a) Cognitive science / learning research
+### (a) מדע קוגניטיבי / מחקר למידה
 
 - [Lu, Vasilyeva & Laski 2025 — Child Development](https://onlinelibrary.wiley.com/doi/10.1111/cdev.70031)
 - [Bergman 2021 — JPE](https://www.journals.uchicago.edu/doi/10.1086/711410)
@@ -132,7 +132,7 @@ rethink.
 - [Montazami — Why this app? (BJET)](https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13213)
 - [Boaler / Youcubed — parents' math beliefs](https://www.youcubed.org/evidence/parents-beliefs-math-change-childrens-achievement/)
 
-### (b) Company practice & dashboard design
+### (b) פרקטיקת חברה ועיצוב דשבורד
 
 - [Squirrel AI — MIT Tech Review](https://www.technologyreview.com/2019/08/02/131198/china-squirrel-has-started-a-grand-experiment-in-ai-education-it-could-reshape-how-the/)
 - [Squirrel AI — Wikipedia](https://en.wikipedia.org/wiki/Squirrel_AI)
@@ -150,7 +150,7 @@ rethink.
 - [Qustodio](https://www.qustodio.com/en/parental-control-app/)
 - [Cozi FAQ](https://www.cozi.com/faq/)
 
-### Design authorities
+### סמכויות עיצוב
 
 - [Kaushik — Action Dashboard](https://www.kaushik.net/avinash/the-action-dashboard-an-alternative-to-crappy-dashboards/)
 - [Stephen Few — Information Dashboard Design (PDF)](https://public.magendanz.com/Temp/Information%20Dashboard%20Design.pdf)

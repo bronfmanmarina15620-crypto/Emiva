@@ -1,219 +1,219 @@
 # INSTRUCTIONS.md — MATH-BAT9-001
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: MATH-BAT9-001
-- title: Fractions introductory — Emiva Math for Emilia (bat 9), slice 1
+- title: שברים מבואיים — Emiva Math לאמיליה (בת 9), סלייס 1
 - owner: Marina
 - priority: P1
 - target_branch: feat/math-bat9-001
 - references:
-  - `CLAUDE.md` — engineering + response format + Exercise UX rule + Tone rule
-  - `MyLevel.docx §3.1` — Emilia curriculum: fractions, ops-1000, long-division; CPA (Singapore)
-  - `MyLevel.docx §11.3` — quarterly external test (Khan Grade Level)
-  - `tasks/MATH-MVP-001/INSTRUCTIONS.md` — pattern to follow
-  - `plans/MATH-MVP-001.md` — architecture baseline (Leitner, mastery, adaptive)
+  - `CLAUDE.md` — הנדסה + פורמט תגובה + Exercise UX rule + Tone rule
+  - `MyLevel.docx §3.1` — תכנית הלימודים של אמיליה: שברים, ops-1000, חלוקה ארוכה; CPA (סינגפור)
+  - `MyLevel.docx §11.3` — מבחן חיצוני רבעוני (Khan Grade Level)
+  - `tasks/MATH-MVP-001/INSTRUCTIONS.md` — תבנית לעקוב אחריה
+  - `plans/MATH-MVP-001.md` — baseline ארכיטקטוני (Leitner, mastery, adaptive)
 
-## Objective
+## מטרה
 
-Open Emilia's math track with the **smallest pedagogically-meaningful slice**:
-introductory fractions. Item bank + session flow + CPA pictorial component.
-End state: Emilia (age 9) opens the app, gets fractions content instead of
-the current "coming soon" card, runs one 10-item session end-to-end with
-mastery tracking identical to Evelyn's loop.
+לפתוח את מסלול המתמטיקה של אמיליה עם **הסלייס הפדגוגי הקטן ביותר בעל משמעות**:
+שברים מבואיים. מאגר פריטים + זרימת סשן + קומפוננטה פיקטוריאלית CPA.
+מצב סיום: אמיליה (גיל 9) פותחת את האפליקציה, מקבלת תוכן שברים במקום
+כרטיס "בקרוב" הנוכחי, מריצה סשן אחד של 10 פריטים end-to-end עם
+מעקב שליטה זהה ללולאה של אוולין.
 
-This is **slice 1 of 3** under `MATH-BAT9-001` scope per `ROADMAP.md` (fractions
-/ ops-1000 / long-division). Bar Models live in `MATH-EMILIA-BARMODELS-001`.
+זהו **סלייס 1 מתוך 3** בטווח `MATH-BAT9-001` לפי `ROADMAP.md` (שברים
+/ ops-1000 / חלוקה ארוכה). Bar Models חיים ב-`MATH-EMILIA-BARMODELS-001`.
 
-## In Scope
+## בטווח
 
-### Content — introductory fractions only
-Five item types, deliberately narrow:
+### תוכן — שברים מבואיים בלבד
+חמישה סוגי פריטים, צרים בכוונה:
 
-1. **זיהוי חזותי** — shape divided into N equal parts, K shaded. Prompt:
-   "איזה חלק צבוע?" Answer: `K/N` from multiple choice (e.g. 1/4, 1/2, 1/3, 2/3).
-2. **שם → חזות** — prompt: "איפה רואים **1/3**?" Multiple-choice of 3–4
-   visual options.
-3. **חצי/רבע של מספר** — prompt: "**חצי** מ-12 הוא?" Answer: numeric input.
-   Connects fractions to division via intuitive language.
-4. **השוואה** — prompt: "מה גדול יותר: 1/2 או 1/4?" Multiple choice.
-5. **שווי-ערך בסיסי** — prompt: "2/4 זה אותו דבר כמו?" Choices: 1/2, 1/3, 1/4.
+1. **זיהוי חזותי** — צורה מחולקת ל-N חלקים שווים, K מוצללים. שאלה:
+   "איזה חלק צבוע?" תשובה: `K/N` ממרובה-ברירה (למשל 1/4, 1/2, 1/3, 2/3).
+2. **שם → חזות** — שאלה: "איפה רואים **1/3**?" מרובה-ברירה של 3–4
+   אפשרויות חזותיות.
+3. **חצי/רבע של מספר** — שאלה: "**חצי** מ-12 הוא?" תשובה: קלט מספרי.
+   מחברת שברים לחלוקה דרך שפה אינטואיטיבית.
+4. **השוואה** — שאלה: "מה גדול יותר: 1/2 או 1/4?" מרובה-ברירה.
+5. **שווי-ערך בסיסי** — שאלה: "2/4 זה אותו דבר כמו?" אפשרויות: 1/2, 1/3, 1/4.
 
-### Code
-- Extend `Skill` type with `fractions_intro`.
-- Extend `allowedSkillsForAge` — `fractions_intro` allowed for ages 8–10.
-- `src/content/math/fractions-intro.json` — **minimum 25 items**, difficulty 1–5,
-  spread across all five types (≥ 4 per type).
-- `src/lib/fractions.ts` — Item type + answer validation (multiple choice +
-  numeric). Reuse `mastery`, `adaptive`, `srs` from MVP — **do not fork**.
-- `src/components/FractionViz.tsx` — SVG pictorial: horizontal bar split into
-  N equal parts, K filled with sage, rest cream. Size: 200×60px. Accessible
-  labels.
-- Session page: when `activeProfile.allowedSkills` includes `fractions_intro`,
-  render fractions items instead of (or before) add/sub. For this slice,
-  Emilia sees **only fractions** (ops-1000 and long-division come in later slices).
-- Hebrew RTL throughout. Same 3-attempt loop. Same growth-mindset tone.
-- **Method-based reveal** per CLAUDE.md §Exercise UX rule — on attempt 3,
-  show the filled bar + one-line explanation: "בחצי יש חלק אחד מתוך שניים שווים".
-  Short, pictorial-first.
+### קוד
+- הרחבת טיפוס `Skill` עם `fractions_intro`.
+- הרחבת `allowedSkillsForAge` — `fractions_intro` מותר לגילאי 8–10.
+- `src/content/math/fractions-intro.json` — **מינימום 25 פריטים**, קושי 1–5,
+  מפוזרים על כל חמשת הסוגים (≥ 4 לכל סוג).
+- `src/lib/fractions.ts` — טיפוס פריט + ולידציית תשובה (מרובה-ברירה +
+  מספרי). שימוש חוזר ב-`mastery`, `adaptive`, `srs` מה-MVP — **לא לעשות fork**.
+- `src/components/FractionViz.tsx` — SVG פיקטוריאלי: פס אופקי מחולק ל-N
+  חלקים שווים, K ממולאים ב-sage, השאר cream. גודל: 200×60px. תוויות
+  נגישות.
+- דף סשן: כאשר `activeProfile.allowedSkills` כולל `fractions_intro`,
+  להציג פריטי שברים במקום (או לפני) חיבור/חיסור. בסלייס זה,
+  אמיליה רואה **רק שברים** (ops-1000 וחלוקה ארוכה יגיעו בסלייסים מאוחרים).
+- עברית RTL לכל אורך הדרך. אותה לולאת 3 ניסיונות. אותו טון growth-mindset.
+- **חשיפה מבוססת-שיטה** לפי CLAUDE.md §Exercise UX rule — בניסיון 3,
+  מציגים את הפס המלא + הסבר חד-שורה: "בחצי יש חלק אחד מתוך שניים שווים".
+  קצר, פיקטוריאלי-תחילה.
 
-### Tests
-Per `CLAUDE.md §Engineering standards` — tests alongside code:
-- `tests/unit/fractions.test.ts` — answer validation (multiple choice + numeric +
-  equivalence handling, e.g. `2/4` answer accepts `1/2`).
-- `tests/unit/fractions-items.test.ts` — bank integrity (≥ 25 items, 5
-  difficulty tiers, all 5 item types present).
+### טסטים
+לפי `CLAUDE.md §Engineering standards` — טסטים לצד קוד:
+- `tests/unit/fractions.test.ts` — ולידציית תשובה (מרובה-ברירה + מספרי +
+  טיפול בשווי-ערך, למשל תשובת `2/4` מקבלת `1/2`).
+- `tests/unit/fractions-items.test.ts` — שלמות מאגר (≥ 25 פריטים, 5
+  דרגות קושי, כל 5 סוגי פריטים נוכחים).
 
-## Out of Scope
+## מחוץ לטווח
 
-- **Operations up to 1000** (add/sub/mul/div beyond 100) → later slice of
+- **פעולות עד 1000** (חיבור/חיסור/כפל/חילוק מעל 100) → סלייס מאוחר של
   MATH-BAT9-001.
-- **Long division** → later slice.
-- **Bar Models for word problems** → `MATH-EMILIA-BARMODELS-001`.
-- **Mixed numbers** (e.g. 1½).
-- **Fraction addition/subtraction** (same denominator or different).
-- **Decimals, percentages** — future tasks.
-- **Multi-step word problems** in fractions.
-- **Pie-chart visualization** — horizontal bar only for this slice; pie
-  can arrive when we have ≥ 2 concrete reasons (CLAUDE.md §Engineering).
+- **חלוקה ארוכה** → סלייס מאוחר.
+- **Bar Models לבעיות מילוליות** → `MATH-EMILIA-BARMODELS-001`.
+- **מספרים מעורבים** (למשל 1½).
+- **חיבור/חיסור שברים** (אותו מכנה או שונה).
+- **עשרוניים, אחוזים** — משימות עתידיות.
+- **בעיות מילוליות רב-שלביות** בשברים.
+- **הצגת pie-chart** — פס אופקי בלבד לסלייס הזה; pie
+  יכולה להגיע כשיהיו ≥ 2 סיבות קונקרטיות (CLAUDE.md §Engineering).
 
-## Required Inputs
+## קלטים נדרשים
 
-### Code paths (new):
+### Code paths (חדשים):
 - `src/content/math/fractions-intro.json`
 - `src/lib/fractions.ts`
 - `src/components/FractionViz.tsx`
 - `tests/unit/fractions.test.ts`
 - `tests/unit/fractions-items.test.ts`
 
-### Code paths (edit):
-- `src/lib/types.ts` — add `fractions_intro` to skill union.
-- `src/lib/profiles.ts` — extend `allowedSkillsForAge` (ages 8–10).
-- `src/app/session/page.tsx` — branch on skill: render `FractionItem` when
-  `fractions_intro`, else existing add/sub.
-- `src/lib/feedback-messages.ts` — verify no new variant pool needed; reuse
-  existing (growth-mindset retry / correct / reveal). If a fractions-specific
-  reveal line is required, add a variant with `skill` context (not a new pool).
+### Code paths (עריכה):
+- `src/lib/types.ts` — הוספת `fractions_intro` ל-skill union.
+- `src/lib/profiles.ts` — הרחבת `allowedSkillsForAge` (גילאי 8–10).
+- `src/app/session/page.tsx` — הסתעפות על skill: רנדור `FractionItem` כאשר
+  `fractions_intro`, אחרת חיבור/חיסור קיים.
+- `src/lib/feedback-messages.ts` — לוודא שלא נדרש pool של וריאנטים חדש; שימוש חוזר
+  בקיים (growth-mindset retry / correct / reveal). אם שורת חשיפה ספציפית
+  לשברים נדרשת, להוסיף וריאנט עם הקשר `skill` (לא pool חדש).
 
-### Docs:
-- `MyLevel.docx §3.1` (already read).
-- `CLAUDE.md §Exercise UX rule` — 3-attempt loop, method-based reveal.
-- `CLAUDE.md §Tone — growth-mindset only` — banned phrases, required framing.
+### מסמכים:
+- `MyLevel.docx §3.1` (כבר נקרא).
+- `CLAUDE.md §Exercise UX rule` — לולאת 3 ניסיונות, חשיפה מבוססת-שיטה.
+- `CLAUDE.md §Tone — growth-mindset only` — ביטויים אסורים, מסגור נדרש.
 
-### Dependencies:
-- No new npm deps. SVG inline, no chart library.
+### תלויות:
+- ללא תלויות npm חדשות. SVG inline, ללא ספריית תרשימים.
 
-## Constraints
+## אילוצים
 
-- **Do not fork** `mastery.ts`, `adaptive.ts`, `srs.ts` — extend via item
-  type, not parallel pipeline.
-- **Do not touch** Evelyn's content — `add-sub-100.json` stays.
-- **No breaking changes** to existing `localStorage` keys. If a migration is
-  unavoidable, stop and ask.
-- **Reuse growth-mindset copy.** No new "ניסיון אחרון" variants unless a
-  fractions-specific situation requires it — and if so, approve with Marina
-  before adding.
-- **Pictorial is mandatory** on reveal. This is not optional polish — it's
-  the CPA principle from `MyLevel.docx §3.1` ("Concrete → Pictorial → Abstract").
-- Age gating: `fractions_intro` opens for **ages 8–10**. Evelyn (7) should
-  not see these items (still sees `add_sub_100`).
+- **לא לעשות fork** ל-`mastery.ts`, `adaptive.ts`, `srs.ts` — להרחיב דרך סוג
+  פריט, לא pipeline מקביל.
+- **לא לגעת** בתוכן של אוולין — `add-sub-100.json` נשאר.
+- **ללא שינויים שוברים** למפתחות `localStorage` קיימים. אם migration
+  הוא בלתי נמנע, עצור ושאל.
+- **שימוש חוזר בטקסטים growth-mindset.** ללא וריאנטים חדשים של "ניסיון אחרון" אלא אם
+  מצב ספציפי לשברים דורש זאת — ואם כן, אישור עם Marina
+  לפני הוספה.
+- **פיקטוריאלי הוא חובה** בחשיפה. זה לא polish אופציונלי — זה
+  עקרון CPA מתוך `MyLevel.docx §3.1` ("Concrete → Pictorial → Abstract").
+- הגבלת גיל: `fractions_intro` נפתח ל-**גילאי 8–10**. אוולין (7) לא צריכה
+  לראות פריטים אלה (עדיין רואה `add_sub_100`).
 
-## Deliverables
+## תוצרים
 
-1. `fractions-intro.json` with ≥ 25 items across 5 types, 5 difficulty tiers.
-2. `FractionViz` component rendering correctly for fractions 1/2, 1/3, 1/4,
-   2/3, 3/4, 2/4, 2/6, etc.
-3. Session loop works end-to-end for Emilia: profile → session → 10 fractions
-   items → mastery % updates → saved to `emiva.mastery.v1.{profileId}`.
-4. 3-attempt loop: attempt 3 reveal shows the pictorial + one-line method
-   explanation in Hebrew.
-5. Tone audit: no banned phrases anywhere in new strings (run
-   `feedback:scan` style check mentally, or enumerate strings in PR).
-6. Unit tests green: `fractions.test.ts` + `fractions-items.test.ts`.
-7. All existing tests still green (no regression).
-8. `plans/MATH-BAT9-001.md` — plan document with architecture decisions.
-9. `ROADMAP.md` — mark this slice done; add follow-on slices
-   (`MATH-BAT9-002` ops-1000, `MATH-BAT9-003` long-division) to Next or Later.
-10. `CHANGELOG.md` — new entry under [0.2.0] (or next version) with added items.
+1. `fractions-intro.json` עם ≥ 25 פריטים על פני 5 סוגים, 5 דרגות קושי.
+2. קומפוננטת `FractionViz` שמציגה נכון לשברים 1/2, 1/3, 1/4,
+   2/3, 3/4, 2/4, 2/6, וכו'.
+3. לולאת סשן עובדת end-to-end לאמיליה: פרופיל → סשן → 10 פריטי שברים
+   → עדכון mastery % → נשמר ל-`emiva.mastery.v1.{profileId}`.
+4. לולאת 3 ניסיונות: חשיפת ניסיון 3 מציגה את הפיקטוריאלי + הסבר
+   שיטה חד-שורה בעברית.
+5. ביקורת טון: ללא ביטויים אסורים בשום מחרוזת חדשה (הפעלת
+   בדיקת סגנון `feedback:scan` מנטלית, או ספירת מחרוזות ב-PR).
+6. Unit tests ירוקים: `fractions.test.ts` + `fractions-items.test.ts`.
+7. כל הטסטים הקיימים עדיין ירוקים (ללא רגרסיה).
+8. `plans/MATH-BAT9-001.md` — מסמך תוכנית עם החלטות ארכיטקטורה.
+9. `ROADMAP.md` — סימון הסלייס כ-done; הוספת סלייסים המשך
+   (`MATH-BAT9-002` ops-1000, `MATH-BAT9-003` חלוקה ארוכה) ל-Next או Later.
+10. `CHANGELOG.md` — רשומה חדשה תחת [0.2.0] (או הגרסה הבאה) עם פריטים שנוספו.
 
-## Validation Required
+## ולידציה נדרשת
 
-- `npm run typecheck` — clean.
-- `npm run lint` — clean.
-- `npm test` — all pass including new fractions tests.
-- `npm run build` — production build succeeds.
-- **Manual — golden path (Emilia persona):**
-  - Clear localStorage. Create profile "Emilia", age 9.
-  - `/session` renders fractions items (not "coming soon").
-  - Complete 10 items. Mastery updates. Reveal on attempt 3 shows a sage-filled bar.
-  - Session summary shows mastery %, no regression on MasteryJar.
-- **Manual — Evelyn still works:**
-  - Create profile age 7. `/session` still renders add/sub (not fractions).
-  - Previous green path still green.
-- **Manual — edge cases:**
-  - Numeric input for "חצי מ-7" → 3.5 vs 3 vs 4: decide acceptable rounding in
-    the plan. Simplest: only even numbers for halving items to avoid this.
-  - Shape with 6 parts, 4 filled → answer `4/6` accepted, `2/3` also accepted
-    (equivalence).
+- `npm run typecheck` — נקי.
+- `npm run lint` — נקי.
+- `npm test` — הכל עובר כולל טסטי שברים חדשים.
+- `npm run build` — production build עובר.
+- **ידני — golden path (פרסונה של אמיליה):**
+  - נקי localStorage. צרי פרופיל "Emilia", גיל 9.
+  - `/session` מציג פריטי שברים (לא "בקרוב").
+  - השלמי 10 פריטים. Mastery מתעדכן. חשיפה בניסיון 3 מציגה פס ממולא ב-sage.
+  - סיכום סשן מציג mastery %, ללא רגרסיה ב-MasteryJar.
+- **ידני — אוולין עדיין עובד:**
+  - צרי פרופיל גיל 7. `/session` עדיין מציג חיבור/חיסור (לא שברים).
+  - ה-golden path הקודם עדיין ירוק.
+- **ידני — edge cases:**
+  - קלט מספרי ל"חצי מ-7" → 3.5 מול 3 מול 4: החלטי על עיגול מקובל
+    בתוכנית. הפשוט ביותר: רק מספרים זוגיים לפריטי חצייה כדי להימנע מזה.
+  - צורה עם 6 חלקים, 4 ממולאים → תשובת `4/6` מקובלת, `2/3` גם מקובלת
+    (שווי-ערך).
 
-## Working Instructions
+## הוראות עבודה
 
-1. Read `CLAUDE.md`, this file, and `plans/MATH-MVP-001.md` for pattern.
-2. **Before code:** write `plans/MATH-BAT9-001.md` covering: 3–5 architecture
-   decisions (item data shape, answer validation for equivalence, SVG approach,
-   session routing), item bank structure, UI copy, risk list.
-3. Stay in slice. Do not bundle ops-1000 or Bar Models.
-4. Two concrete cases before abstraction — e.g., don't build a generic
-   `PictorialRenderer<any>` when the slice needs one horizontal-bar viz.
-5. **Hebrew strings in one place** (`src/lib/fractions-strings.ts` or inline
-   in content). Growth-mindset check per string before commit.
-6. If a decision feels pedagogical (e.g., "is 2/4 equivalent to 1/2 for a
-   first-meeting with fractions?") — stop, ask.
+1. קראי את `CLAUDE.md`, קובץ זה, ואת `plans/MATH-MVP-001.md` לתבנית.
+2. **לפני קוד:** כתבי `plans/MATH-BAT9-001.md` המכסה: 3–5 החלטות
+   ארכיטקטורה (צורת נתוני פריט, ולידציית תשובה לשווי-ערך, גישת SVG,
+   ניתוב סשן), מבנה מאגר פריטים, UI copy, רשימת סיכונים.
+3. הישארי בסלייס. לא לצרף ops-1000 או Bar Models.
+4. שני מקרים קונקרטיים לפני הפשטה — למשל, לא לבנות
+   `PictorialRenderer<any>` כללי כשהסלייס זקוק לויז אחת של פס אופקי.
+5. **מחרוזות עברית במקום אחד** (`src/lib/fractions-strings.ts` או inline
+   בתוכן). בדיקת growth-mindset לכל מחרוזת לפני commit.
+6. אם החלטה מרגישה פדגוגית (למשל, "האם 2/4 שקול ל-1/2 בפגישה
+   ראשונה עם שברים?") — עצרי, שאלי.
 
-## Decision Rules
+## כללי החלטה
 
-- Missing pedagogical info → one question, not a guess.
-- Unclear item difficulty tagging → write the heuristic in the plan before
-  tagging items.
-- Regression risk in MVP loop → run full manual QA before merge.
-- Copy that sounds even slightly judgmental → rewrite before commit.
+- מידע פדגוגי חסר → שאלה אחת, לא ניחוש.
+- תיוג קושי פריט לא ברור → כתבי את ההיוריסטיקה בתוכנית לפני
+  תיוג פריטים.
+- סיכון רגרסיה בלולאת MVP → הריצי QA ידני מלא לפני merge.
+- טקסט שנשמע אפילו קצת שיפוטי → שכתבי לפני commit.
 
-## Definition of Done
+## הגדרת DoD
 
-- [ ] All deliverables (1–10) shipped.
-- [ ] Validation run and reported.
-- [ ] `MyLevel.docx §3.1` requirements for fractions-intro met (CPA-based,
-      pictorial mandatory on reveal, Hebrew RTL).
-- [ ] Tone audit passed — zero banned phrases, growth-mindset framing throughout.
-- [ ] `ROADMAP.md` updated with slice done + follow-on slices.
-- [ ] `CHANGELOG.md` entry.
-- [ ] No TODO without owner or follow-up location (→ `tasks/BACKLOG.md`).
+- [ ] כל התוצרים (1–10) נשלחו.
+- [ ] ולידציה רצה ודווחה.
+- [ ] דרישות `MyLevel.docx §3.1` לשברים מבואיים מולאו (מבוסס CPA,
+      פיקטוריאלי חובה בחשיפה, עברית RTL).
+- [ ] ביקורת טון עברה — אפס ביטויים אסורים, מסגור growth-mindset לאורך הדרך.
+- [ ] `ROADMAP.md` מעודכן עם סלייס שנעשה + סלייסים המשך.
+- [ ] רשומת `CHANGELOG.md`.
+- [ ] אין TODO ללא בעלים או follow-up location (→ `tasks/BACKLOG.md`).
 
-## Measurement Hooks (per CLAUDE.md §Measurement rule)
+## Measurement Hooks (לפי CLAUDE.md §Measurement rule)
 
-- **Proxy פנימי:** mastery % per session for `fractions_intro`. Separate from
-  `add_sub_100` (per-skill mastery).
-- **מבחן חיצוני:** `MyLevel.docx §11.3` specifies quarterly external test.
-  This task leaves a hook: `fractions_intro` items tagged with
-  `external_test_eligible: true/false` so a future task
-  (`MATH-EXTERNAL-TEST-001`) can sample un-drilled items. Do not build the
-  test harness now — just leave the flag.
+- **Proxy פנימי:** mastery % לכל סשן ל-`fractions_intro`. נפרד מ-
+  `add_sub_100` (mastery לפי מיומנות).
+- **מבחן חיצוני:** `MyLevel.docx §11.3` מפרט מבחן חיצוני רבעוני.
+  טאסק זה משאיר hook: פריטי `fractions_intro` מתויגים עם
+  `external_test_eligible: true/false` כך שטאסק עתידי
+  (`MATH-EXTERNAL-TEST-001`) יכול לדגום פריטים שלא תורגלו. לא לבנות
+  את test harness עכשיו — רק להשאיר את הדגל.
 
-## Risks & Mitigations
+## סיכונים ומיטיגציות
 
 | סיכון | מיטיגציה |
 |-------|----------|
-| Item bank too small → adaptive signal weak | ≥ 25 items, ≥ 4 per type, 5 difficulty tiers |
-| Pictorial component drifts from Neo-Montessori palette | Reuse sage tokens from `globals.css`; visual QA against `docs/design/BRANDING.md` |
-| Numeric answer ambiguity (half of 7) | Restrict halving items to even numbers in slice 1 |
-| Equivalence answers (2/4 = 1/2) not accepted | Validation accepts any equivalent fraction; tests cover this |
-| Regression in Evelyn's add/sub flow | Full manual QA with age-7 profile before merge |
-| Scope creep into ops-1000 or Bar Models | Explicit Out-of-Scope list; refuse in-task additions |
-| Hebrew numeric phrasing edge cases ("חצי מ-12") | Write all prompts in plan, review with Marina before bank generation |
+| מאגר פריטים קטן מדי → אות adaptive חלש | ≥ 25 פריטים, ≥ 4 לכל סוג, 5 דרגות קושי |
+| קומפוננטת פיקטוריאל סוטה מפלטת Neo-Montessori | שימוש חוזר ב-sage tokens מ-`globals.css`; QA ויזואלי מול `docs/design/BRANDING.md` |
+| עמימות תשובה מספרית (חצי מ-7) | הגבלת פריטי חצייה למספרים זוגיים בסלייס 1 |
+| תשובות שווי-ערך (2/4 = 1/2) לא מתקבלות | הולידציה מקבלת כל שבר שקול; טסטים מכסים זאת |
+| רגרסיה בזרימת חיבור/חיסור של אוולין | QA ידני מלא עם פרופיל גיל-7 לפני merge |
+| זחילת טווח ל-ops-1000 או Bar Models | רשימת מחוץ-לטווח מפורשת; סירוב להוספות בטאסק |
+| edge cases של ניסוח מספרי עברית ("חצי מ-12") | כתיבת כל השאלות בתוכנית, סקירה עם Marina לפני יצירת מאגר |
 
 ## Handoff
 
-- **PM → Eng:** confirm scope + pedagogical choices before code (halving
-  phrasing, equivalence acceptance, item bank phrasing samples).
-- **Eng → Review:** PR with plan + code + tests + manual QA screenshots for
-  both personas (age-7 unchanged, age-9 new).
-- **Review → Done:** merge only after full DoD.
+- **PM → Eng:** אישור טווח + בחירות פדגוגיות לפני קוד (ניסוח חצייה,
+  קבלת שווי-ערך, דוגמאות ניסוח מאגר פריטים).
+- **Eng → Review:** PR עם plan + code + tests + manual QA screenshots ל-
+  שתי הפרסונות (גיל-7 ללא שינוי, גיל-9 חדש).
+- **Review → Done:** merge רק אחרי DoD מלא.

@@ -1,4 +1,4 @@
-# Plan — MATH-GRADUATION-001
+# תוכנית — MATH-GRADUATION-001
 
 ## מטרה
 קריטריון פדגוגי ל"סיימת את הנושא" — 20 נכון-בניסיון-1, על פני ≥2 סשנים, במרווח ≥24h.
@@ -102,7 +102,7 @@ export function incrementSession(
 ### 6. UI החגיגה — איפה
 ב-`summary` phase ב-`session/page.tsx`. לפני MasteryJar (כלומר, מעל), אם
 `skillGraduated(state).graduated === true` **ו**-הדגל one-shot לא הופעל —
-blokc נפרד עם כותרת, הודעה ו-CTA משוב.
+בלוק נפרד עם כותרת, הודעה ו-CTA משוב.
 
 **Copy (growth-mindset, CLAUDE.md §Tone):**
 - כותרת: "סיימת את הנושא! 🎉"
@@ -134,10 +134,10 @@ blokc נפרד עם כותרת, הודעה ו-CTA משוב.
 3. `src/lib/storage.ts` — נורמליזציה על loadMastery.
 4. `tests/unit/mastery-graduation.test.ts` (חדש) + `tests/unit/storage.test.ts` (הרחבה).
 5. `src/lib/telemetry.ts` — הוספת `skill_graduated` event.
-6. `src/app/session/page.tsx` — חגיגה ב-summary + one-shot flag + telemetry.
+6. `src/app/session/page.tsx` — חגיגה ב-summary + דגל one-shot + telemetry.
 7. עדכון `docs/parent-guide.md §4` ו-§10.
 8. עדכון `ROADMAP.md` (Done) + `CHANGELOG.md` (Unreleased).
-9. Validation: typecheck / lint / test / build / manual.
+9. ולידציה: typecheck / lint / test / build / manual.
 
 ## סיכונים ומיטיגציות
 

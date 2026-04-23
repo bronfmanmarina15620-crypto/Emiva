@@ -1,162 +1,162 @@
 # INSTRUCTIONS.md — DASHBOARD-PARENT-001
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: DASHBOARD-PARENT-001
-- title: Parent dashboard MVP — verdict-based, evidence-grounded
+- title: דשבורד הורים MVP — מבוסס verdict, מבוסס-ראיות
 - owner: Marina
-- priority: P0 (jumps ahead of MATH-EVELYN-MONEY-001)
+- priority: P0 (קופץ לפני MATH-EVELYN-MONEY-001)
 - target_branch: feat/dashboard-parent-001
 - references:
-  - `tasks/DASHBOARD-PARENT-001/research.md` — four-round research log
-  - `CLAUDE.md §Measurement rule` — internal proxy must be visible
-  - `CLAUDE.md §Tone` — growth-mindset for any user-facing strings
-  - `CLAUDE.md §Research source rule` — (a) cognitive science separated from (b) product practice
-  - Lu, Vasilyeva & Laski 2025 — autonomy-protective framing (binding)
-  - Bergman 2021 — belief-correction mechanism (binding)
-  - Squirrel AI MCM — "tracing the source" (inspiration)
+  - `tasks/DASHBOARD-PARENT-001/research.md` — יומן מחקר ארבעה-סיבובים
+  - `CLAUDE.md §Measurement rule` — proxy פנימי חייב להיות נראה
+  - `CLAUDE.md §Tone` — growth-mindset לכל מחרוזת פונה-למשתמש
+  - `CLAUDE.md §Research source rule` — (a) מדע קוגניטיבי מופרד מ-(b) פרקטיקת מוצר
+  - Lu, Vasilyeva & Laski 2025 — מסגור מגן-אוטונומיה (מחייב)
+  - Bergman 2021 — מנגנון תיקון-אמונה (מחייב)
+  - Squirrel AI MCM — "tracing the source" (השראה)
 
-## Objective
+## מטרה
 
-Give Marina a private, PIN-protected view of each daughter's current
-learning state, designed to prompt *one small action per day* rather
-than to summarize progress. The dashboard is the display layer for the
-internal proxy required by the Measurement rule, and the visible proof
-that the app's pedagogy is working (or not) for Evelyn and Emilia
-specifically.
+לתת ל-Marina תצוגה פרטית, מוגנת-PIN של מצב הלמידה הנוכחי של כל בת,
+מעוצבת לעודד *פעולה קטנה אחת ליום* במקום
+לסכם התקדמות. הדשבורד הוא שכבת התצוגה של
+ה-proxy הפנימי הנדרש על ידי ה-Measurement rule, וההוכחה הנראית
+שהפדגוגיה של האפליקציה עובדת (או לא) לאוולין ואמיליה
+באופן ספציפי.
 
-Scope of this task = **MVP only**. No trend graphs, no per-skill drill
-pages, no email digest. Everything in those directions is explicitly
-deferred to DASHBOARD-PARENT-002 and beyond.
+טווח משימה זו = **MVP בלבד**. ללא גרפי טרנדים, ללא דפי drill
+לפי מיומנות, ללא תקציר אימייל. כל מה שבכיוונים אלה מושהה במפורש
+ל-DASHBOARD-PARENT-002 ומעבר.
 
-## In Scope
+## בטווח
 
-### Access & security
+### גישה ואבטחה
 
-- **Route:** `/parent` (login/setup) → `/parent/dashboard` (protected).
-- **Entry from home:** small, discreet "הורים" link in the home-page
-  footer. Not a button. Not prominent. (Anti-pattern: visible button
-  that children click by curiosity.)
-- **First-time setup:** screen prompts for a 4-6 digit PIN. Store only
-  a SHA-256 hash (`crypto.subtle.digest`) in
-  `emiva.parent_pin_hash.v1`. Never store plaintext.
-- **Login:** PIN input → hash → compare. 3 failed attempts → fallback
-  math-gate: one random two-digit multiplication problem
-  (e.g. `17 × 8`). Correct answer → bypass the PIN once to let Marina
-  reset it. Wrong math-gate → lock out for 5 minutes.
-- **"Closed while child present" rule:**
-  - Top of dashboard displays fixed banner: *"אל תפתחי את הדף הזה
+- **Route:** `/parent` (login/setup) → `/parent/dashboard` (מוגן).
+- **כניסה מדף הבית:** קישור "הורים" קטן ודיסקרטי ב-footer של דף הבית.
+  לא כפתור. לא בולט. (Anti-pattern: כפתור נראה
+  שילדות לוחצות מתוך סקרנות.)
+- **Setup בפעם הראשונה:** מסך מבקש PIN של 4-6 ספרות. שמירה רק של
+  SHA-256 hash (`crypto.subtle.digest`) ב-
+  `emiva.parent_pin_hash.v1`. לעולם לא שמירת plaintext.
+- **Login:** קלט PIN → hash → השוואה. 3 ניסיונות כושלים → fallback
+  של math-gate: בעיית כפל אקראית של שתי ספרות
+  (למשל `17 × 8`). תשובה נכונה → עוקף את ה-PIN פעם אחת כדי לאפשר ל-Marina
+  לאפס אותו. math-gate שגוי → נעילה ל-5 דקות.
+- **כלל "סגור בזמן שהילדה נוכחת":**
+  - ראש הדשבורד מציג באנר קבוע: *"אל תפתחי את הדף הזה
     כשהילדה ליד המסך."*
-  - Inactivity timeout: 3 minutes → return to login.
-  - Large prominent "יציאה" button in the header.
+  - Timeout של חוסר פעילות: 3 דקות → חזרה ל-login.
+  - כפתור "יציאה" בולט וגדול ב-header.
 
-### Dashboard layout
+### פריסת דשבורד
 
-One page (`/parent/dashboard`) with:
+דף אחד (`/parent/dashboard`) עם:
 
-1. **Weekly digest card** (top) — see "Weekly digest" below.
-2. **One card per daughter**, stacked vertically. Same data shape;
-   each daughter on her own card. **No cross-daughter comparison
-   anywhere in the UI.**
-3. **Exit button** (bottom and header) — returns to home page, not
-   to login (so Marina can hand the device to the daughter
-   immediately).
+1. **כרטיס תקציר שבועי** (למעלה) — ראו "תקציר שבועי" למטה.
+2. **כרטיס אחד לכל בת**, מוערמים אנכית. אותה צורת נתונים;
+   כל בת בכרטיס שלה. **ללא השוואה בין-בנות
+   בשום מקום ב-UI.**
+3. **כפתור יציאה** (למטה ובראש) — חוזר לדף הבית, לא
+   ל-login (כך ש-Marina יכולה למסור את המכשיר לבת
+   מיד).
 
-### Per-daughter card — 7 components
+### כרטיס לכל בת — 7 רכיבים
 
-In order, top to bottom:
+בסדר, מלמעלה למטה:
 
-**1. Verdict badge (Nanit-style)**
-One of three, computed from card data:
-- **"על המסלול"** (on track) — default.
-- **"כדאי לשים לב"** (watch) — any of:
-  - No session in the last 4–6 days.
-  - Any active skill with first-try correct < 50% over the last 20 attempts.
-  - First-try % dropped ≥ 10 percentage points vs the prior 7-day window.
-- **"בואי נדבר"** (talk) — any of:
-  - Wheel-spinning active on any skill (see #6).
-  - No session in 7+ days.
+**1. verdict badge (בסגנון Nanit)**
+אחד משלושה, מחושב מנתוני הכרטיס:
+- **"על המסלול"** (on track) — ברירת מחדל.
+- **"כדאי לשים לב"** (watch) — כל אחד מ:
+  - אין סשן ב-4–6 ימים אחרונים.
+  - כל מיומנות פעילה עם first-try correct < 50% על פני 20 הניסיונות האחרונים.
+  - first-try % ירד ≥ 10 נקודות אחוז לעומת חלון 7-הימים הקודם.
+- **"בואי נדבר"** (talk) — כל אחד מ:
+  - תקיעות פעילה בכל מיומנות (ראו #6).
+  - אין סשן ב-7+ ימים.
 
-Rule: worst-of applies. Calculator: `src/lib/parent-dashboard.ts
+כלל: worst-of חל. מחשבון: `src/lib/parent-dashboard.ts
 :: computeVerdict(profileId)`.
 
-**2. Invitation-framed action line (Lu 2025)**
-Single Hebrew sentence, always phrased as an invitation, never as an
-instruction. Priority order:
+**2. שורת פעולה ממוסגרת-כהזמנה (Lu 2025)**
+משפט אחד בעברית, תמיד מנוסח כהזמנה, לעולם לא כהוראה.
+סדר עדיפויות:
 
-| Trigger | Action text (template) |
+| טריגר | טקסט פעולה (תבנית) |
 |---|---|
-| Wheel-spinning skill `s` | `היום את יכולה להציע לה לחזור על {s_hebrew}, ולתת לה לבחור אם זה רגע טוב.` |
-| No session 4+ days | `היום את יכולה להזמין אותה לסשן קצר, ולתת לה לבחור נושא.` |
-| SRS items due in current skill | `היום כדאי להציע חזרה על {s_hebrew} — כמה פריטים מחכים.` |
-| Else | `היום את יכולה לתת לה לבחור — כל כיוון בסדר.` |
+| מיומנות בתקיעות `s` | `היום את יכולה להציע לה לחזור על {s_hebrew}, ולתת לה לבחור אם זה רגע טוב.` |
+| אין סשן 4+ ימים | `היום את יכולה להזמין אותה לסשן קצר, ולתת לה לבחור נושא.` |
+| פריטי SRS בהמתנה במיומנות הנוכחית | `היום כדאי להציע חזרה על {s_hebrew} — כמה פריטים מחכים.` |
+| אחרת | `היום את יכולה לתת לה לבחור — כל כיוון בסדר.` |
 
-**Banned phrasings (hard rule):** `עבדי איתה`, `תגרמי לה`, `חייבת`,
-`דרשי`, any imperative form that bypasses child autonomy. Use only
+**ניסוחים אסורים (כלל נוקשה):** `עבדי איתה`, `תגרמי לה`, `חייבת`,
+`דרשי`, כל צורה ציווית שעוקפת אוטונומיית ילד. להשתמש רק ב-
 *"את יכולה להציע / להזמין"*.
 
-Calculator: `computeActionLine(profileId)`.
+מחשבון: `computeActionLine(profileId)`.
 
-**3. Possible-cause line (Squirrel "tracing the source")**
-Shows only when verdict ≠ "על המסלול". Names the upstream weak skill
-most likely causing the current difficulty. Predecessor table:
+**3. שורת סיבה-אפשרית (Squirrel "tracing the source")**
+מוצגת רק כאשר verdict ≠ "על המסלול". שמה את המיומנות החלשה
+במעלה הזרם שסבירה גבוהה כי גורמת לקושי הנוכחי. טבלת predecessor:
 
-| Current skill | Likely upstream cause (Hebrew) |
+| מיומנות נוכחית | סיבה סבירה במעלה הזרם (עברית) |
 |---|---|
 | `fractions_intro` | `חיבור/חיסור עד 100 שלא התייצב` |
 | `multiplication` | `חיבור/חיסור עד 100 שלא התייצב` |
 | `ops_1000` | `חיבור/חיסור עד 100 שלא התייצב` |
 | `long_division` | `כפל שלא התייצב` |
 | `bar_models` | `חיבור/חיסור או כפל בסיסיים` |
-| `add_sub_100` | *(no predecessor shown)* |
+| `add_sub_100` | *(ללא predecessor מוצג)* |
 
-Format: `אם היא מתקשה, סביר שהסיבה היא {cause}.`
+פורמט: `אם היא מתקשה, סביר שהסיבה היא {cause}.`
 
-Calculator: `computePossibleCause(profileId)`.
+מחשבון: `computePossibleCause(profileId)`.
 
-**4. Skill-tile grid (Squirrel / ALEKS replacement for pipeline bar)**
-Horizontal row of tiles, one per allowed skill for the daughter's age.
-- Evelyn (7-8): 2 tiles (`add_sub_100`, `multiplication`).
-- Emilia (9-10): 4 tiles (`fractions_intro`, `ops_1000`, `long_division`, `bar_models`).
+**4. רשת אריחי-מיומנות (Squirrel / ALEKS תחליף ל-pipeline bar)**
+שורה אופקית של אריחים, אחד לכל מיומנות מותרת לגיל הבת.
+- אוולין (7-8): 2 אריחים (`add_sub_100`, `multiplication`).
+- אמיליה (9-10): 4 אריחים (`fractions_intro`, `ops_1000`, `long_division`, `bar_models`).
 
-Each tile shows the Hebrew skill name and is colored:
-- **Gray** — not started (`attempts.length === 0`).
-- **Yellow** — in progress (`attempts.length > 0 && !hasGraduatedFlag(profileId, skill)`).
-- **Green** — mastered (`hasGraduatedFlag(profileId, skill) === true`).
+כל אריח מציג את שם המיומנות בעברית וצבוע:
+- **אפור** — לא התחיל (`attempts.length === 0`).
+- **צהוב** — בהתקדמות (`attempts.length > 0 && !hasGraduatedFlag(profileId, skill)`).
+- **ירוק** — נשלט (`hasGraduatedFlag(profileId, skill) === true`).
 
-Tiles are non-interactive in MVP (no drill-down). Optional hover
-tooltip: `{skill_hebrew} · {sessionCount} סשנים · {firstTryPct}% נכון-בראשון`.
+אריחים לא-אינטראקטיביים ב-MVP (ללא drill-down). tooltip ריחוף
+אופציונלי: `{skill_hebrew} · {sessionCount} סשנים · {firstTryPct}% נכון-בראשון`.
 
-**5. Belief-correction line (Bergman mechanism)**
-Small form at the bottom of the card:
-- **Input (shown if no belief note for current ISO week):**
-  text area *"השבוע הרגשתי ש-[שם הבת] ..."*, submit button.
-- **Display (shown if belief note exists for current or prior week):**
+**5. שורת תיקון-אמונה (מנגנון Bergman)**
+טופס קטן בתחתית הכרטיס:
+- **קלט (מוצג אם אין הערת אמונה לשבוע ה-ISO הנוכחי):**
+  tektz area *"השבוע הרגשתי ש-[שם הבת] ..."*, כפתור submit.
+- **תצוגה (מוצגת אם הערת אמונה קיימת לשבוע הנוכחי או קודם):**
   `לפני {N} ימים כתבת: "{text}". מאז: {totalAttempts} תרגילים, {firstTryPct}% נכון-בראשון, {sessionCount} סשנים.`
 
-Storage key: `emiva.parent_belief.v1.{profileId}.{isoWeek}` →
-`{ text: string, at: number }`. Only the most recent note is shown;
-older ones persist for Stage 2 drill-down.
+מפתח storage: `emiva.parent_belief.v1.{profileId}.{isoWeek}` →
+`{ text: string, at: number }`. רק ההערה האחרונה מוצגת;
+ישנות יותר נשמרות לdrill-down של שלב 2.
 
-Calculator: `computeBeliefComparison(profileId)`.
+מחשבון: `computeBeliefComparison(profileId)`.
 
-**6. Wheel-spinning indicator (ASSISTments)**
-Shown only when triggered. Per skill:
-- Requires `attempts.length >= 20` **and** `sessionCount >= 3`.
-- Looks at last 20 attempts for that skill; if first-try-correct rate
+**6. חיווי תקיעות (ASSISTments)**
+מוצג רק כאשר מופעל. לפי מיומנות:
+- דורש `attempts.length >= 20` **וגם** `sessionCount >= 3`.
+- מסתכל על 20 הניסיונות האחרונים למיומנות זו; אם שיעור first-try-correct
   ≤ 40% → flag.
 
-Display: `חיווי תקיעות ב-{skill_hebrew}` — in warm neutral color
-(not red, not alarm styling — growth-mindset tone).
+תצוגה: `חיווי תקיעות ב-{skill_hebrew}` — בצבע ניטרלי חם
+(לא אדום, לא בסגנון alarm — טון growth-mindset).
 
-Calculator: `computeWheelSpin(profileId)`.
+מחשבון: `computeWheelSpin(profileId)`.
 
-**7. Last session date** — small text at the bottom:
+**7. תאריך סשן אחרון** — טקסט קטן בתחתית:
 `סשן אחרון: לפני {N} ימים / היום / אתמול.`
 
-### Weekly digest card (Bark anatomy)
+### כרטיס תקציר שבועי (אנטומיית Bark)
 
-Shown at the top of `/parent/dashboard`, above the daughter cards.
-Covers the current ISO week (Sun–Sat). For each daughter:
+מוצג בראש `/parent/dashboard`, מעל כרטיסי הבנות.
+מכסה את שבוע ה-ISO הנוכחי (א'–ש'). לכל בת:
 
 ```
 השבוע — {daughter_name}:
@@ -165,26 +165,26 @@ Covers the current ISO week (Sun–Sat). For each daughter:
   המלצה: {top_action_line}
 ```
 
-Where `top_action_line` is the same string as the daughter card's
-action line. In MVP the digest is recomputed on each dashboard open
-(no separate cron/email). Future: email when server exists.
+כאשר `top_action_line` היא אותה מחרוזת כמו שורת הפעולה של כרטיס הבת.
+ב-MVP התקציר מחושב מחדש בכל פתיחת דשבורד
+(ללא cron/email נפרד). עתידי: אימייל כאשר קיים server.
 
-### Code changes
+### שינויי קוד
 
-- **New route:** `src/app/parent/page.tsx` (login/setup).
-- **New route:** `src/app/parent/dashboard/page.tsx` (dashboard).
-- **New:** `src/lib/parent-auth.ts`:
-  - `hashPin(pin: string): Promise<string>` (SHA-256 via `crypto.subtle`)
+- **Route חדש:** `src/app/parent/page.tsx` (login/setup).
+- **Route חדש:** `src/app/parent/dashboard/page.tsx` (dashboard).
+- **חדש:** `src/lib/parent-auth.ts`:
+  - `hashPin(pin: string): Promise<string>` (SHA-256 דרך `crypto.subtle`)
   - `hasPinSet(): boolean`
   - `setPin(pin: string): Promise<void>`
   - `verifyPin(pin: string): Promise<boolean>`
-  - `clearPin(): void` (only callable after math-gate success)
-- **New:** `src/lib/parent-belief.ts`:
+  - `clearPin(): void` (ניתן לקריאה רק אחרי הצלחת math-gate)
+- **חדש:** `src/lib/parent-belief.ts`:
   - `isoWeekKey(date?: Date): string`
   - `saveBelief(profileId: string, text: string, at?: number): void`
   - `loadBelief(profileId: string, isoWeek: string): { text: string; at: number } | null`
   - `latestBelief(profileId: string): { text: string; at: number; weekKey: string } | null`
-- **New:** `src/lib/parent-dashboard.ts`:
+- **חדש:** `src/lib/parent-dashboard.ts`:
   - `computeVerdict(profileId): "on_track" | "watch" | "talk"`
   - `computeActionLine(profileId): string`
   - `computePossibleCause(profileId): string | null`
@@ -192,12 +192,12 @@ action line. In MVP the digest is recomputed on each dashboard open
   - `computeWheelSpin(profileId): Array<{ skill }>`
   - `computeBeliefComparison(profileId): { text, daysAgo, attemptsSince, firstTryPctSince, sessionsSince } | null`
   - `computeWeeklyDigest(profileId): { totalAttempts, newlyMastered, wheelSpinCount, topAction }`
-  - All pure functions; accept `now?: number` for test injection.
-- **New:** `src/lib/telemetry.ts` — add events:
+  - כל הפונקציות pure; מקבלות `now?: number` להזרקת טסט.
+- **חדש:** `src/lib/telemetry.ts` — הוספת אירועים:
   - `{ t: "dashboard_opened"; at: number }`
   - `{ t: "belief_submitted"; at: number; profileId: string }`
   - `{ t: "action_line_shown"; at: number; profileId: string; trigger: string }`
-- **New constants** in `src/lib/types.ts`:
+- **קבועים חדשים** ב-`src/lib/types.ts`:
   - `WHEEL_SPIN_MIN_ATTEMPTS = 20`
   - `WHEEL_SPIN_MIN_SESSIONS = 3`
   - `WHEEL_SPIN_THRESHOLD_PCT = 40`
@@ -205,133 +205,132 @@ action line. In MVP the digest is recomputed on each dashboard open
   - `INACTIVITY_DAYS_TALK = 7`
   - `DASHBOARD_TIMEOUT_MS = 3 * 60 * 1000`
 
-### Tests (Vitest)
+### טסטים (Vitest)
 
 - `tests/unit/parent-auth.test.ts`
-  - `hashPin` produces deterministic 64-char hex.
-  - `verifyPin` matches set pin, rejects wrong pin.
-  - `clearPin` removes stored hash.
+  - `hashPin` מפיק 64-char hex דטרמיניסטי.
+  - `verifyPin` תואם ל-pin שהוגדר, דוחה pin שגוי.
+  - `clearPin` מסיר את ה-hash השמור.
 - `tests/unit/parent-belief.test.ts`
-  - `isoWeekKey` — known dates map to known keys; Sunday/Monday
-    boundary handled.
+  - `isoWeekKey` — תאריכים ידועים ממופים למפתחות ידועים; גבול
+    ראשון/שני מטופל.
   - `saveBelief` + `loadBelief` round-trip.
-  - `latestBelief` returns most recent across weeks.
+  - `latestBelief` מחזיר את ההערה האחרונה על פני שבועות.
 - `tests/unit/parent-dashboard-verdict.test.ts`
-  - On-track default, no activity for 5 days → watch, 8 days → talk.
-  - Wheel-spin skill → talk dominates inactivity-watch.
-  - First-try % dropped 15pp → watch.
+  - On-track כברירת מחדל, ללא פעילות 5 ימים → watch, 8 ימים → talk.
+  - מיומנות בתקיעות → talk שולט על inactivity-watch.
+  - first-try % ירד 15pp → watch.
 - `tests/unit/parent-dashboard-action.test.ts`
-  - Priority order: wheel-spin > inactivity > SRS > default.
-  - Template interpolation for each trigger.
-  - **Banned-phrase lint:** every output passes the `growth-mindset`
-    banned-phrase checker from CLAUDE.md §Tone.
+  - סדר עדיפויות: תקיעות > חוסר פעילות > SRS > ברירת מחדל.
+  - Template interpolation לכל טריגר.
+  - **Lint ביטוי-אסור:** כל פלט עובר את בודק ביטויי-אסורים של
+    `growth-mindset` מ-CLAUDE.md §Tone.
 - `tests/unit/parent-dashboard-wheel-spin.test.ts`
-  - < 20 attempts → no flag.
-  - ≥ 20 attempts + ≥ 3 sessions + ≤ 40% → flag.
-  - > 40% → no flag.
+  - < 20 ניסיונות → ללא flag.
+  - ≥ 20 ניסיונות + ≥ 3 סשנים + ≤ 40% → flag.
+  - > 40% → ללא flag.
 - `tests/unit/parent-dashboard-digest.test.ts`
-  - Counts total attempts in current ISO week only.
-  - `newlyMastered` counts graduation flag flips in the week.
+  - סופר סך הניסיונות בשבוע ה-ISO הנוכחי בלבד.
+  - `newlyMastered` סופר היפוכים של דגל graduation בשבוע.
 
-### Docs
+### מסמכים
 
-- `docs/adr/003-parent-dashboard-design.md` — new ADR. Locks in the
-  rejected patterns (sibling comparison, parent-streak gamification,
-  real-time push, instructional framing) and the research that binds
-  them.
-- `docs/parent-guide.md` — new section *"האזור להורים"* explaining
-  what the dashboard shows, how verdicts are computed, and the
-  "closed while child present" rule. Cross-references the research
-  sources by type.
-- `ROADMAP.md` — move `DASHBOARD-PARENT-001` from 📕 v3 to 🟢 Now;
-  move `MATH-EVELYN-MONEY-001` from 🟡 Next to second position
-  (below Hebrew reading planning, if Marina confirms).
-- `CHANGELOG.md` — [Unreleased] entries.
-- `.claude/rules/parent-dashboard-guardrails.md` — path rule for
-  `src/app/parent/**` + `src/lib/parent-*.ts`: any new user-facing
-  string passes the banned-phrase lint; no sibling comparison code
-  paths.
+- `docs/adr/003-parent-dashboard-design.md` — ADR חדש. נועל את
+  הדפוסים הדחויים (השוואת אחיות, parent-streak gamification,
+  real-time push, מסגור הוראתי) ואת המחקר המחייב
+  אותם.
+- `docs/parent-guide.md` — סעיף חדש *"האזור להורים"* שמסביר
+  מה הדשבורד מציג, איך verdicts מחושבים, וכלל
+  "סגור בזמן שהילדה נוכחת". הפניות למקורות המחקר
+  לפי סוג.
+- `ROADMAP.md` — העברת `DASHBOARD-PARENT-001` מ-📕 v3 ל-🟢 Now;
+  העברת `MATH-EVELYN-MONEY-001` מ-🟡 Next למיקום שני
+  (מתחת לתכנון קריאה בעברית, אם Marina תאשר).
+- `CHANGELOG.md` — רשומות [Unreleased].
+- `.claude/rules/parent-dashboard-guardrails.md` — כלל path ל-
+  `src/app/parent/**` + `src/lib/parent-*.ts`: כל מחרוזת פונה-למשתמש חדשה
+  עוברת lint ביטוי-אסור; אין נתיבי קוד להשוואת אחיות.
 
 ### Falsifier (Layer 2 eval, honest-about-not-working)
 
-- `evals/backlog/dashboard-followthrough.eval.ts` — runs against the
-  last 4 weeks of telemetry. Passes if:
-  - ≥ 2 `belief_submitted` events in the trailing 4 weeks
-    (one per every 2 weeks minimum).
-  - OR ≥ 8 `dashboard_opened` events in the trailing 4 weeks
-    (at least twice per week).
-- Eval **red** → stop new dashboard work, re-evaluate the design.
-  Listed in `tasks/BACKLOG.md` with this trigger.
-- Rationale: per Kaliisa 2024 review, most learning-analytics
-  dashboards show negligible effect. This eval is the pre-commitment
-  to admit the same if it happens here.
+- `evals/backlog/dashboard-followthrough.eval.ts` — רץ מול
+  4 השבועות האחרונים של telemetry. עובר אם:
+  - ≥ 2 אירועי `belief_submitted` ב-4 השבועות הקרובים
+    (אחד לכל שבועיים מינימום).
+  - או ≥ 8 אירועי `dashboard_opened` ב-4 השבועות הקרובים
+    (לפחות פעמיים בשבוע).
+- Eval **אדום** → עצור עבודת דשבורד חדשה, הערך מחדש את העיצוב.
+  רשום ב-`tasks/BACKLOG.md` עם טריגר זה.
+- רציונל: לפי סקירת Kaliisa 2024, רוב דשבורדי analytics
+  למידה מראים השפעה זניחה. ה-eval הזה הוא pre-commitment
+  להודות באותו הדבר אם זה יקרה כאן.
 
-## Out of Scope
+## מחוץ לטווח
 
-- **Trend graphs / sparklines** — deferred to DASHBOARD-PARENT-002.
-  MVP answers "what is true now?"; Stage 2 answers "how has it
-  changed?".
-- **Per-skill drill-down pages** — Stage 2.
-- **Email digest** — requires server; deferred.
-- **Sibling comparison in any form** — banned by ADR, not just
-  deferred.
-- **Parent streak / gamification of parent engagement** — banned.
-- **Real-time push on session events** — banned (would train Marina
-  to interrupt sessions).
-- **Sharing / export beyond current `exportTelemetry`** — unchanged.
-- **Age-gate or child bypass of `/parent` route** — the hidden route
-  + PIN + math-gate is the MVP's privacy model; not adding FaceID
-  / OS-level gates (would need native app).
+- **גרפי טרנדים / sparklines** — מושהה ל-DASHBOARD-PARENT-002.
+  MVP עונה על "מה נכון עכשיו?"; שלב 2 עונה "איך זה
+  השתנה?".
+- **דפי drill-down לפי מיומנות** — שלב 2.
+- **תקציר אימייל** — דורש server; מושהה.
+- **השוואת אחיות בכל צורה** — אסור על ידי ADR, לא רק
+  מושהה.
+- **Parent streak / gamification של מעורבות הורה** — אסור.
+- **Real-time push על אירועי סשן** — אסור (יאמן את Marina
+  לקטוע סשנים).
+- **שיתוף / export מעבר ל-`exportTelemetry` הנוכחי** — ללא שינוי.
+- **הגבלת גיל או עקיפת ילד של route `/parent`** — הנתיב הנסתר
+  + PIN + math-gate הם מודל הפרטיות של ה-MVP; לא מוסיפים FaceID
+  / OS-level gates (יידרשו אפליקציה native).
 
-## Validation Required
+## ולידציה נדרשת
 
-- `npm run typecheck` clean.
-- `npm run lint` clean.
-- `npm test` green — all new test files passing.
-- `npm run build` succeeds.
-- `npm run eval:backlog` — the new falsifier eval exists and is
-  currently *green* (insufficient data ⇒ skip, not fail) at ship.
+- `npm run typecheck` נקי.
+- `npm run lint` נקי.
+- `npm test` ירוק — כל קבצי הטסט החדשים עוברים.
+- `npm run build` מצליח.
+- `npm run eval:backlog` — ה-falsifier eval החדש קיים והוא
+  כעת *ירוק* (חוסר נתונים ⇒ skip, לא fail) בשילוח.
 
-### Manual QA checklist
+### רשימת QA ידני
 
-1. Fresh browser / incognito. Navigate to `/parent`. Set a 4-digit PIN.
-2. Reload. Enter correct PIN → land on dashboard.
-3. Enter wrong PIN 3 times → math-gate appears. Solve it → land back
-   on PIN reset.
-4. On dashboard: weekly digest card renders without errors even with
-   no data (new profile case).
-5. Evelyn card: exactly 2 skill tiles; Emilia card: exactly 4.
-6. Tiles colored correctly per profile state (verify by creating a
-   skill with graduation flag → green; recent attempts no grad → yellow;
-   no attempts → gray).
-7. With a skill showing < 40% first-try in last 20 attempts and ≥ 3
-   sessions → wheel-spin indicator appears + verdict = "בואי נדבר".
-8. Leave dashboard open 3 minutes → auto-return to login.
-9. Submit a belief note → reload → comparison display replaces form.
-10. Home page: confirm footer "הורים" link is subtle (secondary color,
-    small font), not a prominent button.
-11. **Tone audit:** no banned phrase from CLAUDE.md §Tone appears on
-    the dashboard (manual scan of all rendered strings).
-12. **Autonomy audit:** every action-line output starts with *"את
-    יכולה..."* or equivalent invitation form; no imperatives.
+1. דפדפן טרי / incognito. נווטי ל-`/parent`. הגדירי PIN של 4 ספרות.
+2. טעני מחדש. הזיני PIN נכון → נחתי על דשבורד.
+3. הזיני PIN שגוי 3 פעמים → math-gate מופיע. פתרי → נחתת חזרה
+   על reset של PIN.
+4. על הדשבורד: כרטיס תקציר שבועי מוצג ללא שגיאות גם עם
+   ללא נתונים (מקרה פרופיל חדש).
+5. כרטיס אוולין: בדיוק 2 אריחי מיומנות; כרטיס אמיליה: בדיוק 4.
+6. אריחים צבועים נכון לפי מצב פרופיל (אמתי על ידי יצירת
+   מיומנות עם דגל graduation → ירוק; ניסיונות אחרונים ללא grad → צהוב;
+   ללא ניסיונות → אפור).
+7. עם מיומנות המציגה < 40% first-try ב-20 הניסיונות האחרונים ו-≥ 3
+   סשנים → חיווי תקיעות מופיע + verdict = "בואי נדבר".
+8. השאירי דשבורד פתוח 3 דקות → חזרה אוטומטית ל-login.
+9. שלחי הערת אמונה → טעני מחדש → תצוגת השוואה מחליפה את הטופס.
+10. דף הבית: אמתי שקישור "הורים" ב-footer הוא דיסקרטי (צבע שני,
+    פונט קטן), לא כפתור בולט.
+11. **ביקורת טון:** שום ביטוי אסור מ-CLAUDE.md §Tone מופיע על
+    הדשבורד (סריקה ידנית של כל המחרוזות המרונדרות).
+12. **ביקורת אוטונומיה:** כל פלט שורת-פעולה מתחיל ב-*"את
+    יכולה..."* או צורת הזמנה שווה; ללא ציוויים.
 
-## Definition of Done
+## הגדרת DoD
 
-- [ ] All code changes in, strict TypeScript, lint clean, tests green.
-- [ ] Seven per-daughter components render correctly for both profiles.
-- [ ] Verdict logic matches spec; wheel-spin detection matches spec.
-- [ ] Belief-correction form submits and displays comparison.
-- [ ] Weekly digest computes current-week values correctly.
-- [ ] PIN + math-gate flows work end-to-end.
-- [ ] Inactivity timeout returns to login.
-- [ ] Banned-phrase lint covers all dashboard strings (no exceptions).
-- [ ] ADR-003 written and committed.
-- [ ] `parent-guide.md` updated with "האזור להורים" section.
-- [ ] ROADMAP moved; CHANGELOG entry added.
-- [ ] Falsifier eval file exists under `evals/backlog/`.
-- [ ] Manual QA checklist passed, including tone + autonomy audits.
+- [ ] כל שינויי הקוד הוכנסו, TypeScript strict, lint נקי, טסטים ירוקים.
+- [ ] שבעה רכיבים לכל בת מרונדרים נכון לשני הפרופילים.
+- [ ] לוגיקת verdict תואמת למפרט; זיהוי תקיעות תואם למפרט.
+- [ ] טופס תיקון-אמונה נשלח ומציג השוואה.
+- [ ] תקציר שבועי מחשב ערכי שבוע נוכחי נכון.
+- [ ] זרימות PIN + math-gate עובדות end-to-end.
+- [ ] Timeout של חוסר פעילות חוזר ל-login.
+- [ ] Lint של ביטוי-אסור מכסה את כל מחרוזות הדשבורד (ללא חריגים).
+- [ ] ADR-003 נכתב ונעשה commit.
+- [ ] `parent-guide.md` מעודכן עם סעיף "האזור להורים".
+- [ ] ROADMAP הועבר; רשומת CHANGELOG נוספה.
+- [ ] קובץ falsifier eval קיים תחת `evals/backlog/`.
+- [ ] רשימת QA ידני עברה, כולל ביקורות טון + אוטונומיה.
 
-## Risks & Mitigations
+## סיכונים ומיטיגציות
 
 | סיכון | מיטיגציה |
 |-------|----------|

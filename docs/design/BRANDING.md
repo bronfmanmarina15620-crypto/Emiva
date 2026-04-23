@@ -1,91 +1,91 @@
-# Branding — Emiva
+# מיתוג — Emiva
 
-- **Status:** v1 (2026-04-19)
-- **Rename history:** "MyLevel" → "Evami" → **"Emiva" (final)** — same day
+- **סטטוס:** v1 (2026-04-19)
+- **היסטוריית שינוי שם:** "MyLevel" → "Evami" → **"Emiva" (סופי)** — באותו יום
 - **Owner:** Marina
-- **Review cadence:** every 3–6 months; expect redesign after MATH-BAT9 + reading ships.
+- **קדנציית ביקורת:** כל 3–6 חודשים; צפוי רדיזיין אחרי MATH-BAT9 + שילוח הקריאה.
 
-## Name
+## שם
 
-**Emiva** — a blend of the two v1 users' names (see `project_mylevel_daughters`
-memory). Bonus layer: in Spanish "something precious" — fitting for a
-product built around the two children whom the brand is literally named
-after.
+**Emiva** — שילוב של שמות שתי המשתמשות של v1 (ראי זיכרון
+`project_mylevel_daughters`). שכבת בונוס: בספרדית "משהו יקר" — מתאים
+למוצר הבנוי סביב שתי הילדות שהמותג קרוי על שמן
+ממש.
 
-Pronunciation: Em-ee-vah (3 syllables), identical in Hebrew (אמיווה) and English.
+הגייה: Em-ee-vah (3 הברות), זהה בעברית (אמיווה) ובאנגלית.
 
-7-point check passed 2026-04-19: no brand collision in ed-tech for
-children; trademark signals clean in our category (the only existing
-Emiva Inc. is in B2B water/energy treatment and appears dormant);
-cross-language clean; rare (<5 SSA entries/year); domains need manual
-WHOIS verification.
+בדיקת 7 נקודות עברה ב-2026-04-19: אין התנגשות מותג ב-ed-tech
+לילדים; אותות סימן מסחרי נקיים בקטגוריה שלנו (היחידה שקיימת
+Emiva Inc. נמצאת ב-B2B טיפול במים/אנרגיה ונראית רדומה);
+נקי בכל שפה; נדיר (<5 רישומי SSA בשנה); דומיינים דורשים בדיקת
+WHOIS ידנית.
 
-## Concept
+## קונספט
 
-**3 ascending shapes + wordmark.** Direction inspired by
-[children-ed-ui-research.md](children-ed-ui-research.md) options B+C:
-Jar-as-mark (too skill-specific) fused with Steps-as-mark (cross-subject).
+**3 צורות עולות + wordmark.** הכיוון בהשראת
+[children-ed-ui-research.md](children-ed-ui-research.md) אפשרויות B+C:
+צנצנת-כ-סמל (ספציפית מדי למיומנות) משולבת עם מדרגות-כ-סמל (חוצה נושאים).
 
-The 3 pills represent **levels** — ascending heights left→right. Palette
-uses the sage-family from the Neo-Montessori research:
+3 הגלולות מייצגות **דרגות** — גבהים עולים משמאל→ימין. הפלטה
+משתמשת במשפחת ה-sage ממחקר ה-Neo-Montessori:
 
-| Pill | Color | Role |
+| גלולה | צבע | תפקיד |
 |---|---|---|
-| smallest | `#DCE7DD` (sage-soft) | in-progress |
-| middle | `#AECBB3` (mid-sage) | approaching mastery |
-| tallest | `#7BA881` (sage) | mastered |
+| הקטנה ביותר | `#DCE7DD` (sage-soft) | בתהליך |
+| האמצעית | `#AECBB3` (mid-sage) | מתקרבת לשליטה |
+| הגבוהה ביותר | `#7BA881` (sage) | שלטה |
 
-The wordmark echoes the tallest pill: the letter **"i"** in "Em**i**va"
-is sage, the rest is warm-dark (`#2B2735`). The "i" is the center of
-the word and the bridge where "Emi" passes into "va" (Eva). One colored
-letter creates a visual link between mark and wordmark — the core trick
-top designers use (see Slack's multicolor hash, Mailchimp's Freddie link).
+ה-wordmark מהדהד את הגלולה הגבוהה ביותר: האות **"i"** ב-"Em**i**va"
+היא sage, השאר warm-dark (`#2B2735`). ה-"i" היא מרכז
+המילה והגשר שבו "Emi" עובר ל-"va" (Eva). אות צבעונית אחת
+יוצרת קישור חזותי בין הסמל ל-wordmark — הטריק המרכזי
+שמעצבים מובילים משתמשים בו (ראי ה-hash הרב-צבעי של Slack, קישור Freddie של Mailchimp).
 
-## Components
+## רכיבים
 
-- [src/components/Logo.tsx](../../src/components/Logo.tsx) — mark +
-  wordmark. Use on home, marketing pages, anywhere > 160px wide.
+- [src/components/Logo.tsx](../../src/components/Logo.tsx) — סמל +
+  wordmark. שימוש בעמוד הבית, עמודי שיווק, כל מקום > 160px רוחב.
 - [src/components/LogoMark.tsx](../../src/components/LogoMark.tsx) —
-  mark only. Use where space is tight: avatar, notification, nav rail.
+  סמל בלבד. שימוש כשהמקום צר: אווטאר, התראה, nav rail.
 - [src/app/icon.svg](../../src/app/icon.svg) — favicon; Next.js 15
-  picks this up automatically.
+  מזהה אותו אוטומטית.
 
-## Clearspace + minimum size
+## Clearspace + גודל מינימלי
 
-- Clearspace around full logo: ≥ height of the tallest pill (~32px in
-  the 200×48 viewBox).
-- Minimum size: Logo 120px wide; LogoMark 24×22px. Below that the
-  smallest pill loses readability.
+- Clearspace סביב הלוגו המלא: ≥ גובה הגלולה הגבוהה ביותר (~32px ב-
+  viewBox של 200×48).
+- גודל מינימלי: Logo ברוחב 120px; LogoMark 24×22px. מתחת לזה
+  הגלולה הקטנה מאבדת קריאות.
 
-## What NOT to do
+## מה אסור לעשות
 
-- Do not stretch.
-- Do not recolor. The sage trio is the brand.
-- Do not remove the sage "i" and recolor the whole wordmark uniformly —
-  kills the visual link and removes the bridge symbolism.
-- Do not put the logo on red or saturated backgrounds. Cream, white,
-  or very light sage only.
-- Do not rotate or flip. Ascending direction is semantic (growth).
+- לא למתוח.
+- לא לשנות צבע. שלישיית ה-sage היא המותג.
+- לא להסיר את ה-"i" ה-sage ולצבוע את כל ה-wordmark באופן אחיד —
+  הורג את הקישור החזותי ומסיר את סמליות הגשר.
+- לא להניח את הלוגו על רקעים אדומים או רוויים. קרם, לבן,
+  או sage בהיר מאוד בלבד.
+- לא לסובב או להפוך. כיוון עולה הוא סמנטי (צמיחה).
 
-## Future
+## עתיד
 
-Known future tasks (will live in `tasks/BACKLOG.md` when ripe):
+משימות עתידיות ידועות (יחיו ב-`tasks/BACKLOG.md` כשיהיו בשלות):
 
-- **BRANDING-MASCOT-001** — optional character creature paired with
-  logo. Not needed for MVP; research §Kids showed character+wordmark
-  is the top-tier pattern.
-- **BRANDING-MOTION-001** — animated logo (pills fill sequentially on
-  load). Nice-to-have; waits for actual user feedback.
-- **BRANDING-HEBREW-LOGO-001** — decide whether to produce "אמיווה"
-  Hebrew wordmark as a distinct variant, or keep Latin "Emiva" as a
-  brand word (pattern: נייקי / גוגל).
-- **BRANDING-DOMAINS-001** — register emiva.com / .co / .app / .co.il
-  once manual WHOIS confirms availability.
+- **BRANDING-MASCOT-001** — יצור דמות אופציונלי שיותאם ללוגו.
+  לא נחוץ ל-MVP; המחקר §Kids הראה שדמות+wordmark
+  הוא דפוס top-tier.
+- **BRANDING-MOTION-001** — לוגו מונפש (גלולות מתמלאות ברצף
+  בטעינה). Nice-to-have; מחכה לפידבק משתמש אמיתי.
+- **BRANDING-HEBREW-LOGO-001** — להחליט האם לייצר "אמיווה"
+  wordmark בעברית כווריאנט נפרד, או לשמור על "Emiva" בלטינית כ-
+  מילת מותג (דפוס: נייקי / גוגל).
+- **BRANDING-DOMAINS-001** — רישום emiva.com / .co / .app / .co.il
+  ברגע ש-WHOIS ידני מאשר זמינות.
 
-## Inspiration references (for future revisions)
+## הפניות השראה (לרוויזיות עתידיות)
 
-- Mailchimp (Freddie + wordmark link via color)
-- Slack (multicolor hash — accent letter technique)
-- Instacart 2022 (rounded, warm geometry)
-- Coinbase (monolinear custom type)
-- Khan Academy Kids (character+wordmark for children)
+- Mailchimp (Freddie + קישור wordmark דרך צבע)
+- Slack (hash רב-צבעי — טכניקת אות accent)
+- Instacart 2022 (גיאומטריה מעוגלת, חמימה)
+- Coinbase (טיפוגרפיה מותאמת מונולינארית)
+- Khan Academy Kids (דמות+wordmark לילדים)

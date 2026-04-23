@@ -1,70 +1,69 @@
-# Parent dashboard guardrails
+# Guardrails של דשבורד הורה
 
-Applies to: `src/app/parent/**`, `src/lib/parent-*.ts`,
-`tests/unit/parent-*.test.ts`, and any future component under the
-parent area.
+חל על: `src/app/parent/**`, `src/lib/parent-*.ts`,
+`tests/unit/parent-*.test.ts`, וכל רכיב עתידי תחת
+אזור ההורה.
 
-## Hard rules (non-negotiable)
+## חוקים קשיחים (לא ניתנים למשא ומתן)
 
-1. **No sibling comparison, ever.** The dashboard never renders one
-   daughter's metric next to another daughter's metric. Each daughter
-   has her own card; the parent toggles between, never sees them
-   side-by-side in a comparison visualization.
-   *Why:* Beilock & Ramirez on math anxiety in girls 7–9 + CLAUDE.md
-   §Tone (growth-mindset). Comparative framing is cortisol, not
-   motivation. Basis for rejection documented in ADR-003.
+1. **בלי השוואה בין אחיות, לעולם.** הדשבורד אף פעם לא מרנדר את
+   המטריקה של בת אחת לצד המטריקה של בת אחרת. לכל בת
+   כרטיס משלה; ההורה עוברת ביניהם, לעולם לא רואה אותם
+   זה-לצד-זה בוויזואליזציית השוואה.
+   *למה:* Beilock & Ramirez על חרדת מתמטיקה בבנות 7–9 + CLAUDE.md
+   §טון (growth-mindset). מסגור משווה הוא קורטיזול, לא
+   מוטיבציה. בסיס הדחייה מתועד ב-ADR-003.
 
-2. **Action-line strings must be autonomy-invitational.** Every string
-   in `computeActionLine` must start with *"את יכולה להציע"* or
-   *"את יכולה להזמין"* or *"כדאי להציע"*. No imperatives
-   (`עבדי איתה`, `תגרמי`, `דרשי`, `את חייבת`). Enforced by a test in
+2. **מחרוזות שורת-פעולה חייבות להיות מזמינות-אוטונומיה.** כל מחרוזת
+   ב-`computeActionLine` חייבת להתחיל ב-*"את יכולה להציע"* או
+   *"את יכולה להזמין"* או *"כדאי להציע"*. בלי ציוויים
+   (`עבדי איתה`, `תגרמי`, `דרשי`, `את חייבת`). נאכף על ידי בדיקה ב-
    `tests/unit/parent-dashboard.test.ts`.
-   *Why:* Lu, Vasilyeva & Laski 2025 — informational priming in
-   instructional framing caused medium-effect increase in controlling
-   parent language and child disengagement. The *only* frame that
-   survives the research is invitational.
+   *למה:* Lu, Vasilyeva & Laski 2025 — priming של מידע במסגרת
+   מצווה גרם לעלייה בעוצמה בינונית בשפה שולטת של הורים
+   ולהתנתקות של הילד. המסגרת *היחידה* שעוברת את המחקר
+   היא מזמינה.
 
-3. **No real-time push tied to session events.** The dashboard must
-   not receive or react to per-session notifications. Maximum
-   cadence: weekly digest. Banned pattern: watching `session_start`/
-   `attempt` / `reveal` events and surfacing them to the parent
-   view in real time.
-   *Why:* real-time session push trains the parent to interrupt
-   sessions, which in the 7–9 age window undermines autonomy (Lu 2025).
+3. **בלי push בזמן-אמת קשור לאירועי סשן.** הדשבורד
+   חייב לא לקבל או להגיב להתראות פר-סשן. קצב
+   מקסימלי: דייג'סט שבועי. דפוס אסור: צפייה באירועי `session_start`/
+   `attempt` / `reveal` והצפתם לתצוגת ההורה
+   בזמן-אמת.
+   *למה:* push של סשן בזמן-אמת מאמן את ההורה להפריע
+   לסשנים, מה שבחלון הגיל 7–9 שוחק אוטונומיה (Lu 2025).
 
-4. **No parent-streak / parent-side gamification.** Do not reward
-   Marina for opening the dashboard N days in a row, checking in
-   consistently, etc. The parent is not a gamified user of this
-   product.
-   *Why:* turns the parent into a streak-saving nagger on missed
-   days. Anti-pattern from S'moresUp / Habitica Family mode.
+4. **בלי streak של הורה / gamification בצד ההורה.** אל תתגמלי
+   את Marina על פתיחת הדשבורד N ימים ברצף, על check-in
+   עקבי וכו'. ההורה אינה משתמשת עם gamification במוצר הזה.
+   *למה:* הופך את ההורה לנדנדנית שומרת-רצף בימים שפוספסו.
+   Anti-pattern מ-S'moresUp / Habitica Family mode.
 
-5. **Dashboard closed while child is present.** This is a product
-   rule, not just UX: inactivity timeout returns to login; prominent
-   banner reminds the parent; exit button always visible.
-   *Why:* combining Lu 2025 + Boaler math-anxiety research, a child
-   who sees the dashboard during her session associates the data
-   with surveillance. Explicit rule avoids drift.
+5. **הדשבורד סגור כשהילדה נוכחת.** זה חוק מוצר,
+   לא רק UX: timeout של חוסר-פעילות מחזיר ל-login; באנר בולט
+   מזכיר להורה; כפתור יציאה תמיד ניראה.
+   *למה:* שילוב של Lu 2025 + מחקר חרדת-מתמטיקה של Boaler, ילדה
+   שרואה את הדשבורד בזמן הסשן שלה מקשרת את הנתונים
+   למעקב. חוק מפורש מונע סחף.
 
-## Soft rules (preferences)
+## חוקים רכים (העדפות)
 
-- Prefer verdicts (*"על המסלול" / "כדאי לשים לב" / "בואי נדבר"*) over
-  raw numbers in primary views. Raw metrics live in tooltips and the
-  belief-correction display.
-- Prefer Hebrew skill names over code identifiers in all user-facing
-  strings. Mapping: `SKILL_HEBREW` in `src/lib/parent-dashboard.ts`.
-- Keep aggregation logic pure and injectable (`now?: number`) for
-  determinism in tests.
+- עדיפות ל-verdicts (*"על המסלול" / "כדאי לשים לב" / "בואי נדבר"*) על
+  מספרים גולמיים בתצוגות ראשיות. מטריקות גולמיות חיות ב-tooltips ובתצוגת
+  belief-correction.
+- עדיפות לשמות מיומנויות בעברית על מזהי קוד בכל המחרוזות
+  שפונות למשתמש. מיפוי: `SKILL_HEBREW` ב-`src/lib/parent-dashboard.ts`.
+- שמרי על לוגיקת aggregation טהורה וניתנת להזרקה (`now?: number`) עבור
+  דטרמיניזם בבדיקות.
 
-## Sync requirement
+## דרישת סנכרון
 
-Any code change to `parent-*.ts` that alters the metrics, verdicts,
-thresholds, or action-line templates requires a parallel update to
-`docs/parent-guide.md` section *"האזור להורים"*. Mirrors the
-existing `.claude/rules/mastery-docs-sync.md` rule.
+כל שינוי קוד ב-`parent-*.ts` שמשנה את המטריקות, ה-verdicts,
+הספים, או תבניות שורת-הפעולה דורש עדכון מקביל של
+`docs/parent-guide.md` בסעיף *"האזור להורים"*. משקף את
+הכלל הקיים `.claude/rules/mastery-docs-sync.md`.
 
-## References
+## הפניות
 
-- [DASHBOARD-PARENT-001 research log](../../tasks/DASHBOARD-PARENT-001/research.md)
-- [ADR-003 — parent dashboard design](../../docs/adr/003-parent-dashboard-design.md)
-- [parent-guide.md](../../docs/parent-guide.md) — user-visible doc for these rules
+- [log מחקר DASHBOARD-PARENT-001](../../tasks/DASHBOARD-PARENT-001/research.md)
+- [ADR-003 — עיצוב דשבורד הורה](../../docs/adr/003-parent-dashboard-design.md)
+- [parent-guide.md](../../docs/parent-guide.md) — מסמך ניראה-למשתמשת לחוקים האלה

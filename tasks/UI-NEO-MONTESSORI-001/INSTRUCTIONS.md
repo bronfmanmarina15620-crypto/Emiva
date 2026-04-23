@@ -1,58 +1,58 @@
 # INSTRUCTIONS.md — UI-NEO-MONTESSORI-001
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: UI-NEO-MONTESSORI-001
-- title: Neo-Montessori UI pass — palette, typography, figurative progress, milestone celebration
+- title: עיצוב Neo-Montessori — פלטה, טיפוגרפיה, התקדמות פיגורטיבית, חגיגת אבן-דרך
 - owner: Marina
 - priority: P1
 - target_branch: feat/ui-neo-montessori-001
 - references:
   - [docs/design/children-ed-ui-research.md](../../docs/design/children-ed-ui-research.md) §5–7
 
-## Objective
+## מטרה
 
-Replace the clinical default UI with a Neo-Montessori aesthetic per the
-research doc: warm palette, friendly Hebrew typography, figurative
-progress (jar instead of raw %), one-time celebration at 80% mastery.
+להחליף את ה-UI הקליני הדיפולטי באסתטיקת Neo-Montessori לפי מסמך
+המחקר: פלטה חמה, טיפוגרפיה עברית ידידותית, התקדמות פיגורטיבית
+(צנצנת במקום % גולמי), חגיגה חד-פעמית ב-80% שליטה.
 
-## In Scope
-- Palette tokens in `globals.css` + `tailwind.config.ts` (cream, terracotta, sage, mustard, warm-dark, warm-indigo, warm-line).
-- Heebo 400/600/800 + Rubik 400/600 via `next/font/google`.
-- `src/components/MasteryJar.tsx` — SVG jar filling with sage liquid, % label below.
-- `canvas-confetti` dependency + one-time celebration when crossing `MASTERY_TARGET`.
-- Apply tokens to: `src/app/page.tsx`, `src/app/session/page.tsx`.
-- Respect `prefers-reduced-motion` for confetti.
+## בטווח
+- Palette tokens ב-`globals.css` + `tailwind.config.ts` (cream, terracotta, sage, mustard, warm-dark, warm-indigo, warm-line).
+- Heebo 400/600/800 + Rubik 400/600 דרך `next/font/google`.
+- `src/components/MasteryJar.tsx` — SVG של צנצנת שמתמלאת בנוזל sage, תווית % למטה.
+- תלות `canvas-confetti` + חגיגה חד-פעמית בחציית `MASTERY_TARGET`.
+- הפעלת tokens על: `src/app/page.tsx`, `src/app/session/page.tsx`.
+- כיבוד `prefers-reduced-motion` ל-confetti.
 
-## Out of Scope
-- Mascot / character illustration.
-- Sound design.
-- Lottie / Framer Motion animations beyond confetti.
-- Redesign of retry/correct/reveal micro-layouts beyond color swap.
-- Typography for math numerals (separate task if needed).
+## מחוץ לטווח
+- מסקוט / איור דמות.
+- עיצוב סאונד.
+- אנימציות Lottie / Framer Motion מעבר ל-confetti.
+- עיצוב מחדש של מיקרו-layouts של retry/correct/reveal מעבר להחלפת צבע.
+- טיפוגרפיה לספרות מתמטיות (טאסק נפרד אם נדרש).
 
-## Deliverables
-1. New palette live on home + session screens.
-2. Hebrew rendered in Heebo (headings) + Rubik (body).
-3. `MasteryJar` component used on summary page.
-4. Confetti fires exactly once per crossing from < 80% to ≥ 80%.
-5. All existing tests still pass.
-6. Typecheck + lint + build clean.
+## תוצרים
+1. פלטה חדשה חיה על מסכי בית + סשן.
+2. עברית מוצגת ב-Heebo (כותרות) + Rubik (גוף).
+3. קומפוננטת `MasteryJar` בשימוש בדף הסיכום.
+4. Confetti יורה בדיוק פעם אחת לכל חציה מ-< 80% ל-≥ 80%.
+5. כל הטסטים הקיימים עדיין עוברים.
+6. Typecheck + lint + build נקיים.
 
-## Validation
+## ולידציה
 - `npm run typecheck`
 - `npm run lint`
 - `npm test`
 - `npm run build`
-- Manual: start dev server, complete a session with ≥ 80% → confetti fires. Complete a second session (already at 80%) → no confetti. Toggle OS "reduce motion" → no confetti regardless.
-- Visual: home + session + summary screens render in cream/terracotta/sage, no `bg-blue-600` or stark white left.
+- ידני: הפעלת dev server, השלמת סשן עם ≥ 80% → confetti יורה. השלמת סשן שני (כבר ב-80%) → ללא confetti. החלפת "reduce motion" במערכת ההפעלה → ללא confetti בכל מקרה.
+- ויזואלי: מסכי בית + סשן + סיכום מוצגים ב-cream/terracotta/sage, ללא `bg-blue-600` או לבן חד שנשאר.
 
-## Constraints
-- No mascot yet (out of scope — keep discipline).
-- No new runtime deps beyond `canvas-confetti` (small, ~6KB).
-- Tests in `tests/unit/` already green must stay green.
+## אילוצים
+- ללא מסקוט לעת עתה (מחוץ לטווח — שמור משמעת).
+- ללא תלויות runtime חדשות מעבר ל-`canvas-confetti` (קטנה, ~6KB).
+- טסטים ב-`tests/unit/` שכבר ירוקים חייבים להישאר ירוקים.
 
-## Definition of Done
-- All deliverables shipped.
-- Validation run and reported.
-- No backlog items regressed (backlog evals still pass).
-- If any rule needs promotion to CLAUDE.md (e.g. "always respect reduced-motion"), propose separately.
+## הגדרת DoD
+- כל התוצרים נשלחו.
+- ולידציה רצה ודווחה.
+- לא נגרמה רגרסיה בפריטי backlog (backlog evals עדיין עוברים).
+- אם כלל כלשהו דורש קידום ל-CLAUDE.md (לדוגמה "תמיד לכבד reduced-motion"), הציעי בנפרד.

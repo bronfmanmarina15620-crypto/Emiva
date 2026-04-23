@@ -1,64 +1,64 @@
 # INSTRUCTIONS.md — MATH-PROFILES-001
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: MATH-PROFILES-001
-- title: Per-user profiles — separate mastery + name-aware greetings + age-based content gating
+- title: פרופילים למשתמש — שליטה נפרדת + ברכות לפי שם + הגבלת תוכן לפי גיל
 - owner: Marina
-- priority: P0 (blocks bat 9 ever touching the app)
+- priority: P0 (חוסם שבת 9 אי פעם תיגע באפליקציה)
 - target_branch: feat/profiles-001
 
-## Objective
+## מטרה
 
-Each daughter gets a distinct profile with separate mastery, telemetry,
-and greeting. Names are **entered locally at first launch** and never
-committed to the repo — they live in `localStorage` on the device only.
+כל בת מקבלת פרופיל מובחן עם שליטה, telemetry וברכה נפרדים. שמות
+**נקלטים מקומית בהפעלה הראשונה** ולעולם לא נשמרים ב-repo — הם חיים
+ב-`localStorage` במכשיר בלבד.
 
-## In Scope
-- `src/lib/profiles.ts` — `Profile` type `{ id, name, age, allowedSkills, createdAt }`, load/save profiles list + active profile ID.
-- Profile storage keys:
-  - `emiva.profiles.v1` — array of profiles
-  - `emiva.active_profile.v1` — current active profile id
-  - `emiva.mastery.v1.{profileId}` — mastery scoped
-  - `emiva.last_session.v1.{profileId}` — last-session scoped
-  - `emiva.telemetry.v1.{profileId}` — telemetry scoped
-- Home page `/` becomes profile picker (buttons per profile + "הוסיפי משתמשת").
-- New-profile form `/profiles/new` (name + age).
-- Session page: requires active profile; greeting uses name; if profile's age not in skill's allowed range → show friendly "coming soon" card instead of session.
-- Content gating: `add_sub_100` is offered to ages 7–8. Ages outside this range see a "coming soon" card.
+## בטווח
+- `src/lib/profiles.ts` — טיפוס `Profile` `{ id, name, age, allowedSkills, createdAt }`, טעינה/שמירה של רשימת פרופילים + מזהה פרופיל פעיל.
+- מפתחות storage לפרופיל:
+  - `emiva.profiles.v1` — מערך של פרופילים
+  - `emiva.active_profile.v1` — מזהה הפרופיל הפעיל הנוכחי
+  - `emiva.mastery.v1.{profileId}` — שליטה ממוקדת
+  - `emiva.last_session.v1.{profileId}` — סשן אחרון ממוקד
+  - `emiva.telemetry.v1.{profileId}` — telemetry ממוקד
+- דף הבית `/` הופך לבורר פרופילים (כפתור לכל פרופיל + "הוסיפי משתמשת").
+- טופס פרופיל חדש `/profiles/new` (שם + גיל).
+- דף סשן: דורש פרופיל פעיל; ברכה משתמשת בשם; אם גיל הפרופיל לא בטווח המותר של המיומנות → מציג כרטיס "בקרוב" ידידותי במקום סשן.
+- הגבלת תוכן: `add_sub_100` מוצעת לגילאי 7–8. גילאים מחוץ לטווח זה רואים כרטיס "בקרוב".
 
-## Out of Scope
-- Editing / deleting profiles via UI (use DevTools for now).
-- PIN / authentication.
-- Avatars / photos.
-- Sync across devices.
-- Bat 9 math content (separate task `MATH-BAT9-001`).
-- Reading / English content.
+## מחוץ לטווח
+- עריכה / מחיקה של פרופילים דרך UI (השתמשי ב-DevTools לעת עתה).
+- PIN / אימות.
+- אווטארים / תמונות.
+- סנכרון בין מכשירים.
+- תוכן מתמטיקה לבת 9 (טאסק נפרד `MATH-BAT9-001`).
+- תוכן קריאה / אנגלית.
 
-## Security — hard rules
-- **Names never written to source, git-tracked files, logs, or telemetry JSON.**
-- Telemetry keeps `profileId` only (opaque UUID), never `name`.
-- Profile list lives in `localStorage` — device-local, per-browser.
+## אבטחה — כללים נוקשים
+- **שמות לא נכתבים למקור, קבצי git-tracked, logs, או JSON של telemetry.**
+- Telemetry שומרת רק `profileId` (UUID אטום), לעולם לא `name`.
+- רשימת הפרופילים חיה ב-`localStorage` — מקומית למכשיר, לפי דפדפן.
 
-## Deliverables
-1. Fresh install flow: `/` → empty picker → "הוסיפי משתמשת" → `/profiles/new` → after create, profile is active, redirect to `/session`.
-2. Returning flow: `/` → picker with profiles → click → active → `/session`.
-3. `/session` welcome shows "היי {name}" or similar — name only in UI, never logged.
-4. Age-gated content: Emilia (9) on `add_sub_100` sees "בקרוב תוכן מיוחד בשבילך", not the session.
-5. Per-profile mastery isolation: completing a session for Evelyn doesn't touch Emilia's data, and vice versa.
-6. Tests for `profiles.ts` load/save + active-profile logic.
+## תוצרים
+1. זרימת התקנה טרייה: `/` → בורר ריק → "הוסיפי משתמשת" → `/profiles/new` → אחרי יצירה, הפרופיל פעיל, הפניה ל-`/session`.
+2. זרימת שיבה: `/` → בורר עם פרופילים → קליק → פעיל → `/session`.
+3. קבלת פנים ב-`/session` מציגה "היי {name}" או דומה — שם רק ב-UI, לעולם לא נרשם.
+4. תוכן מוגבל-גיל: אמיליה (9) על `add_sub_100` רואה "בקרוב תוכן מיוחד בשבילך", לא את הסשן.
+5. בידוד שליטה לפי פרופיל: השלמת סשן לאוולין לא נוגעת בנתוני אמיליה, ולהיפך.
+6. טסטים ל-`profiles.ts` טעינה/שמירה + לוגיקת פרופיל-פעיל.
 
-## Validation
+## ולידציה
 - `npm run typecheck`
 - `npm run lint`
 - `npm test`
 - `npm run build`
-- Manual:
-  - Clear `localStorage` → open `/` → see "הוסיפי משתמשת" → create Evelyn age 7 → redirected to `/session` → welcome says "היי Evelyn" (or equivalent).
-  - Return to `/` → see Evelyn's profile button + "הוסיפי משתמשת" → create Emilia age 9 → redirected to `/session` → see "בקרוב תוכן מיוחד בשבילך" card.
-  - Return to `/` → switch between profiles. Verify mastery is separate (DevTools → Application → localStorage).
+- ידני:
+  - נקי `localStorage` → פתחי `/` → ראי "הוסיפי משתמשת" → צרי אוולין גיל 7 → הפניה ל-`/session` → ברכה אומרת "היי Evelyn" (או שווה-ערך).
+  - חזרי ל-`/` → ראי את כפתור הפרופיל של אוולין + "הוסיפי משתמשת" → צרי אמיליה גיל 9 → הפניה ל-`/session` → ראי כרטיס "בקרוב תוכן מיוחד בשבילך".
+  - חזרי ל-`/` → החליפי בין פרופילים. ודאי ששליטה נפרדת (DevTools → Application → localStorage).
 
-## Definition of Done
-- All deliverables shipped.
-- Validation run and reported.
-- Security rules respected (no names in any repo file).
-- `MATH-BAT9-001` remains deferred (no math content built for age 9 here).
+## הגדרת DoD
+- כל התוצרים נשלחו.
+- ולידציה רצה ודווחה.
+- כללי אבטחה נשמרו (אין שמות בשום קובץ repo).
+- `MATH-BAT9-001` נשאר מושהה (לא נבנה תוכן מתמטיקה לגיל 9 כאן).

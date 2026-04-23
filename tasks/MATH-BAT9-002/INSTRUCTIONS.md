@@ -1,128 +1,128 @@
 # INSTRUCTIONS.md — MATH-BAT9-002
 
-## Task Metadata
+## מטא-דאטה של משימה
 - task_id: MATH-BAT9-002
-- title: Operations up to 1000 — Emilia slice 2 (add/sub extension)
+- title: פעולות עד 1000 — אמיליה סלייס 2 (הרחבת חיבור/חיסור)
 - owner: Marina
 - priority: P1
 - target_branch: feat/math-bat9-002
 - references:
-  - `MyLevel.docx §3.1` — Emilia: "פעולות עד 1000, חלוקה ארוכה"
-  - `tasks/MATH-BAT9-001/INSTRUCTIONS.md` — slice 1 pattern
-  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — criterion that unlocks this
-  - `src/content/math/add-sub-100.json` — item shape to extend
+  - `MyLevel.docx §3.1` — אמיליה: "פעולות עד 1000, חלוקה ארוכה"
+  - `tasks/MATH-BAT9-001/INSTRUCTIONS.md` — תבנית סלייס 1
+  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — קריטריון שפותח את זה
+  - `src/content/math/add-sub-100.json` — צורת פריט להרחבה
 
-## Objective
+## מטרה
 
-Ship the second skill on Emilia's track: **add/sub operations with numbers up
-to 1000** (3-digit arithmetic). When Emilia graduates `fractions_intro`
-(MATH-GRADUATION-001 criterion), the session automatically routes her to
-`ops_1000` on her next session. No UI change needed beyond the new item
-bank — the flow uses the same numeric-input pattern as `add_sub_100`.
+לשלח את המיומנות השנייה במסלול של אמיליה: **פעולות חיבור/חיסור עם
+מספרים עד 1000** (אריתמטיקה תלת-ספרתית). כאשר אמיליה עוברת graduation ב-
+`fractions_intro` (קריטריון MATH-GRADUATION-001), הסשן מנתב אותה אוטומטית
+ל-`ops_1000` בסשן הבא. אין שינוי UI נדרש מעבר למאגר הפריטים החדש —
+הזרימה משתמשת באותה תבנית קלט מספרי כמו `add_sub_100`.
 
-Multiplication is deliberately **out of scope** of this slice — it's a
-separate skill that requires its own pedagogical framing (Singapore CPA for
-multiplication, Bar Models for word problems). Scope stays: add + sub up to 1000.
+כפל הוא במכוון **מחוץ לטווח** של הסלייס הזה — זו
+מיומנות נפרדת שדורשת מסגור פדגוגי משלה (Singapore CPA ל-
+כפל, Bar Models לבעיות מילוליות). הטווח נשאר: חיבור + חיסור עד 1000.
 
-## In Scope
+## בטווח
 
-### Content
-- `src/content/math/ops-1000.json` — **minimum 30 items** across 5 difficulty tiers:
-  - **Tier 1:** 3-digit + 1-digit, no carry. E.g., `134 + 5`, `237 - 4`.
-  - **Tier 2:** 3-digit + 2-digit, no carry. E.g., `145 + 23`, `278 - 35`.
-  - **Tier 3:** 3-digit + 1/2-digit with single carry/borrow. E.g., `158 + 7`, `234 - 56`.
-  - **Tier 4:** 3-digit + 2-digit with multiple carries. E.g., `167 + 48`, `412 - 189`.
-  - **Tier 5:** 3-digit + 3-digit. E.g., `347 + 256`, `734 - 458`.
-- Each tier: **≥ 5 items**, balanced add/sub (e.g. 3 add + 2 sub per tier, or
-  similar). Total ≥ 30.
-- All answers integer ∈ [0, 999] (no negative results, no overflow above 999
-  in this slice — save that for later if needed).
+### תוכן
+- `src/content/math/ops-1000.json` — **מינימום 30 פריטים** על פני 5 דרגות קושי:
+  - **דרגה 1:** תלת-ספרתי + חד-ספרתי, ללא carry. למשל, `134 + 5`, `237 - 4`.
+  - **דרגה 2:** תלת-ספרתי + דו-ספרתי, ללא carry. למשל, `145 + 23`, `278 - 35`.
+  - **דרגה 3:** תלת-ספרתי + חד/דו-ספרתי עם carry/borrow יחיד. למשל, `158 + 7`, `234 - 56`.
+  - **דרגה 4:** תלת-ספרתי + דו-ספרתי עם carries מרובים. למשל, `167 + 48`, `412 - 189`.
+  - **דרגה 5:** תלת-ספרתי + תלת-ספרתי. למשל, `347 + 256`, `734 - 458`.
+- כל דרגה: **≥ 5 פריטים**, איזון חיבור/חיסור (למשל 3 חיבור + 2 חיסור לכל דרגה, או
+  דומה). סה"כ ≥ 30.
+- כל התשובות שלמות ∈ [0, 999] (אין תוצאות שליליות, אין overflow מעל 999
+  בסלייס הזה — שומרים זאת למאוחר אם יידרש).
 
-### Code changes
+### שינויי קוד
 - `src/lib/types.ts`:
-  - `Skill` union → add `"ops_1000"`.
-  - `AddSubItem.skill` → widen to `"add_sub_100" | "ops_1000"`.
+  - `Skill` union → הוספת `"ops_1000"`.
+  - `AddSubItem.skill` → הרחבה ל-`"add_sub_100" | "ops_1000"`.
 - `src/lib/profiles.ts`:
-  - `allowedSkillsForAge(9..10)` → `["fractions_intro", "ops_1000"]` (ordered).
+  - `allowedSkillsForAge(9..10)` → `["fractions_intro", "ops_1000"]` (מסודר).
 - `src/app/session/page.tsx`:
-  - Pick active skill via "first non-graduated skill in `allowedSkills`."
-    Fallback: if all graduated, stay on the last (child can keep practicing).
-  - Add `OPS_1000_BANK` alongside `ADD_SUB_BANK` + `FRACTIONS_BANK`; extend
+  - בחירת מיומנות פעילה לפי "המיומנות הראשונה שלא עברה graduation ב-`allowedSkills`."
+    Fallback: אם הכל עבר graduation, להישאר על האחרונה (הילדה יכולה להמשיך להתאמן).
+  - הוספת `OPS_1000_BANK` לצד `ADD_SUB_BANK` + `FRACTIONS_BANK`; הרחבת
     `bankForSkill(skill)`.
-  - Update `ItemPrompt` / `ItemInput` / `needsTextInput` branches:
-    `item.skill === "add_sub_100"` → treat `ops_1000` identically (same numeric
-    input, same prompt layout). Simplest: rename the check to a helper
-    `isArithmeticItem(item)` or add `||` clauses.
+  - עדכון סעיפי `ItemPrompt` / `ItemInput` / `needsTextInput`:
+    `item.skill === "add_sub_100"` → להתייחס ל-`ops_1000` זהה (אותו קלט
+    מספרי, אותו ניסוח prompt). הפשוט ביותר: לשנות שם הבדיקה ל-helper
+    `isArithmeticItem(item)` או להוסיף `||` clauses.
 - `src/lib/explain.ts`:
-  - Already accepts any `AddSubItem` — no change needed. Verify it produces
-    acceptable Hebrew method-based reveals for 3-digit cases (spot-check
+  - כבר מקבל כל `AddSubItem` — ללא שינוי נדרש. לוודא שמפיק חשיפות עבריות
+    מבוססות-שיטה מקובלות למקרים תלת-ספרתיים (בדיקה נקודתית של
     `347 + 256`, `734 - 458`).
 
-### Tests
+### טסטים
 - `tests/unit/ops-1000.test.ts`:
-  - Bank has ≥ 30 items.
-  - All 5 difficulty tiers have ≥ 5 items each.
-  - Add/sub balance roughly 50/50.
-  - All answers within [0, 999].
-  - All `operands` + `op` arithmetic matches `answer` (computed check).
-  - All IDs unique and skill is `"ops_1000"`.
-- `tests/unit/profiles.test.ts`: extend — `allowedSkillsForAge(9)` returns
-  `["fractions_intro", "ops_1000"]` in that order.
-- `tests/unit/items.test.ts`: extend — `isItemCorrect` handles `ops_1000`
-  items (numeric parse, integer compare).
+  - למאגר יש ≥ 30 פריטים.
+  - לכל 5 דרגות קושי יש ≥ 5 פריטים.
+  - איזון חיבור/חיסור בערך 50/50.
+  - כל התשובות בתוך [0, 999].
+  - כל `operands` + `op` אריתמטיקה תואמת `answer` (בדיקה מחושבת).
+  - כל המזהים ייחודיים ו-skill הוא `"ops_1000"`.
+- `tests/unit/profiles.test.ts`: הרחבה — `allowedSkillsForAge(9)` מחזיר
+  `["fractions_intro", "ops_1000"]` בסדר הזה.
+- `tests/unit/items.test.ts`: הרחבה — `isItemCorrect` מטפל בפריטי `ops_1000`
+  (parse מספרי, השוואת שלם).
 
-### Docs
-- `docs/parent-guide.md §4` — mention ops_1000 as the post-graduation target
-  for Emilia.
-- `ROADMAP.md` — move MATH-BAT9-002 from Now/Next to Done.
-- `CHANGELOG.md` — [Unreleased] entry.
+### מסמכים
+- `docs/parent-guide.md §4` — הזכרת ops_1000 כיעד שאחרי graduation
+  לאמיליה.
+- `ROADMAP.md` — העברת MATH-BAT9-002 מ-Now/Next ל-Done.
+- `CHANGELOG.md` — רשומת [Unreleased].
 
-## Out of Scope
+## מחוץ לטווח
 
-- **Multiplication.** Separate skill (Evelyn's MULT-001 + a future Emilia
-  mul skill). Do not bundle.
-- **Long division.** Slice 3 (MATH-BAT9-003).
-- **Bar Models / word problems.** MATH-EMILIA-BARMODELS-001.
-- **Enhanced CPA explanations for hundreds.** Current `explain.ts` decomposes
-  by tens; extending to hundreds-place decomposition is a pedagogical polish,
-  not a blocker. If this proves a pain point → backlog item BL-00X.
-- **Decimals / fractions of thousands** — not in this slice.
-- **Prompt-size auto-scaling** for 3-digit + 3-digit. Keep the existing
-  `text-7xl`; manual QA + visual adjustment only if overflow on mobile
-  (tablet is target, so likely fine).
+- **כפל.** מיומנות נפרדת (MULT-001 של אוולין + מיומנות כפל עתידית של אמיליה).
+  אין לצרף.
+- **חלוקה ארוכה.** סלייס 3 (MATH-BAT9-003).
+- **Bar Models / בעיות מילוליות.** MATH-EMILIA-BARMODELS-001.
+- **הסברי CPA משופרים למאות.** `explain.ts` הנוכחי מפרק
+  לפי עשרות; הרחבה לפירוק מקום-מאות היא polish פדגוגי,
+  לא חוסם. אם זה מתברר כ-pain point → פריט backlog BL-00X.
+- **עשרוניים / שברים של אלפים** — לא בסלייס הזה.
+- **Auto-scaling של גודל שאלה** לתלת-ספרתי + תלת-ספרתי. שומרים את ה-
+  `text-7xl` הקיים; QA ידני + התאמה ויזואלית רק אם overflow בנייד
+  (טאבלט הוא היעד, אז כנראה בסדר).
 
-## Validation Required
+## ולידציה נדרשת
 
-- `npm run typecheck` clean.
-- `npm run lint` clean.
-- `npm test` green; new bank-integrity tests pass.
-- `npm run build` succeeds.
-- **Manual — Emilia path:**
-  - Clear localStorage. Create profile age 9.
-  - First session: fractions items (unchanged).
-  - Set graduated flag for `fractions_intro` via devtools:
+- `npm run typecheck` נקי.
+- `npm run lint` נקי.
+- `npm test` ירוק; טסטי שלמות מאגר חדשים עוברים.
+- `npm run build` מצליח.
+- **ידני — מסלול אמיליה:**
+  - נקי localStorage. צרי פרופיל גיל 9.
+  - סשן ראשון: פריטי שברים (ללא שינוי).
+  - קבעי graduated flag ל-`fractions_intro` דרך devtools:
     `localStorage.setItem("emiva.graduated.v1.{profileId}.fractions_intro", "1")`.
-  - Refresh `/session`. Should now show `ops_1000` items.
-  - 3-attempt loop, mastery updates, reveal shows method explanation.
-- **Manual — Evelyn unchanged:**
-  - age 7 → still only `add_sub_100`.
-- **Manual — overflow sanity check:**
-  - 734 - 458 item — does the prompt fit on a 768px-wide tablet without wrapping?
+  - רעננ/י `/session`. אמור כעת להציג פריטי `ops_1000`.
+  - לולאת 3 ניסיונות, עדכון mastery, חשיפה מציגה הסבר שיטה.
+- **ידני — אוולין ללא שינוי:**
+  - גיל 7 → עדיין רק `add_sub_100`.
+- **ידני — בדיקת שפיות overflow:**
+  - פריט 734 - 458 — האם ה-prompt נכנס בטאבלט ברוחב 768px ללא שבירה?
 
-## Definition of Done
+## הגדרת DoD
 
-- [ ] All code changes applied, strict types, tests green.
-- [ ] No regression: existing 118 tests still pass.
-- [ ] Legacy Emilia profiles (pre-BAT9-002) still work:
-      `allowedSkillsForAge` re-derives to include ops_1000 automatically on
-      profile load (already the case via `loadProfiles`).
-- [ ] Bank tests enforce tier distribution + answer correctness.
-- [ ] Graduation-based routing works (manual QA confirmed).
-- [ ] ROADMAP + CHANGELOG + parent-guide updated.
-- [ ] Tone: no banned phrases in any new strings (prompts are numeric + "?";
-      low risk).
+- [ ] כל שינויי הקוד הוחלו, טיפוסים strict, טסטים ירוקים.
+- [ ] ללא רגרסיה: 118 הטסטים הקיימים עדיין עוברים.
+- [ ] פרופילים legacy של אמיליה (מלפני BAT9-002) עדיין עובדים:
+      `allowedSkillsForAge` re-derives לכלול ops_1000 אוטומטית ב-
+      טעינת פרופיל (כבר המקרה דרך `loadProfiles`).
+- [ ] טסטי מאגר אוכפים התפלגות דרגות + נכונות תשובה.
+- [ ] ניתוב מבוסס graduation עובד (QA ידני אושר).
+- [ ] ROADMAP + CHANGELOG + parent-guide מעודכנים.
+- [ ] טון: ללא ביטויים אסורים בשום מחרוזת חדשה (prompts הם מספריים + "?";
+      סיכון נמוך).
 
-## Risks & Mitigations
+## סיכונים ומיטיגציות
 
 | סיכון | מיטיגציה |
 |-------|----------|

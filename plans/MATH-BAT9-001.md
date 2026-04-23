@@ -1,21 +1,21 @@
-# Plan — MATH-BAT9-001 (slice 1: fractions introductory)
+# תוכנית — MATH-BAT9-001 (סלייס 1: שברים מבואיים)
 
 ## מטרה
-לפתוח את ה-track של אמיליה (גיל 9) עם שברים בסיסיים: 5 סוגי items, bank
+לפתוח את ה-track של אמיליה (גיל 9) עם שברים בסיסיים: 5 סוגי פריטים, מאגר פריטים
 של ≥ 25, רכיב SVG pictorial, אותה לולאת Model A (mastery/adaptive/SRS)
-של MVP. אין פיצול של pipeline. אין שינוי ל-bank של אוולין.
+של MVP. אין פיצול של pipeline. אין שינוי למאגר הפריטים של אוולין.
 
 ## החלטות פדגוגיות נעולות
 1. **חצי/שליש/רבע של מספר** — רק כפולות (חצי מ-12, שליש מ-9, רבע מ-8).
    אין תשובות חלקיות בסלייס הזה.
-2. **שווי-ערך** — `2/4`, `1/2` שניהם נכונים כשה-item שואל "מה החלק".
+2. **שווי-ערך** — `2/4`, `1/2` שניהם נכונים כשהפריט שואל "מה החלק".
    פישוט אינו יעד בסלייס 1; המטרה שהילדה תזהה את השוויון, לא תבחר
    צורה "קנונית".
 3. **תכולת סשן** — שברים בלבד. לא מערבבים עם add/sub-100 או ops-1000.
 
 ## החלטות ארכיטקטורה
 
-### 1. Item data shape
+### 1. צורת נתוני הפריט
 ```ts
 type FractionItem = {
   id: string;                   // "frac-identify-001"
@@ -37,27 +37,27 @@ type Answer =
   | { kind: "fraction"; num: number; den: number };    // accepts equivalents
 ```
 
-**הנמקה:** discriminated union לפי `type` (ולא item אחד גדול) — קריא ב-TS,
+**הנמקה:** discriminated union לפי `type` (ולא פריט אחד גדול) — קריא ב-TS,
 קל ל-render-branching. Answer כ-discriminated union מחייב handler ספציפי
 שמבטיח ולידציה נכונה לכל סוג.
 
-### 2. Answer validation (shared lib)
+### 2. ולידציה של תשובות (shared lib)
 `src/lib/fractions.ts`:
 
 - `isCorrect(item: FractionItem, user: string): boolean`
-  - `choice` → compare strings.
+  - `choice` → השוואת מחרוזות.
   - `numeric` → parse, integer compare (אחרי החלטה 1, תמיד שלם).
   - `fraction` → parse `"a/b"`, reduce via gcd, compare to reduced
     `{num, den}`. ⇒ גם `"2/4"` וגם `"1/2"` נכונים.
 - `formatFraction(n, d)` → "1/2" (אחרי gcd, או non-reduced if provided).
 
-### 3. `FractionViz` — SVG component
-- Horizontal bar 200×60. Split ל-`parts` סגמנטים שווים. `filled` הראשונים
+### 3. `FractionViz` — רכיב SVG
+- Horizontal bar 200×60. מחולק ל-`parts` סגמנטים שווים. `filled` הראשונים
   בסייג (`#7BA881`), השאר בקרם (`#FAF6EE`). Stroke דק (`#E8E2D4`).
 - `role="img"` + `aria-label="{filled} מתוך {parts} חלקים"`.
 - **אין תלות חיצונית** — SVG inline.
 - Trade-off: horizontal bar עדיף על pie לחיתוך ראשוני — קריא יותר, תואם
-  Singapore CPA (Bar Models יבואו אחר כך באותו visual language).
+  Singapore CPA (Bar Models יבואו אחר כך באותה שפה ויזואלית).
 
 ### 4. Session routing
 ב-`src/app/session/page.tsx`:
@@ -68,7 +68,7 @@ type Answer =
   fallback לראשון ברשימה" עם tests שמבטיחים את זה.
 - `selectNextItem` צריך לקבל `skill` + `bank-of-that-skill` — אם כרגע
   חתום על `ItemBank` מסוג אחד, הקל ביותר: לעבור ל-`Record<Skill, Item[]>`
-  ולבחור את ה-bank לפי `activeSkill`. **trade-off vs שני `bank` נפרדים**:
+  ולבחור את ה-bank לפי `activeSkill`. **trade-off מול שני `bank` נפרדים**:
   map יותר גמיש לעתיד (ops-1000 slice), שני vars יותר explicit. בוחר map.
 
 ### 5. Age gating + storage keys
@@ -80,39 +80,39 @@ type Answer =
   localStorage קיים עם `{profileId: {window, value}}` ישן — לזהות ולהעטיף
   ב-`{add_sub_100: ...}`. לכתוב test ל-migration.
 
-### 6. Session flow for fractions
-- 10 items, mix של 5 הסוגים בהתאם ל-difficulty הנוכחי.
+### 6. זרימת סשן לשברים
+- 10 פריטים, מיקס של 5 הסוגים בהתאם לקושי הנוכחי.
 - 3-attempt loop זהה.
-- Reveal בניסיון 3: `FractionViz` + `explanation` (משפט אחד, CPA-first).
-- דוגמה ל-explanation טובה: "רואה? הסרגל מחולק ל-4 חלקים שווים, חלק אחד
+- חשיפה בניסיון 3: `FractionViz` + `explanation` (משפט אחד, CPA-first).
+- דוגמה להסבר טוב: "רואה? הסרגל מחולק ל-4 חלקים שווים, חלק אחד
   צבוע. זה בדיוק 1/4."
 - Tone: אותן וריאציות של `feedback-messages.ts`. **אין** pool חדש בסלייס 1.
 
 ## סדר מימוש
 1. `src/lib/types.ts` + `profiles.ts` — הרחבת Skill + allowedSkillsForAge.
-2. `src/lib/fractions.ts` + test (validation + equivalence + format).
-3. `src/content/math/fractions-intro.json` — ≥ 25 items, ≥ 4 per type,
+2. `src/lib/fractions.ts` + test (ולידציה + equivalence + format).
+3. `src/content/math/fractions-intro.json` — ≥ 25 פריטים, ≥ 4 per type,
    5 רמות קושי. כתיבה ידנית, לא generator, כדי לשמור על איכות ניסוח.
-4. `src/components/FractionViz.tsx` + visual sanity check ב-`npm run dev`.
-5. עדכון `mastery`/adaptive storage ל-per-skill + migration test.
-6. `src/app/session/page.tsx` — routing לפי skill. Component חדש
+4. `src/components/FractionViz.tsx` + בדיקת שפיות ויזואלית ב-`npm run dev`.
+5. עדכון `mastery`/adaptive storage ל-per-skill + test migration.
+6. `src/app/session/page.tsx` — routing לפי skill. רכיב חדש
    `FractionItem` שמבצע render לפי `type`.
 7. Tests: `fractions.test.ts`, `fractions-items.test.ts`, עדכון
    `profiles.test.ts` ו-`mastery.test.ts` בהתאם.
-8. Validation מלא: typecheck / lint / test / build / manual 2 personas.
+8. ולידציה מלאה: typecheck / lint / test / build / manual 2 personas.
 9. `CHANGELOG.md` + `ROADMAP.md` עדכון.
 
-## Validation
+## ולידציה
 ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §Validation Required`.
 
 ## סיכונים ומיטיגציה
 | סיכון | מיטיגציה |
 |-------|----------|
-| Migration של mastery שבורה → אוולין מאבדת היסטוריה | Test של migration חובה לפני PR; backup הידני דרך DevTools תועד ב-PR |
-| אמיליה אומרת "משעמם" אחרי 3 items — גישה לא מתאימה | Session summary מציג תיעוד "מצאת X מתוך 10"; ניסוח warm; לרשום ל-FEEDBACK-LOG; אם חוזר — לפתוח slice חלופי |
-| ה-pictorial לא מספיק ברור בגיל 9 | Manual QA עם fractions 1/2, 1/3, 1/6, 3/4 — 6 מקרים. אם לא קריא → להגדיל ל-240×72 |
-| Item bank לא מאוזן (הרבה identify, מעט compare) | בדיקה בטסט: ≥ 4 per type |
+| Migration של mastery שבורה → אוולין מאבדת היסטוריה | Test של migration חובה לפני PR; backup ידני דרך DevTools תועד ב-PR |
+| אמיליה אומרת "משעמם" אחרי 3 פריטים — גישה לא מתאימה | סיכום סשן מציג תיעוד "מצאת X מתוך 10"; ניסוח warm; לרשום ל-FEEDBACK-LOG; אם חוזר — לפתוח slice חלופי |
+| ה-pictorial לא מספיק ברור בגיל 9 | QA ידני עם שברים 1/2, 1/3, 1/6, 3/4 — 6 מקרים. אם לא קריא → להגדיל ל-240×72 |
+| מאגר פריטים לא מאוזן (הרבה identify, מעט compare) | בדיקה בטסט: ≥ 4 per type |
 | Tone-drift ב-explanations (15+ מחרוזות חדשות) | חובה banned-phrase scan לפני commit; כל explanation עובר סריקה |
 
-## Definition of Done
+## הגדרת DoD
 ראה `tasks/MATH-BAT9-001/INSTRUCTIONS.md §Definition of Done`.
