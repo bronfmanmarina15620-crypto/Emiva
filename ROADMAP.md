@@ -7,13 +7,13 @@
 non-app and live in the home environment. This roadmap covers what Emiva
 (the app) should build.*
 
-**Last updated:** 2026-04-19
+**Last updated:** 2026-04-22
 
 ---
 
 ## 🟢 Now (active)
 
-*All Day 4 items shipped.*
+1. **DASHBOARD-PARENT-001** — Parent dashboard MVP (verdict-based, evidence-grounded). Promoted from v3 after 4 rounds of research showed parent visibility is a Measurement-rule blocker. See [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md).
 
 ---
 
@@ -74,7 +74,7 @@ non-app and live in the home environment. This roadmap covers what Emiva
 | Item | Task | Notes |
 |---|---|---|
 | Puppy training journal | **FLAGSHIP-PUPPY-001** | Per `MyLevel.docx §6`. Emilia's 12–16 week project. App tracks commands, accuracy, generates the "my guide to training" PDF. |
-| Parent dashboard | **DASHBOARD-PARENT-001** | Unified view of both girls' progress, mastery, engagement. Alerts on concerning patterns. |
+| Parent dashboard | **DASHBOARD-PARENT-001** | 🟢 MVP now active (promoted from v3). Follow-on work (trend graphs, per-skill drill-down, email digest once server arrives) remains v3. |
 | External assessment | **MEASUREMENT-EXTERNAL-TEST-001** | Per `CLAUDE.md §Measurement rule` + `MyLevel.docx §11`. Unseen items, weekly. Primary ground-truth for pedagogy. |
 | Weekly plan view | **PLAN-WEEKLY-001** | Renders the schedule from `MyLevel.docx §7` adapted per user. |
 | Annual calendar | **PLAN-ANNUAL-001** | 12-month view per `MyLevel.docx §8`. |

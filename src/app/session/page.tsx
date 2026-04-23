@@ -50,6 +50,7 @@ import {
 import { MasteryJar } from "@/components/MasteryJar";
 import { FractionViz } from "@/components/FractionViz";
 import { BarModelViz } from "@/components/BarModelViz";
+import { FeelingPrompt } from "@/components/FeelingPrompt";
 import { isArithmeticItem, isItemCorrect } from "@/lib/items";
 import { parseFraction } from "@/lib/fractions";
 
@@ -496,6 +497,19 @@ export default function SessionPage() {
             {Math.abs(Math.round(delta * 100))}%
           </p>
 
+          {profile && skill && (
+            <FeelingPrompt
+              onRate={(rating) => {
+                logEvent(profile.id, {
+                  t: "session_feeling",
+                  at: Date.now(),
+                  skill,
+                  rating,
+                });
+              }}
+            />
+          )}
+
           <div className="bg-surface rounded-3xl shadow-soft p-6 space-y-3 text-right">
             <Stat label="ניסיון ראשון" value={`${correctCount} / ${answered}`} />
             <Stat label="דיוק בסשן" value={`${Math.round(acc * 100)}%`} />
@@ -869,6 +883,7 @@ function Stat({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
 
 function CenteredMessage({ children }: { children: React.ReactNode }) {
   return (

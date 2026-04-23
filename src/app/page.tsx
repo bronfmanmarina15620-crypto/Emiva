@@ -10,13 +10,16 @@ import {
   setActiveProfileId,
   type Profile,
 } from "@/lib/profiles";
+import { computeParentReminderNeeded } from "@/lib/parent-dashboard";
 import { Logo } from "@/components/Logo";
 
 export default function Home() {
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
+  const [parentReminder, setParentReminder] = useState(false);
 
   useEffect(() => {
     setProfiles(loadProfiles());
+    setParentReminder(computeParentReminderNeeded());
   }, []);
 
   function choose(id: string) {
@@ -102,6 +105,21 @@ export default function Home() {
         >
           {profiles.length === 0 ? "הוסיפי משתמשת" : "הוסיפי משתמשת חדשה"}
         </Link>
+
+        <div className="pt-6 border-t border-warm-line/50">
+          <Link
+            href="/parent"
+            className="text-xs text-warm-muted/70 hover:text-warm-muted transition inline-flex items-center gap-1.5"
+          >
+            הורים
+            {parentReminder && (
+              <span
+                className="inline-block w-1.5 h-1.5 rounded-full bg-terracotta"
+                aria-label="תזכורת: לא נכנסת מזמן"
+              />
+            )}
+          </Link>
+        </div>
       </div>
     </main>
   );

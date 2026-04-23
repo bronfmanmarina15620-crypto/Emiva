@@ -126,3 +126,18 @@ export const MASTERY_TARGET = 0.8;
 export const GRADUATION_MIN_CORRECT = 20;
 export const GRADUATION_MIN_SESSIONS = 2;
 export const GRADUATION_MIN_GAP_MS = 24 * 60 * 60 * 1000;
+
+// Parent dashboard
+export const WHEEL_SPIN_MIN_ATTEMPTS = 20;
+export const WHEEL_SPIN_MIN_SESSIONS = 3;
+export const WHEEL_SPIN_THRESHOLD_PCT = 40;
+export const INACTIVITY_DAYS_WATCH = 4;
+export const INACTIVITY_DAYS_TALK = 7;
+export const WATCH_FIRST_TRY_PCT = 50;
+export const WATCH_DROP_DELTA_PCT = 10;
+export const DASHBOARD_TIMEOUT_MS = 3 * 60 * 1000;
+export const BELIEF_LOW_SAMPLE = 10;
+export const BELIEF_WEAK_PCT = 50;
+export const TREND_DELTA_PCT = 5;
+export const REMINDER_DAYS = 14;
+export const MAX_SESSION_MS = 30 * 60 * 1000;

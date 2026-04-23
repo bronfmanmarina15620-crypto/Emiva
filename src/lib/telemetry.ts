@@ -16,7 +16,11 @@ export type TelemetryEvent =
   | { t: "attempt"; at: number; itemId: string; attemptIdx: 0 | 1 | 2; correct: boolean }
   | { t: "reveal"; at: number; itemId: string }
   | { t: "feedback_text"; at: number; kind: "retry" | "correct" | "reveal"; text: string }
-  | { t: "skill_graduated"; at: number; skill: string; firstAttemptCorrect: number; sessionCount: number; gapMs: number };
+  | { t: "skill_graduated"; at: number; skill: string; firstAttemptCorrect: number; sessionCount: number; gapMs: number }
+  | { t: "dashboard_opened"; at: number }
+  | { t: "belief_submitted"; at: number; weekKey: string; kind: "performance" | "feeling" | "other" }
+  | { t: "action_line_shown"; at: number; trigger: "wheel_spin" | "inactivity" | "srs_due" | "default" }
+  | { t: "session_feeling"; at: number; skill: string; rating: "happy" | "ok" | "hard" };
 
 function key(profileId: string): string {
   return `${PREFIX}.${profileId}`;

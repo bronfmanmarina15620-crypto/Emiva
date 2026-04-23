@@ -5,6 +5,102 @@ Dates are `YYYY-MM-DD`.
 
 ## [Unreleased]
 
+### Added — Parent dashboard V1.1 refinements
+- **Belief-note kind tag.** Belief form now asks whether the note is about
+  *ביצועים* / *רגש* / *אחר*. Storage stores the kind; comparison display
+  adapts — for `feeling` notes, dashboard shows activity (sessions +
+  minutes) instead of an accuracy % (because "she was sad" + "55% correct"
+  is apples-to-oranges). Legacy notes without a kind normalize to `"other"`.
+- **Small-sample warning.** Belief comparison flags `lowSample: true` when
+  < 10 attempts accrued since the note. UI appends *"(מעט נתונים עדיין)"*
+  to dampen over-reading of noisy %s.
+- **Weak-data highlight.** When ≥ 10 attempts AND < 50% first-try correct
+  since the note, the comparison renders on a mustard-soft background —
+  signalling "the numbers disagree with what you wrote; worth a look."
+- **End-of-session feeling prompt.** Summary page shows 😊 / 😐 / 😟
+  buttons ("כיף / בסדר / קשה") that log a new `session_feeling` telemetry
+  event. Parent dashboard digest aggregates counts per week per daughter.
+- **Weekly minutes metric.** `computeWeeklyMinutes` pairs `session_start`
+  with `session_end` (capped at 30 min per session), surfaces total per
+  daughter in the weekly digest. Covers CLAUDE.md §5's time target (10–15 min/day).
+- **Trend arrow.** `computeTrend` compares current-7d vs prior-7d first-try
+  %; displays ↑/↓/→ on the daughter card header. ±5pp threshold; shows
+  nothing when either window has < 10 attempts.
+- **Parent reminder dot.** Home-page "הורים" link shows a terracotta dot
+  if > 14 days since the last `dashboard_opened` event — addresses the
+  pull-vs-push gap in the Bergman mechanism within the no-server constraint.
+- **New constants** in `src/lib/types.ts`: `BELIEF_LOW_SAMPLE`,
+  `BELIEF_WEAK_PCT`, `TREND_DELTA_PCT`, `REMINDER_DAYS`, `MAX_SESSION_MS`.
+- **Tests:** parent-dashboard test file grew from 25 → 40 cases (new groups:
+  `computeWeeklyMinutes`, `computeSessionFeelings`, `computeTrend`,
+  `computeParentReminderNeeded`, belief-comparison new fields).
+  parent-belief gained 2 cases (kind persistence, legacy normalization).
+  Total test count: **242 → 259 passing**.
+
+### Added — Parent dashboard MVP (DASHBOARD-PARENT-001)
+- **New route `/parent`** — PIN + math-gate entry. First visit: set a
+  4–6 digit PIN (stored as SHA-256 hash, never plaintext). Login
+  verifies against hash. 3 failed attempts → random 2-digit multiplication
+  math-gate; correct answer resets the PIN, wrong answer locks the
+  area for 5 minutes.
+- **New route `/parent/dashboard`** — per-daughter verdict-based
+  dashboard:
+  - **Verdict badge** (*"על המסלול" / "כדאי לשים לב" / "בואי נדבר"*),
+    computed from inactivity + first-try % + wheel-spinning signals.
+    Worst-of rule; no traffic-light on the person itself.
+  - **Autonomy-invitational action line** — one Hebrew sentence
+    prefixed *"את יכולה להציע / להזמין"*. Priority: wheel-spin →
+    inactivity → SRS due → default. Banned-phrase test enforces
+    imperatives never appear.
+  - **"Possible cause" line** — names the upstream weak skill when
+    the verdict is not "on track" (fractions → add/sub, long_division
+    → multiplication, etc.). Squirrel AI-inspired.
+  - **Skill-tile grid** per daughter (2 tiles for ages 7–8,
+    4 tiles for 9–10), colored by mastery state: not-started / in-progress
+    / mastered (via `hasGraduatedFlag`).
+  - **Wheel-spinning indicator** per skill — fires at ≥ 20 attempts,
+    ≥ 3 sessions, ≤ 40% first-try correct over last 20.
+  - **Belief-correction form** — one text entry per ISO week,
+    juxtaposed with observed metrics since the note. Encodes Bergman
+    2021's causal-mechanism evidence.
+  - **Weekly digest card** at the top — Bark-anatomy (total attempts ·
+    newly mastered · wheel-spin count · one recommendation).
+  - **Inactivity timeout (3 minutes)** returns to login — "dashboard
+    closed while child present" is a product rule, not a tip.
+- **New libs:** `src/lib/parent-auth.ts` (PIN hash via `crypto.subtle`,
+  math-gate), `src/lib/parent-belief.ts` (ISO week keys + per-week
+  notes), `src/lib/parent-dashboard.ts` (verdict / action-line /
+  wheel-spin / tiles / belief-comparison / weekly-digest — all pure,
+  all accept `now?: number`).
+- **New constants** in `src/lib/types.ts`: `WHEEL_SPIN_MIN_ATTEMPTS`,
+  `WHEEL_SPIN_MIN_SESSIONS`, `WHEEL_SPIN_THRESHOLD_PCT`,
+  `INACTIVITY_DAYS_WATCH`, `INACTIVITY_DAYS_TALK`,
+  `WATCH_FIRST_TRY_PCT`, `WATCH_DROP_DELTA_PCT`, `DASHBOARD_TIMEOUT_MS`.
+- **New telemetry events:** `dashboard_opened` (parent-scoped key
+  `_parent`), `belief_submitted` (per daughter), `action_line_shown`
+  (per daughter, with trigger).
+- **Home page footer:** subtle "הורים" link to `/parent` (no button,
+  no prominence — the "hidden route" pattern).
+- **ADR-003 — Parent Dashboard Design** locks in the
+  verdict-first / invitation-framed / belief-correction design, and
+  explicitly rejects: sibling comparison, traffic-light-per-person,
+  parent streak gamification, real-time session push, imperative
+  action phrasing.
+- **Path rule `.claude/rules/parent-dashboard-guardrails.md`** enforces
+  the ADR at the file-scope level + requires parent-guide sync
+  on any metrics/verdicts/thresholds change.
+- **parent-guide.md §10 "האזור להורים"** — user-facing explanation,
+  cross-referenced by research source type (cognitive / practice).
+- **Falsifier eval** `evals/backlog/dashboard-followthrough.eval.ts` —
+  goes red at 4 weeks if Marina submitted < 2 belief notes AND opened
+  the dashboard < 8 times. Pre-commitment to honesty if the design
+  doesn't earn its seat.
+- **Tests:** `parent-auth.test.ts` (11 cases), `parent-belief.test.ts`
+  (10 cases), `parent-dashboard.test.ts` (17 cases: verdict,
+  wheel-spin, action, possible-cause, tiles, digest, banned-phrase
+  audit). Four rounds of research ahead of implementation; full log
+  in [tasks/DASHBOARD-PARENT-001/research.md](tasks/DASHBOARD-PARENT-001/research.md).
+
 ### Added — bar_models skill (MATH-EMILIA-BARMODELS-001)
 - **New skill `bar_models`** — Singapore-style word problems with bar
   diagrams. Unlocked for age 9–10, ordered after `long_division`.
