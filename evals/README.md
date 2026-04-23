@@ -1,36 +1,36 @@
 # evals/
 
-Evaluation suites — distinct from `tests/` (deterministic software tests).
+סוויטות הערכה — שונות מ-`tests/` (בדיקות תוכנה דטרמיניסטיות).
 
-## Layout
+## מבנה
 
-- `backlog/` — **evals-as-backlog**. Each file is a test that **fails when a
-  deferred BACKLOG item's trigger fires**. The pattern converts human memory
-  into CI enforcement: a backlog trigger that's hard to remember becomes a
-  test that is hard to ignore.
-- `content/` — (future) content quality evals — item difficulty calibration,
-  answer correctness, Hebrew grammar.
-- `progression/` — (future) pedagogical progression evals — does the
-  adaptive loop actually adapt? Does mastery predict retention?
+- `backlog/` — **evals-as-backlog**. כל קובץ הוא בדיקה ש**נכשלת כשטריגר
+  של פריט BACKLOG שנדחה יורה**. הדפוס ממיר זיכרון אנושי
+  לאכיפת CI: טריגר backlog שקשה לזכור הופך
+  לבדיקה שקשה להתעלם ממנה.
+- `content/` — (עתידי) evals לאיכות תוכן — כיול קושי פריט,
+  תקינות תשובות, דקדוק עברי.
+- `progression/` — (עתידי) evals להתקדמות פדגוגית — האם
+  ה-loop של adaptive באמת מסתגל? האם שליטה חוזה retention?
 
-## How to run
+## איך להריץ
 
 ```bash
-npm run eval:backlog   # runs evals/backlog/*.eval.ts only
+npm run eval:backlog   # מריץ רק evals/backlog/*.eval.ts
 ```
 
-Backlog evals are **not** part of `npm test` — they're a separate gate so a
-normal unit-test failure doesn't hide a backlog trigger, and vice versa.
+Backlog evals **אינם** חלק מ-`npm test` — הם gate נפרד כדי
+שכשל בדיקת יחידה רגילה לא יסתיר טריגר של backlog, ולהפך.
 
-## Pattern: evals-as-backlog
+## דפוס: evals-as-backlog
 
-1. A piece of deferred work lives in `tasks/BACKLOG.md` with a trigger
-   (e.g. "variants pool < 2× daily exposures").
-2. That trigger gets encoded as a failing-condition in a `.eval.ts` file.
-3. CI / `npm run eval:backlog` runs these regularly. A failure = "the
-   trigger fired, time to pick up this BACKLOG item".
-4. When the item is implemented (pool expanded), the threshold is updated
-   or the eval deleted + BACKLOG item moved to "closed".
+1. פיסת עבודה שנדחתה חיה ב-`tasks/BACKLOG.md` עם טריגר
+   (למשל "pool וריאציות < 2× חשיפות יומיות").
+2. הטריגר הזה מקודד כתנאי-כשל בקובץ `.eval.ts`.
+3. CI / `npm run eval:backlog` מריצים אותם בקביעות. כשל = "הטריגר
+   ירה, הגיע הזמן לקחת את פריט ה-BACKLOG הזה".
+4. כשהפריט מיושם (ה-pool הורחב), הסף מתעדכן
+   או ה-eval נמחק + פריט ה-BACKLOG עובר ל"סגור".
 
-Reference: Anthropic/OpenAI agent-dev guidance — evals as durable regression
-mechanism (see `claude_md_instructions_recommendation.docx` §quality).
+הפניה: הנחיות Anthropic/OpenAI agent-dev — evals כמנגנון regression
+עמיד (ראי `claude_md_instructions_recommendation.docx` §איכות).

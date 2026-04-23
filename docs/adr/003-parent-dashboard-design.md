@@ -1,172 +1,170 @@
-# ADR-003: Parent Dashboard Design — Verdict-Based, Evidence-Grounded
+# ADR-003: עיצוב דשבורד הורה — מבוסס-Verdict, מעוגן-ראיות
 
-- **Date:** 2026-04-22
-- **Status:** Accepted
-- **Owner:** Marina
-- **Supersedes:** —
-- **Related:** [CLAUDE.md §Measurement rule](../../CLAUDE.md), [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md)
+- **תאריך:** 2026-04-22
+- **סטטוס:** מאושר
+- **אחראית:** Marina
+- **מחליף:** —
+- **קשור:** [CLAUDE.md §כלל מדידה](../../CLAUDE.md), [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md)
 
-## Context
+## הקשר
 
-Four sessions in, Evelyn and Emilia have generated meaningful mastery
-and telemetry data — but Marina has no way to see what they did. She
-is the sole parent, sole product manager, and one of two end-users'
-guardians. Without visibility into the internal proxy required by the
-Measurement rule, every next product decision is flying blind.
+ארבעה סשנים פנימה, אוולין ואמיליה ייצרו נתוני שליטה ו-telemetry
+משמעותיים — אבל ל-Marina אין דרך לראות מה הן עשו. היא ההורה
+היחידה, מנהלת המוצר היחידה, ואחת משתי המטפלות של משתמשי הקצה.
+בלי נראות אל ה-proxy הפנימי שדורש כלל המדידה, כל החלטת מוצר הבאה
+היא עיוורת.
 
-Naming it "parent dashboard" implies a well-understood pattern. Four
-rounds of research (documented in `tasks/DASHBOARD-PARENT-001/research.md`)
-showed the pattern is not well-understood — most parent dashboards in
-edtech demonstrably don't move learning outcomes (Kaliisa et al. 2024
-LAK review), and a small but growing empirical literature shows some
-designs *hurt* outcomes by inducing controlling parent behavior
-(Lu, Vasilyeva & Laski 2025 in Child Development, n=122 dyads age 5).
+קריאה לזה "דשבורד הורה" רומזת לדפוס מובן היטב. ארבעה סבבי
+מחקר (מתועדים ב-`tasks/DASHBOARD-PARENT-001/research.md`) הראו שהדפוס
+אינו מובן היטב — רוב דשבורדי ההורה ב-edtech לא מזיזים מדידית
+תוצאות למידה (Kaliisa et al. 2024 LAK review), וספרות אמפירית
+קטנה אבל גדלה מראה שחלק מהעיצובים *פוגעים* בתוצאות על ידי השראת
+התנהגות הורה שולטת (Lu, Vasilyeva & Laski 2025 ב-Child Development, n=122 זוגות בגיל 5).
 
-The decision before us is not *whether* to build but *what to build*
-such that the known failure modes are foreclosed in code rather than
-left to discipline.
+ההחלטה לפנינו היא לא *האם* לבנות אלא *מה* לבנות
+כך שדפוסי הכישלון הידועים סגורים בקוד ולא מושארים לדיסציפלינה.
 
-## Decision
+## החלטה
 
-Build the MVP specified in [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md)
-with the following design principles codified as constraints:
+לבנות את ה-MVP שצוין ב-[tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md)
+עם עקרונות העיצוב הבאים מקובעים כאילוצים:
 
-### Locked-in patterns
+### דפוסים נעולים
 
-1. **Verdict-first, numbers-second.** Each daughter shows a verdict
-   badge (*"על המסלול" / "כדאי לשים לב" / "בואי נדבר"*) as the
-   primary signal. Raw metrics appear in tooltips and belief-correction
-   displays only. Basis: Nanit; Stephen Few; Kaushik Action Dashboard.
-2. **Autonomy-invitational action line.** Exactly one "what to do
-   today" sentence per daughter, phrased as an invitation
-   (*"את יכולה להציע / להזמין"*), never as an instruction. Basis:
+1. **Verdict-first, מספרים-שני.** כל בת מראה תגית verdict
+   (*"על המסלול" / "כדאי לשים לב" / "בואי נדבר"*) כאות הראשי.
+   מטריקות גולמיות מופיעות ב-tooltips ובתצוגות belief-correction בלבד.
+   בסיס: Nanit; Stephen Few; Kaushik Action Dashboard.
+2. **שורת פעולה בהזמנה אוטונומית.** בדיוק משפט "מה לעשות
+   היום" אחד לכל בת, מנוסח כהזמנה
+   (*"את יכולה להציע / להזמין"*), לעולם לא כהוראה. בסיס:
    Lu, Vasilyeva & Laski 2025.
-3. **"Tracing the source" cause line.** When the verdict is not
-   *"על המסלול"*, the card names the upstream weak skill likely
-   responsible. Basis: Squirrel AI MCM.
-4. **Skill-tile grid, not a 3-bucket pipeline bar.** One tile per
-   allowed skill, colored by mastery state (not-started / in-progress /
-   mastered). Basis: ALEKS, Beast Academy, Squirrel AI, DreamBox.
-5. **Weekly belief-correction note + reality comparison.** Marina
-   writes a sentence per week; the dashboard juxtaposes with observed
-   numbers since the note. Basis: Bergman 2021 JPE — belief correction
-   was the 49%-mediating mechanism of the *only* parent-info
-   intervention with credible causal effect on learning.
-6. **Wheel-spinning indicator.** Per skill, triggered at ≥ 20 attempts,
-   ≥ 3 sessions, ≤ 40% first-try correct in last 20. Basis: Beck & Gong
+3. **שורת "Tracing the source".** כשה-verdict אינו *"על המסלול"*,
+   הכרטיס שם את המיומנות החלשה האפסטרימית שסביר שאחראית לקושי.
+   בסיס: Squirrel AI MCM.
+4. **רשת אריחי-מיומנות, לא progress bar של 3 דליים.** אריח אחד לכל
+   מיומנות זמינה, צבוע לפי מצב שליטה (לא-התחילה / בתהליך /
+   שלטה). בסיס: ALEKS, Beast Academy, Squirrel AI, DreamBox.
+5. **פתק תיקון-אמונה שבועי + השוואת מציאות.** Marina
+   כותבת משפט בשבוע; הדשבורד מציב אותו לצד מספרים נצפים
+   מאז הפתק. בסיס: Bergman 2021 JPE — תיקון אמונה
+   היה המנגנון המתווך של 49% מהאפקט של ההתערבות
+   *היחידה* של מידע-להורה עם אפקט סיבתי אמין על למידה.
+6. **חיווי תקיעות (wheel-spinning).** לכל מיומנות, נורה ב-≥ 20 ניסיונות,
+   ≥ 3 סשנים, ≤ 40% נכון-בראשון ב-20 האחרונים. בסיס: Beck & Gong
    2013, Botelho et al. 2019.
-7. **"Closed while child present" as a product rule.** Inactivity
-   timeout + prominent banner + visible exit button. Basis: Lu 2025 +
-   Boaler math-anxiety research.
+7. **"סגור כשהילדה נוכחת" כחוק מוצר.** Timeout לחוסר-פעילות +
+   באנר בולט + כפתור יציאה ניראה. בסיס: Lu 2025 +
+   מחקר חרדת מתמטיקה של Boaler.
 
-### Rejected patterns (locked in `.claude/rules/parent-dashboard-guardrails.md`)
+### דפוסים שנדחו (נעולים ב-`.claude/rules/parent-dashboard-guardrails.md`)
 
-- **Single traffic-light per daughter.** The weakest signal in the
-  Western edtech sample; criticized by Stacey Barr (arbitrary cutoffs,
-  demotivating, accessibility).
-- **Sibling comparison in any form.** Real pattern in Zhixuewang
-  (China), rejected here on CLAUDE.md §Tone + Beilock/Ramirez grounds.
-- **Parent streak / gamification of parent engagement.** Real pattern
-  in S'moresUp / Habitica Family; turns the parent into a nagger on
-  streak-save days.
-- **Real-time push per session event.** Greenlight-style per-event
-  pings work for discrete financial transactions; for learning, they
-  train the parent to interrupt sessions.
-- **Informational priming in instructional voice.** Directly implicated
-  in Lu 2025's controlling-behavior finding.
+- **Traffic-light בודד לכל בת.** האות החלש ביותר במדגם edtech
+  מערבי; מבוקר על ידי Stacey Barr (ספים שרירותיים,
+  מדכא, נגישות).
+- **השוואה בין אחיות בכל צורה.** דפוס אמיתי ב-Zhixuewang
+  (סין), נדחה כאן על בסיס CLAUDE.md §טון + טענת Beilock/Ramirez.
+- **משחוק streak של הורה / gamification של engagement ההורה.** דפוס אמיתי
+  ב-S'moresUp / Habitica Family; הופך את ההורה לנדנדנית בימי
+  שמירת רצף.
+- **Push בזמן-אמת על אירוע סשן.** pings פר-אירוע בסגנון Greenlight
+  עובדים לטרנזקציות פיננסיות דיסקרטיות; ללמידה, הם
+  מאמנים את ההורה להפריע לסשנים.
+- **Priming מידע בקול מצווה.** מעורב ישירות
+  בממצא ההתנהגות-השולטת של Lu 2025.
 
-### Scope constraints
+### אילוצי טווח
 
-- **MVP is local-only.** localStorage, single device, no server.
-  Acceptable because Marina and the daughters share a device today.
-  Server follow-on is a separate task.
-- **PIN + math-gate is an accidental-access deterrent, not security.**
-  A 9-year-old who watches Marina type can bypass the PIN. The
-  math-gate fallback handles the realistic-not-adversarial case.
-- **No trend graphs in MVP.** Sparklines, week-over-week charts,
-  per-skill drill-down — all deferred to DASHBOARD-PARENT-002.
+- **MVP הוא local בלבד.** localStorage, מכשיר בודד, בלי שרת.
+  מקובל כי Marina והבנות חולקות מכשיר היום.
+  עבודת-המשך של שרת היא משימה נפרדת.
+- **PIN + math-gate הוא מניעת גישה מקרית, לא אבטחה.**
+  ילדה בת 9 שראתה את Marina מקלידה יכולה לעקוף את ה-PIN. ה-
+  math-gate fallback מטפל במקרה הריאלי-לא-יריב.
+- **בלי גרפי מגמה ב-MVP.** Sparklines, תרשימי שבוע-מול-שבוע,
+  drill-down לכל מיומנות — כולם נדחו ל-DASHBOARD-PARENT-002.
 
-### Falsifier (pre-commitment)
+### Falsifier (התחייבות מראש)
 
-An eval in `evals/backlog/dashboard-followthrough.eval.ts` goes red
-if 4 weeks post-ship Marina has:
-- fewer than 2 `belief_submitted` events AND
-- fewer than 8 `dashboard_opened` events.
+Eval ב-`evals/backlog/dashboard-followthrough.eval.ts` נהפך לאדום
+אם 4 שבועות אחרי העלאה ל-Marina יש:
+- פחות מ-2 אירועי `belief_submitted` ו-
+- פחות מ-8 אירועי `dashboard_opened`.
 
-Red → stop all dashboard work, re-evaluate the design. This is the
-pre-commitment that admits in code what Kaliisa 2024 says is the
-default outcome for learning-analytics dashboards (negligible effect).
+אדום → לעצור את כל עבודת הדשבורד, לשקול שוב את העיצוב. זו
+ההתחייבות מראש שמודה בקוד במה ש-Kaliisa 2024 אומרת היא
+התוצאה המובנת מאליה לדשבורדי analytics של למידה (אפקט זניח).
 
-## Alternatives considered
+## אלטרנטיבות שנשקלו
 
-- **Ship the dashboard Marina originally sketched (6 metrics + single
-  traffic-light).** Rejected: post-Round-1 research, the single
-  traffic-light was the weakest Western-edtech pattern; post-Round-2,
-  the plan had no belief correction (the only causal mechanism) and
-  no autonomy-protective framing (the documented harm vector).
-- **Skip the dashboard entirely and rely on CLI telemetry
-  (`npm run telemetry:check`).** Rejected: Kaliisa's review doesn't
-  say "don't build"; it says "most built ones don't move outcomes".
-  With Bergman's belief-correction mechanism + Lu's autonomy
-  constraint, we have a specific design not yet tested in the
-  literature — worth running an n=1 experiment.
-- **Build the per-skill drill-down in Stage 1.** Rejected: adds
-  complexity without evidence of necessity. Drill-down is Stage 2;
-  the Stage 1 falsifier determines whether Stage 2 ever happens.
-- **Build the email digest in Stage 1.** Rejected: requires a server.
-  In-app weekly digest card approximates the Bark anatomy until the
-  server lands.
+- **להעלות את הדשבורד כפי ש-Marina חשבה במקור (6 מטריקות + traffic-light
+  בודד).** נדחה: אחרי הסבב-1 של המחקר, ה-traffic-light הבודד
+  היה הדפוס המערבי-edtech החלש ביותר; אחרי סבב-2, לתוכנית
+  לא היה תיקון אמונה (המנגנון הסיבתי היחיד)
+  ולא מסגרת מגנה-אוטונומיה (וקטור הפגיעה המתועד).
+- **לדלג על הדשבורד לגמרי ולהסתמך על CLI telemetry
+  (`npm run telemetry:check`).** נדחה: סקירת Kaliisa לא
+  אומרת "אל תבנה"; היא אומרת "רוב הבנויים לא מזיזים תוצאות".
+  עם מנגנון תיקון-האמונה של Bergman + אילוץ אוטונומיה של
+  Lu, יש לנו עיצוב ספציפי שעוד לא נבדק בספרות
+  — שווה להריץ ניסוי n=1.
+- **לבנות את ה-drill-down לכל מיומנות בשלב 1.** נדחה: מוסיף
+  מורכבות בלי הוכחה לנחיצות. Drill-down הוא שלב 2;
+  ה-falsifier של שלב 1 קובע אם שלב 2 אי פעם יקרה.
+- **לבנות דייג'סט מייל בשלב 1.** נדחה: דורש שרת.
+  כרטיס דייג'סט שבועי באפליקציה מקרב לאנטומיית Bark עד
+  שהשרת ינחת.
 
-## Consequences
+## השלכות
 
-### Opened
+### נפתח
 
-- Internal proxy (CLAUDE.md §Measurement rule) has a display layer
-  for the first time.
-- Belief-correction mechanism is encoded in the product, not left
-  to memory. If it works, it's replicable; if it doesn't, the
-  falsifier catches it.
-- All anti-patterns are closed by code + tests + path rule, not by
-  discipline. A future contributor cannot accidentally reintroduce
-  sibling comparison without breaking the guardrail rule.
-- Parent dashboard becomes a Research-Source-Rule exemplar: the
-  patterns are each traceable to (a) cognitive science, (b) practice,
-  or (c) international/scale evidence.
+- ל-proxy פנימי (CLAUDE.md §כלל מדידה) יש שכבת תצוגה
+  בפעם הראשונה.
+- מנגנון תיקון-האמונה מקודד במוצר, לא נשאר
+  לזיכרון. אם עובד, ניתן לשכפל; אם לא, ה-
+  falsifier תופס זאת.
+- כל ה-anti-patterns סגורים על ידי קוד + בדיקות + כלל נתיב, לא על
+  ידי דיסציפלינה. תורמת עתידית לא יכולה בטעות להחזיר
+  השוואה בין אחיות בלי לשבור את ה-guardrail rule.
+- דשבורד ההורה הופך ל-exemplar של כלל מקור המחקר: ה-
+  דפוסים ניתנים למעקב כל אחד אל (א) מדע קוגניטיבי, (ב) פרקטיקה,
+  או (ג) ראיות בינלאומיות/בקנה מידה.
 
-### Closed
+### נסגר
 
-- "Marina has no idea what her daughters are doing in Emiva."
-- The ambiguous v3 DASHBOARD-PARENT-001 placeholder — it's now an
-  active MVP with a specified scope.
+- "ל-Marina אין מושג מה הבנות שלה עושות ב-Emiva."
+- המקום-תפוס המעומעם של DASHBOARD-PARENT-001 ב-v3 — הוא עכשיו
+  MVP פעיל עם טווח שצוין.
 
-### Risks / open questions
+### סיכונים / שאלות פתוחות
 
-- **Lu 2025 effect may manifest anyway.** Even with autonomy framing,
-  the *existence* of a dashboard may shift Marina's behavior toward
-  monitoring. Mitigation: the falsifier tracks Marina's actions, not
-  just the daughters' metrics. If her interaction pattern with the
-  daughters changes unfavorably, that's outside what the eval measures;
-  we flag this as an open monitoring concern for Marina to self-report
-  in [FEEDBACK-LOG](../../tasks/FEEDBACK-LOG.md).
-- **Belief-correction form may be ignored.** If Marina never writes
-  the weekly sentence, the Bergman mechanism isn't active. The
-  falsifier catches this at 4 weeks.
-- **localStorage per-device limit.** Once another device enters the
-  picture (school laptop, tablet), the dashboard goes stale. Server
-  task is the fix.
-- **Research cited is Western + Chinese + Japanese.** Hebrew-language
-  parent-facing design research is essentially absent from what we
-  found. Cultural assumptions may transfer imperfectly; flag for
-  revisit once Marina has real usage data.
+- **אפקט Lu 2025 עלול להתבטא בכל זאת.** אפילו עם מסגרת אוטונומיה,
+  *עצם הקיום* של דשבורד עלול להזיז את ההתנהגות של Marina לעבר
+  ניטור. מיטיגציה: ה-falsifier עוקב אחר הפעולות של Marina, לא
+  רק מטריקות הבנות. אם דפוס האינטראקציה שלה עם הבנות
+  משתנה לרעה, זה מחוץ למה שה-eval מודד;
+  אנחנו מסמנים זאת כדאגת ניטור פתוחה ל-Marina לדיווח-עצמי
+  ב-[FEEDBACK-LOG](../../tasks/FEEDBACK-LOG.md).
+- **טופס תיקון-אמונה עלול להיות מוזנח.** אם Marina לעולם לא כותבת
+  את המשפט השבועי, מנגנון Bergman אינו פעיל. ה-
+  falsifier תופס זאת ב-4 שבועות.
+- **גבול localStorage פר-מכשיר.** ברגע שמכשיר נוסף נכנס
+  לתמונה (לפטופ של בית-ספר, טאבלט), הדשבורד מתיישן. משימת שרת
+  היא התיקון.
+- **המחקר שצוטט הוא מערבי + סיני + יפני.** מחקר עיצוב-פונה-הורה
+  בשפה עברית חסר למעשה ממה שמצאנו. הנחות
+  תרבות עשויות להיות מועברות לא מושלם; לסמן לבחינה חוזרת ברגע
+  ש-Marina מקבלת נתוני שימוש אמיתיים.
 
-## References
+## הפניות
 
-- [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md) — full four-round log
-- [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md) — implementation spec
-- [.claude/rules/parent-dashboard-guardrails.md](../../.claude/rules/parent-dashboard-guardrails.md) — code-level enforcement
-- [CLAUDE.md §Measurement rule](../../CLAUDE.md)
-- [CLAUDE.md §Tone](../../CLAUDE.md)
-- [CLAUDE.md §Research source rule](../../CLAUDE.md)
+- [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md) — log ארבעת הסבבים המלא
+- [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md) — מפרט המימוש
+- [.claude/rules/parent-dashboard-guardrails.md](../../.claude/rules/parent-dashboard-guardrails.md) — אכיפה ברמת הקוד
+- [CLAUDE.md §כלל מדידה](../../CLAUDE.md)
+- [CLAUDE.md §טון](../../CLAUDE.md)
+- [CLAUDE.md §כלל מקור מחקר](../../CLAUDE.md)
 - Lu, Vasilyeva & Laski 2025 — Child Development — https://onlinelibrary.wiley.com/doi/10.1111/cdev.70031
 - Bergman 2021 JPE — https://www.journals.uchicago.edu/doi/10.1086/711410
 - Kaliisa et al. 2024 LAK — https://arxiv.org/pdf/2312.15042

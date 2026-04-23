@@ -1,21 +1,21 @@
 # docs/
 
-Stable reference material. Not rules (see `.claude/rules/`), not task
-briefs (see `tasks/`), not execution plans (see `plans/`).
+חומר עזר יציב. לא כללים (ראי `.claude/rules/`), לא briefs של
+משימות (ראי `tasks/`), לא תוכניות ביצוע (ראי `plans/`).
 
-Every file here is **advisory**. If content should be enforced, promote
-it to `.claude/rules/` or `CLAUDE.md`.
+כל קובץ כאן הוא **מייעץ**. אם תוכן צריך להיות נאכף, הפכי אותו לכלל
+תחת `.claude/rules/` או `CLAUDE.md`.
 
-## Layout
+## מבנה
 
-- `design/` — UI/UX research, design systems, accessibility references
-- `curriculum/` — distillations of `MyLevel.docx` (legacy filename, pre-rebrand) and related sources
-- `pedagogy/` — Model A, Singapore CPA, Science of Reading, etc.
-- `adr/` — Architecture Decision Records (one decision per file)
+- `design/` — מחקר UI/UX, מערכות עיצוב, הפניות נגישות
+- `curriculum/` — תמציות של `MyLevel.docx` (שם legacy, לפני השינוי) ומקורות קשורים
+- `pedagogy/` — Model A, Singapore CPA, Science of Reading וכו'
+- `adr/` — Architecture Decision Records (החלטה אחת לקובץ)
 
-## How to use
+## איך להשתמש
 
-- Tasks link to docs via relative paths (not copy-paste).
-- Docs are dated in a frontmatter-like header; when a doc is superseded,
-  mark it `status: deprecated` and link to the replacement.
-- Keep docs scannable: headers, tables, bullets. No walls of prose.
+- משימות מקושרות למסמכים דרך נתיבים יחסיים (לא copy-paste).
+- מסמכים מתוארכים בכותרת דמוית-frontmatter; כשמסמך מוחלף,
+  סמני אותו `status: deprecated` וקשרי לחליף.
+- שמרי על מסמכים ברי-סריקה: headers, טבלאות, נקודות. בלי קירות של פרוזה.

@@ -1,83 +1,83 @@
-# ADR-001: Layered Backlog System
+# ADR-001: מערכת Backlog שכבתית
 
-- **Date:** 2026-04-19
-- **Status:** Accepted
-- **Owner:** Marina
+- **תאריך:** 2026-04-19
+- **סטטוס:** מאושר
+- **אחראית:** Marina
 
-## Context
+## הקשר
 
-Solo / 2-user project (Evelyn + Emilia) pre-production. Items get deferred during
-a session — "expand feedback variants later", "register domains", "add mascot".
-Marina asked the honest question: *"how do we not forget to do these?"*
+פרויקט סולו / 2 משתמשות (אוולין + אמיליה) לפני production. פריטים נדחים במהלך
+שיחה — "להרחיב וריאציות פידבק אחר כך", "לרשום דומיינים", "להוסיף מסקוט".
+Marina שאלה את השאלה הכנה: *"איך לא שוכחים לעשות את אלה?"*
 
-Without a durable, self-enforcing mechanism, deferrals rot into silent tech debt.
-"TODO comments in code" are the canonical failure mode: they exist, nobody reads
-them, they outlive the code they annotate.
+בלי מנגנון אכיפה עצמית עמיד, דחיות נרקבות לחוב טכני שקט.
+"תגובות TODO בקוד" הן דפוס הכישלון הקנוני: הן קיימות, אף אחד לא קורא
+אותן, והן מאריכות ימים מהקוד שהן מסבירות.
 
-Constraints specific to this project:
-- No team, no standup, no product manager external to Marina.
-- No production traffic yet, so no real telemetry data to trigger on.
-- Claude Code is the primary collaborator — memory persists across sessions but
-  not reliably, and conversational context can't be trusted for long-term state.
+אילוצים ספציפיים לפרויקט הזה:
+- בלי צוות, בלי standup, בלי product manager חיצוני ל-Marina.
+- בלי תעבורת production עדיין, אז אין נתוני telemetry אמיתיים להיתלות בהם.
+- Claude Code הוא שותף העבודה העיקרי — הזיכרון נמשך בין שיחות אבל
+  לא באופן אמין, ולא ניתן לסמוך על הקשר שיחה לטווח ארוך.
 
-## Decision
+## החלטה
 
-Four stacked layers, each feeding the one above:
+ארבע שכבות מוערמות, כל אחת מזינה את זו שמעליה:
 
-1. **`tasks/BACKLOG.md`** — the register. Every deferred item gets an entry with
-   `owner`, `trigger`, `why deferred`, and `where it will live when picked up`.
-2. **`evals/backlog/*.eval.ts`** (runner: `npm run eval:backlog`) — convert
-   triggers into failing tests. Eval red = ripe.
+1. **`tasks/BACKLOG.md`** — הרישום. כל פריט שנדחה מקבל רשומה עם
+   `owner`, `trigger`, `למה נדחה`, ו-`איפה הוא יחיה כשיילקח`.
+2. **`evals/backlog/*.eval.ts`** (runner: `npm run eval:backlog`) — המרת
+   טריגרים לבדיקות נכשלות. Eval אדום = בשל.
 3. **Telemetry** (`src/lib/telemetry.ts` + `scripts/check-telemetry.mjs`) —
-   local event log in localStorage. Parent exports JSON and runs check script;
-   threshold crossings become BACKLOG entries.
-4. **Feedback loop** (`tasks/FEEDBACK-LOG.md` + `scripts/scan-feedback.mjs`) —
-   human observations scanned weekly for trigger phrases.
+   log אירועים מקומי ב-localStorage. ההורה מייצאת JSON ומריצה סקריפט בדיקה;
+   חציית סף הופכת לרשומות BACKLOG.
+4. **Loop משוב** (`tasks/FEEDBACK-LOG.md` + `scripts/scan-feedback.mjs`) —
+   תצפיות אנושיות נסרקות שבועית לביטויי טריגר.
 
-Pickup discipline (§Backlog in CLAUDE.md): ripe items must enter the *next*
-task, not the one after. Maturity triggered by: eval red · ≥ 2 sources fired ·
-≥ 2 weeks of a single trigger unresolved · explicit Marina override.
+משמעת לקיחה (§Backlog ב-CLAUDE.md): פריטים בשלים חייבים להיכנס למשימה
+*הבאה*, לא זו שאחריה. בשלות מופעלת על ידי: eval אדום · ≥ 2 מקורות ירו ·
+≥ 2 שבועות של טריגר בודד לא פתור · עקיפה מפורשת של Marina.
 
-## Alternatives Considered
+## אלטרנטיבות שנשקלו
 
-- **Linear / GitHub Issues.** Best-in-class for teams. Overhead for solo project;
-  requires Marina opens the tool deliberately. Rejected for MVP stage; may
-  reconsider if the project scales beyond family use.
-- **TODO comments in code.** Dies by neglect. Explicitly rejected by CLAUDE.md
-  §Engineering standards: "No TODO without owner or follow-up location."
-- **Single BACKLOG.md file only, no eval/telemetry/feedback layers.** Rejected
-  because it solves *registration* but not *trigger detection*. Humans forget
-  to open files; machines don't.
-- **Full LaunchDarkly / Statsig flags pipeline.** Correct at scale (Meta,
-  Netflix), massive overhead here. Layer 3 (telemetry) captures 10% of the
-  value with 1% of the infra.
+- **Linear / GitHub Issues.** הטוב בקטגוריה לצוותים. Overhead לפרויקט סולו;
+  דורש ש-Marina תפתח את הכלי ביוזמתה. נדחה בשלב MVP; ניתן
+  לשקול מחדש אם הפרויקט יגדל מעבר לשימוש משפחתי.
+- **תגובות TODO בקוד.** מתות בהזנחה. נדחה במפורש ב-CLAUDE.md
+  §סטנדרטים הנדסיים: "בלי TODO בלי owner או מיקום follow-up."
+- **רק קובץ BACKLOG.md בודד, בלי שכבות eval/telemetry/feedback.** נדחה
+  כי הוא פותר *רישום* אבל לא *זיהוי טריגר*. בני אדם שוכחים לפתוח
+  קבצים; מכונות לא.
+- **pipeline מלא של LaunchDarkly / Statsig flags.** נכון בקנה מידה (Meta,
+  Netflix), overhead מסיבי כאן. שכבה 3 (telemetry) תופסת 10% מהערך
+  עם 1% מהתשתית.
 
-## Consequences
+## השלכות
 
-### Opened
-- A way to defer work *safely*: every deferral is traceable and self-surfacing.
-- A substrate for future evals-driven development: the eval-as-backlog pattern
-  generalizes beyond "variant pool size" to any thresholdable quality metric.
-- Explicit pickup discipline = no infinitely growing backlog.
+### נפתח
+- דרך לדחות עבודה *בבטחה*: כל דחייה ניתנת למעקב ומתגלה מעצמה.
+- בסיס לפיתוח מונחה-evals עתידי: דפוס ה-eval-as-backlog
+  מתכלל מעבר ל-"גודל מאגר וריאציות" לכל מדד איכות עם סף.
+- משמעת לקיחה מפורשת = בלי backlog שגדל אינסופית.
 
-### Closed
-- Vague "maybe later" in conversations or code comments. Everything now has a
-  trigger and a ripeness test.
+### נסגר
+- "אולי אחר כך" מעורפל בשיחות או בתגובות קוד. לכל דבר יש עכשיו
+  טריגר ובדיקת בשלות.
 
-### Risks / open questions
-- **Ritual adherence.** Layers 3–4 require Marina to run scripts weekly. If she
-  doesn't, they rot. ADR-0xx (future) may add scheduled-agent automation.
-- **Eval calibration drift.** Thresholds (e.g., `REQUIRED_MIN = 3`) set
-  pre-usage; must be bumped after real usage data. Bump cadence not yet
-  codified.
-- **Layer 2 (evals) currently covers only BL-001.** As more items arrive in
-  BACKLOG, converting them to evals is the work. That conversion itself is
-  a backlog item — meta.
+### סיכונים / שאלות פתוחות
+- **ציות לטקסים.** שכבות 3–4 דורשות מ-Marina להריץ סקריפטים שבועית. אם היא
+  לא, הם נרקבים. ADR-0xx (עתידי) עשוי להוסיף אוטומציה של סוכן-מתוזמן.
+- **סחף כיול eval.** ספים (למשל `REQUIRED_MIN = 3`) נקבעו
+  לפני שימוש; חייבים להיות מועלים אחרי נתוני שימוש אמיתיים. קצב העלאה עוד לא
+  מקודד.
+- **שכבה 2 (evals) מכסה כרגע רק את BL-001.** ככל שיותר פריטים יגיעו
+  ל-BACKLOG, המרתם ל-evals היא העבודה. ההמרה עצמה היא
+  פריט backlog — מטה.
 
-## References
+## הפניות
 
-- [CLAUDE.md §Backlog](../../CLAUDE.md) — the canonical specification.
-- [tasks/BACKLOG.md](../../tasks/BACKLOG.md) — live register.
-- [evals/README.md](../../evals/README.md) — eval pattern documentation.
-- Anthropic / OpenAI agent-dev guidance on evals as durable regression mechanism
-  (cited in `claude_md_instructions_recommendation.docx` §quality).
+- [CLAUDE.md §Backlog](../../CLAUDE.md) — המפרט הקנוני.
+- [tasks/BACKLOG.md](../../tasks/BACKLOG.md) — הרישום החי.
+- [evals/README.md](../../evals/README.md) — תיעוד דפוס ה-eval.
+- הנחיות Anthropic / OpenAI על evals כמנגנון regression עמיד
+  (צוטט ב-`claude_md_instructions_recommendation.docx` §איכות).
