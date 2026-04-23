@@ -5,6 +5,35 @@ Dates are `YYYY-MM-DD`.
 
 ## [Unreleased]
 
+### Added — UI test infrastructure + coverage
+- **Vitest + jsdom + @testing-library** infrastructure added.
+  `vitest.config.ts` uses `environmentMatchGlobs` to run `tests/ui/**.tsx`
+  under jsdom while keeping all existing Node-env unit tests unchanged.
+  `tests/ui-setup.ts` wires `jest-dom` matchers + per-test cleanup.
+  ESBuild JSX set to `automatic` so tests don't need `import React`.
+- **`FeelingPrompt` extracted** to `src/components/FeelingPrompt.tsx`
+  so it can be tested in isolation. Session page imports it.
+- **UI tests:**
+  - `tests/ui/feeling-prompt.test.tsx` (5 cases): renders 3 labeled
+    buttons, each emoji triggers the right `onRate(...)`, post-rating
+    state hides buttons and shows thanks.
+  - `tests/ui/parent-page.test.tsx` (10 cases): setup rejects
+    mismatched confirmation, rejects too-short PIN, valid PIN stores
+    hash + navigates; login correct PIN navigates, wrong shows
+    remaining attempts, 3 wrongs trigger math-gate; math-gate correct
+    clears PIN, wrong locks.
+  - `tests/ui/parent-dashboard-page.test.tsx` (9 cases): route guard
+    redirects to `/parent` when no PIN, empty-profiles state renders
+    hint, daughter cards render with correct skill-tile count per age
+    (2 for 7–8, 4 for 9–10), belief submission swaps to comparison,
+    kind selector defaults to `performance` and switches, feeling-kind
+    comparison shows activity without accuracy %.
+  - `tests/ui/home-reminder.test.tsx` (4 cases): *"הורים"* link
+    present, no dot without events, no dot for recent opens, dot
+    rendered when last open > 14 days.
+- **Test count:** 259 → **287 passing** (+28). Build, typecheck, lint
+  all clean.
+
 ### Added — Parent dashboard V1.1 refinements
 - **Belief-note kind tag.** Belief form now asks whether the note is about
   *ביצועים* / *רגש* / *אחר*. Storage stores the kind; comparison display
