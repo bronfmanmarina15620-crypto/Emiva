@@ -1,150 +1,150 @@
-	# Roadmap — Emiva
+# Roadmap — Emiva
 
-*Single living view of the full scope. Bridges `MyLevel.docx` (product) with
-`CLAUDE.md` (engineering) with `tasks/` (execution).*
+*תצוגה חיה יחידה של כל הטווח. מגשרת בין `MyLevel.docx` (מוצר), `CLAUDE.md`
+(הנדסה) ו-`tasks/` (ביצוע).*
 
-*Digital scope only — many items in `MyLevel.docx §5 Ambient` are deliberately
-non-app and live in the home environment. This roadmap covers what Emiva
-(the app) should build.*
+*טווח דיגיטלי בלבד — פריטים רבים ב-`MyLevel.docx §5 Ambient` הם במכוון
+לא-אפליקציה וחיים בסביבת הבית. ה-roadmap הזה מכסה את מה ש-Emiva
+(האפליקציה) אמורה לבנות.*
 
-**Last updated:** 2026-04-22
-
----
-
-## 🟢 Now (active)
-
-1. **DASHBOARD-PARENT-001** — Parent dashboard MVP (verdict-based, evidence-grounded). Promoted from v3 after 4 rounds of research showed parent visibility is a Measurement-rule blocker. See [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md).
+**עדכון אחרון:** 2026-04-23
 
 ---
 
-## 🟡 Next (within 1–2 weeks)
+## 🟢 עכשיו (פעיל)
 
-1. **MATH-EVELYN-MONEY-001** — Money-context word problems for Evelyn.
-2. Hebrew reading track (planning conversation pending).
-3. English track (after Hebrew).
+1. **DASHBOARD-PARENT-001** — גרסת MVP של דשבורד הורה (מבוססת verdict, מעוגנת במחקר). הועלתה מ-v3 אחרי 4 סבבי מחקר שהראו שנראות להורה היא חסם לכלל המדידה. ראי [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md).
 
 ---
 
-## 📘 v1 — Core tracks (committed per CLAUDE.md)
+## 🟡 הבא (תוך 1–2 שבועות)
 
-> "v1 scope: Math first. Hebrew reading and English follow after the math MVP ships."
+1. **MATH-EVELYN-MONEY-001** — בעיות מילוליות בהקשר כסף לאוולין.
+2. מסלול קריאה בעברית (שיחת תכנון ממתינה).
+3. מסלול אנגלית (אחרי עברית).
 
-### Math
-| Task | User | Content (per `MyLevel.docx §3.1`) | Status |
+---
+
+## 📘 v1 — מסלולי ליבה (מחויבים לפי CLAUDE.md)
+
+> "טווח v1: מתמטיקה ראשונה. קריאה בעברית ואנגלית יבואו אחרי שה-MVP של מתמטיקה יעלה."
+
+### מתמטיקה
+| משימה | משתמשת | תוכן (לפי `MyLevel.docx §3.1`) | סטטוס |
 |---|---|---|---|
-| MATH-MVP-001 | Evelyn (7) | Add/sub up to 100 | ✅ Day 1 |
-| **MATH-EVELYN-MULT-001** | Evelyn | Multiplication tables | ✅ Day 4 |
-| **MATH-EVELYN-MONEY-001** | Evelyn | Money-context word problems (3/5 of exercises) | 🔲 planned |
-| **MATH-BAT9-001** | Emilia (9) | Fractions, ops up to 1000, long division | ✅ all 3 slices shipped (Day 4: fractions, ops-1000, long_division) |
-| **MATH-EMILIA-BARMODELS-001** | Emilia | Bar Models for Word Problems (Singapore CPA) | ✅ Day 4 |
+| MATH-MVP-001 | אוולין (7) | חיבור/חיסור עד 100 | ✅ יום 1 |
+| **MATH-EVELYN-MULT-001** | אוולין | לוח הכפל | ✅ יום 4 |
+| **MATH-EVELYN-MONEY-001** | אוולין | בעיות מילוליות בהקשר כסף (3 מתוך 5 תרגולים) | 🔲 מתוכנן |
+| **MATH-BAT9-001** | אמיליה (9) | שברים, פעולות עד 1000, חילוק ארוך | ✅ כל 3 הפרוסות עלו (יום 4: שברים, ops-1000, long_division) |
+| **MATH-EMILIA-BARMODELS-001** | אמיליה | Bar Models לבעיות מילוליות (Singapore CPA) | ✅ יום 4 |
 
-### Hebrew reading (`MyLevel.docx §3.2`)
-| Task | User | Content | Status |
+### קריאה בעברית (`MyLevel.docx §3.2`)
+| משימה | משתמשת | תוכן | סטטוס |
 |---|---|---|---|
-| **CORE-HEBREW-EVELYN-001** | Evelyn | Phonics + decoding (Science of Reading) | 🔲 not started |
-| **CORE-HEBREW-EVELYN-002** | Evelyn | Reading comprehension: 2 questions per short text | 🔲 not started |
-| **CORE-HEBREW-EMILIA-001** | Emilia | Advanced comprehension + challenging text | 🔲 not started |
+| **CORE-HEBREW-EVELYN-001** | אוולין | פוניקה + פענוח (Science of Reading) | 🔲 לא התחיל |
+| **CORE-HEBREW-EVELYN-002** | אוולין | הבנת הנקרא: 2 שאלות לכל טקסט קצר | 🔲 לא התחיל |
+| **CORE-HEBREW-EMILIA-001** | אמיליה | הבנה מתקדמת + טקסט מאתגר | 🔲 לא התחיל |
 
-### English (`MyLevel.docx §3.3`)
-| Task | User | Content | Status |
+### אנגלית (`MyLevel.docx §3.3`)
+| משימה | משתמשת | תוכן | סטטוס |
 |---|---|---|---|
-| **CORE-ENGLISH-EVELYN-001** | Evelyn | Phonics (BOB Books level) + basic vocab | 🔲 not started |
-| **CORE-ENGLISH-EMILIA-001** | Emilia | Anki 300–500 most common words + A1–A2 reading | 🔲 not started |
+| **CORE-ENGLISH-EVELYN-001** | אוולין | פוניקס (רמת BOB Books) + אוצר מילים בסיסי | 🔲 לא התחיל |
+| **CORE-ENGLISH-EMILIA-001** | אמיליה | Anki 300–500 המילים השכיחות + קריאה A1–A2 | 🔲 לא התחיל |
 
 ---
 
-## 📗 v2 — Enrichment (post-v1, per `MyLevel.docx §4`)
+## 📗 v2 — העשרה (אחרי v1, לפי `MyLevel.docx §4`)
 
-> Weekly exposure. Only the digitally-leverageable parts below. Much of
-> Enrichment happens in real life and doesn't need an app.
+> חשיפה שבועית. רק החלקים שניתנים למינוף דיגיטלית למטה. רוב
+> ההעשרה קורה בחיים האמיתיים ואינה דורשת אפליקציה.
 
-| Topic | Task | App scope |
+| נושא | משימה | טווח אפליקציה |
 |---|---|---|
-| Science | **ENRICH-SCIENCE-001** | Weekly question + curated video + experiment log |
-| Geography | **ENRICH-GEO-001** | Interactive map: "pick a country, collect 3 facts" |
-| History | **ENRICH-HISTORY-001** | Timeline visualization + figure-of-the-week |
-| Logic | **ENRICH-LOGIC-001** | Puzzles + Sudoku + simple chess integration |
-| Arabic | **ENRICH-ARABIC-001** | 20–30 words/month with audio + Spaced Repetition |
-| Israeli culture | **ENRICH-CULTURE-001** | Weekly parashah card + holiday-specific activities |
+| מדע | **ENRICH-SCIENCE-001** | שאלה שבועית + סרטון נבחר + יומן ניסויים |
+| גיאוגרפיה | **ENRICH-GEO-001** | מפה אינטראקטיבית: "בחרי מדינה, אספי 3 עובדות" |
+| היסטוריה | **ENRICH-HISTORY-001** | ציר זמן + דמות-השבוע |
+| לוגיקה | **ENRICH-LOGIC-001** | חידות + סודוקו + אינטגרציית שחמט פשוטה |
+| ערבית | **ENRICH-ARABIC-001** | 20–30 מילים לחודש עם שמע + Spaced Repetition |
+| תרבות ישראלית | **ENRICH-CULTURE-001** | כרטיס פרשת-השבוע + פעילויות ספציפיות לחג |
 
 ---
 
-## 📕 v3 — Flagship + family tooling
+## 📕 v3 — דגל + כלים למשפחה
 
-| Item | Task | Notes |
+| פריט | משימה | הערות |
 |---|---|---|
-| Puppy training journal | **FLAGSHIP-PUPPY-001** | Per `MyLevel.docx §6`. Emilia's 12–16 week project. App tracks commands, accuracy, generates the "my guide to training" PDF. |
-| Parent dashboard | **DASHBOARD-PARENT-001** | 🟢 MVP now active (promoted from v3). Follow-on work (trend graphs, per-skill drill-down, email digest once server arrives) remains v3. |
-| External assessment | **MEASUREMENT-EXTERNAL-TEST-001** | Per `CLAUDE.md §Measurement rule` + `MyLevel.docx §11`. Unseen items, weekly. Primary ground-truth for pedagogy. |
-| Weekly plan view | **PLAN-WEEKLY-001** | Renders the schedule from `MyLevel.docx §7` adapted per user. |
-| Annual calendar | **PLAN-ANNUAL-001** | 12-month view per `MyLevel.docx §8`. |
+| יומן אילוף גור | **FLAGSHIP-PUPPY-001** | לפי `MyLevel.docx §6`. פרויקט של אמיליה ל-12–16 שבועות. האפליקציה עוקבת אחרי פקודות, דיוק, ומייצרת PDF "המדריך שלי לאילוף". |
+| דשבורד הורה | **DASHBOARD-PARENT-001** | 🟢 MVP פעיל עכשיו (הועלה מ-v3). עבודת המשך (גרפי מגמה, drill-down לכל מיומנות, דייג'סט במייל כשיהיה שרת) נשארת ב-v3. |
+| הערכה חיצונית | **MEASUREMENT-EXTERNAL-TEST-001** | לפי `CLAUDE.md §כלל מדידה` + `MyLevel.docx §11`. פריטים שלא נראו, שבועית. המציאות העיקרית לפדגוגיה. |
+| תצוגת תוכנית שבועית | **PLAN-WEEKLY-001** | מציג את לוח הזמנים מ-`MyLevel.docx §7` מותאם למשתמשת. |
+| לוח שנה שנתי | **PLAN-ANNUAL-001** | תצוגת 12 חודשים לפי `MyLevel.docx §8`. |
 
 ---
 
-## 🟣 v4 — Ambient support (optional, low priority)
+## 🟣 v4 — תמיכה סביבתית (אופציונלי, עדיפות נמוכה)
 
-> Most of Ambient is deliberately non-digital. Below are narrow app supports only.
+> רוב ה-Ambient לא-דיגיטלי במכוון. למטה תמיכות אפליקציה צרות בלבד.
 
-| Topic | Task | App scope |
+| נושא | משימה | טווח אפליקציה |
 |---|---|---|
-| Music | **AMBIENT-MUSIC-001** | Curated family playlist metadata (Spotify links). No audio in app. |
-| Art | **AMBIENT-ART-001** | Museum-visit log + "artist of the month" card. |
-| Animals | **AMBIENT-ANIMALS-001** | Reuses puppy journal + species research cards. |
-| Financial | **AMBIENT-FINANCE-001** | Weekly allowance tracker; connects to money-context math. |
+| מוזיקה | **AMBIENT-MUSIC-001** | מטא-דאטה של פלייליסט משפחתי (קישורי Spotify). בלי אודיו באפליקציה. |
+| אמנות | **AMBIENT-ART-001** | יומן ביקורי מוזיאון + כרטיס "אמן-החודש". |
+| בעלי חיים | **AMBIENT-ANIMALS-001** | משתמש מחדש ביומן הגור + כרטיסי מחקר מינים. |
+| כסף | **AMBIENT-FINANCE-001** | מעקב דמי-כיס שבועי; מתחבר למתמטיקה בהקשר כסף. |
 
 ---
 
-## ⚪ Later — infrastructure / brand / misc (triggered)
+## ⚪ אחר כך — תשתית / מותג / שונות (מופעלים ע"י טריגר)
 
-Items live in [tasks/BACKLOG.md](tasks/BACKLOG.md) with explicit triggers.
+הפריטים חיים ב-[tasks/BACKLOG.md](tasks/BACKLOG.md) עם טריגרים מפורשים.
 
-| Item | Trigger to pick up |
+| פריט | טריגר ללקיחה |
 |---|---|
-| **BL-001** — expand feedback variant pools | eval red · repetition_rate > 0.5 · child says phrases repeat |
-| **BRANDING-MASCOT-001** — character creature beside logo | after first external (non-family) user |
-| **BRANDING-MOTION-001** — animated logo | nice-to-have, no trigger |
-| **BRANDING-HEBREW-LOGO-001** — Hebrew wordmark variant | marketing to Hebrew-first audience |
-| **BRANDING-DOMAINS-001** — register emiva.com/.co/.app/.co.il | before leaving pre-production |
+| **BL-001** — הרחבת מאגר וריאציות פידבק | eval אדום · repetition_rate > 0.5 · הבת אומרת שהביטויים חוזרים |
+| **BRANDING-MASCOT-001** — דמות בצד הלוגו | אחרי משתמש חיצוני (לא-משפחתי) ראשון |
+| **BRANDING-MOTION-001** — לוגו מונפש | נחמד-אבל-לא-חובה, בלי טריגר |
+| **BRANDING-HEBREW-LOGO-001** — וריאציית wordmark עברית | שיווק לקהל עברית-ראשונה |
+| **BRANDING-DOMAINS-001** — רישום emiva.com/.co/.app/.co.il | לפני יציאה מ-pre-production |
 
 ---
 
-## ✅ Done
+## ✅ בוצע
 
-Authoritative: [CHANGELOG.md](CHANGELOG.md). Narrative: [docs/devlog/](docs/devlog/).
+מקור סמכות: [CHANGELOG.md](CHANGELOG.md). נרטיב: [docs/devlog/](docs/devlog/).
 
-### Day 4 (2026-04-22)
+### יום 4 (2026-04-22)
 
-| Task | Outcome |
+| משימה | תוצאה |
 |---|---|
-| [MATH-GRADUATION-001](tasks/MATH-GRADUATION-001/INSTRUCTIONS.md) | Skill graduation criterion: 20 first-attempt-correct × ≥2 sessions × ≥24h gap. UI + one-shot telemetry + parent-guide sync. |
-| [MATH-BAT9-002](tasks/MATH-BAT9-002/INSTRUCTIONS.md) | `ops_1000` skill: 30-item bank across 5 tiers (3-digit ± 1/2/3-digit). Auto-routing after `fractions_intro` graduation. |
-| [MATH-EVELYN-MULT-001](tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md) | `multiplication` skill: 30-item bank, tables 2–10, anchor-based CPA reveals (×2 doubling, ×5 half-of-×10, ×9 trick). Auto-routing after `add_sub_100` graduation. |
-| [MATH-BAT9-003](tasks/MATH-BAT9-003/INSTRUCTIONS.md) | `long_division` skill: 60-item bank across 5 tiers, no remainders, CPA explain with multiplication-check verification. Auto-routing after `ops_1000` graduation. |
-| [MATH-EMILIA-BARMODELS-001](tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md) | `bar_models` skill: 30 Hebrew word problems with Singapore-style bar diagrams (SVG). Part-whole, comparison, two-step, and ratio bars. Auto-routing after `long_division` graduation. |
-| **Bank expansion + adaptive softening + anti-repeat** | All 4 banks expanded 30→60 (fractions 26→60). Difficulty matching now ±1 tolerance. Sessions remember item history per skill to avoid recent repeats. |
-| **Delete profile** | Home screen × button; purges all mastery/telemetry/graduation state for deleted profile. Age validation tightened to 7–10. |
+| [MATH-GRADUATION-001](tasks/MATH-GRADUATION-001/INSTRUCTIONS.md) | קריטריון graduation של מיומנות: 20 נכון-בראשון × ≥2 סשנים × ≥24 שעות מרווח. UI + telemetry חד-פעמי + סנכרון parent-guide. |
+| [MATH-BAT9-002](tasks/MATH-BAT9-002/INSTRUCTIONS.md) | מיומנות `ops_1000`: מאגר 30 פריטים ב-5 רמות (3-ספרות ± 1/2/3-ספרות). routing אוטומטי אחרי graduation של `fractions_intro`. |
+| [MATH-EVELYN-MULT-001](tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md) | מיומנות `multiplication`: מאגר 30 פריטים, לוחות 2–10, חשיפות CPA מבוססות-עוגן (×2 הכפלה, ×5 חצי-×10, טריק ×9). routing אוטומטי אחרי graduation של `add_sub_100`. |
+| [MATH-BAT9-003](tasks/MATH-BAT9-003/INSTRUCTIONS.md) | מיומנות `long_division`: מאגר 60 פריטים ב-5 רמות, בלי שאריות, הסבר CPA עם אימות הכפלה. routing אוטומטי אחרי graduation של `ops_1000`. |
+| [MATH-EMILIA-BARMODELS-001](tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md) | מיומנות `bar_models`: 30 בעיות מילוליות בעברית עם דיאגרמות bar בסגנון סינגפור (SVG). part-whole, השוואה, דו-שלבי, ויחס. routing אוטומטי אחרי graduation של `long_division`. |
+| **הרחבת מאגרים + ריכוך adaptive + anti-repeat** | כל 4 המאגרים הורחבו 30→60 (fractions 26→60). התאמת קושי עם סבולת ±1. סשנים זוכרים היסטוריית פריטים לכל מיומנות כדי להימנע מחזרות קרובות. |
+| **מחיקת פרופיל** | כפתור ✕ בדף הבית; מנקה את כל מצב mastery/telemetry/graduation של הפרופיל שנמחק. בדיקת גיל הוקשחה ל-7–10. |
 
-### Day 1 (2026-04-19)
+### יום 1 (2026-04-19)
 
-| Task | Outcome |
+| משימה | תוצאה |
 |---|---|
-| [MATH-MVP-001](tasks/MATH-MVP-001/INSTRUCTIONS.md) | Scaffold + Model A loop for Evelyn, add/sub-100 |
-| [UI-NEO-MONTESSORI-001](tasks/UI-NEO-MONTESSORI-001/INSTRUCTIONS.md) | Neo-Montessori palette, Heebo + Rubik, MasteryJar, confetti |
-| [MATH-PROFILES-001](tasks/MATH-PROFILES-001/INSTRUCTIONS.md) | Per-profile isolation |
-| Pedagogy layer | 3-attempt retry + CPA explanations + growth-mindset tone |
-| Welcome + greetings | Time + continuity-aware Hebrew greetings |
-| 4-layer backlog system | BACKLOG + evals + telemetry + FEEDBACK-LOG |
-| Brand: Emiva | Logo + favicon + BRANDING.md (MyLevel → Evami → Emiva) |
-| Devlog infrastructure | CHANGELOG + devlog + ADR-001 + milestones + postmortems |
+| [MATH-MVP-001](tasks/MATH-MVP-001/INSTRUCTIONS.md) | Scaffold + loop של Model A לאוולין, חיבור/חיסור עד 100 |
+| [UI-NEO-MONTESSORI-001](tasks/UI-NEO-MONTESSORI-001/INSTRUCTIONS.md) | פלטת Neo-Montessori, Heebo + Rubik, MasteryJar, קונפטי |
+| [MATH-PROFILES-001](tasks/MATH-PROFILES-001/INSTRUCTIONS.md) | בידוד לכל פרופיל |
+| שכבת פדגוגיה | retry של 3 ניסיונות + הסברי CPA + טון growth-mindset |
+| ברוכה הבאה + ברכות | ברכות בעברית מודעות-זמן ורציפות |
+| מערכת backlog של 4 שכבות | BACKLOG + evals + telemetry + FEEDBACK-LOG |
+| מותג: Emiva | לוגו + favicon + BRANDING.md (MyLevel → Evami → Emiva) |
+| תשתית devlog | CHANGELOG + devlog + ADR-001 + milestones + postmortems |
 
 ---
 
-## 🧭 How to use
+## 🧭 איך להשתמש
 
-- **Weekly:** check **Now** and **Next** are current. Move stale items.
-- **When a task ships:** Done + CHANGELOG + weeknote.
-- **When deferring:** → Later (with trigger) + mirror in `tasks/BACKLOG.md`.
-- **When starting next track:** convert 🔲 *planned* to **Now** by creating `tasks/<TASK-ID>/INSTRUCTIONS.md`.
-- Items marked 🔲 are scope commitments without specs. They're in the plan but not yet broken down. Specs are written when the task enters **Next**.
+- **שבועית:** בדקי ש-**עכשיו** ו-**הבא** עדכניים. הזיזי פריטים שהתיישנו.
+- **כשמשימה עולה:** בוצע + CHANGELOG + weeknote.
+- **בזמן דחייה:** → אחר כך (עם טריגר) + שיקוף ב-`tasks/BACKLOG.md`.
+- **בהתחלת מסלול הבא:** המירי 🔲 *מתוכנן* ל-**עכשיו** על ידי יצירת `tasks/<TASK-ID>/INSTRUCTIONS.md`.
+- פריטים מסומנים 🔲 הם מחויבויות טווח בלי מפרט. הם בתוכנית אך עדיין לא פורקו. מפרטים נכתבים כשהמשימה נכנסת ל-**הבא**.
 
-*See also: [tasks/BACKLOG.md](tasks/BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [docs/devlog/](docs/devlog/) · [docs/adr/](docs/adr/) · [docs/parent-guide.md](docs/parent-guide.md).*
+*ראי גם: [tasks/BACKLOG.md](tasks/BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [docs/devlog/](docs/devlog/) · [docs/adr/](docs/adr/) · [docs/parent-guide.md](docs/parent-guide.md).*
