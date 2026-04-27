@@ -7,6 +7,7 @@ out/
 coverage/
 .vscode/
 .obsidian/
+.claude/settings.local.json
 .docx-extract/
 ~$*.docx
 ~$*.xlsx
