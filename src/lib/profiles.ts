@@ -14,7 +14,9 @@ const PROFILES_KEY = "emiva.profiles.v1";
 const ACTIVE_KEY = "emiva.active_profile.v1";
 
 export function allowedSkillsForAge(age: number): Skill[] {
-  if (age >= 7 && age <= 8) return ["add_sub_100", "multiplication"];
+  if (age >= 7 && age <= 8) {
+    return ["add_sub_100", "multiplication", "hebrew_comprehension"];
+  }
   if (age >= 9 && age <= 10) {
     return ["fractions_intro", "ops_1000", "long_division", "bar_models"];
   }

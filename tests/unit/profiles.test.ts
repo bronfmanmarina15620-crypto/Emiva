@@ -46,11 +46,19 @@ beforeEach(() => {
 
 describe("profiles", () => {
   describe("allowedSkillsForAge", () => {
-    it("age 7 → add_sub_100 then multiplication (ordered)", () => {
-      expect(allowedSkillsForAge(7)).toEqual(["add_sub_100", "multiplication"]);
+    it("age 7 → add_sub_100, multiplication, hebrew_comprehension (ordered)", () => {
+      expect(allowedSkillsForAge(7)).toEqual([
+        "add_sub_100",
+        "multiplication",
+        "hebrew_comprehension",
+      ]);
     });
-    it("age 8 → add_sub_100 then multiplication (ordered)", () => {
-      expect(allowedSkillsForAge(8)).toEqual(["add_sub_100", "multiplication"]);
+    it("age 8 → same chain as age 7", () => {
+      expect(allowedSkillsForAge(8)).toEqual([
+        "add_sub_100",
+        "multiplication",
+        "hebrew_comprehension",
+      ]);
     });
     it("age 9 → fractions_intro, ops_1000, long_division, bar_models (ordered)", () => {
       expect(allowedSkillsForAge(9)).toEqual([
@@ -105,7 +113,11 @@ describe("profiles", () => {
       expect(all.length).toBe(1);
       expect(all[0]?.name).toBe("Alpha");
       expect(all[0]?.age).toBe(7);
-      expect(all[0]?.allowedSkills).toEqual(["add_sub_100", "multiplication"]);
+      expect(all[0]?.allowedSkills).toEqual([
+        "add_sub_100",
+        "multiplication",
+        "hebrew_comprehension",
+      ]);
       expect(p.id).toBeTruthy();
     });
 

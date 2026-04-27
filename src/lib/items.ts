@@ -24,19 +24,34 @@ function isNumericIntegerInput(userInput: string, answer: number): boolean {
   return n === answer;
 }
 
-export function isItemCorrect(item: Item, userInput: string): boolean {
+export function isItemCorrect(
+  item: Item,
+  userInput: string,
+  questionIndex: 0 | 1 = 0,
+): boolean {
   if (isArithmeticItem(item)) {
     return isNumericIntegerInput(userInput, item.answer);
   }
   if (item.skill === "bar_models") {
     return isNumericIntegerInput(userInput, item.answer);
   }
+  if (item.skill === "hebrew_comprehension") {
+    const q = item.questions[questionIndex];
+    return userInput === q.options[q.correctIndex];
+  }
   return isFractionCorrect(item, userInput);
 }
 
-export function canonicalAnswer(item: Item): string {
+export function canonicalAnswer(
+  item: Item,
+  questionIndex: 0 | 1 = 0,
+): string {
   if (isArithmeticItem(item)) return String(item.answer);
   if (item.skill === "bar_models") return String(item.answer);
+  if (item.skill === "hebrew_comprehension") {
+    const q = item.questions[questionIndex];
+    return q.options[q.correctIndex];
+  }
   switch (item.answer.kind) {
     case "choice":
       return item.answer.correct;

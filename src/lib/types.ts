@@ -6,7 +6,8 @@ export type Skill =
   | "ops_1000"
   | "multiplication"
   | "long_division"
-  | "bar_models";
+  | "bar_models"
+  | "hebrew_comprehension";
 
 export type AddSubItem = {
   id: string;
@@ -89,12 +90,28 @@ export type FractionItem = {
   external_test_eligible?: boolean;
 };
 
+export type HebrewCompQuestion = {
+  question: string;
+  options: [string, string, string, string];
+  correctIndex: 0 | 1 | 2 | 3;
+  explanation: string;
+};
+
+export type HebrewCompItem = {
+  id: string;
+  skill: "hebrew_comprehension";
+  difficulty: Difficulty;
+  text: string;
+  questions: [HebrewCompQuestion, HebrewCompQuestion];
+};
+
 export type Item =
   | AddSubItem
   | FractionItem
   | MultItem
   | DivisionItem
-  | BarModelItem;
+  | BarModelItem
+  | HebrewCompItem;
 
 export type Attempt = {
   itemId: string;

@@ -8,10 +8,12 @@ import fractionsBank from "@/content/math/fractions-intro.json";
 import longDivisionBank from "@/content/math/long-division.json";
 import multBank from "@/content/math/multiplication.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
+import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
 import type {
   AddSubItem,
   BarModelItem,
   FractionItem,
+  HebrewCompItem,
   Item,
   MasteryState,
   MultItem,
@@ -75,6 +77,7 @@ const OPS_1000_BANK = ops1000Bank as unknown as readonly Item[];
 const MULTIPLICATION_BANK = multBank as unknown as readonly Item[];
 const LONG_DIVISION_BANK = longDivisionBank as unknown as readonly Item[];
 const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
+const HEBREW_COMP_BANK = hebrewCompBank as unknown as readonly Item[];
 
 function bankForSkill(skill: Skill): readonly Item[] {
   switch (skill) {
@@ -90,6 +93,8 @@ function bankForSkill(skill: Skill): readonly Item[] {
       return LONG_DIVISION_BANK;
     case "bar_models":
       return BAR_MODELS_BANK;
+    case "hebrew_comprehension":
+      return HEBREW_COMP_BANK;
   }
 }
 
@@ -185,6 +190,9 @@ export default function SessionPage() {
   const [answered, setAnswered] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [attempts, setAttempts] = useState(0);
+  // For hebrew_comprehension: which of the 2 questions is currently being asked.
+  // Reset to 0 on every new item; advances to 1 after Q1 is correct or revealed.
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<0 | 1>(0);
   const [retryText, setRetryText] = useState("");
   const [correctText, setCorrectText] = useState("");
   const [revealText, setRevealText] = useState("");
@@ -336,7 +344,7 @@ export default function SessionPage() {
     if (phase !== "active" && phase !== "retry") return;
     if (rawInput.trim() === "") return;
 
-    const correct = isItemCorrect(current, rawInput);
+    const correct = isItemCorrect(current, rawInput, currentQuestionIndex);
     const nextAttempts = attempts + 1;
     const attemptIdx = attempts as 0 | 1 | 2;
     logEvent(profile.id, {
@@ -406,12 +414,28 @@ export default function SessionPage() {
 
   function advance() {
     if (!profile || !skill) return;
+
+    // For hebrew_comprehension: after Q1 finishes (correct or revealed), move
+    // to Q2 of the same item. Only after Q2 do we advance to a new item.
+    if (
+      current &&
+      current.skill === "hebrew_comprehension" &&
+      currentQuestionIndex === 0
+    ) {
+      setCurrentQuestionIndex(1);
+      setAttempts(0);
+      setInput("");
+      setPhase("active");
+      return;
+    }
+
     const newUsed = current
       ? new Set([...usedIds, current.id])
       : new Set(usedIds);
     setUsedIds(newUsed);
     setInput("");
     setAttempts(0);
+    setCurrentQuestionIndex(0);
 
     if (answered >= itemsPerSession) {
       logEvent(profile.id, {
@@ -644,12 +668,13 @@ export default function SessionPage() {
         </div>
 
         {current && (
-          <ItemPrompt item={current} />
+          <ItemPrompt item={current} questionIndex={currentQuestionIndex} />
         )}
 
         {current && (
           <ItemInput
             item={current}
+            questionIndex={currentQuestionIndex}
             input={input}
             setInput={setInput}
             locked={formLocked}
@@ -678,7 +703,12 @@ export default function SessionPage() {
         )}
 
         {phase === "reveal" && current && (
-          <ItemReveal item={current} introText={revealText} onAdvance={advance} />
+          <ItemReveal
+            item={current}
+            questionIndex={currentQuestionIndex}
+            introText={revealText}
+            onAdvance={advance}
+          />
         )}
       </div>
     </main>
@@ -688,10 +718,37 @@ export default function SessionPage() {
 function needsTextInput(item: Item): boolean {
   if (isArithmeticItem(item)) return true;
   if (item.skill === "bar_models") return true;
+  if (item.skill === "hebrew_comprehension") return false;
   return item.answer.kind === "numeric" || item.answer.kind === "fraction";
 }
 
-function ItemPrompt({ item }: { item: Item }) {
+function ItemPrompt({
+  item,
+  questionIndex,
+}: {
+  item: Item;
+  questionIndex: 0 | 1;
+}) {
+  if (item.skill === "hebrew_comprehension") {
+    const compItem = item as HebrewCompItem;
+    const q = compItem.questions[questionIndex];
+    return (
+      <div className="bg-surface rounded-3xl shadow-soft py-6 px-5 space-y-5">
+        <div className="text-lg md:text-xl text-right text-warm-dark leading-loose font-medium max-w-prose mx-auto">
+          {compItem.text}
+        </div>
+        <div className="border-t border-warm-line pt-4">
+          <div className="text-base md:text-lg text-right text-warm-dark font-semibold leading-relaxed">
+            <span className="text-warm-muted text-sm ml-2">
+              שאלה {questionIndex + 1} מתוך 2:
+            </span>
+            {q.question}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isArithmeticItem(item)) {
     if (isMoneyItem(item)) {
       return (
@@ -744,6 +801,7 @@ function ItemPrompt({ item }: { item: Item }) {
 
 type InputProps = {
   item: Item;
+  questionIndex: 0 | 1;
   input: string;
   setInput: (v: string) => void;
   locked: boolean;
@@ -754,6 +812,7 @@ type InputProps = {
 
 function ItemInput({
   item,
+  questionIndex,
   input,
   setInput,
   locked,
@@ -761,6 +820,28 @@ function ItemInput({
   onChoose,
   inputRef,
 }: InputProps) {
+  if (item.skill === "hebrew_comprehension") {
+    const compItem = item as HebrewCompItem;
+    const q = compItem.questions[questionIndex];
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {q.options.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChoose(opt)}
+            disabled={locked}
+            className="bg-surface border-2 border-warm-line rounded-2xl p-4 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft text-right"
+          >
+            <span className="text-base md:text-lg text-warm-dark leading-relaxed">
+              {opt}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
   if (isArithmeticItem(item) || item.skill === "bar_models") {
     return (
       <form onSubmit={onSubmitText} className="space-y-4">
@@ -852,13 +933,43 @@ function ItemInput({
 
 function ItemReveal({
   item,
+  questionIndex,
   introText,
   onAdvance,
 }: {
   item: Item;
+  questionIndex: 0 | 1;
   introText: string;
   onAdvance: () => void;
 }) {
+  if (item.skill === "hebrew_comprehension") {
+    const compItem = item as HebrewCompItem;
+    const q = compItem.questions[questionIndex];
+    const correctOpt = q.options[q.correctIndex];
+    return (
+      <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
+        <div className="text-base text-warm-dark leading-loose">
+          {compItem.text}
+        </div>
+        <div className="text-lg font-semibold text-warm-dark border-t border-warm-indigo/30 pt-3">
+          {introText}{" "}
+          <span className="font-display font-extrabold text-warm-indigo">
+            {correctOpt}
+          </span>
+        </div>
+        <div className="text-base text-warm-dark leading-relaxed">
+          {q.explanation}
+        </div>
+        <button
+          onClick={onAdvance}
+          className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
+        >
+          הבנתי — המשך
+        </button>
+      </div>
+    );
+  }
+
   if (isArithmeticItem(item)) {
     const explainText = isMoneyItem(item) ? item.explanation : explain(item);
     return (

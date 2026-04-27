@@ -83,6 +83,7 @@ export const SKILL_HEBREW: Record<Skill, string> = {
   ops_1000: "חיבור וחיסור עד 1000",
   long_division: "חילוק ארוך",
   bar_models: "בעיות מילוליות",
+  hebrew_comprehension: "הבנת הנקרא בעברית",
 };
 
 export const POSSIBLE_CAUSE_HEBREW: Partial<Record<Skill, string>> = {

@@ -5,6 +5,41 @@
 
 ## [Unreleased]
 
+### Added — מסלול הבנת הנקרא בעברית לאוולין (CORE-HEBREW-EVELYN-002)
+- **מיומנות חדשה `hebrew_comprehension`** — נוספת לסוף שרשרת גיל 7–8:
+  `add_sub_100` → `multiplication` → `hebrew_comprehension`. מסלול
+  הקריאה הראשון של אוולין.
+- **מדלגים על פוניקה** (CORE-HEBREW-EVELYN-001 בוטל). שתי הבנות
+  כבר קוראות בשטף לפי Marina; פוניקה שיטתית הייתה מתחת לרמה ולא
+  פדגוגית. תיעוד ב-memory עבור החלטות עתידיות.
+- **מבנה פריט:** טקסט עברי קצר (3–5 משפטים) + **2 שאלות אמריקאיות**
+  לכל פריט (לפי MyLevel.docx §3.2 "2 שאלות הבנה לטקסט"). כל שאלה:
+  4 אפשרויות + correctIndex + הסבר embedded.
+- **טיפוסים חדשים** ב-`src/lib/types.ts`: `HebrewCompQuestion` ו-
+  `HebrewCompItem`. הוספה ל-`Skill` union וכן ל-`Item` union.
+- **מאגר:** 30 פריטים ב-`src/content/hebrew/comprehension-evelyn.json`
+  (תיקייה חדשה), 6 לכל דרגה. דרגה 1 = עובדתי, 2 = הסקה קלה,
+  3 = אוצר מילים בהקשר, 4 = רעיון מרכזי + פרט תומך,
+  5 = הסקה רב-שלבית.
+- **`isItemCorrect` ו-`canonicalAnswer`** ב-`src/lib/items.ts` קיבלו
+  פרמטר אופציונלי `questionIndex: 0 | 1` (default 0). ענפים חדשים
+  ל-`hebrew_comprehension` משווים מול `questions[idx].options[correctIndex]`.
+- **דף סשן:** state חדש `currentQuestionIndex`. אחרי השלמת Q1
+  (correct או reveal), הסשן עובר ל-Q2 על אותו פריט במקום פריט חדש.
+  רק אחרי Q2 הסשן מקדם לפריט הבא. רינדור עברי לטקסט (`leading-loose`,
+  RTL, `max-w-prose`); 4 כפתורי אפשרות בגריד 2x2; חשיפה מציגה את
+  הטקסט שוב + הסבר embedded של השאלה הנוכחית.
+- **`SKILL_HEBREW`** ב-`parent-dashboard.ts` הורחב עם המיפוי
+  "הבנת הנקרא בעברית".
+- **בדיקות:** `tests/unit/hebrew-comprehension-bank.test.ts` חדש
+  (13 מקרים: גודל, פיזור דרגות, שתי שאלות לפריט, אורך טקסט,
+  ייחודיות אפשרויות, תקפות correctIndex, הסברים, טון, גיוון
+  דמויות עם tokenization עברית). `tests/unit/profiles.test.ts`
+  עודכן (גיל 7–8 → 3 מיומנויות).
+  סה"כ: **322 → 336 עוברות**.
+- **תיעוד:** `docs/parent-guide.md §4` עודכן עם השרשרת החדשה
+  והערה על דילוג מודע על פוניקה.
+
 ### Added — ערבוב בעיות-כסף בתרגול של אוולין (MATH-EVELYN-MONEY-001)
 - **3 מתוך 5 פריטים בהקשר כסף** בכל סשן של בת 7–8, בתוך המאגרים
   הקיימים `add_sub_100` ו-`multiplication`. נאמן ל-MyLevel.docx §3.1
