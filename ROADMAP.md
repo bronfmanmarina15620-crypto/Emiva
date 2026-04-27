@@ -13,7 +13,7 @@
 
 ## 🟢 עכשיו (פעיל)
 
-1. **MATH-EVELYN-MONEY-001** — ערבוב 3-מ-5 פריטי בעיות-כסף בתוך התרגול היומי של אוולין (`add_sub_100` + `multiplication`). לפי MyLevel §3.1 + §5.4 — חינוך פיננסי מבוזר, לא מיומנות נפרדת. ראי [tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md](tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md).
+*(אין משימה פעילה. v1 מתמטיקה הושלמה לאוולין; ההמשך הוא קריאה בעברית.)*
 
 ---
 
@@ -33,7 +33,7 @@
 |---|---|---|---|
 | MATH-MVP-001 | אוולין (7) | חיבור/חיסור עד 100 | ✅ יום 1 |
 | **MATH-EVELYN-MULT-001** | אוולין | לוח הכפל | ✅ יום 4 |
-| **MATH-EVELYN-MONEY-001** | אוולין | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` (לפי MyLevel §3.1 + §5.4 — חינוך פיננסי מבוזר, לא מיומנות נפרדת) | 🟢 פעיל |
+| **MATH-EVELYN-MONEY-001** | אוולין | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` (לפי MyLevel §3.1 + §5.4) | ✅ יום 6 |
 | **MATH-BAT9-001** | אמיליה (9) | שברים, פעולות עד 1000, חילוק ארוך | ✅ כל 3 הפרוסות עלו (יום 4: שברים, ops-1000, long_division) |
 | **MATH-EMILIA-BARMODELS-001** | אמיליה | Bar Models לבעיות מילוליות (Singapore CPA) | ✅ יום 4 |
 
@@ -111,6 +111,12 @@
 ## ✅ בוצע
 
 מקור סמכות: [CHANGELOG.md](CHANGELOG.md). נרטיב: [docs/devlog/](docs/devlog/).
+
+### יום 6 (2026-04-27)
+
+| משימה | תוצאה |
+|---|---|
+| [MATH-EVELYN-MONEY-001](tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md) | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` של בת 7–8. 60 פריטים חדשים בעברית (30 לכל מאגר, 6 לכל דרגה), שדה `context`+`explanation` אופציונלי על AddSubItem/MultItem, `selectNextItem` עם סינון הקשר, חיווט 3-מ-5 בדף הסשן, רינדור עברי לפריטי money. נאמן ל-MyLevel §3.1+§5.4. סה"כ: 306→322 טסטים עוברים. |
 
 ### יום 5 (2026-04-23)
 

@@ -62,5 +62,40 @@
   { "id": "as100-093", "skill": "add_sub_100", "difficulty": 5, "prompt": "16 + 67 = ?", "answer": 83, "operands": [16, 67], "op": "+" },
   { "id": "as100-094", "skill": "add_sub_100", "difficulty": 5, "prompt": "85 - 39 = ?", "answer": 46, "operands": [85, 39], "op": "-" },
   { "id": "as100-095", "skill": "add_sub_100", "difficulty": 5, "prompt": "92 - 56 = ?", "answer": 36, "operands": [92, 56], "op": "-" },
-  { "id": "as100-096", "skill": "add_sub_100", "difficulty": 5, "prompt": "71 - 23 = ?", "answer": 48, "operands": [71, 23], "op": "-" }
+  { "id": "as100-096", "skill": "add_sub_100", "difficulty": 5, "prompt": "71 - 23 = ?", "answer": 48, "operands": [71, 23], "op": "-" },
+
+  { "id": "as100-money-001", "skill": "add_sub_100", "difficulty": 1, "prompt": "קניתי גלידה ב-3₪ וסוכריה ב-4₪. כמה שילמתי?", "answer": 7, "operands": [3, 4], "op": "+", "context": "money", "explanation": "מחברים את שני הסכומים: 3+4 = 7₪." },
+  { "id": "as100-money-002", "skill": "add_sub_100", "difficulty": 1, "prompt": "קיבלתי 5₪ דמי כיס, ועוד 2₪ מאחותי. סה\"כ?", "answer": 7, "operands": [5, 2], "op": "+", "context": "money", "explanation": "5+2 = 7₪." },
+  { "id": "as100-money-003", "skill": "add_sub_100", "difficulty": 1, "prompt": "ארנק עם 8₪. הוצאתי 3₪ בקיוסק. כמה נשאר?", "answer": 5, "operands": [8, 3], "op": "-", "context": "money", "explanation": "מתחילים מ-8₪ ומסירים 3: 8−3 = 5₪." },
+  { "id": "as100-money-004", "skill": "add_sub_100", "difficulty": 1, "prompt": "אבא הביא 6₪ ואז הוסיף עוד 2₪. סה\"כ?", "answer": 8, "operands": [6, 2], "op": "+", "context": "money", "explanation": "6+2 = 8₪." },
+  { "id": "as100-money-005", "skill": "add_sub_100", "difficulty": 1, "prompt": "9₪ במזומן. הוצאתי 4₪. כמה נשאר?", "answer": 5, "operands": [9, 4], "op": "-", "context": "money", "explanation": "9−4 = 5₪." },
+  { "id": "as100-money-006", "skill": "add_sub_100", "difficulty": 1, "prompt": "חברה החזירה 4₪ ועוד 3₪. כמה החזירה?", "answer": 7, "operands": [4, 3], "op": "+", "context": "money", "explanation": "4+3 = 7₪." },
+
+  { "id": "as100-money-007", "skill": "add_sub_100", "difficulty": 2, "prompt": "סוכריה 7₪ ומסטיק 5₪. סה\"כ?", "answer": 12, "operands": [7, 5], "op": "+", "context": "money", "explanation": "השלמה ל-10: 7+3=10, ועוד 2 = 12₪." },
+  { "id": "as100-money-008", "skill": "add_sub_100", "difficulty": 2, "prompt": "קופסת חיסכון 8₪. סבתא הוסיפה 6₪. סה\"כ?", "answer": 14, "operands": [8, 6], "op": "+", "context": "money", "explanation": "השלמה ל-10: 8+2=10, ועוד 4 = 14₪." },
+  { "id": "as100-money-009", "skill": "add_sub_100", "difficulty": 2, "prompt": "ארנק 13₪. שילמתי 8₪ בחנות הצעצועים. כמה נשאר?", "answer": 5, "operands": [13, 8], "op": "-", "context": "money", "explanation": "13 פחות 8 = 5₪. אפשר לחשוב: 8 צריך 5 כדי להגיע ל-13." },
+  { "id": "as100-money-010", "skill": "add_sub_100", "difficulty": 2, "prompt": "9₪ דמי כיס ועוד 4₪ שמצאתי בארנק. סה\"כ?", "answer": 13, "operands": [9, 4], "op": "+", "context": "money", "explanation": "9+1=10, ועוד 3 = 13₪." },
+  { "id": "as100-money-011", "skill": "add_sub_100", "difficulty": 2, "prompt": "ב-15₪ במזומן. קניתי גלידה ב-7₪. כמה נשאר?", "answer": 8, "operands": [15, 7], "op": "-", "context": "money", "explanation": "15−5=10, פחות עוד 2 → 8₪." },
+  { "id": "as100-money-012", "skill": "add_sub_100", "difficulty": 2, "prompt": "12₪ בקופסה. הוצאתי 9₪. כמה נשאר?", "answer": 3, "operands": [12, 9], "op": "-", "context": "money", "explanation": "12 פחות 9 = 3. אפשר: 9 צריך 3 כדי להגיע ל-12." },
+
+  { "id": "as100-money-013", "skill": "add_sub_100", "difficulty": 3, "prompt": "ספר 42₪, סוכריה 5₪. סה\"כ?", "answer": 47, "operands": [42, 5], "op": "+", "context": "money", "explanation": "רק היחידות משתנות: 2+5=7. התוצאה 47₪." },
+  { "id": "as100-money-014", "skill": "add_sub_100", "difficulty": 3, "prompt": "ארנק 71₪. אבא הוסיף 6₪. סה\"כ?", "answer": 77, "operands": [71, 6], "op": "+", "context": "money", "explanation": "היחידות 1+6=7. התוצאה 77₪." },
+  { "id": "as100-money-015", "skill": "add_sub_100", "difficulty": 3, "prompt": "34₪ בקופה. אמא הוסיפה 5₪. סה\"כ?", "answer": 39, "operands": [34, 5], "op": "+", "context": "money", "explanation": "היחידות 4+5=9. התוצאה 39₪." },
+  { "id": "as100-money-016", "skill": "add_sub_100", "difficulty": 3, "prompt": "47₪ בארנק. הוצאתי 3₪ במכולת. כמה נשאר?", "answer": 44, "operands": [47, 3], "op": "-", "context": "money", "explanation": "היחידות 7−3=4. התוצאה 44₪." },
+  { "id": "as100-money-017", "skill": "add_sub_100", "difficulty": 3, "prompt": "89₪ במזומן. הוצאתי 6₪. כמה נשאר?", "answer": 83, "operands": [89, 6], "op": "-", "context": "money", "explanation": "היחידות 9−6=3. התוצאה 83₪." },
+  { "id": "as100-money-018", "skill": "add_sub_100", "difficulty": 3, "prompt": "55₪ במזומן. הוצאתי 4₪. כמה נשאר?", "answer": 51, "operands": [55, 4], "op": "-", "context": "money", "explanation": "היחידות 5−4=1. התוצאה 51₪." },
+
+  { "id": "as100-money-019", "skill": "add_sub_100", "difficulty": 4, "prompt": "37₪ ועוד 8₪ בעוד שני פריטים. סה\"כ?", "answer": 45, "operands": [37, 8], "op": "+", "context": "money", "explanation": "7+8=15. 30+15 = 45₪." },
+  { "id": "as100-money-020", "skill": "add_sub_100", "difficulty": 4, "prompt": "62₪ בארנק. הוצאתי 9₪ במכולת. כמה נשאר?", "answer": 53, "operands": [62, 9], "op": "-", "context": "money", "explanation": "9 גדול מ-2, נשאיל מהעשרות. 12−9=3, ועם 5 עשרות → 53₪." },
+  { "id": "as100-money-021", "skill": "add_sub_100", "difficulty": 4, "prompt": "75₪ במזומן. סבתא הוסיפה 8₪ ליום הולדת. סה\"כ?", "answer": 83, "operands": [75, 8], "op": "+", "context": "money", "explanation": "5+8=13. 70+13 = 83₪." },
+  { "id": "as100-money-022", "skill": "add_sub_100", "difficulty": 4, "prompt": "94₪. הוצאתי 7₪ בקיוסק. כמה נשאר?", "answer": 87, "operands": [94, 7], "op": "-", "context": "money", "explanation": "ניקח עשרת מהמספר. 14−7=7, ועם 8 עשרות → 87₪." },
+  { "id": "as100-money-023", "skill": "add_sub_100", "difficulty": 4, "prompt": "29₪ ועוד 13₪ בקופת חיסכון. סה\"כ?", "answer": 42, "operands": [29, 13], "op": "+", "context": "money", "explanation": "9+3=12 (עשרת לעשרות). 2+1+1=4. התוצאה 42₪." },
+  { "id": "as100-money-024", "skill": "add_sub_100", "difficulty": 4, "prompt": "55₪ בקופה. הוצאתי 17₪. כמה נשאר?", "answer": 38, "operands": [55, 17], "op": "-", "context": "money", "explanation": "5<7, נשאיל. 15−7=8. עשרות 4−1=3. התוצאה 38₪." },
+
+  { "id": "as100-money-025", "skill": "add_sub_100", "difficulty": 5, "prompt": "חולצה 45₪ ומכנסיים 38₪. כמה שילמתי על שניהם?", "answer": 83, "operands": [45, 38], "op": "+", "context": "money", "explanation": "5+8=13 (1 עשרת לעשרות). עשרות 4+3+1=8. התוצאה 83₪." },
+  { "id": "as100-money-026", "skill": "add_sub_100", "difficulty": 5, "prompt": "ארנק 80₪. שילמתי 25₪. כמה נשאר?", "answer": 55, "operands": [80, 25], "op": "-", "context": "money", "explanation": "0<5, נשאיל. 10−5=5. עשרות 7−2=5. התוצאה 55₪." },
+  { "id": "as100-money-027", "skill": "add_sub_100", "difficulty": 5, "prompt": "ספר 28₪ ויומן 19₪. סה\"כ?", "answer": 47, "operands": [28, 19], "op": "+", "context": "money", "explanation": "8+9=17 (1 עשרת לעשרות). עשרות 2+1+1=4. התוצאה 47₪." },
+  { "id": "as100-money-028", "skill": "add_sub_100", "difficulty": 5, "prompt": "בקופה 72₪. הוצאתי 35₪ לקניות. כמה נשאר?", "answer": 37, "operands": [72, 35], "op": "-", "context": "money", "explanation": "2<5, נשאיל. 12−5=7. עשרות 6−3=3. התוצאה 37₪." },
+  { "id": "as100-money-029", "skill": "add_sub_100", "difficulty": 5, "prompt": "סבתא נתנה 50₪ ואחי הוסיף 35₪. סה\"כ?", "answer": 85, "operands": [50, 35], "op": "+", "context": "money", "explanation": "עשרות 5+3=8, יחידות 0+5=5. התוצאה 85₪." },
+  { "id": "as100-money-030", "skill": "add_sub_100", "difficulty": 5, "prompt": "תיק 64₪. שילמתי בשטר של 100₪. כמה עודף?", "answer": 36, "operands": [100, 64], "op": "-", "context": "money", "explanation": "ספירה למעלה: 64 צריך 36 כדי להגיע ל-100. עודף 36₪." }
 ]

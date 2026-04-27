@@ -65,9 +65,16 @@ describe("multiplication — bank integrity", () => {
     }
   });
 
-  it("prompts match '%d × %d = ?' regex", () => {
-    const re = /^\d+ × \d+ = \?$/;
-    for (const it of items) expect(it.prompt).toMatch(re);
+  it("plain prompts match '%d × %d = ?' regex; money prompts contain ₪", () => {
+    const plainRe = /^\d+ × \d+ = \?$/;
+    for (const it of items) {
+      if (it.context === "money") {
+        expect(it.prompt).toContain("₪");
+        expect(it.explanation).toBeTruthy();
+      } else {
+        expect(it.prompt).toMatch(plainRe);
+      }
+    }
   });
 });
 

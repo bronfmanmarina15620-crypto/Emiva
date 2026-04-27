@@ -62,5 +62,40 @@
   { "id": "mult-093", "skill": "multiplication", "difficulty": 5, "prompt": "8 × 5 = ?", "answer": 40, "operands": [8, 5], "op": "*" },
   { "id": "mult-094", "skill": "multiplication", "difficulty": 5, "prompt": "10 × 9 = ?", "answer": 90, "operands": [10, 9], "op": "*" },
   { "id": "mult-095", "skill": "multiplication", "difficulty": 5, "prompt": "10 × 10 = ?", "answer": 100, "operands": [10, 10], "op": "*" },
-  { "id": "mult-096", "skill": "multiplication", "difficulty": 5, "prompt": "6 × 5 = ?", "answer": 30, "operands": [6, 5], "op": "*" }
+  { "id": "mult-096", "skill": "multiplication", "difficulty": 5, "prompt": "6 × 5 = ?", "answer": 30, "operands": [6, 5], "op": "*" },
+
+  { "id": "mult-money-001", "skill": "multiplication", "difficulty": 1, "prompt": "קניתי 3 שקיות חטיף ב-2₪ כל אחת. כמה שילמתי?", "answer": 6, "operands": [3, 2], "op": "*", "context": "money", "explanation": "3 קבוצות של 2₪ זה כפול: 2+2+2 = 6₪." },
+  { "id": "mult-money-002", "skill": "multiplication", "difficulty": 1, "prompt": "סבתא נתנה 4 מטבעות של 5₪. כמה כסף קיבלתי?", "answer": 20, "operands": [4, 5], "op": "*", "context": "money", "explanation": "5₪ זה חצי מ-10₪. 4×5 = חצי מ-4×10 = חצי מ-40 = 20₪." },
+  { "id": "mult-money-003", "skill": "multiplication", "difficulty": 1, "prompt": "כרטיס למוזיאון עולה 10₪. כמה ישלמו 6 ילדות?", "answer": 60, "operands": [6, 10], "op": "*", "context": "money", "explanation": "להוסיף אפס: 6×10 זה 6 עם אפס בסוף = 60₪." },
+  { "id": "mult-money-004", "skill": "multiplication", "difficulty": 1, "prompt": "בקיוסק סוכריות זוגיות, 2₪ לזוג. קניתי 7 זוגות. כמה?", "answer": 14, "operands": [7, 2], "op": "*", "context": "money", "explanation": "7 זוגות של 2₪. כפול של 7: 7+7 = 14₪." },
+  { "id": "mult-money-005", "skill": "multiplication", "difficulty": 1, "prompt": "אני חוסכת 5₪ בכל שבוע. בעוד 8 שבועות, כמה אחסוך?", "answer": 40, "operands": [8, 5], "op": "*", "context": "money", "explanation": "5₪ הוא חצי מ-10₪. 8×5 = חצי מ-8×10 = חצי מ-80 = 40₪." },
+  { "id": "mult-money-006", "skill": "multiplication", "difficulty": 1, "prompt": "9 חברות שילמו 10₪ כל אחת לסדנת אומנות. סה\"כ?", "answer": 90, "operands": [9, 10], "op": "*", "context": "money", "explanation": "להוסיף אפס: 9×10 = 90₪." },
+
+  { "id": "mult-money-007", "skill": "multiplication", "difficulty": 2, "prompt": "4 דפי מדבקות במכולת, 3₪ לדף. סה\"כ?", "answer": 12, "operands": [4, 3], "op": "*", "context": "money", "explanation": "ספירה בקבוצות של 3: 3, 6, 9, 12. סה\"כ 12₪." },
+  { "id": "mult-money-008", "skill": "multiplication", "difficulty": 2, "prompt": "אבא הביא 6 שוקולדים ב-3₪ כל אחד. כמה שילם?", "answer": 18, "operands": [6, 3], "op": "*", "context": "money", "explanation": "6 קבוצות של 3₪: 3, 6, 9, 12, 15, 18. סה\"כ 18₪." },
+  { "id": "mult-money-009", "skill": "multiplication", "difficulty": 2, "prompt": "8 ילדות חילקו עוגת יום הולדת ושילמו 3₪ כל אחת.", "answer": 24, "operands": [8, 3], "op": "*", "context": "money", "explanation": "ספירה בדילוגים של 3 — 3, 6, 9, 12, 15, 18, 21, 24. סה\"כ 24₪." },
+  { "id": "mult-money-010", "skill": "multiplication", "difficulty": 2, "prompt": "יומן עולה 4₪. רכשתי 5 יומנים מתנה. כמה?", "answer": 20, "operands": [5, 4], "op": "*", "context": "money", "explanation": "5 קבוצות של 4: 4, 8, 12, 16, 20. סה\"כ 20₪." },
+  { "id": "mult-money-011", "skill": "multiplication", "difficulty": 2, "prompt": "ביקרתי בקיוסק 6 פעמים החודש. בכל ביקור הוצאתי 4₪.", "answer": 24, "operands": [6, 4], "op": "*", "context": "money", "explanation": "6 פעמים של 4₪. 5×4=20, ועוד 4 = 24₪." },
+  { "id": "mult-money-012", "skill": "multiplication", "difficulty": 2, "prompt": "7 כרטיסי קומיקס ב-4₪ ליחידה. סה\"כ?", "answer": 28, "operands": [7, 4], "op": "*", "context": "money", "explanation": "7×4: 5×4=20, ועוד 2×4=8. ביחד 20+8=28₪." },
+
+  { "id": "mult-money-013", "skill": "multiplication", "difficulty": 3, "prompt": "6 כדורי גלידה במגש ב-6₪ ליחידה. סה\"כ?", "answer": 36, "operands": [6, 6], "op": "*", "context": "money", "explanation": "6 קבוצות של 6₪. 5×6=30, ועוד 6 = 36₪." },
+  { "id": "mult-money-014", "skill": "multiplication", "difficulty": 3, "prompt": "9 צמידי גומי בחנות צעצועים, 6₪ כל אחד.", "answer": 54, "operands": [9, 6], "op": "*", "context": "money", "explanation": "9×6: 10×6=60, פחות 6 = 54₪." },
+  { "id": "mult-money-015", "skill": "multiplication", "difficulty": 3, "prompt": "5 חוברות פעילות ב-9₪ כל אחת. סה\"כ?", "answer": 45, "operands": [5, 9], "op": "*", "context": "money", "explanation": "9₪ זה כמעט 10. 5×9 = 5×10 פחות 5 = 50−5 = 45₪." },
+  { "id": "mult-money-016", "skill": "multiplication", "difficulty": 3, "prompt": "אמא קנתה 7 כובעי שמש ב-9₪ ליחידה.", "answer": 63, "operands": [7, 9], "op": "*", "context": "money", "explanation": "9₪ זה 10₪ פחות 1₪. 7×9 = 7×10 פחות 7 = 70−7 = 63₪." },
+  { "id": "mult-money-017", "skill": "multiplication", "difficulty": 3, "prompt": "3 ספרים באקציה ב-9₪ כל אחד. כמה שילמתי?", "answer": 27, "operands": [3, 9], "op": "*", "context": "money", "explanation": "9₪ קרוב ל-10. 3×9 = 3×10 פחות 3 = 30−3 = 27₪." },
+  { "id": "mult-money-018", "skill": "multiplication", "difficulty": 3, "prompt": "4 חברות תרמו 6₪ כל אחת לפיקניק. סה\"כ?", "answer": 24, "operands": [4, 6], "op": "*", "context": "money", "explanation": "ספירה בדילוגים של 6 — 6, 12, 18, 24. סה\"כ 24₪." },
+
+  { "id": "mult-money-019", "skill": "multiplication", "difficulty": 4, "prompt": "3 מאפים במאפייה ב-7₪ כל אחד.", "answer": 21, "operands": [3, 7], "op": "*", "context": "money", "explanation": "3 קבוצות של 7₪: 7, 14, 21. סה\"כ 21₪." },
+  { "id": "mult-money-020", "skill": "multiplication", "difficulty": 4, "prompt": "5 חברות הזמינו פיצה ב-8₪ למנה. סה\"כ?", "answer": 40, "operands": [5, 8], "op": "*", "context": "money", "explanation": "5 קבוצות של 8₪. ספירה: 8, 16, 24, 32, 40. סה\"כ 40₪." },
+  { "id": "mult-money-021", "skill": "multiplication", "difficulty": 4, "prompt": "6 כרטיסי כניסה לבריכה ב-7₪ ליחיד.", "answer": 42, "operands": [6, 7], "op": "*", "context": "money", "explanation": "6×7: 5×7=35, ועוד 7 = 42₪." },
+  { "id": "mult-money-022", "skill": "multiplication", "difficulty": 4, "prompt": "8 בלוני הליום ביריד ב-7₪ כל אחד.", "answer": 56, "operands": [8, 7], "op": "*", "context": "money", "explanation": "ספירה בקבוצות של 7: 7, 14, 21, 28, 35, 42, 49, 56. סה\"כ 56₪." },
+  { "id": "mult-money-023", "skill": "multiplication", "difficulty": 4, "prompt": "9 שקיות פיצוחים בשוק ב-8₪ כל אחת.", "answer": 72, "operands": [9, 8], "op": "*", "context": "money", "explanation": "9×8: 10×8=80, פחות 8 = 72₪." },
+  { "id": "mult-money-024", "skill": "multiplication", "difficulty": 4, "prompt": "4 כיכרות לחם במכולת ב-8₪ ליחידה.", "answer": 32, "operands": [4, 8], "op": "*", "context": "money", "explanation": "4 קבוצות של 8₪. כפילויות: 8+8=16, 16+16=32. סה\"כ 32₪." },
+
+  { "id": "mult-money-025", "skill": "multiplication", "difficulty": 5, "prompt": "אצנית קנתה 7 בקבוקי מים ב-6₪ כל אחד. כמה שילמה?", "answer": 42, "operands": [7, 6], "op": "*", "context": "money", "explanation": "7×6 שווה ל-6×7. ספירה ב-7: 7, 14, 21, 28, 35, 42. סה\"כ 42₪." },
+  { "id": "mult-money-026", "skill": "multiplication", "difficulty": 5, "prompt": "8 ספרים בחנות הספרים ב-9₪ כל אחד.", "answer": 72, "operands": [8, 9], "op": "*", "context": "money", "explanation": "8×9: 8×10 פחות 8 = 80−8 = 72₪." },
+  { "id": "mult-money-027", "skill": "multiplication", "difficulty": 5, "prompt": "9 חברות תרמו 7₪ כל אחת לקופת הכיתה.", "answer": 63, "operands": [9, 7], "op": "*", "context": "money", "explanation": "9×7: 10×7 פחות 7 = 70−7 = 63₪." },
+  { "id": "mult-money-028", "skill": "multiplication", "difficulty": 5, "prompt": "6 שיעורי שחייה ב-8₪ לשיעור. סה\"כ?", "answer": 48, "operands": [6, 8], "op": "*", "context": "money", "explanation": "ספירה בקבוצות של 8: 8, 16, 24, 32, 40, 48. סה\"כ 48₪." },
+  { "id": "mult-money-029", "skill": "multiplication", "difficulty": 5, "prompt": "7 פירות שזיף בשוק ב-7₪ ליחידה.", "answer": 49, "operands": [7, 7], "op": "*", "context": "money", "explanation": "7×7: 7×5=35, ועוד 7×2=14. ביחד 35+14=49₪." },
+  { "id": "mult-money-030", "skill": "multiplication", "difficulty": 5, "prompt": "8 כרטיסי הצגה ב-8₪ ליחיד. כמה ישלמו?", "answer": 64, "operands": [8, 8], "op": "*", "context": "money", "explanation": "8×8: 8×4=32, ופי שתיים = 64₪." }
 ]

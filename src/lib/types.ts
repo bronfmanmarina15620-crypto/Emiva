@@ -16,6 +16,8 @@ export type AddSubItem = {
   answer: number;
   operands: [number, number];
   op: "+" | "-";
+  context?: "money";
+  explanation?: string;
 };
 
 export type MultItem = {
@@ -26,6 +28,8 @@ export type MultItem = {
   answer: number;
   operands: [number, number];
   op: "*";
+  context?: "money";
+  explanation?: string;
 };
 
 export type DivisionItem = {

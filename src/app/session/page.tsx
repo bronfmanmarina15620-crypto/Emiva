@@ -9,10 +9,12 @@ import longDivisionBank from "@/content/math/long-division.json";
 import multBank from "@/content/math/multiplication.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import type {
+  AddSubItem,
   BarModelItem,
   FractionItem,
   Item,
   MasteryState,
+  MultItem,
   Skill,
 } from "@/lib/types";
 import { MASTERY_TARGET } from "@/lib/types";
@@ -25,7 +27,11 @@ import {
   skillGraduated,
 } from "@/lib/mastery";
 import { applySrsUpdate, decaySrsForNewSession } from "@/lib/srs";
-import { selectNextItem } from "@/lib/adaptive";
+import {
+  nextDesiredContext,
+  selectNextItem,
+  type DesiredContext,
+} from "@/lib/adaptive";
 import {
   hasGraduatedFlag,
   loadLastSessionTime,
@@ -95,6 +101,24 @@ function pickActiveSkill(
     if (!hasGraduatedFlag(profileId, s)) return s;
   }
   return allowed[allowed.length - 1] ?? null;
+}
+
+// Per MyLevel.docx §3.1+§5.4: bat-7 daily practice carries 3 of 5 items in
+// money context. Only applies to add_sub_100 and multiplication (the skills
+// in age 7–8's allowed set).
+function moneyRatioApplies(age: number, skill: Skill): boolean {
+  if (age < 7 || age > 8) return false;
+  return skill === "add_sub_100" || skill === "multiplication";
+}
+
+function isMoneyItem(
+  item: Item,
+): item is (AddSubItem | MultItem) & { context: "money"; explanation: string } {
+  return (
+    "context" in item &&
+    item.context === "money" &&
+    typeof (item as { explanation?: string }).explanation === "string"
+  );
 }
 
 type Phase =
@@ -172,6 +196,11 @@ export default function SessionPage() {
   const graduatedCelebratedRef = useRef(false);
   const firstItemRef = useRef<Item | null>(null);
   const sessionBankRef = useRef<readonly Item[]>([]);
+  // 3-of-5 window counters for money-context items (MyLevel §3.1+§5.4).
+  // Reset to zero every 5 picks; only mutated when ratio applies for this
+  // session's age + skill combination.
+  const moneyShownRef = useRef(0);
+  const plainShownRef = useRef(0);
 
   useEffect(() => {
     const active = getActiveProfile();
@@ -190,10 +219,24 @@ export default function SessionPage() {
 
     const bank = shuffleBank(bankForSkill(chosenSkill));
     sessionBankRef.current = bank;
+    moneyShownRef.current = 0;
+    plainShownRef.current = 0;
     const loaded = loadMastery(active.id, chosenSkill);
     const fresh = incrementSession(decaySrsForNewSession(loaded));
     startMasteryRef.current = masteryScore(loaded);
-    const first = selectNextItem(fresh, bank, new Set());
+    const ratioOn = moneyRatioApplies(active.age, chosenSkill);
+    const firstDesired: DesiredContext | undefined = ratioOn
+      ? nextDesiredContext(moneyShownRef.current, plainShownRef.current)
+      : undefined;
+    const first = selectNextItem(fresh, bank, new Set(), undefined, firstDesired);
+    if (first) {
+      if (isMoneyItem(first)) moneyShownRef.current++;
+      else plainShownRef.current++;
+      if (moneyShownRef.current + plainShownRef.current >= 5) {
+        moneyShownRef.current = 0;
+        plainShownRef.current = 0;
+      }
+    }
     setState(fresh);
     firstItemRef.current = first;
     setGreeting(buildGreeting(loadLastSessionTime(active.id), active.name));
@@ -385,7 +428,19 @@ export default function SessionPage() {
       sessionBankRef.current.length > 0
         ? sessionBankRef.current
         : bankForSkill(skill);
-    const next = selectNextItem(state, sessionBank, newUsed);
+    const ratioOn = moneyRatioApplies(profile.age, skill);
+    const desired: DesiredContext | undefined = ratioOn
+      ? nextDesiredContext(moneyShownRef.current, plainShownRef.current)
+      : undefined;
+    const next = selectNextItem(state, sessionBank, newUsed, undefined, desired);
+    if (next) {
+      if (isMoneyItem(next)) moneyShownRef.current++;
+      else plainShownRef.current++;
+      if (moneyShownRef.current + plainShownRef.current >= 5) {
+        moneyShownRef.current = 0;
+        plainShownRef.current = 0;
+      }
+    }
     if (!next) {
       logEvent(profile.id, {
         t: "session_end",
@@ -638,6 +693,15 @@ function needsTextInput(item: Item): boolean {
 
 function ItemPrompt({ item }: { item: Item }) {
   if (isArithmeticItem(item)) {
+    if (isMoneyItem(item)) {
+      return (
+        <div className="bg-surface rounded-3xl shadow-soft py-7 px-5">
+          <div className="text-xl md:text-2xl font-semibold text-right text-warm-dark leading-relaxed">
+            {item.prompt}
+          </div>
+        </div>
+      );
+    }
     const promptSize =
       item.skill === "ops_1000" || item.skill === "long_division"
         ? "text-5xl"
@@ -796,6 +860,7 @@ function ItemReveal({
   onAdvance: () => void;
 }) {
   if (isArithmeticItem(item)) {
+    const explainText = isMoneyItem(item) ? item.explanation : explain(item);
     return (
       <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
         <div className="text-lg font-semibold text-warm-dark">
@@ -805,7 +870,7 @@ function ItemReveal({
           </span>
         </div>
         <div className="text-base text-warm-dark leading-relaxed">
-          {explain(item)}
+          {explainText}
         </div>
         <button
           onClick={onAdvance}

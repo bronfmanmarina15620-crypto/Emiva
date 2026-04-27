@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DIFFICULTY_TOLERANCE,
+  nextDesiredContext,
   selectNextItem,
   targetDifficulty,
 } from "@/lib/adaptive";
@@ -82,5 +83,81 @@ describe("adaptive", () => {
     const s = emptyMastery("add_sub_100");
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
     expect(next).toBeTruthy();
+  });
+
+  describe("money context filtering (MyLevel §3.1+§5.4)", () => {
+    const mixedBank: readonly Item[] = [
+      { id: "p1", skill: "add_sub_100", difficulty: 1, prompt: "1+1", answer: 2, operands: [1, 1], op: "+" },
+      { id: "p2", skill: "add_sub_100", difficulty: 1, prompt: "2+2", answer: 4, operands: [2, 2], op: "+" },
+      { id: "m1", skill: "add_sub_100", difficulty: 1, prompt: "קניתי גלידה ב-3₪ וסוכריה ב-4₪. סה\"כ?", answer: 7, operands: [3, 4], op: "+", context: "money", explanation: "3+4=7" },
+      { id: "m2", skill: "add_sub_100", difficulty: 1, prompt: "5₪ + 2₪ דמי כיס. כמה?", answer: 7, operands: [5, 2], op: "+", context: "money", explanation: "5+2=7" },
+    ];
+
+    it("desiredContext='money' returns a money item when available", () => {
+      const s = emptyMastery("add_sub_100");
+      const next = selectNextItem(s, mixedBank, new Set(), DETERMINISTIC, "money");
+      expect(next?.id).toMatch(/^m/);
+    });
+
+    it("desiredContext='plain' returns a non-money item when available", () => {
+      const s = emptyMastery("add_sub_100");
+      const next = selectNextItem(s, mixedBank, new Set(), DETERMINISTIC, "plain");
+      expect(next?.id).toMatch(/^p/);
+    });
+
+    it("desiredContext='money' falls back when no money items in pool", () => {
+      const plainOnly: readonly Item[] = mixedBank.filter((i) => i.id.startsWith("p"));
+      const s = emptyMastery("add_sub_100");
+      const next = selectNextItem(s, plainOnly, new Set(), DETERMINISTIC, "money");
+      expect(next).toBeTruthy(); // session does not stall
+    });
+
+    it("undefined desiredContext keeps existing behavior (no filter)", () => {
+      const s = emptyMastery("add_sub_100");
+      const next = selectNextItem(s, mixedBank, new Set(), DETERMINISTIC);
+      expect(next).toBeTruthy();
+    });
+  });
+
+  describe("nextDesiredContext (3-of-5 ratio scheduling)", () => {
+    it("no preference at start of window", () => {
+      expect(nextDesiredContext(0, 0)).toBeUndefined();
+    });
+
+    it("forces plain after 3 money already shown in window", () => {
+      expect(nextDesiredContext(3, 0)).toBe("plain");
+      expect(nextDesiredContext(3, 1)).toBe("plain");
+    });
+
+    it("forces money after 2 plain already shown in window", () => {
+      expect(nextDesiredContext(0, 2)).toBe("money");
+      expect(nextDesiredContext(1, 2)).toBe("money");
+    });
+
+    it("no preference mid-window when neither cap reached", () => {
+      expect(nextDesiredContext(1, 0)).toBeUndefined();
+      expect(nextDesiredContext(2, 1)).toBeUndefined();
+    });
+
+    it("over a 5-window the ratio yields 3 money + 2 plain", () => {
+      let money = 0;
+      let plain = 0;
+      const rand = (() => {
+        let i = 0;
+        // alternating coin: money first when free
+        return () => (i++ % 2 === 0 ? 0 : 0.99);
+      })();
+      for (let step = 0; step < 5; step++) {
+        const desired = nextDesiredContext(money, plain);
+        // Simulate caller's choice: when desired is undefined, prefer money
+        // (caller would actually use selectNextItem; here we model the contract).
+        const pick: "money" | "plain" =
+          desired ?? (rand() < 0.5 ? "money" : "plain");
+        if (pick === "money") money++;
+        else plain++;
+      }
+      expect(money).toBe(3);
+      expect(plain).toBe(2);
+    });
   });
 });

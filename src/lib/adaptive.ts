@@ -4,6 +4,8 @@ import { isDue } from "./srs";
 
 export const DIFFICULTY_TOLERANCE = 1;
 
+export type DesiredContext = "money" | "plain";
+
 export function targetDifficulty(state: MasteryState): Difficulty {
   const score = masteryScore(state);
   const raw = Math.round(score * 5);
@@ -21,14 +23,40 @@ function staleness(state: MasteryState, itemId: string): number {
   return state.sessionCount - last;
 }
 
+function itemContext(item: Item): "money" | "plain" {
+  return "context" in item && item.context === "money" ? "money" : "plain";
+}
+
+// Per MyLevel.docx §3.1+§5.4: in each window of 5 items shown to bat-7,
+// 3 should be in money context and 2 plain. Caller tracks money/plain
+// counts in the current 5-window and asks for the context that keeps
+// the ratio.
+export function nextDesiredContext(
+  moneyShownInWindow: number,
+  plainShownInWindow: number,
+): DesiredContext | undefined {
+  if (moneyShownInWindow >= 3) return "plain";
+  if (plainShownInWindow >= 2) return "money";
+  return undefined;
+}
+
 export function selectNextItem(
   state: MasteryState,
   bank: readonly Item[],
   usedIds: ReadonlySet<string>,
   rand: () => number = Math.random,
+  desiredContext?: DesiredContext,
 ): Item | null {
-  const pool = bank.filter((i) => !usedIds.has(i.id));
-  if (pool.length === 0) return null;
+  const unused = bank.filter((i) => !usedIds.has(i.id));
+  if (unused.length === 0) return null;
+
+  // Apply context filter; fall back to unfiltered pool if filter empties it,
+  // so the session never stalls when the bank is sparse for a context.
+  const filtered =
+    desiredContext === undefined
+      ? unused
+      : unused.filter((i) => itemContext(i) === desiredContext);
+  const pool = filtered.length > 0 ? filtered : unused;
 
   const target = targetDifficulty(state);
   const due = pool.filter((i) => isDue(state, i.id));
