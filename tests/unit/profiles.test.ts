@@ -5,6 +5,7 @@ import {
   deleteProfile,
   getActiveProfile,
   getActiveProfileId,
+  itemsPerSessionForAge,
   loadProfiles,
   profileAllowsSkill,
   saveProfiles,
@@ -69,6 +70,25 @@ describe("profiles", () => {
     });
     it("age 5 → empty", () => {
       expect(allowedSkillsForAge(5)).toEqual([]);
+    });
+  });
+
+  describe("itemsPerSessionForAge", () => {
+    it("age 7 → 15 (MyLevel upper bound 12 + 3)", () => {
+      expect(itemsPerSessionForAge(7)).toBe(15);
+    });
+    it("age 8 → 15 (same band as 7)", () => {
+      expect(itemsPerSessionForAge(8)).toBe(15);
+    });
+    it("age 9 → 18 (MyLevel 15 + 3)", () => {
+      expect(itemsPerSessionForAge(9)).toBe(18);
+    });
+    it("age 10 → 18 (same band as 9)", () => {
+      expect(itemsPerSessionForAge(10)).toBe(18);
+    });
+    it("age outside 7-10 → 10 fallback", () => {
+      expect(itemsPerSessionForAge(5)).toBe(10);
+      expect(itemsPerSessionForAge(15)).toBe(10);
     });
   });
 

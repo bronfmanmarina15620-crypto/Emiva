@@ -21,6 +21,15 @@ export function allowedSkillsForAge(age: number): Skill[] {
   return [];
 }
 
+// MyLevel §3.1: 7→10–12 דק', 9→15 דק'. Marina chose upper-bound + 3 items
+// (2026-04-27). Mapping is items, not minutes — the +3 is intentional buffer
+// over MyLevel's time targets, set by parent.
+export function itemsPerSessionForAge(age: number): number {
+  if (age >= 7 && age <= 8) return 15;
+  if (age >= 9 && age <= 10) return 18;
+  return 10;
+}
+
 export function newProfileId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();

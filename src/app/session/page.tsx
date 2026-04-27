@@ -44,6 +44,7 @@ import {
 import { exportTelemetry, logEvent } from "@/lib/telemetry";
 import {
   getActiveProfile,
+  itemsPerSessionForAge,
   setActiveProfileId,
   type Profile,
 } from "@/lib/profiles";
@@ -54,10 +55,12 @@ import { FeelingPrompt } from "@/components/FeelingPrompt";
 import { isArithmeticItem, isItemCorrect } from "@/lib/items";
 import { parseFraction } from "@/lib/fractions";
 
-const ITEMS_PER_SESSION = Math.max(
-  1,
-  Number(process.env.NEXT_PUBLIC_ITEMS_PER_SESSION) || 10,
-);
+// Dev-only override — when set, applies to ALL profiles regardless of age.
+// In production leave unset; per-age values from profiles.ts kick in instead.
+const ITEMS_OVERRIDE = (() => {
+  const n = Number(process.env.NEXT_PUBLIC_ITEMS_PER_SESSION);
+  return Number.isFinite(n) && n > 0 ? Math.max(1, n) : null;
+})();
 const MAX_ATTEMPTS = 3;
 
 const ADD_SUB_BANK = addSubBank as unknown as readonly Item[];
@@ -236,9 +239,14 @@ export default function SessionPage() {
     }
   }, [phase, state, profile, skill]);
 
+  const itemsPerSession = useMemo(
+    () => ITEMS_OVERRIDE ?? (profile ? itemsPerSessionForAge(profile.age) : 10),
+    [profile],
+  );
+
   const progress = useMemo(
-    () => `${answered} / ${ITEMS_PER_SESSION}`,
-    [answered],
+    () => `${answered} / ${itemsPerSession}`,
+    [answered, itemsPerSession],
   );
 
   function beginSession() {
@@ -362,7 +370,7 @@ export default function SessionPage() {
     setInput("");
     setAttempts(0);
 
-    if (answered >= ITEMS_PER_SESSION) {
+    if (answered >= itemsPerSession) {
       logEvent(profile.id, {
         t: "session_end",
         at: Date.now(),
