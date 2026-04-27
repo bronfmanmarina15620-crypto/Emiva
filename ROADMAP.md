@@ -13,7 +13,7 @@
 
 ## 🟢 עכשיו (פעיל)
 
-1. **MATH-EVELYN-MONEY-001** — בעיות מילוליות בהקשר כסף לאוולין (transfer של חיבור/חיסור עד 100 להקשר חיים אמיתיים). מיומנות חדשה שבאה אחרי `multiplication` ומשלימה את מסלול v1 מתמטיקה לאוולין. ראי [tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md](tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md).
+1. **MATH-EVELYN-MONEY-001** — ערבוב 3-מ-5 פריטי בעיות-כסף בתוך התרגול היומי של אוולין (`add_sub_100` + `multiplication`). לפי MyLevel §3.1 + §5.4 — חינוך פיננסי מבוזר, לא מיומנות נפרדת. ראי [tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md](tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md).
 
 ---
 
@@ -33,7 +33,7 @@
 |---|---|---|---|
 | MATH-MVP-001 | אוולין (7) | חיבור/חיסור עד 100 | ✅ יום 1 |
 | **MATH-EVELYN-MULT-001** | אוולין | לוח הכפל | ✅ יום 4 |
-| **MATH-EVELYN-MONEY-001** | אוולין | בעיות מילוליות בהקשר כסף (5 דרגות × 6 פריטים = 30, חד-שלבי, שקלים שלמים) | 🟢 פעיל |
+| **MATH-EVELYN-MONEY-001** | אוולין | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` (לפי MyLevel §3.1 + §5.4 — חינוך פיננסי מבוזר, לא מיומנות נפרדת) | 🟢 פעיל |
 | **MATH-BAT9-001** | אמיליה (9) | שברים, פעולות עד 1000, חילוק ארוך | ✅ כל 3 הפרוסות עלו (יום 4: שברים, ops-1000, long_division) |
 | **MATH-EMILIA-BARMODELS-001** | אמיליה | Bar Models לבעיות מילוליות (Singapore CPA) | ✅ יום 4 |
 
