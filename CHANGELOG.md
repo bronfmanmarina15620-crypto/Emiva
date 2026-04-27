@@ -5,6 +5,29 @@
 
 ## [Unreleased]
 
+### Added — קוד-שער אופציונלי לפני `/parent`
+- **שכבה דיסקרטית נוספת** לפני אזור ההורה. אם
+  `NEXT_PUBLIC_PARENT_GATE_CODE` מוגדר ב-`.env.local`, קליק על "הורים"
+  בדף הבית פותח שדה password דיסקרטי במקום לנווט. קוד נכון → ניווט
+  ל-`/parent`. קוד שגוי → השדה נמחק בשקט (בלי הודעה שתסגיר שיש מכניקה).
+  פתיחה היא per-tab — refresh = נעול מחדש. אם המשתנה לא מוגדר, הקליק
+  מתנהג כמו קישור רגיל (graceful degradation).
+- **למה:** PIN ב-`/parent` לא מספיק נגד 9-שנתית סקרנית שלוחצת על קישור
+  קטן ב-footer. הקוד-שער מוסיף שכבת obscurity (לא אבטחה — ראי
+  parent-guide §10) שמסננת גילוי-במקרה. נדרש על-ידי Marina אחרי
+  סקירת ה-MVP.
+- **בדיקות:** `tests/ui/parent-code-gate.test.tsx` — 5 מקרים: ללא
+  gate (ניווט מיידי), gate פתוח שדה, קוד שגוי מנקה בשקט, קוד נכון
+  מנווט, toggle לסגור. סה"כ בדיקות: **287 → 292**.
+- **תיעוד:** `docs/parent-guide.md` §10 עודכן עם הוראת התקנה.
+
+### Fixed — יציבות-תאריך בבדיקת dashboard belief comparison
+- `tests/ui/parent-dashboard-page.test.tsx` — בדיקת
+  *"feeling-kind note shows activity"* הייתה רעועה לפי שבוע ISO:
+  כשהיום ו"אתמול" בשבועות שונים, גם בלוק ההשוואה וגם הטופס מציגים
+  *"על רגש"* → `findByText` נכשל על מספר התאמות. סלקטור הוקשח
+  לדפוס המלא (*"לפני N ימים כתבת..."*) שמוצא רק את ההשוואה.
+
 ### Added — תשתית בדיקות UI + כיסוי
 - **תשתית Vitest + jsdom + @testing-library** נוספה.
   `vitest.config.ts` משתמש ב-`environmentMatchGlobs` כדי להריץ `tests/ui/**.tsx`

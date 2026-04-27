@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   allowedSkillsForAge,
   deleteProfile,
@@ -16,6 +16,8 @@ import { Logo } from "@/components/Logo";
 export default function Home() {
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [parentReminder, setParentReminder] = useState(false);
+  const [showParentCode, setShowParentCode] = useState(false);
+  const [parentCodeInput, setParentCodeInput] = useState("");
 
   useEffect(() => {
     setProfiles(loadProfiles());
@@ -25,6 +27,26 @@ export default function Home() {
   function choose(id: string) {
     setActiveProfileId(id);
     window.location.href = "/session";
+  }
+
+  function handleParentClick() {
+    const expected = process.env.NEXT_PUBLIC_PARENT_GATE_CODE;
+    if (!expected) {
+      window.location.href = "/parent";
+      return;
+    }
+    setShowParentCode((s) => !s);
+    setParentCodeInput("");
+  }
+
+  function handleParentCodeSubmit(e: FormEvent) {
+    e.preventDefault();
+    const expected = process.env.NEXT_PUBLIC_PARENT_GATE_CODE;
+    if (parentCodeInput === expected) {
+      window.location.href = "/parent";
+    } else {
+      setParentCodeInput("");
+    }
   }
 
   function handleDelete(p: Profile) {
@@ -107,8 +129,9 @@ export default function Home() {
         </Link>
 
         <div className="pt-6 border-t border-warm-line/50">
-          <Link
-            href="/parent"
+          <button
+            type="button"
+            onClick={handleParentClick}
             className="text-xs text-warm-muted/70 hover:text-warm-muted transition inline-flex items-center gap-1.5"
           >
             הורים
@@ -118,7 +141,19 @@ export default function Home() {
                 aria-label="תזכורת: לא נכנסת מזמן"
               />
             )}
-          </Link>
+          </button>
+          {showParentCode && (
+            <form onSubmit={handleParentCodeSubmit} className="mt-2">
+              <input
+                type="password"
+                autoFocus
+                value={parentCodeInput}
+                onChange={(e) => setParentCodeInput(e.target.value)}
+                aria-label="קוד גישה"
+                className="text-xs px-3 py-1.5 rounded-lg border border-warm-line bg-surface text-warm-dark text-center focus:outline-none focus:border-warm-muted w-40"
+              />
+            </form>
+          )}
         </div>
       </div>
     </main>

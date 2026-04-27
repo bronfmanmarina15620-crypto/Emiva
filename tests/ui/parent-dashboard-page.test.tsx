@@ -125,7 +125,7 @@ describe("<ParentDashboard> — belief-comparison display variants", () => {
     m = recordAttempt(m, "i1", true, Date.now() - 1800_000);
     saveMastery(p.id, m);
     render(<ParentDashboard />);
-    await screen.findByText(/על רגש/);
+    await screen.findByText(/לפני.*ימים כתבת.*על רגש/);
     // No "% נכון-בראשון" phrase should appear for feeling comparison
     const txt = document.body.textContent || "";
     const hasAccuracy = /% נכון-בראשון/.test(
