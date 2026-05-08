@@ -30,4 +30,5 @@ YYYY-MM-DD | observer | subject | observation
 ```
 2026-04-19 | Marina | tone | הטקסט "לא נכון. נסה שוב" מרגיש מתנשא לבת 7. החלפתי לטון growth-mindset.
 2026-04-19 | Marina | ui | הפרופיל של Emilia (שנוצר בסבב QA הראשון) הראה "בקרוב" גם אחרי שנפתח skill fractions_intro. גורם שורש: allowedSkills נשמר ב-localStorage במועד היצירה ולא מעודכן. תוקן: loadProfiles מחשב מחדש לפי גיל בכל טעינה.
+2026-05-06 | bat7 | engagement | הבנת הנקרא בעברית "חוזר על עצמו מסשן לסשן". מאגר 30 טקסטים, סשן ~7–8 טקסטים → חזרה מתמטית אחרי 3–4 סשנים. בנוסף: לקרוא שוב טקסט הבנה ≠ retrieval practice (משננת תשובה במקום להבין). פתח: CORE-HEBREW-EVELYN-003.
 ```

@@ -5,6 +5,36 @@
 
 ## [Unreleased]
 
+### Added — הרחבת מאגר הבנת הנקרא + אנטי-חזרה ייחודי לקריאה (CORE-HEBREW-EVELYN-003)
+- **טריגר:** משוב ישיר של bat7 (2026-05-06): "הבנת הנקרא חוזר על עצמו
+  מסשן לסשן". אומת מתמטית — מאגר 30 טקסטים, סשן ~7–8 טקסטים → חזרה
+  בלתי-נמנעת אחרי 3–4 סשנים. בנוסף, חזרה על טקסט הבנה ≠ retrieval
+  practice (משננת תשובה במקום להבין מחדש).
+- **המאגר הוכפל ל-60 טקסטים** ב-`src/content/hebrew/comprehension-evelyn.json`
+  (12 לכל דרגה, היה 6). 30 פסקאות חדשות + 60 שאלות אמריקאיות חדשות
+  בעברית, גיוון נושאים מורחב (ציור, אופניים, גלידה, ארגון, בנייה,
+  כריכים, שחייה, צמחים, הפתעות, ספרייה, חפצים אבודים, סבתא בשוק,
+  גשם, מטריות, חוג ציור, מטוסים, אחים, לימוד אחות, מסורת קיץ,
+  גינון, ריצה, השראה, השפעה, עזרה לזרים, הוראה, יושר, התמדה
+  בכדורגל, שמיעה, גיטרה).
+- **כלל אנטי-חזרה ייחודי ל-`hebrew_comprehension`** ב-`src/lib/adaptive.ts`:
+  פרמטר חדש `noRepeatUntilExhausted` ב-`selectNextItem`. כשמופעל,
+  ה-pool מסונן רק לפריטים עם `itemLastSeen[id] === undefined` (לא
+  נראו מעולם). אם המאגר מוצה — fallback בטוח ל-staleness רגיל
+  (הסשן לא תוקע). הפרמטר מועבר רק ל-`hebrew_comprehension`; שאר
+  המיומנויות לא משתנות, כי במתמטיקה חזרה היא retrieval practice.
+- **Telemetry חדש:** אירוע `comprehension_bank_exhausted` נרשם פעם
+  אחת לכל `profileId × skill` כש-`bankFullySeen` מתקיים בתחילת סשן.
+  גובה דגל ב-localStorage `emiva.bank_exhausted.v1.{profileId}.{skill}`
+  (`hasBankExhaustedFlag` / `markBankExhausted`).
+- **בדיקות:** `tests/unit/adaptive.test.ts` +4 מקרים (filter never-seen,
+  fallback to staleness, flag-off preserves behavior, usedIds within-session).
+  `tests/unit/storage.test.ts` +3 מקרים (flag absent, set/get,
+  profile-scoped). `tests/unit/hebrew-comprehension-bank.test.ts` עודכן —
+  ≥60 פריטים, ≥12 לכל דרגה. סה"כ: **336 → 343 עוברות**.
+- **תיעוד:** `docs/parent-guide.md §4` עודכן עם הסבר על כלל האנטי-חזרה
+  הייחודי לקריאה (החזרה היא retrieval במתמטיקה אבל שינון בהבנה).
+
 ### Added — מסלול הבנת הנקרא בעברית לאוולין (CORE-HEBREW-EVELYN-002)
 - **מיומנות חדשה `hebrew_comprehension`** — נוספת לסוף שרשרת גיל 7–8:
   `add_sub_100` → `multiplication` → `hebrew_comprehension`. מסלול

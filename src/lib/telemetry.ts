@@ -20,7 +20,8 @@ export type TelemetryEvent =
   | { t: "dashboard_opened"; at: number }
   | { t: "belief_submitted"; at: number; weekKey: string; kind: "performance" | "feeling" | "other" }
   | { t: "action_line_shown"; at: number; trigger: "wheel_spin" | "inactivity" | "srs_due" | "default" }
-  | { t: "session_feeling"; at: number; skill: string; rating: "happy" | "ok" | "hard" };
+  | { t: "session_feeling"; at: number; skill: string; rating: "happy" | "ok" | "hard" }
+  | { t: "comprehension_bank_exhausted"; at: number; skill: string };
 
 function key(profileId: string): string {
   return `${PREFIX}.${profileId}`;

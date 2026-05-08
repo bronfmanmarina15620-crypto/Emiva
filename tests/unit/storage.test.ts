@@ -1,7 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  hasBankExhaustedFlag,
   hasGraduatedFlag,
   loadMastery,
+  markBankExhausted,
   markGraduated,
   resetMastery,
   saveMastery,
@@ -169,5 +171,24 @@ describe("storage — graduation flag (one-shot)", () => {
     markGraduated("p1", "add_sub_100");
     expect(hasGraduatedFlag("p1", "add_sub_100")).toBe(true);
     expect(hasGraduatedFlag("p2", "add_sub_100")).toBe(false);
+  });
+});
+
+describe("storage — bank-exhausted flag (CORE-HEBREW-EVELYN-003)", () => {
+  it("flag is absent by default", () => {
+    expect(hasBankExhaustedFlag("p1", "hebrew_comprehension")).toBe(false);
+  });
+
+  it("markBankExhausted sets the flag; hasBankExhaustedFlag reads it back", () => {
+    markBankExhausted("p1", "hebrew_comprehension");
+    expect(hasBankExhaustedFlag("p1", "hebrew_comprehension")).toBe(true);
+    // Other skill unaffected
+    expect(hasBankExhaustedFlag("p1", "add_sub_100")).toBe(false);
+  });
+
+  it("flag is profile-scoped", () => {
+    markBankExhausted("p1", "hebrew_comprehension");
+    expect(hasBankExhaustedFlag("p1", "hebrew_comprehension")).toBe(true);
+    expect(hasBankExhaustedFlag("p2", "hebrew_comprehension")).toBe(false);
   });
 });

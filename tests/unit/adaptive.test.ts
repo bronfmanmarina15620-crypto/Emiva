@@ -119,6 +119,54 @@ describe("adaptive", () => {
     });
   });
 
+  describe("noRepeatUntilExhausted (CORE-HEBREW-EVELYN-003)", () => {
+    const compBank: readonly Item[] = Array.from({ length: 4 }, (_, i) => ({
+      id: `c${i + 1}`,
+      skill: "hebrew_comprehension",
+      difficulty: 1,
+      text: "טקסט קצר לבדיקה",
+      questions: [
+        { question: "?", options: ["א", "ב", "ג", "ד"], correctIndex: 0, explanation: "x" },
+        { question: "?", options: ["א", "ב", "ג", "ד"], correctIndex: 1, explanation: "y" },
+      ],
+    })) as readonly Item[];
+
+    it("filters out previously-seen items when flag is on", () => {
+      let s = emptyMastery("hebrew_comprehension");
+      s = recordItemShown(s, "c1");
+      s = recordItemShown(s, "c2");
+      s = { ...s, sessionCount: 1 };
+      const next = selectNextItem(s, compBank, new Set(), DETERMINISTIC, undefined, true);
+      expect(["c3", "c4"]).toContain(next?.id);
+    });
+
+    it("falls back to staleness when every item has been seen", () => {
+      let s = emptyMastery("hebrew_comprehension");
+      for (const item of compBank) s = recordItemShown(s, item.id);
+      s = { ...s, sessionCount: 1 };
+      const next = selectNextItem(s, compBank, new Set(), DETERMINISTIC, undefined, true);
+      expect(next).toBeTruthy(); // session does not stall
+      expect(compBank.map((i) => i.id)).toContain(next!.id);
+    });
+
+    it("flag off → existing staleness behavior is preserved", () => {
+      let s = emptyMastery("hebrew_comprehension");
+      s = recordItemShown(s, "c1");
+      s = { ...s, sessionCount: 1 };
+      // Without the flag, c1 is still eligible (just stale-ranked); the function
+      // may pick any item — assert only that it does not crash and returns one.
+      const next = selectNextItem(s, compBank, new Set(), DETERMINISTIC, undefined, false);
+      expect(next).toBeTruthy();
+    });
+
+    it("respects usedIds even when flag is on (within-session no-repeat)", () => {
+      const s = emptyMastery("hebrew_comprehension");
+      const used = new Set(["c1", "c2"]);
+      const next = selectNextItem(s, compBank, used, DETERMINISTIC, undefined, true);
+      expect(["c3", "c4"]).toContain(next?.id);
+    });
+  });
+
   describe("nextDesiredContext (3-of-5 ratio scheduling)", () => {
     it("no preference at start of window", () => {
       expect(nextDesiredContext(0, 0)).toBeUndefined();

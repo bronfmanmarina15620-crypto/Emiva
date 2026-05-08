@@ -16,15 +16,15 @@ const FORBIDDEN_PHRASES = [
 ];
 
 describe("hebrew_comprehension — bank integrity", () => {
-  it("contains ≥ 30 items", () => {
-    expect(items.length).toBeGreaterThanOrEqual(30);
+  it("contains ≥ 60 items (CORE-HEBREW-EVELYN-003 expansion)", () => {
+    expect(items.length).toBeGreaterThanOrEqual(60);
   });
 
-  it("≥ 6 items at each difficulty 1–5", () => {
+  it("≥ 12 items at each difficulty 1–5", () => {
     const byTier: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     for (const i of items) byTier[i.difficulty] = (byTier[i.difficulty] ?? 0) + 1;
     for (let d = 1; d <= 5; d++) {
-      expect(byTier[d]).toBeGreaterThanOrEqual(6);
+      expect(byTier[d]).toBeGreaterThanOrEqual(12);
     }
   });
 

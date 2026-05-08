@@ -35,9 +35,11 @@ import {
   type DesiredContext,
 } from "@/lib/adaptive";
 import {
+  hasBankExhaustedFlag,
   hasGraduatedFlag,
   loadLastSessionTime,
   loadMastery,
+  markBankExhausted,
   markGraduated,
   saveLastSessionTime,
   saveMastery,
@@ -114,6 +116,20 @@ function pickActiveSkill(
 function moneyRatioApplies(age: number, skill: Skill): boolean {
   if (age < 7 || age > 8) return false;
   return skill === "add_sub_100" || skill === "multiplication";
+}
+
+// Per CORE-HEBREW-EVELYN-003: re-reading a comprehension text becomes recall
+// practice (the child memorizes the answer), not comprehension. So for this
+// skill we never repeat a text until the bank is exhausted.
+function shouldSuppressRepeats(skill: Skill): boolean {
+  return skill === "hebrew_comprehension";
+}
+
+function bankFullySeen(
+  bank: readonly Item[],
+  state: MasteryState,
+): boolean {
+  return bank.length > 0 && bank.every((i) => state.itemLastSeen[i.id] !== undefined);
 }
 
 function isMoneyItem(
@@ -236,7 +252,27 @@ export default function SessionPage() {
     const firstDesired: DesiredContext | undefined = ratioOn
       ? nextDesiredContext(moneyShownRef.current, plainShownRef.current)
       : undefined;
-    const first = selectNextItem(fresh, bank, new Set(), undefined, firstDesired);
+    const suppressRepeats = shouldSuppressRepeats(chosenSkill);
+    if (
+      suppressRepeats &&
+      bankFullySeen(bank, fresh) &&
+      !hasBankExhaustedFlag(active.id, chosenSkill)
+    ) {
+      markBankExhausted(active.id, chosenSkill);
+      logEvent(active.id, {
+        t: "comprehension_bank_exhausted",
+        at: Date.now(),
+        skill: chosenSkill,
+      });
+    }
+    const first = selectNextItem(
+      fresh,
+      bank,
+      new Set(),
+      undefined,
+      firstDesired,
+      suppressRepeats,
+    );
     if (first) {
       if (isMoneyItem(first)) moneyShownRef.current++;
       else plainShownRef.current++;
@@ -456,7 +492,14 @@ export default function SessionPage() {
     const desired: DesiredContext | undefined = ratioOn
       ? nextDesiredContext(moneyShownRef.current, plainShownRef.current)
       : undefined;
-    const next = selectNextItem(state, sessionBank, newUsed, undefined, desired);
+    const next = selectNextItem(
+      state,
+      sessionBank,
+      newUsed,
+      undefined,
+      desired,
+      shouldSuppressRepeats(skill),
+    );
     if (next) {
       if (isMoneyItem(next)) moneyShownRef.current++;
       else plainShownRef.current++;

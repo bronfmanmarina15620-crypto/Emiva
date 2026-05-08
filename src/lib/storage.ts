@@ -4,6 +4,7 @@ import { emptyMastery } from "./mastery";
 const MASTERY_PREFIX = "emiva.mastery.v1";
 const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 const GRADUATED_PREFIX = "emiva.graduated.v1";
+const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
 
 function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
@@ -113,6 +114,20 @@ export function markGraduated(profileId: string, skill: Skill): void {
   window.localStorage.setItem(graduatedKey(profileId, skill), "1");
 }
 
+function bankExhaustedKey(profileId: string, skill: Skill): string {
+  return `${BANK_EXHAUSTED_PREFIX}.${profileId}.${skill}`;
+}
+
+export function hasBankExhaustedFlag(profileId: string, skill: Skill): boolean {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(bankExhaustedKey(profileId, skill)) === "1";
+}
+
+export function markBankExhausted(profileId: string, skill: Skill): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(bankExhaustedKey(profileId, skill), "1");
+}
+
 export function purgeProfileStorage(profileId: string): void {
   if (typeof window === "undefined") return;
   const ls = window.localStorage;
@@ -120,6 +135,7 @@ export function purgeProfileStorage(profileId: string): void {
     `${MASTERY_PREFIX}.${profileId}`,
     `${GRADUATED_PREFIX}.${profileId}`,
     `${LAST_SESSION_PREFIX}.${profileId}`,
+    `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
   ];
   const toRemove: string[] = [];
   for (let i = 0; i < ls.length; i++) {

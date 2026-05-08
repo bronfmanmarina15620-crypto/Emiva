@@ -46,6 +46,7 @@ export function selectNextItem(
   usedIds: ReadonlySet<string>,
   rand: () => number = Math.random,
   desiredContext?: DesiredContext,
+  noRepeatUntilExhausted: boolean = false,
 ): Item | null {
   const unused = bank.filter((i) => !usedIds.has(i.id));
   if (unused.length === 0) return null;
@@ -56,7 +57,15 @@ export function selectNextItem(
     desiredContext === undefined
       ? unused
       : unused.filter((i) => itemContext(i) === desiredContext);
-  const pool = filtered.length > 0 ? filtered : unused;
+  const ctxPool = filtered.length > 0 ? filtered : unused;
+
+  // Comprehension policy (per CORE-HEBREW-EVELYN-003): re-reading a text is
+  // not retrieval practice — the child memorizes the answer. Restrict to
+  // never-seen items when caller asks; fall back to staleness when exhausted.
+  const neverSeen = noRepeatUntilExhausted
+    ? ctxPool.filter((i) => state.itemLastSeen[i.id] === undefined)
+    : ctxPool;
+  const pool = neverSeen.length > 0 ? neverSeen : ctxPool;
 
   const target = targetDifficulty(state);
   const due = pool.filter((i) => isDue(state, i.id));
