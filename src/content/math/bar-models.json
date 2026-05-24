@@ -352,5 +352,71 @@
     ],
     "answer": 7,
     "explanation": "42 ÷ 6 = 7 עוגיות לכל ילד."
+  },
+
+  {
+    "id": "bm-ar-001",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "סקר חטיפים בכיתה: מספר הבוחרים בציפס גדול פי 3 ממספר הבוחרים בביסלי. ביסלי נבחר על ידי 3 תלמידים. כמה תלמידים בחרו בציפס?",
+    "bars": [
+      { "rowLabel": "ביסלי", "segments": [{ "label": "3", "weight": 3 }] },
+      { "rowLabel": "ציפס", "segments": [
+        { "label": "?", "weight": 3 }, { "label": "?", "weight": 3 }, { "label": "?", "weight": 3 }
+      ], "totalLabel": "?" }
+    ],
+    "answer": 9,
+    "explanation": "פי 3 מ-3 = 3 × 3 = 9 תלמידים בחרו בציפס."
+  },
+  {
+    "id": "bm-ar-002",
+    "skill": "bar_models",
+    "difficulty": 4,
+    "prompt": "סקר חטיפים בכיתה: מספר הבוחרים בדובונים גדול ב-4 ממספר הבוחרים בדוריטוס. דוריטוס נבחר על ידי 5 תלמידים. כמה בחרו בדובונים?",
+    "bars": [
+      { "rowLabel": "דוריטוס", "segments": [{ "label": "5", "weight": 5 }] },
+      { "rowLabel": "דובונים", "segments": [
+        { "label": "5", "weight": 5 }, { "label": "+4", "weight": 4 }
+      ], "totalLabel": "?" }
+    ],
+    "answer": 9,
+    "explanation": "5 + 4 = 9 תלמידים בחרו בדובונים."
+  },
+  {
+    "id": "bm-ar-003",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "בכיתה 30 תלמידים. ציפס נבחר על ידי 9, דובונים על ידי 9, ביסלי על ידי 3, דוריטוס על ידי 5, ויתר התלמידים בחרו בבייגלה. כמה בחרו בבייגלה?",
+    "bars": [
+      { "rowLabel": "כל הכיתה", "segments": [
+        { "label": "ציפס 9", "weight": 9 },
+        { "label": "דובונים 9", "weight": 9 },
+        { "label": "ביסלי 3", "weight": 3 },
+        { "label": "דוריטוס 5", "weight": 5 },
+        { "label": "?", "weight": 4 }
+      ], "totalLabel": "30" }
+    ],
+    "answer": 4,
+    "explanation": "30 − (9 + 9 + 3 + 5) = 30 − 26 = 4 תלמידים בחרו בבייגלה."
+  },
+  {
+    "id": "bm-ar-004",
+    "skill": "bar_models",
+    "difficulty": 5,
+    "prompt": "דני קנה 3 פריטים ב-20 ש\"ח, 2 פריטים ב-40 ש\"ח, ו-2 פריטים ב-100 ש\"ח. שילם 200 ש\"ח במזומן ואת היתרה ב-2 תשלומים שווים. כמה כל תשלום?",
+    "bars": [
+      { "rowLabel": "סך הקנייה", "segments": [
+        { "label": "60", "weight": 60 },
+        { "label": "80", "weight": 80 },
+        { "label": "200", "weight": 200 }
+      ], "totalLabel": "340 ש\"ח" },
+      { "rowLabel": "התשלום", "segments": [
+        { "label": "מזומן 200", "weight": 200 },
+        { "label": "?", "weight": 70 },
+        { "label": "?", "weight": 70 }
+      ], "totalLabel": "340 ש\"ח" }
+    ],
+    "answer": 70,
+    "explanation": "סך הקנייה: 3×20 + 2×40 + 2×100 = 60 + 80 + 200 = 340. נותרו 340 − 200 = 140. בשני תשלומים שווים: 140 ÷ 2 = 70 ש\"ח."
   }
 ]

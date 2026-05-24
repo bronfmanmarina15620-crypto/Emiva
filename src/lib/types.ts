@@ -69,14 +69,16 @@ export type FractionItemType =
   | "name_to_visual"
   | "halving"
   | "compare"
-  | "equivalent";
+  | "equivalent"
+  | "arithmetic";
 
 export type FractionViz = { parts: number; filled: number };
 
 export type FractionAnswer =
   | { kind: "choice"; correct: string; options: string[] }
   | { kind: "numeric"; correct: number }
-  | { kind: "fraction"; num: number; den: number };
+  | { kind: "fraction"; num: number; den: number }
+  | { kind: "mixed"; whole: number; num: number; den: number };
 
 export type FractionItem = {
   id: string;

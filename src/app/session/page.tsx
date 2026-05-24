@@ -47,6 +47,7 @@ import {
 import { buildGreeting } from "@/lib/greetings";
 import { explain } from "@/lib/explain";
 import { resolveEffectiveSkill } from "@/lib/parent-focus";
+import { resolveActiveTarget } from "@/lib/review-packs";
 import {
   correctMessage,
   retryMessage,
@@ -226,6 +227,11 @@ export default function SessionPage() {
     }
     setProfile(active);
 
+    const target = resolveActiveTarget(active);
+    if (target.kind === "pack") {
+      router.replace("/session/pack");
+      return;
+    }
     const chosenSkill = resolveEffectiveSkill(active).skill;
     if (!chosenSkill) {
       setPhase("no_content");
@@ -1089,6 +1095,12 @@ function canonicalFractionAnswer(item: FractionItem): string {
       return String(item.answer.correct);
     case "fraction":
       return `${item.answer.num}/${item.answer.den}`;
+    case "mixed": {
+      const { whole, num, den } = item.answer;
+      if (num === 0) return String(whole);
+      if (whole === 0) return `${num}/${den}`;
+      return `${whole} ${num}/${den}`;
+    }
   }
 }
 

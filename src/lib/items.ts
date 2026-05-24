@@ -59,5 +59,11 @@ export function canonicalAnswer(
       return String(item.answer.correct);
     case "fraction":
       return `${item.answer.num}/${item.answer.den}`;
+    case "mixed": {
+      const { whole, num, den } = item.answer;
+      if (num === 0) return String(whole);
+      if (whole === 0) return `${num}/${den}`;
+      return `${whole} ${num}/${den}`;
+    }
   }
 }

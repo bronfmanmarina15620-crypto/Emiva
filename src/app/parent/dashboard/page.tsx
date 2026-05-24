@@ -31,6 +31,13 @@ import {
   type CoverageRow,
   type EffectiveSkill,
 } from "@/lib/parent-focus";
+import {
+  clearActivePackId,
+  listPacks,
+  loadActivePackId,
+  saveActivePackId,
+  type ReviewPack,
+} from "@/lib/review-packs";
 import type { Skill } from "@/lib/types";
 import {
   isoWeekKey,
@@ -47,6 +54,7 @@ type DaughterView = {
   cause: string | null;
   coverage: CoverageBySubject;
   active: EffectiveSkill;
+  activePackId: string | null;
   wheelSpins: WheelSpinFlag[];
   belief: BeliefComparison | null;
   lastSessionDays: number | null;
@@ -107,6 +115,7 @@ function buildView(profile: Profile): DaughterView {
   const cause = computePossibleCause(profile, verdict);
   const coverage = computeCoverage(profile);
   const active = resolveEffectiveSkill(profile);
+  const activePackId = loadActivePackId(profile.id);
   const wheelSpins = computeWheelSpin(profile);
   const belief = computeBeliefComparison(profile);
   const digest = computeWeeklyDigest(profile);
@@ -119,6 +128,7 @@ function buildView(profile: Profile): DaughterView {
     cause,
     coverage,
     active,
+    activePackId,
     wheelSpins,
     belief,
     lastSessionDays,
@@ -185,11 +195,23 @@ export default function ParentDashboard() {
 
   function pickSkill(profileId: string, skill: Skill) {
     saveParentFocus(profileId, skill);
+    clearActivePackId(profileId);
     rebuild();
   }
 
   function clearFocus(profileId: string) {
     clearParentFocus(profileId);
+    clearActivePackId(profileId);
+    rebuild();
+  }
+
+  function activatePack(profileId: string, packId: string) {
+    saveActivePackId(profileId, packId);
+    rebuild();
+  }
+
+  function deactivatePack(profileId: string) {
+    clearActivePackId(profileId);
     rebuild();
   }
 
@@ -312,6 +334,13 @@ export default function ParentDashboard() {
               {v.cause && (
                 <p className="text-sm text-warm-muted">{v.cause}</p>
               )}
+
+              <PackSection
+                profileId={v.profile.id}
+                activePackId={v.activePackId}
+                onActivate={(packId) => activatePack(v.profile.id, packId)}
+                onDeactivate={() => deactivatePack(v.profile.id)}
+              />
 
               <CoveragePicker
                 view={v}
@@ -460,6 +489,75 @@ export default function ParentDashboard() {
   );
 }
 
+function PackSection({
+  profileId,
+  activePackId,
+  onActivate,
+  onDeactivate,
+}: {
+  profileId: string;
+  activePackId: string | null;
+  onActivate: (packId: string) => void;
+  onDeactivate: () => void;
+}) {
+  void profileId;
+  const packs: ReviewPack[] = listPacks();
+  if (packs.length === 0) return null;
+
+  return (
+    <section className="border border-warm-line rounded-2xl p-4 space-y-3 bg-cream/40">
+      <h3 className="text-sm font-semibold text-warm-dark">חבילות חזרה</h3>
+      <ul className="space-y-2">
+        {packs.map((pack) => {
+          const isActive = pack.id === activePackId;
+          return (
+            <li
+              key={pack.id}
+              className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-sm ${
+                isActive
+                  ? "bg-mustard-soft text-warm-dark"
+                  : "bg-surface text-warm-dark"
+              }`}
+            >
+              <span className="flex-1 min-w-0">
+                <span className="font-semibold block truncate">{pack.name}</span>
+                {pack.audience && (
+                  <span className="text-xs text-warm-muted block">
+                    {pack.audience} · {pack.items.length} תרגילים
+                  </span>
+                )}
+              </span>
+              {isActive ? (
+                <button
+                  type="button"
+                  onClick={onDeactivate}
+                  className="text-xs px-3 py-1 rounded-2xl bg-surface text-warm-dark shadow-soft hover:shadow-warm transition"
+                >
+                  כיבוי
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onActivate(pack.id)}
+                  className="text-xs px-3 py-1 rounded-2xl bg-terracotta text-white hover:bg-terracotta-dark transition"
+                >
+                  הפעילי
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {activePackId && (
+        <p className="text-xs text-warm-muted">
+          בזמן שהחבילה פעילה, הסשן הבא של הילדה ירוץ עם תרגילי החבילה במקום
+          ראוטר הרגיל.
+        </p>
+      )}
+    </section>
+  );
+}
+
 function CoveragePicker({
   view,
   onPick,
@@ -469,12 +567,20 @@ function CoveragePicker({
   onPick: (skill: Skill) => void;
   onAuto: () => void;
 }) {
+  const activePack = view.activePackId
+    ? listPacks().find((p) => p.id === view.activePackId) ?? null
+    : null;
   const activeRow = view.coverage
     .flatMap((g) => g.rows)
     .find((r) => r.isActive);
-  const activeName = activeRow?.skillHebrew ?? "—";
-  const sourceLabel =
-    view.active.source === "manual" ? "בחירת הורה" : "אוטומטי";
+  const activeName = activePack
+    ? activePack.name
+    : activeRow?.skillHebrew ?? "—";
+  const sourceLabel = activePack
+    ? "חבילה"
+    : view.active.source === "manual"
+      ? "בחירת הורה"
+      : "אוטומטי";
 
   return (
     <section className="border border-warm-line rounded-2xl p-4 space-y-3 bg-cream/40">
@@ -487,7 +593,7 @@ function CoveragePicker({
         <button
           type="button"
           onClick={onAuto}
-          disabled={view.active.source === "auto"}
+          disabled={!activePack && view.active.source === "auto"}
           className="text-xs px-3 py-1.5 rounded-2xl bg-surface text-warm-dark shadow-soft hover:shadow-warm transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
           אוטומטי

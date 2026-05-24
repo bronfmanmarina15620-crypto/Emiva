@@ -1,0 +1,379 @@
+{
+  "id": "emilia-assessment-review-2",
+  "name": "כיתה ד' — חזרה למשימת הערכה 2",
+  "audience": "אמיליה",
+  "items": [
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q1-shopping",
+        "skill": "bar_models",
+        "difficulty": 4,
+        "prompt": "דני והוריו קנו: 3 גופיות ספורט במחיר 20 ש\"ח לכל אחת, 2 מכנסי אדידס במחיר 40 ש\"ח לכל אחד, ו-2 זוגות נעלי ספורט במחיר 100 ש\"ח לכל זוג. הם שילמו 200 ש\"ח במזומן, ואת היתרה חילקו לשני תשלומים שווים. כמה שילמו בכל תשלום?",
+        "bars": [
+          {
+            "rowLabel": "סך הקנייה",
+            "segments": [
+              { "label": "גופיות — 60", "weight": 60 },
+              { "label": "מכנסיים — 80", "weight": 80 },
+              { "label": "נעליים — 200", "weight": 200 }
+            ],
+            "totalLabel": "340 ש\"ח"
+          },
+          {
+            "rowLabel": "אופן התשלום",
+            "segments": [
+              { "label": "מזומן — 200", "weight": 200 },
+              { "label": "תשלום 1 — ?", "weight": 70 },
+              { "label": "תשלום 2 — ?", "weight": 70 }
+            ],
+            "totalLabel": "340 ש\"ח"
+          }
+        ],
+        "answer": 70,
+        "explanation": "סך הקנייה: 3×20 + 2×40 + 2×100 = 60 + 80 + 200 = 340 ש\"ח. נותרו לשלם: 340 − 200 = 140 ש\"ח. בשני תשלומים שווים: 140 ÷ 2 = 70 ש\"ח לכל תשלום."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q2-chips",
+        "skill": "bar_models",
+        "difficulty": 3,
+        "prompt": "סקר חטיפים בכיתה ד': יש 30 תלמידים. מספר הבוחרים בציפס גדול פי 3 ממספר הבוחרים בביסלי. ביסלי נבחר על ידי 3 תלמידים. כמה תלמידים בחרו בציפס?",
+        "bars": [
+          {
+            "rowLabel": "ביסלי",
+            "segments": [{ "label": "3", "weight": 3 }]
+          },
+          {
+            "rowLabel": "ציפס",
+            "segments": [
+              { "label": "3", "weight": 3 },
+              { "label": "3", "weight": 3 },
+              { "label": "3", "weight": 3 }
+            ]
+          }
+        ],
+        "answer": 9,
+        "explanation": "פי 3 מ-3 = 3 × 3 = 9 תלמידים בחרו בציפס."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q2-dubonim",
+        "skill": "bar_models",
+        "difficulty": 3,
+        "prompt": "באותו סקר: מספר הבוחרים בדובונים גדול ב-4 ממספר הבוחרים בדוריטוס. דוריטוס נבחר על ידי 5 תלמידים. כמה בחרו בדובונים?",
+        "bars": [
+          {
+            "rowLabel": "דוריטוס",
+            "segments": [{ "label": "5", "weight": 5 }]
+          },
+          {
+            "rowLabel": "דובונים",
+            "segments": [
+              { "label": "5", "weight": 5 },
+              { "label": "+4", "weight": 4 }
+            ]
+          }
+        ],
+        "answer": 9,
+        "explanation": "5 + 4 = 9 תלמידים בחרו בדובונים."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q2-beigele",
+        "skill": "bar_models",
+        "difficulty": 4,
+        "prompt": "באותו סקר: בכיתה 30 תלמידים. ציפס נבחר על ידי 9, דובונים על ידי 9, ביסלי על ידי 3, דוריטוס על ידי 5, ויתר התלמידים בחרו בבייגלה. כמה בחרו בבייגלה?",
+        "bars": [
+          {
+            "rowLabel": "כל הכיתה",
+            "segments": [
+              { "label": "ציפס — 9", "weight": 9 },
+              { "label": "דובונים — 9", "weight": 9 },
+              { "label": "ביסלי — 3", "weight": 3 },
+              { "label": "דוריטוס — 5", "weight": 5 },
+              { "label": "בייגלה — ?", "weight": 4 }
+            ],
+            "totalLabel": "30"
+          }
+        ],
+        "answer": 4,
+        "explanation": "30 − (9 + 9 + 3 + 5) = 30 − 26 = 4 תלמידים בחרו בבייגלה."
+      }
+    },
+    {
+      "kind": "off_app",
+      "id": "ar2-q2-chart",
+      "prompt": "על דף, סרטטי דיאגרמת עמודות שמציגה את כל תוצאות הסקר: ציפס 9, דובונים 9, ביסלי 3, דוריטוס 5, בייגלה 4. ציר אופקי = סוג חטיף, ציר אנכי = מספר תלמידים. כשסיימת, לחצי 'סיימתי' כדי להשוות עם הפתרון.",
+      "answerReveal": "פתרון: 5 עמודות בסדר ציפס(9) · דובונים(9) · ביסלי(3) · דוריטוס(5) · בייגלה(4). ציר אנכי בקפיצות של 1 או 2, מקסימום 10. שמות החטיפים מתחת לכל עמודה. (העזרת הורה: לבדוק שיש כותרת לציר וקנה מידה ברור.)"
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q3-water",
+        "skill": "fractions_intro",
+        "difficulty": 3,
+        "type": "compare",
+        "prompt": "דורית ומיקי מילאו דלי מים להשקיית הגינה. דורית צריכה 3/5 מהמים, מיקי צריכה 4/5 מהמים. האם הדלי יספיק לשתיהן?",
+        "explanation": "3/5 + 4/5 = 7/5. זה גדול מ-1 (כלומר גדול מדלי שלם). לכן הדלי לא יספיק לשתיהן.",
+        "answer": {
+          "kind": "choice",
+          "correct": "לא, צריך יותר מדלי שלם",
+          "options": [
+            "כן, נשארים מים",
+            "כן, בדיוק מספיק",
+            "לא, צריך יותר מדלי שלם",
+            "אי אפשר לדעת"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4-visual",
+        "skill": "fractions_intro",
+        "difficulty": 2,
+        "type": "identify",
+        "prompt": "המלבן מחולק ל-8 חלקים שווים. 5 מהם צבועים. איזה חלק מהמלבן צבוע?",
+        "viz": { "parts": 8, "filled": 5 },
+        "explanation": "5 חלקים צבועים מתוך 8 שווים → 5/8. זה גדול מ-1/2 (כי 5/8 > 4/8 = 1/2).",
+        "answer": {
+          "kind": "fraction",
+          "num": 5,
+          "den": 8
+        }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4a-frac",
+        "skill": "fractions_intro",
+        "difficulty": 2,
+        "type": "arithmetic",
+        "prompt": "2/5 + 3/5 = ?",
+        "explanation": "2/5 + 3/5 = 5/5 = 1. כשהמכנה זהה — מחברים את המונים בלבד. 5/5 = שלם אחד.",
+        "answer": { "kind": "mixed", "whole": 1, "num": 0, "den": 1 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4b-frac",
+        "skill": "fractions_intro",
+        "difficulty": 2,
+        "type": "arithmetic",
+        "prompt": "1/7 + 3/7 = ?",
+        "explanation": "מכנה זהה → מחברים מונים: 1+3 = 4. התשובה 4/7.",
+        "answer": { "kind": "mixed", "whole": 0, "num": 4, "den": 7 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4c-frac",
+        "skill": "fractions_intro",
+        "difficulty": 4,
+        "type": "arithmetic",
+        "prompt": "5 5/8 − 2/8 = ?",
+        "explanation": "השלם 5 נשאר. בחלק השברי: 5/8 − 2/8 = 3/8. התשובה 5 3/8.",
+        "answer": { "kind": "mixed", "whole": 5, "num": 3, "den": 8 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4d-frac",
+        "skill": "fractions_intro",
+        "difficulty": 4,
+        "type": "arithmetic",
+        "prompt": "4 4/8 − 1 2/8 = ?",
+        "explanation": "שלמים: 4−1 = 3. שברים (מכנה זהה): 4/8 − 2/8 = 2/8. התשובה 3 2/8 (וגם 3 1/4 נכון).",
+        "answer": { "kind": "mixed", "whole": 3, "num": 2, "den": 8 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4e-frac",
+        "skill": "fractions_intro",
+        "difficulty": 3,
+        "type": "arithmetic",
+        "prompt": "8 2/5 − 1 2/5 = ?",
+        "explanation": "שלמים: 8−1 = 7. שברים: 2/5 − 2/5 = 0. התשובה 7.",
+        "answer": { "kind": "mixed", "whole": 7, "num": 0, "den": 1 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4f-frac",
+        "skill": "fractions_intro",
+        "difficulty": 2,
+        "type": "arithmetic",
+        "prompt": "4/9 + 4/9 = ?",
+        "explanation": "מכנה זהה → 4+4 = 8. התשובה 8/9.",
+        "answer": { "kind": "mixed", "whole": 0, "num": 8, "den": 9 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4g-frac",
+        "skill": "fractions_intro",
+        "difficulty": 4,
+        "type": "arithmetic",
+        "prompt": "12/7 + 3/7 = ?",
+        "explanation": "12/7 + 3/7 = 15/7 (שבר לא אמיתי). אפשר גם 2 1/7 (כי 14/7 = 2, ועוד 1/7).",
+        "answer": { "kind": "mixed", "whole": 2, "num": 1, "den": 7 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4h-frac",
+        "skill": "fractions_intro",
+        "difficulty": 4,
+        "type": "arithmetic",
+        "prompt": "9 5/9 − 2/9 = ?",
+        "explanation": "השלם 9 נשאר. שברים: 5/9 − 2/9 = 3/9. התשובה 9 3/9 (וגם 9 1/3 נכון).",
+        "answer": { "kind": "mixed", "whole": 9, "num": 3, "den": 9 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4i-frac",
+        "skill": "fractions_intro",
+        "difficulty": 4,
+        "type": "arithmetic",
+        "prompt": "4 6/10 − 2 2/10 = ?",
+        "explanation": "שלמים: 4−2 = 2. שברים: 6/10 − 2/10 = 4/10. התשובה 2 4/10 (וגם 2 2/5 נכון).",
+        "answer": { "kind": "mixed", "whole": 2, "num": 4, "den": 10 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q4j-frac",
+        "skill": "fractions_intro",
+        "difficulty": 3,
+        "type": "arithmetic",
+        "prompt": "10 2/11 − 1 2/11 = ?",
+        "explanation": "שלמים: 10−1 = 9. שברים: 2/11 − 2/11 = 0. התשובה 9.",
+        "answer": { "kind": "mixed", "whole": 9, "num": 0, "den": 1 }
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5a-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "14 × 74 = ?",
+        "answer": 1036,
+        "operands": [14, 74],
+        "op": "*",
+        "explanation": "14 × 74 = 14 × 70 + 14 × 4 = 980 + 56 = 1036."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5b-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "57 × 46 = ?",
+        "answer": 2622,
+        "operands": [57, 46],
+        "op": "*",
+        "explanation": "57 × 46 = 57 × 40 + 57 × 6 = 2280 + 342 = 2622."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5c-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "23 × 23 = ?",
+        "answer": 529,
+        "operands": [23, 23],
+        "op": "*",
+        "explanation": "23 × 23 = 23 × 20 + 23 × 3 = 460 + 69 = 529."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5d-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "39 × 62 = ?",
+        "answer": 2418,
+        "operands": [39, 62],
+        "op": "*",
+        "explanation": "39 × 62 = 39 × 60 + 39 × 2 = 2340 + 78 = 2418."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5e-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "34 × 66 = ?",
+        "answer": 2244,
+        "operands": [34, 66],
+        "op": "*",
+        "explanation": "34 × 66 = 34 × 60 + 34 × 6 = 2040 + 204 = 2244."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5f-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "58 × 96 = ?",
+        "answer": 5568,
+        "operands": [58, 96],
+        "op": "*",
+        "explanation": "58 × 96 = 58 × 100 − 58 × 4 = 5800 − 232 = 5568."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5g-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "26 × 35 = ?",
+        "answer": 910,
+        "operands": [26, 35],
+        "op": "*",
+        "explanation": "26 × 35 = 26 × 30 + 26 × 5 = 780 + 130 = 910."
+      }
+    },
+    {
+      "kind": "item",
+      "item": {
+        "id": "ar2-q5h-mult",
+        "skill": "multiplication",
+        "difficulty": 5,
+        "prompt": "26 × 64 = ?",
+        "answer": 1664,
+        "operands": [26, 64],
+        "op": "*",
+        "explanation": "26 × 64 = 26 × 60 + 26 × 4 = 1560 + 104 = 1664."
+      }
+    }
+  ]
+}
