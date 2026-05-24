@@ -205,12 +205,20 @@ export default function ParentDashboard() {
             אל תפתחי את הדף הזה כשהילדה ליד המסך.
           </p>
         </div>
-        <Link
-          href="/"
-          className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
-        >
-          יציאה
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/parent/history"
+            className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
+          >
+            מבט אחורה
+          </Link>
+          <Link
+            href="/"
+            className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
+          >
+            יציאה
+          </Link>
+        </div>
       </header>
 
       <section className="max-w-3xl mx-auto bg-surface rounded-3xl shadow-soft p-6 mb-6 space-y-3">

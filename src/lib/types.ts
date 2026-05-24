@@ -162,3 +162,9 @@ export const BELIEF_WEAK_PCT = 50;
 export const TREND_DELTA_PCT = 5;
 export const REMINDER_DAYS = 14;
 export const MAX_SESSION_MS = 30 * 60 * 1000;
+
+// Parent history — focus-areas thresholds
+export const FOCUS_MIN_ATTEMPTS = 10;
+export const FOCUS_LOW_PCT_THRESHOLD = 60;
+export const FOCUS_DROP_THRESHOLD = 10;
+export const FOCUS_NEG_FEELING_SESSIONS = 3;
