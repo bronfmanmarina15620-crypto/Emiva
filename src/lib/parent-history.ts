@@ -265,6 +265,47 @@ function reasonRank(r: FocusReason): number {
   return 1;
 }
 
+/**
+ * Per-skill check: does this skill meet any of the focus-area criteria
+ * (dropped / low_pct / negative_feeling) in the given window? Same primitives
+ * as `computeFocusAreas` but without the 3-item cap and without priority — used
+ * by the coverage view to flag "graduated but needs review" status, where every
+ * qualifying skill needs the flag regardless of cap.
+ */
+export function skillNeedsReview(
+  profile: Profile,
+  skill: Skill,
+  range: HistoryRange = "month_30",
+  now: number = Date.now(),
+): boolean {
+  const cur = rangeFor(range, now);
+  const prev = previousRangeFor(range, now);
+  const state = loadMastery(profile.id, skill);
+  const inCur = attemptsInRange(state.attempts, cur);
+  const inPrev = attemptsInRange(state.attempts, prev);
+
+  if (
+    inCur.length >= FOCUS_MIN_ATTEMPTS &&
+    inPrev.length >= FOCUS_MIN_ATTEMPTS
+  ) {
+    const pCur = pct(inCur);
+    const pPrev = pct(inPrev);
+    if (pCur !== null && pPrev !== null && pPrev - pCur >= FOCUS_DROP_THRESHOLD)
+      return true;
+  }
+
+  if (inCur.length >= FOCUS_MIN_ATTEMPTS) {
+    const pCur = pct(inCur);
+    if (pCur !== null && pCur < FOCUS_LOW_PCT_THRESHOLD) return true;
+  }
+
+  const events = parseEvents(exportTelemetry(profile.id));
+  const feelings = feelingsInRange(events, cur, skill);
+  if (feelings.hard >= FOCUS_NEG_FEELING_SESSIONS) return true;
+
+  return false;
+}
+
 export function computeFocusAreas(
   profile: Profile,
   range: HistoryRange,

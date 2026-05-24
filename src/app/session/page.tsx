@@ -46,6 +46,7 @@ import {
 } from "@/lib/storage";
 import { buildGreeting } from "@/lib/greetings";
 import { explain } from "@/lib/explain";
+import { resolveEffectiveSkill } from "@/lib/parent-focus";
 import {
   correctMessage,
   retryMessage,
@@ -100,15 +101,6 @@ function bankForSkill(skill: Skill): readonly Item[] {
   }
 }
 
-function pickActiveSkill(
-  allowed: readonly Skill[],
-  profileId: string,
-): Skill | null {
-  for (const s of allowed) {
-    if (!hasGraduatedFlag(profileId, s)) return s;
-  }
-  return allowed[allowed.length - 1] ?? null;
-}
 
 // Per MyLevel.docx §3.1+§5.4: bat-7 daily practice carries 3 of 5 items in
 // money context. Only applies to add_sub_100 and multiplication (the skills
@@ -234,7 +226,7 @@ export default function SessionPage() {
     }
     setProfile(active);
 
-    const chosenSkill = pickActiveSkill(active.allowedSkills, active.id);
+    const chosenSkill = resolveEffectiveSkill(active).skill;
     if (!chosenSkill) {
       setPhase("no_content");
       return;

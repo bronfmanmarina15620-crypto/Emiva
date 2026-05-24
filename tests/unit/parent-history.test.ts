@@ -10,6 +10,7 @@ import {
   computePerSkillStats,
   previousRangeFor,
   rangeFor,
+  skillNeedsReview,
 } from "@/lib/parent-history";
 
 class MemoryStorage {
@@ -374,6 +375,72 @@ describe("computeFocusAreas", () => {
         t.startsWith("היום את יכולה להזמין") ||
         t.startsWith("היום כדאי להציע"),
     ).toBe(true);
+  });
+});
+
+describe("skillNeedsReview", () => {
+  it("returns false when no recent attempts", () => {
+    expect(skillNeedsReview(profileEvelyn(), "add_sub_100", "month_30", NOW)).toBe(false);
+  });
+
+  it("returns true when low_pct (≥ 10 attempts, < 60%)", () => {
+    const p = profileEvelyn();
+    const cur = NOW - 2 * DAY;
+    saveMastery(
+      p.id,
+      mk(
+        "add_sub_100",
+        [
+          ...correct("add_sub_100", 4, cur),
+          ...wrong("add_sub_100", 6, cur + 5_000),
+        ],
+        [cur],
+      ),
+    );
+    expect(skillNeedsReview(p, "add_sub_100", "month_30", NOW)).toBe(true);
+  });
+
+  it("returns true when dropped (≥ 10 nq points vs prior window)", () => {
+    const p = profileEvelyn();
+    const cur = NOW - 5 * DAY;
+    const prev = NOW - 40 * DAY;
+    saveMastery(
+      p.id,
+      mk(
+        "add_sub_100",
+        [
+          ...correct("add_sub_100", 9, prev),
+          ...wrong("add_sub_100", 1, prev + 10_000),
+          ...correct("add_sub_100", 6, cur),
+          ...wrong("add_sub_100", 4, cur + 7_000),
+        ],
+        [prev, cur],
+      ),
+    );
+    expect(skillNeedsReview(p, "add_sub_100", "month_30", NOW)).toBe(true);
+  });
+
+  it("returns true when ≥ 3 hard feelings", () => {
+    const p = profileEvelyn();
+    for (let i = 0; i < 3; i++) {
+      logEvent(p.id, {
+        t: "session_feeling",
+        at: NOW - (i + 1) * DAY,
+        skill: "multiplication",
+        rating: "hard",
+      });
+    }
+    expect(skillNeedsReview(p, "multiplication", "month_30", NOW)).toBe(true);
+  });
+
+  it("returns false when above pct threshold and no drop/feelings", () => {
+    const p = profileEvelyn();
+    const cur = NOW - 2 * DAY;
+    saveMastery(
+      p.id,
+      mk("add_sub_100", correct("add_sub_100", 12, cur), [cur]),
+    );
+    expect(skillNeedsReview(p, "add_sub_100", "month_30", NOW)).toBe(false);
   });
 });
 

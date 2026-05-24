@@ -5,6 +5,72 @@
 
 ## [Unreleased]
 
+### Added — סטטוס "שלטה — כדאי לרענן" בתצוגת הכיסוי (DASHBOARD-PARENT-FOCUS-002)
+- **טריגר:** משוב Marina (2026-05-24): הסתכלה על כרטיס אמיליה — כל ארבע
+  המיומנויות 🟢 שלטה — וקיבלה תחושה שאין מה לחזק, בזמן ש-`שברים` באותו
+  פרופיל מופיע ב-"מקומות לחזק" של "מבט אחורה" עם ירידה ל-60%. שתי
+  המדידות נכונות כל אחת בנפרד (graduation = סף היסטורי חד-כיווני,
+  focus areas = ביצועים נוכחיים), אבל הסטטוס היחיד הסתיר את המידע.
+- **סטטוס רביעי `mastered_review` (🟢⚠️ "שלטה — כדאי לרענן")** מופיע
+  כשמיומנות גם graduated וגם עומדת באחד משלושה קריטריוני
+  "מקומות לחזק" על חלון 30 ימים אחרונים: אחוז < 60% (`FOCUS_LOW_PCT_THRESHOLD`),
+  ירידה ≥ 10 נק' לעומת תקופה קודמת (`FOCUS_DROP_THRESHOLD`), או ≥ 3
+  סשנים מסומנים 😣 (`FOCUS_NEG_FEELING_SESSIONS`). שורת ה-row מקבלת
+  border מודגש כדי שיתבלט בלי לזעוק.
+- **מודולים:**
+  - `src/lib/parent-history.ts` — חדש: `skillNeedsReview(profile, skill, range?, now?)` — בדיקה
+    per-skill ללא 3-cap וללא priority של `computeFocusAreas`. ברירת
+    מחדל `range = "month_30"`.
+  - `src/lib/parent-focus.ts` — `CoverageStatus` קיבל ערך רביעי
+    `mastered_review`. `statusFor` בודק `skillNeedsReview` רק כשהדגל
+    graduated מורם.
+  - `src/app/parent/dashboard/page.tsx` — `COVERAGE_DOT` ו-`COVERAGE_STATUS_LABEL`
+    הורחבו. רכיב `<CoveragePicker>` מוסיף border-mustard לרשומות
+    `mastered_review` (לא בולט כאזעקה, מבליט בעדינות).
+- **בדיקות:**
+  - `tests/unit/parent-history.test.ts` +5 מקרים ל-`skillNeedsReview`
+    (חלון ריק, low_pct, dropped, hard-feeling, מעל הסף = false).
+  - `tests/unit/parent-focus.test.ts` +3 מקרים על `computeCoverage`
+    (graduated + low_pct → mastered_review; graduated לבד → mastered;
+    graduated + ≥ 3 hard → mastered_review).
+- **מסמכים:** סעיף 10 רכיב 4 ב-`parent-guide.md` עודכן לארבעה
+  סטטוסים מפורשים.
+
+### Added — כיסוי + בחירת הורה למיומנות פעילה (DASHBOARD-PARENT-FOCUS-001)
+- **טריגר:** בקשה ישירה של Marina (2026-05-24): "אני צריכה גישה
+  כהורה לנתב בין נושאים עליהם כל ילד יחזק או יעבוד בכל רגע נתון…
+  איזה נושאים כיסינו ואיזה עוד נשארו?". אוולין (7) מתקדמת מהר ו-Marina
+  צריכה לפנות אותה גם לנושאים שמעבר לגיל ברירת המחדל; אמיליה (9)
+  צריכה לפעמים לרענן חיבור עד 100.
+- **בכרטיס כל ילדה ב-`/parent/dashboard`** — אריחי המיומנויות המקוריים
+  הוחלפו ברכיב "כיסוי + בחירה":
+  - רשימה מלאה של כל המיומנויות במערכת, מקובצת לפי נושא (מתמטיקה /
+    קריאה בעברית). לכל מיומנות: סטטוס (⚪/🟡/🟢), מספר ניסיונות
+    מצטבר, ותגית *"מחוץ לגיל ברירת מחדל"* אם רלוונטי.
+  - כפתור "בחרי" ליד כל מיומנות שאינה הפעילה — הופך אותה למיומנות
+    הפעילה לסשן הבא של הילדה, גם אם היא לא בברירת המחדל לגיל.
+  - שורת "תעבוד עכשיו על:" בראש הרכיב + תגית מקור (*אוטומטי* /
+    *בחירת הורה*).
+  - כפתור "אוטומטי" מבטל את העקיפה ומחזיר את הראוטר לבחור (מיומנות
+    ראשונה שלא graduated לפי סדר הגיל).
+- **שינוי ראוטינג סשן:** `src/app/session/page.tsx` עובר משימוש ב-
+  `pickActiveSkill` הפרטי ל-`resolveEffectiveSkill` החדש, שמחזיר
+  `{ skill, source: "manual" | "auto" }`. חוק: override של הורה תמיד
+  מנצח את ה-auto-routing, ועוקף גם את `allowedSkills` (cross-age).
+- **מודולים חדשים:**
+  - `src/lib/parent-focus.ts` — `loadParentFocus`, `saveParentFocus`,
+    `clearParentFocus`, `resolveEffectiveSkill`, `resolveEffectiveSkillPure`
+    (להזרקה לטסטים), `computeCoverage`. קבועי `ALL_SKILLS`, `SKILL_SUBJECT`,
+    `SUBJECT_HEBREW`.
+- **אחסון חדש:** `emiva.parent_focus.v1.{profileId}` → שם מיומנות (string).
+  קריאה דוחה ערכים שאינם מיומנות מוכרת.
+- **בדיקות:** `tests/unit/parent-focus.test.ts` — 19 מקרים: storage
+  round-trip + scoped-per-profile + דחיית ערך לא תקין, resolver
+  (override > auto, fallback ל-last allowed, cross-age), computeCoverage
+  (קיבוץ לפי נושא, isDefaultForAge נכון, סטטוס/ניסיונות/isActive).
+- **מסמכים:** סעיף 10 רכיב 4 ב-`parent-guide.md` נכתב מחדש ("רשת
+  מיומנויות" → "כיסוי + בחירה"); 2 שורות חדשות בטבלת מקור-אמת (§11).
+
 ### Added — מסך "מבט אחורה" להורה (DASHBOARD-PARENT-HISTORY-001)
 - **טריגר:** בקשה ישירה של Marina (2026-05-24): "אני צריכה גם סיכום
   של שבוע שעבר וחודש אחורה כי אני לא זוכרת איך הם התקדמו". הדשבורד

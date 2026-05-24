@@ -11,19 +11,27 @@ import {
   computeBeliefComparison,
   computeLastSessionDays,
   computePossibleCause,
-  computeSkillTiles,
   computeTrend,
   computeVerdict,
   computeWeeklyDigest,
   computeWheelSpin,
   type ActionLine,
   type BeliefComparison,
-  type SkillTile,
   type Trend,
   type Verdict,
   type WeeklyDigest,
   type WheelSpinFlag,
 } from "@/lib/parent-dashboard";
+import {
+  clearParentFocus,
+  computeCoverage,
+  resolveEffectiveSkill,
+  saveParentFocus,
+  type CoverageBySubject,
+  type CoverageRow,
+  type EffectiveSkill,
+} from "@/lib/parent-focus";
+import type { Skill } from "@/lib/types";
 import {
   isoWeekKey,
   loadBelief,
@@ -37,7 +45,8 @@ type DaughterView = {
   verdict: Verdict;
   action: ActionLine;
   cause: string | null;
-  tiles: SkillTile[];
+  coverage: CoverageBySubject;
+  active: EffectiveSkill;
   wheelSpins: WheelSpinFlag[];
   belief: BeliefComparison | null;
   lastSessionDays: number | null;
@@ -57,16 +66,18 @@ const VERDICT_CLASS: Record<Verdict, string> = {
   talk: "bg-warm-indigo-soft text-warm-dark",
 };
 
-const TILE_LABEL: Record<SkillTile["state"], string> = {
+const COVERAGE_DOT: Record<CoverageRow["status"], string> = {
+  not_started: "⚪",
+  in_progress: "🟡",
+  mastered: "🟢",
+  mastered_review: "🟢⚠️",
+};
+
+const COVERAGE_STATUS_LABEL: Record<CoverageRow["status"], string> = {
   not_started: "לא התחילה",
   in_progress: "בתהליך",
   mastered: "שלטה",
-};
-
-const TILE_CLASS: Record<SkillTile["state"], string> = {
-  not_started: "bg-cream text-warm-muted border-warm-line",
-  in_progress: "bg-mustard-soft text-warm-dark border-mustard",
-  mastered: "bg-sage-soft text-warm-dark border-sage",
+  mastered_review: "שלטה — כדאי לרענן",
 };
 
 const TREND_LABEL: Record<Trend, string> = {
@@ -94,7 +105,8 @@ function buildView(profile: Profile): DaughterView {
   const verdict = computeVerdict(profile);
   const action = computeActionLine(profile);
   const cause = computePossibleCause(profile, verdict);
-  const tiles = computeSkillTiles(profile);
+  const coverage = computeCoverage(profile);
+  const active = resolveEffectiveSkill(profile);
   const wheelSpins = computeWheelSpin(profile);
   const belief = computeBeliefComparison(profile);
   const digest = computeWeeklyDigest(profile);
@@ -105,7 +117,8 @@ function buildView(profile: Profile): DaughterView {
     verdict,
     action,
     cause,
-    tiles,
+    coverage,
+    active,
     wheelSpins,
     belief,
     lastSessionDays,
@@ -169,6 +182,16 @@ export default function ParentDashboard() {
   }, [router]);
 
   const currentWeek = useMemo(() => isoWeekKey(), []);
+
+  function pickSkill(profileId: string, skill: Skill) {
+    saveParentFocus(profileId, skill);
+    rebuild();
+  }
+
+  function clearFocus(profileId: string) {
+    clearParentFocus(profileId);
+    rebuild();
+  }
 
   function submitBelief(profileId: string) {
     const text = (beliefDraft[profileId] ?? "").trim();
@@ -290,20 +313,12 @@ export default function ParentDashboard() {
                 <p className="text-sm text-warm-muted">{v.cause}</p>
               )}
 
-              <div className="flex flex-wrap gap-2">
-                {v.tiles.map((t) => (
-                  <div
-                    key={t.skill}
-                    className={`px-3 py-2 rounded-2xl border text-sm ${TILE_CLASS[t.state]}`}
-                    title={`${t.skillHebrew} · ${t.sessionCount} סשנים${
-                      t.firstTryPct !== null ? ` · ${t.firstTryPct}% נכון-בראשון` : ""
-                    }`}
-                  >
-                    <div className="font-semibold">{t.skillHebrew}</div>
-                    <div className="text-xs opacity-80">{TILE_LABEL[t.state]}</div>
-                  </div>
-                ))}
-              </div>
+              <CoveragePicker
+                view={v}
+                onPick={(skill) => pickSkill(v.profile.id, skill)}
+                onAuto={() => clearFocus(v.profile.id)}
+              />
+
 
               {v.wheelSpins.length > 0 && (
                 <div className="bg-mustard-soft rounded-2xl px-4 py-3 text-sm text-warm-dark">
@@ -442,5 +457,89 @@ export default function ParentDashboard() {
         </Link>
       </footer>
     </main>
+  );
+}
+
+function CoveragePicker({
+  view,
+  onPick,
+  onAuto,
+}: {
+  view: DaughterView;
+  onPick: (skill: Skill) => void;
+  onAuto: () => void;
+}) {
+  const activeRow = view.coverage
+    .flatMap((g) => g.rows)
+    .find((r) => r.isActive);
+  const activeName = activeRow?.skillHebrew ?? "—";
+  const sourceLabel =
+    view.active.source === "manual" ? "בחירת הורה" : "אוטומטי";
+
+  return (
+    <section className="border border-warm-line rounded-2xl p-4 space-y-3 bg-cream/40">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm text-warm-dark">
+          <span className="text-warm-muted">תעבוד עכשיו על: </span>
+          <span className="font-semibold">{activeName}</span>
+          <span className="text-xs text-warm-muted"> ({sourceLabel})</span>
+        </p>
+        <button
+          type="button"
+          onClick={onAuto}
+          disabled={view.active.source === "auto"}
+          className="text-xs px-3 py-1.5 rounded-2xl bg-surface text-warm-dark shadow-soft hover:shadow-warm transition disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          אוטומטי
+        </button>
+      </div>
+
+      {view.coverage.map((group) => (
+        <div key={group.subject} className="space-y-1.5">
+          <h4 className="text-xs font-semibold text-warm-muted">
+            {group.subjectHebrew}
+          </h4>
+          <ul className="space-y-1.5">
+            {group.rows.map((row) => (
+              <li
+                key={row.skill}
+                className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-sm ${
+                  row.isActive
+                    ? "bg-mustard-soft text-warm-dark"
+                    : row.status === "mastered_review"
+                      ? "bg-surface text-warm-dark border border-mustard"
+                      : "bg-surface text-warm-dark"
+                }`}
+              >
+                <span className="flex items-center gap-2 flex-1 min-w-0">
+                  <span aria-hidden>{COVERAGE_DOT[row.status]}</span>
+                  <span className="truncate">{row.skillHebrew}</span>
+                  <span className="text-xs text-warm-muted truncate">
+                    · {COVERAGE_STATUS_LABEL[row.status]}
+                    {row.attempts > 0 ? ` · ${row.attempts} ניס׳` : ""}
+                    {!row.isDefaultForAge && (
+                      <span className="mr-1">· מחוץ לגיל ברירת מחדל</span>
+                    )}
+                  </span>
+                </span>
+                {row.isActive ? (
+                  <span className="text-xs px-2 py-1 rounded-full bg-mustard text-warm-dark font-semibold">
+                    פעיל
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onPick(row.skill)}
+                    className="text-xs px-3 py-1 rounded-2xl bg-terracotta text-white hover:bg-terracotta-dark transition"
+                  >
+                    בחרי
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
   );
 }
