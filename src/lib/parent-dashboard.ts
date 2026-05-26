@@ -122,6 +122,26 @@ function lastSessionAt(states: MasteryState[]): number | null {
   return latest;
 }
 
+/**
+ * Latest session start across BOTH mastery state (per-skill `sessionTimestamps`)
+ * AND telemetry (`session_start` events). Pack sessions only log telemetry —
+ * if we only consult mastery state, a child who did only a review pack today
+ * looks inactive on the dashboard.
+ */
+function lastSessionAtForProfile(
+  profile: Profile,
+  states: MasteryState[],
+): number | null {
+  let latest = lastSessionAt(states);
+  const events = parseEvents(exportTelemetry(profile.id));
+  for (const e of events) {
+    if (e.t === "session_start") {
+      if (latest === null || e.at > latest) latest = e.at;
+    }
+  }
+  return latest;
+}
+
 function currentSkill(states: MasteryState[]): Skill | null {
   let bestSkill: Skill | null = null;
   let bestAt = -Infinity;
@@ -146,8 +166,13 @@ export function computeLastSessionDays(
   now: number = Date.now(),
 ): number | null {
   const states = loadAllMastery(profile);
-  const last = lastSessionAt(states);
+  const last = lastSessionAtForProfile(profile, states);
   return daysSince(last, now);
+}
+
+export function computeLastSessionAt(profile: Profile): number | null {
+  const states = loadAllMastery(profile);
+  return lastSessionAtForProfile(profile, states);
 }
 
 export function computeWheelSpin(
@@ -199,7 +224,7 @@ export function computeVerdict(
   const wheelSpins = computeWheelSpin(profile, now);
   if (wheelSpins.length > 0) return "talk";
 
-  const last = lastSessionAt(states);
+  const last = lastSessionAtForProfile(profile, states);
   const daysAgo = daysSince(last, now);
   if (daysAgo === null) return "watch";
   if (daysAgo >= INACTIVITY_DAYS_TALK) return "talk";
@@ -252,7 +277,7 @@ export function computeActionLine(
   }
 
   const states = loadAllMastery(profile);
-  const last = lastSessionAt(states);
+  const last = lastSessionAtForProfile(profile, states);
   const daysAgo = daysSince(last, now);
   if (daysAgo === null || daysAgo >= INACTIVITY_DAYS_WATCH) {
     return {
@@ -365,6 +390,49 @@ function sessionDurations(events: TelemetryEvent[]): Array<{ at: number; ms: num
     }
   }
   return pairs;
+}
+
+export type RecentSession = {
+  startedAt: number;
+  endedAt: number;
+  durationMs: number;
+  label: string;
+};
+
+function sessionSkillLabel(skill: string): string {
+  if (skill.startsWith("pack:")) return "חבילת חזרה";
+  return SKILL_HEBREW[skill as Skill] ?? skill;
+}
+
+/**
+ * Most recent N closed sessions for the profile, ordered newest first.
+ * Reads from telemetry so pack sessions are included.
+ */
+export function computeRecentSessions(
+  profile: Profile,
+  limit: number = 5,
+): RecentSession[] {
+  const events = parseEvents(exportTelemetry(profile.id));
+  const openByskill = new Map<string, number>();
+  const out: RecentSession[] = [];
+  for (const e of events) {
+    if (e.t === "session_start") {
+      openByskill.set(e.skill, e.at);
+    } else if (e.t === "session_end") {
+      const start = openByskill.get(e.skill);
+      if (start !== undefined) {
+        const durationMs = Math.min(MAX_SESSION_MS, Math.max(0, e.at - start));
+        out.push({
+          startedAt: start,
+          endedAt: e.at,
+          durationMs,
+          label: sessionSkillLabel(e.skill),
+        });
+        openByskill.delete(e.skill);
+      }
+    }
+  }
+  return out.sort((a, b) => b.endedAt - a.endedAt).slice(0, limit);
 }
 
 export function computeMinutesSince(profileId: string, since: number): number {

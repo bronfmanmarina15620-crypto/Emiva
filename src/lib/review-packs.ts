@@ -36,8 +36,18 @@ import assessmentReview2 from "@/content/review-packs/emilia-assessment-review-2
 
 const BUILT_IN_PACKS: ReviewPack[] = [assessmentReview2 as unknown as ReviewPack];
 
-export function listPacks(): ReviewPack[] {
-  return BUILT_IN_PACKS;
+/**
+ * Returns packs available to the given profile. A pack matches if its
+ * `audience` equals the profile's name (case/whitespace-insensitive), or
+ * has no audience set (universal). With no profile, returns all packs —
+ * used by tests and tools.
+ */
+export function listPacks(profile?: Profile): ReviewPack[] {
+  if (!profile) return BUILT_IN_PACKS;
+  const target = profile.name.trim();
+  return BUILT_IN_PACKS.filter(
+    (p) => !p.audience || p.audience.trim() === target,
+  );
 }
 
 export function getPackById(id: string): ReviewPack | null {

@@ -15,17 +15,44 @@ const UNKNOWN_FILL = "#F5E4D8";
 
 const BAR_HEIGHT = 56;
 const BAR_GAP = 14;
-const LABEL_WIDTH = 80;
+const LABEL_WIDTH = 120;
 const TOTAL_LABEL_HEIGHT = 28;
 const V_PAD = 10;
+const SEGMENT_CHAR_WIDTH = 12; // empirical estimate for Hebrew + digits @ 20px bold
+const SEGMENT_INNER_PAD = 16;
+
+/**
+ * If the full label fits in the segment width, return it. Otherwise fall
+ * back to the trailing value: text after " — " if present, else the last
+ * whitespace-separated token (typically a number or "?"). This keeps the
+ * digit visible in narrow segments without bleeding Hebrew text into
+ * neighbors.
+ */
+function fitLabel(label: string, segW: number): string {
+  const available = Math.max(0, segW - SEGMENT_INNER_PAD);
+  if (label.length * SEGMENT_CHAR_WIDTH <= available) return label;
+  const dashIdx = label.lastIndexOf("—");
+  if (dashIdx !== -1) {
+    const tail = label.slice(dashIdx + 1).trim();
+    if (tail.length * SEGMENT_CHAR_WIDTH <= available) return tail;
+  }
+  const tokens = label.split(/\s+/);
+  return tokens[tokens.length - 1] ?? label;
+}
 
 export function BarModelViz({ bars, width = 440 }: Props) {
   if (bars.length === 0) return null;
 
+  // RTL layout: row labels live to the RIGHT of the bar (Hebrew reading
+  // starts there). Bars extend leftward from the right-side label column.
   const hasRowLabel = bars.some((b) => !!b.rowLabel);
-  const leftPad = hasRowLabel ? LABEL_WIDTH : 12;
-  const rightPad = 12;
+  const leftPad = 12;
+  const rightPad = hasRowLabel ? LABEL_WIDTH : 12;
   const barWidth = width - leftPad - rightPad;
+  // textAnchor="start" + direction="rtl" anchors the source-first char
+  // (visual RIGHT for Hebrew) at labelX. Set labelX to the far-right edge
+  // so the whole label sits inside the right margin.
+  const labelX = width - 6;
 
   const bottomLabelsHeight = bars.some((b) => !!b.totalLabel)
     ? TOTAL_LABEL_HEIGHT
@@ -51,9 +78,9 @@ export function BarModelViz({ bars, width = 440 }: Props) {
           <g key={rowIdx}>
             {bar.rowLabel && (
               <text
-                x={leftPad - 8}
+                x={labelX}
                 y={rowTop + BAR_HEIGHT / 2}
-                textAnchor="end"
+                textAnchor="start"
                 dominantBaseline="middle"
                 fontSize={16}
                 fontWeight={600}
@@ -81,6 +108,7 @@ export function BarModelViz({ bars, width = 440 }: Props) {
               cursorX += segW;
               const isUnknown = seg.label === "?";
               const fill = isUnknown ? UNKNOWN_FILL : SAGE_SOFT;
+              const displayLabel = fitLabel(seg.label, segW);
 
               return (
                 <g key={segIdx}>
@@ -105,7 +133,7 @@ export function BarModelViz({ bars, width = 440 }: Props) {
                     fill={TEXT_DARK}
                     direction="rtl"
                   >
-                    {seg.label}
+                    {displayLabel}
                   </text>
                   {segIdx < bar.segments.length - 1 && (
                     <line

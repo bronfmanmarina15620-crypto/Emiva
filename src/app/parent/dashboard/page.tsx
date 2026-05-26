@@ -9,14 +9,17 @@ import { loadProfiles, type Profile } from "@/lib/profiles";
 import {
   computeActionLine,
   computeBeliefComparison,
+  computeLastSessionAt,
   computeLastSessionDays,
   computePossibleCause,
+  computeRecentSessions,
   computeTrend,
   computeVerdict,
   computeWeeklyDigest,
   computeWheelSpin,
   type ActionLine,
   type BeliefComparison,
+  type RecentSession,
   type Trend,
   type Verdict,
   type WeeklyDigest,
@@ -58,6 +61,8 @@ type DaughterView = {
   wheelSpins: WheelSpinFlag[];
   belief: BeliefComparison | null;
   lastSessionDays: number | null;
+  lastSessionAt: number | null;
+  recentSessions: RecentSession[];
   digest: WeeklyDigest;
   trend: Trend;
 };
@@ -102,11 +107,30 @@ const TREND_CLASS: Record<Trend, string> = {
   insufficient: "text-warm-muted",
 };
 
-function lastSessionLabel(days: number | null): string {
-  if (days === null) return "עוד לא היה סשן";
-  if (days === 0) return "סשן אחרון: היום";
-  if (days === 1) return "סשן אחרון: אתמול";
-  return `סשן אחרון: לפני ${days} ימים`;
+function formatShortDateTime(ts: number): string {
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${d.getDate()}/${d.getMonth() + 1} ${hh}:${mm}`;
+}
+
+function lastSessionLabel(days: number | null, at: number | null): string {
+  if (days === null || at === null) return "עוד לא היה סשן";
+  const stamp = formatShortDateTime(at);
+  if (days === 0) return `סשן אחרון: היום (${stamp})`;
+  if (days === 1) return `סשן אחרון: אתמול (${stamp})`;
+  return `סשן אחרון: לפני ${days} ימים (${stamp})`;
+}
+
+function formatDuration(ms: number): string {
+  const totalSec = Math.round(ms / 1000);
+  if (totalSec < 60) return `${totalSec} שנ׳`;
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  if (min < 60) return sec === 0 ? `${min} דק׳` : `${min}:${String(sec).padStart(2, "0")} דק׳`;
+  const h = Math.floor(min / 60);
+  const rm = min % 60;
+  return `${h}:${String(rm).padStart(2, "0")} שע׳`;
 }
 
 function buildView(profile: Profile): DaughterView {
@@ -120,6 +144,8 @@ function buildView(profile: Profile): DaughterView {
   const belief = computeBeliefComparison(profile);
   const digest = computeWeeklyDigest(profile);
   const lastSessionDays = computeLastSessionDays(profile);
+  const lastSessionAt = computeLastSessionAt(profile);
+  const recentSessions = computeRecentSessions(profile);
   const trend = computeTrend(profile);
   return {
     profile,
@@ -132,6 +158,8 @@ function buildView(profile: Profile): DaughterView {
     wheelSpins,
     belief,
     lastSessionDays,
+    lastSessionAt,
+    recentSessions,
     digest,
     trend,
   };
@@ -336,7 +364,7 @@ export default function ParentDashboard() {
               )}
 
               <PackSection
-                profileId={v.profile.id}
+                profile={v.profile}
                 activePackId={v.activePackId}
                 onActivate={(packId) => activatePack(v.profile.id, packId)}
                 onDeactivate={() => deactivatePack(v.profile.id)}
@@ -470,8 +498,25 @@ export default function ParentDashboard() {
               </div>
 
               <p className="text-xs text-warm-muted">
-                {lastSessionLabel(v.lastSessionDays)}
+                {lastSessionLabel(v.lastSessionDays, v.lastSessionAt)}
               </p>
+              {v.recentSessions.length > 0 && (
+                <details className="text-xs text-warm-muted">
+                  <summary className="cursor-pointer hover:text-warm-dark transition">
+                    סשנים אחרונים ({v.recentSessions.length})
+                  </summary>
+                  <ul className="mt-2 space-y-1 pr-2">
+                    {v.recentSessions.map((s) => (
+                      <li key={s.startedAt} className="flex justify-between gap-3">
+                        <span>{s.label}</span>
+                        <span>
+                          {formatShortDateTime(s.startedAt)} · {formatDuration(s.durationMs)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
             </article>
           );
         })}
@@ -490,18 +535,17 @@ export default function ParentDashboard() {
 }
 
 function PackSection({
-  profileId,
+  profile,
   activePackId,
   onActivate,
   onDeactivate,
 }: {
-  profileId: string;
+  profile: Profile;
   activePackId: string | null;
   onActivate: (packId: string) => void;
   onDeactivate: () => void;
 }) {
-  void profileId;
-  const packs: ReviewPack[] = listPacks();
+  const packs: ReviewPack[] = listPacks(profile);
   if (packs.length === 0) return null;
 
   return (
