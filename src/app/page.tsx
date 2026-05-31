@@ -80,37 +80,51 @@ export default function Home() {
               const activeId = getActiveProfileId();
               const active = activeId === p.id;
               const hasContent = allowedSkillsForAge(p.age).length > 0;
+              const canPuppyJournal = p.age >= 9;
               return (
-                <div
-                  key={p.id}
-                  className={`w-full bg-surface rounded-3xl shadow-soft flex items-center hover:shadow-warm transition ${
-                    active ? "ring-2 ring-terracotta" : ""
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => choose(p.id)}
-                    className="flex-1 flex items-center justify-between py-5 px-6 text-right"
+                <div key={p.id} className="space-y-2">
+                  <div
+                    className={`w-full bg-surface rounded-3xl shadow-soft flex items-center hover:shadow-warm transition ${
+                      active ? "ring-2 ring-terracotta" : ""
+                    }`}
                   >
-                    <span className="text-xl font-display font-extrabold text-warm-dark">
-                      {p.name}
-                    </span>
-                    <span
-                      className={`text-sm ${
-                        hasContent ? "text-warm-muted" : "text-terracotta-dark"
-                      }`}
+                    <button
+                      type="button"
+                      onClick={() => choose(p.id)}
+                      className="flex-1 flex items-center justify-between py-5 px-6 text-right"
                     >
-                      {hasContent ? `גיל ${p.age}` : `גיל ${p.age} · אין תוכן`}
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(p)}
-                    aria-label={`מחיקת הפרופיל של ${p.name}`}
-                    className="px-4 py-5 text-warm-muted hover:text-terracotta-dark transition border-r border-warm-line/50"
-                  >
-                    ✕
-                  </button>
+                      <span className="text-xl font-display font-extrabold text-warm-dark">
+                        {p.name}
+                      </span>
+                      <span
+                        className={`text-sm ${
+                          hasContent ? "text-warm-muted" : "text-terracotta-dark"
+                        }`}
+                      >
+                        {hasContent ? `גיל ${p.age}` : `גיל ${p.age} · אין תוכן`}
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(p)}
+                      aria-label={`מחיקת הפרופיל של ${p.name}`}
+                      className="px-4 py-5 text-warm-muted hover:text-terracotta-dark transition border-r border-warm-line/50"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  {canPuppyJournal && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveProfileId(p.id);
+                        window.location.href = "/journal/puppy";
+                      }}
+                      className="text-sm text-warm-muted hover:text-terracotta-dark transition pr-2"
+                    >
+                      🐕 פתחי את יומן הגור
+                    </button>
+                  )}
                 </div>
               );
             })}

@@ -1,4 +1,9 @@
-import type { ExternalTestResult, MasteryState, Skill } from "./types";
+import type {
+  ExternalTestResult,
+  MasteryState,
+  PuppyJournal,
+  Skill,
+} from "./types";
 import { emptyMastery } from "./mastery";
 
 const MASTERY_PREFIX = "emiva.mastery.v1";
@@ -6,6 +11,7 @@ const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 const GRADUATED_PREFIX = "emiva.graduated.v1";
 const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
 const MEASUREMENT_PREFIX = "emiva.measurement.v1";
+const PUPPY_JOURNAL_PREFIX = "emiva.puppy_journal.v1";
 
 function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
@@ -161,6 +167,34 @@ export function appendMeasurementResult(
   );
 }
 
+function puppyJournalKey(profileId: string): string {
+  return `${PUPPY_JOURNAL_PREFIX}.${profileId}`;
+}
+
+export function loadPuppyJournal(profileId: string): PuppyJournal | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(puppyJournalKey(profileId));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return null;
+    return parsed as PuppyJournal;
+  } catch {
+    return null;
+  }
+}
+
+export function savePuppyJournal(
+  profileId: string,
+  journal: PuppyJournal,
+): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(
+    puppyJournalKey(profileId),
+    JSON.stringify(journal),
+  );
+}
+
 export function purgeProfileStorage(profileId: string): void {
   if (typeof window === "undefined") return;
   const ls = window.localStorage;
@@ -170,6 +204,7 @@ export function purgeProfileStorage(profileId: string): void {
     `${LAST_SESSION_PREFIX}.${profileId}`,
     `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
     `${MEASUREMENT_PREFIX}.${profileId}`,
+    `${PUPPY_JOURNAL_PREFIX}.${profileId}`,
   ];
   const toRemove: string[] = [];
   for (let i = 0; i < ls.length; i++) {

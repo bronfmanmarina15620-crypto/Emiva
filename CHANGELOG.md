@@ -5,6 +5,58 @@
 
 ## [Unreleased]
 
+### Added — יומן הגור לאמיליה — סקאפולד + מצב תכנון + מצב פעיל (FLAGSHIP-PUPPY-001)
+- **טריגר:** ROADMAP §v3 — פרויקט דגל ראשון של Emiva. החלטת PM
+  (2026-05-31): להתחיל מיד גם בלי גור בפועל. **הרחבה fundamental**:
+  הפיצ'ר הראשון של Emiva שאינו לולאת תרגול/mastery אלא **כלי
+  פרודוקטיביות אישי** שהילדה משתמשת בו לתעד את עבודתה.
+- **טיפוסים חדשים** ב-`src/lib/types.ts`:
+  - `PuppyJournal = { puppyName, puppyBirthday | null,
+    trainingStartDate: number | null, commands: PuppyCommand[],
+    freeNotes: PuppyFreeNote[] }`.
+  - `PuppyCommand = { id, hebrewName, englishName, addedAt,
+    targetSessions, attempts: PuppyAttempt[] }`.
+  - קבוע `PUPPY_LEARNED_SUCCESS_PCT = 80` — הסף לסימון פקודה כ-"נלמדה".
+- **מודול חדש `src/lib/puppy-journal.ts`** (pure):
+  - `createJournal`, `addCommand`, `addAttempt`, `removeCommand`,
+    `addNote`, `startTraining` — כל שינוי מצב פועל immutable.
+  - `successRate`, `commandIsLearned`, `daysSinceTrainingStart` —
+    derived values.
+  - `journalStage(journal)` — מחזיר `"setup" | "planning" | "active"`.
+  - `load(profileId)` / `save(profileId, journal)` — delegates ל-storage.
+- **אחסון**: `emiva.puppy_journal.v1.{profileId}` ב-`src/lib/storage.ts`.
+  מתווסף ל-`purgeProfileStorage` כדי שמחיקת פרופיל תנקה גם את היומן.
+- **מסך חדש `/journal/puppy`** עם 3 שלבים:
+  - **Setup** (אין יומן): שאלה "איך קוראים לגור שלך?" + תאריך לידה
+    אופציונלי. עוד אין גור? בסדר — כתבי את השם שאת חושבת לתת לו.
+  - **תכנון** (יש יומן, trainingStartDate=null): מציג badge "מצב תכנון",
+    אפשרות להוסיף פקודות (שם בעברית + באנגלית + מספר אימונים יעד),
+    אפשרות לכתוב הערות חופשיות. כפתור "התחלתי לאמן היום" → מעבר לפעיל.
+  - **פעיל** (trainingStartDate נקבע): מציג "מתאמנים — יום N", לכל
+    פקודה כפתורי "תרגלנו ✓" ו"תרגלנו, עוד לא הצליח", אחוז הצלחה,
+    badge "נלמדה" כשעוברים את ה-targetSessions וגם ≥80% הצלחה.
+- **הרשאות**: הדף נגיש רק לפרופיל בגיל ≥9. גיל 7-8 → redirect לבית.
+- **דף הבית**: לכל פרופיל בגיל ≥9 נוסף קישור "🐕 פתחי את יומן הגור"
+  מתחת לכרטיס הפרופיל. לא מפריע ל-flow הקיים של בחירת פרופיל → סשן.
+- **דשבורד ההורה**: כרטיס חדש "🐕 פרויקט הגור" לכל פרופיל ≥9 שיש לו
+  יומן — שם הגור, מספר פקודות, מספר נלמדו, badge "מצב תכנון" אם
+  trainingStartDate=null. **קריאה בלבד** — מסר מפורש להורה: "זה היומן
+  האישי שלה. את רואה כאן רק סיכום — לא אמורה לערוך."
+- **בדיקות**:
+  - `tests/unit/puppy-journal.test.ts` (16 מקרים) — יצירה, שלבים,
+    הוספת פקודה (כולל trim ו-clamp ל-≥1), הסרת פקודה, הוספת ניסיון
+    (success/failure + scoping לפקודה הנכונה), `successRate`,
+    `commandIsLearned` (שני התנאים), `daysSinceTrainingStart`,
+    הוספת הערה, storage roundtrip מלא, וגם isolation בין פרופילים.
+  - `tests/ui/puppy-journal-page.test.tsx` (9 מקרים) — access control
+    (אין פרופיל / גיל <9 → /), שלב setup, יצירת יומן → מעבר לתכנון,
+    הוספת פקודה, התחלת אימון → exposes practice buttons, רישום הצלחה
+    מעדכן את אחוז ההצלחה ונשמר ב-storage, וגם הערות חופשיות.
+  - סה"כ: **521 → 545 עוברות**.
+- **בכוונה נדחה לסליס 2**: PDF export דרך jsPDF (דורש הוספת תלות
+  + פונט עברי), עריכת פקודה קיימת, תמונות של הגור, טיימר אימון,
+  טיפים אוטומטיים, תזכורות.
+
 ### Added — הבנת הנקרא לאמיליה — תשתית + batch ראשון (CORE-HEBREW-EMILIA-001)
 - **טריגר:** ROADMAP §v1 קריאה — אמיליה (9) זקוקה לטקסטים מאתגרים
   יותר מאלה של אוולין. החלטות PM (2026-05-31): שילוב 30 מאמרים + 30

@@ -22,10 +22,8 @@
 1. **[CORE-HEBREW-EMILIA-001](tasks/CORE-HEBREW-EMILIA-001/INSTRUCTIONS.md)** —
    הבנת הנקרא לאמיליה — **תשתית + 10 פריטים batch ראשון יצא 2026-05-31.**
    נשארים 50 פריטים נוספים בסבבי batch של ~10 עם בקרת איכות של Marina.
-2. **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** —
-   יומן אילוף גור לאמיליה. שלב תכנון מתחיל עכשיו (גם בלי גור).
-   PDF export client-side. הרחבה fundamental: מ"מסלול תרגול"
-   ל"כלי פרודוקטיביות אישי". INSTRUCTIONS מוכן 2026-05-31.
+2. **FLAGSHIP-PUPPY-002** (סליס 2 ליומן הגור) — ייצוא PDF דרך jsPDF
+   עם פונט עברי. תלוי בקבלת פידבק ממשי מאמיליה אחרי שהגור מצטרף.
 3. **MEASUREMENT-EXTERNAL-TEST-002** — סליס 2 של המבחן החיצוני: הרחבה
    ל-`multiplication`, `mult_2digit`, `ops_1000`, `long_division`,
    `bar_models`, `hebrew_comprehension`, `english_vocab`. טריגר: אחרי
@@ -82,7 +80,7 @@
 
 | פריט | משימה | הערות |
 |---|---|---|
-| יומן אילוף גור | **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** | 🟡 INSTRUCTIONS מוכן 2026-05-31. פרויקט של אמיליה. שלב תכנון מתחיל מיד (גם בלי גור), פעיל כשגור מצטרף. PDF client-side. הרחבה fundamental ל-Emiva מ"תרגול" ל"כלי פרודוקטיביות אישי". |
+| יומן אילוף גור | **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** | 🟡 סקאפולד + שלבי תכנון + פעיל הוטמעו 2026-05-31. PDF export נדחה לסליס 2 (jsPDF + פונט עברי). הרחבה fundamental: הפיצ'ר הראשון של Emiva שאינו לולאת תרגול. |
 | דשבורד הורה | **DASHBOARD-PARENT-001** | ✅ MVP נשלח 2026-04-23. עבודת המשך (גרפי מגמה, drill-down לכל מיומנות, דייג'סט במייל כשיהיה שרת) נשארת ב-v3. |
 | הערכה חיצונית | **MEASUREMENT-EXTERNAL-TEST-001** | ✅ יום 9 — סליס 1 (חיבור־חיסור + שברים). סליס 2 בתור הבא ל-`MEASUREMENT-EXTERNAL-TEST-002`. |
 | תצוגת תוכנית שבועית | **PLAN-WEEKLY-001** | מציג את לוח הזמנים מ-`MyLevel.docx §7` מותאם למשתמשת. |
@@ -126,6 +124,7 @@
 
 | משימה | תוצאה |
 |---|---|
+| FLAGSHIP-PUPPY-001 — סקאפולד + שלבים (2026-05-31) | יומן הגור לאמיליה. הפיצ'ר הראשון של Emiva שאינו לולאת תרגול. שלוש שלבים: setup (שם הגור) → תכנון (הוספת פקודות, הערות חופשיות) → פעיל (תיעוד ✓/✗ פר פקודה, אחוז הצלחה, badge "נלמדה"). PuppyJournal pure module + storage נפרד. גישה רק לגיל ≥9. כרטיס "🐕 פרויקט הגור" בדשבורד ההורה — קריאה בלבד. PDF export נדחה לסליס 2. 521→545 טסטים. |
 | CORE-HEBREW-EMILIA-001 — תשתית + batch ראשון (2026-05-31) | הבנת הנקרא לאמיליה. תשתית מלאה (HebrewCompItem הורחב ב-`source_type` ו-`topic`, `bankForSkill` בוחר לפי גיל) + 10 פריטים batch ראשון. איזון 5 מאמרים + 5 סיפורים, 2 לכל דרגה. נושאים מגוונים, כולל אוצר מילים בהקשר מ-D3, ניתוח טיעון וניתוח דמות ב-D5. 510→521 טסטים. 50 פריטים נוספים מתוכננים ב-batches עתידיים. |
 | CORE-ENGLISH-001 (2026-05-31) | מסלול אנגלית ראשון לשתי הבנות — אוצר מילים בלבד, בלי phonics. תת-תחום חדש "english" ב-`Subject`. שני banks נפרדים (A1 לאוולין 50 מילים, A2 לאמיליה 50 מילים, אין חפיפת מילים). 5 דרגות × 10 פר בנק, איזון 50/50 כיוון EN↔HE, 4 אפשרויות choice per item. `bankForSkill` מקבל profile ובוחר לפי גיל. UI חדש: prompt direction-aware (LTR לאנגלית, RTL לעברית), 4-button grid, reveal עם הסבר קטגורי. routing אחרי `hebrew_comprehension`/`mult_2digit`. 491→510 טסטים. |
 | MATH-EMILIA-MULT-2DIGIT-001 (2026-05-31) | מיומנות חדשה `mult_2digit` לאמיליה. 30 פריטים, 5 דרגות: 2×1, 2×2 בלי/עם carry, edge. אלגוריתם סטנדרטי בעמודות; D1-D3 עם area-model scaffold, D4-D5 עמודות טהור. כל פריט נושא הסבר ייעודי. routing אוטומטי אחרי `bar_models`. דשבורד 4→5 אריחים לבת 9. תיקון כללי: `ItemReveal` תומך כעת ב-`item.explanation` לכל פריט אריתמטי (לא רק money). 480→491 טסטים. |

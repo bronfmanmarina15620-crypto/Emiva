@@ -48,7 +48,13 @@ import {
   MEASURABLE_SKILLS,
   verdictBadge,
 } from "@/lib/measurement";
-import type { ExternalTestResult, ExternalTestVerdict, Skill } from "@/lib/types";
+import { commandIsLearned, load as loadPuppy } from "@/lib/puppy-journal";
+import type {
+  ExternalTestResult,
+  ExternalTestVerdict,
+  PuppyJournal,
+  Skill,
+} from "@/lib/types";
 import {
   isoWeekKey,
   loadBelief,
@@ -62,6 +68,13 @@ type MeasurementRow = {
   skillHebrew: string;
   last: ExternalTestResult | null;
   due: boolean;
+};
+
+type PuppySummary = {
+  puppyName: string;
+  totalCommands: number;
+  learnedCommands: number;
+  isPlanning: boolean;
 };
 
 type DaughterView = {
@@ -80,6 +93,7 @@ type DaughterView = {
   digest: WeeklyDigest;
   trend: Trend;
   measurements: MeasurementRow[];
+  puppy: PuppySummary | null;
 };
 
 const MEASUREMENT_SKILL_HEBREW: Record<Skill, string> = {
@@ -191,6 +205,17 @@ function buildView(profile: Profile): DaughterView {
       due: dueForRetest(last?.at ?? null),
     };
   });
+  const puppyJournal: PuppyJournal | null =
+    profile.age >= 9 ? loadPuppy(profile.id) : null;
+  const puppy: PuppySummary | null =
+    puppyJournal === null
+      ? null
+      : {
+          puppyName: puppyJournal.puppyName,
+          totalCommands: puppyJournal.commands.length,
+          learnedCommands: puppyJournal.commands.filter(commandIsLearned).length,
+          isPlanning: puppyJournal.trainingStartDate === null,
+        };
   return {
     profile,
     verdict,
@@ -207,6 +232,7 @@ function buildView(profile: Profile): DaughterView {
     digest,
     trend,
     measurements,
+    puppy,
   };
 }
 
@@ -430,6 +456,8 @@ export default function ParentDashboard() {
               {v.measurements.length > 0 && (
                 <MeasurementSection rows={v.measurements} />
               )}
+
+              {v.puppy !== null && <PuppySection summary={v.puppy} />}
 
               {v.wheelSpins.length > 0 && (
                 <div className="bg-mustard-soft rounded-2xl px-4 py-3 text-sm text-warm-dark">
@@ -751,6 +779,34 @@ function CoveragePicker({
 function formatMeasurementDate(at: number): string {
   const d = new Date(at);
   return `${d.getDate()}/${d.getMonth() + 1}/${String(d.getFullYear()).slice(-2)}`;
+}
+
+function PuppySection({ summary }: { summary: PuppySummary }) {
+  return (
+    <section className="border border-warm-line rounded-2xl p-4 space-y-2 bg-cream/40">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-sm font-semibold text-warm-dark">
+          🐕 פרויקט הגור
+        </h3>
+        {summary.isPlanning && (
+          <span className="text-xs px-2 py-0.5 rounded-full bg-mustard-soft text-warm-dark">
+            מצב תכנון
+          </span>
+        )}
+      </div>
+      <div className="text-sm text-warm-dark">
+        הגור: <span className="font-semibold">{summary.puppyName}</span>
+      </div>
+      <div className="text-xs text-warm-muted">
+        {summary.totalCommands === 0
+          ? "עוד אין פקודות ביומן."
+          : `${summary.totalCommands} פקודות · ${summary.learnedCommands} נלמדו`}
+      </div>
+      <p className="text-xs text-warm-muted leading-relaxed">
+        זה היומן האישי שלה. את רואה כאן רק סיכום — לא אמורה לערוך.
+      </p>
+    </section>
+  );
 }
 
 function MeasurementSection({ rows }: { rows: MeasurementRow[] }) {

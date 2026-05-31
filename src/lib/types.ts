@@ -190,6 +190,43 @@ export const FOCUS_LOW_PCT_THRESHOLD = 60;
 export const FOCUS_DROP_THRESHOLD = 10;
 export const FOCUS_NEG_FEELING_SESSIONS = 3;
 
+// FLAGSHIP-PUPPY-001 — Emilia's personal puppy training journal.
+// This is not a practice/mastery loop; it's a productivity tool the child
+// uses to track her own training work.
+
+export type PuppyAttempt = {
+  at: number;
+  success: boolean;
+  notes?: string;
+};
+
+export type PuppyCommand = {
+  id: string;
+  hebrewName: string;
+  englishName: string;
+  addedAt: number;
+  targetSessions: number;
+  attempts: PuppyAttempt[];
+};
+
+export type PuppyFreeNote = {
+  id: string;
+  at: number;
+  text: string;
+};
+
+export type PuppyJournal = {
+  puppyName: string;
+  puppyBirthday: string | null; // YYYY-MM-DD
+  trainingStartDate: number | null; // ms epoch; null = still in planning
+  commands: PuppyCommand[];
+  freeNotes: PuppyFreeNote[];
+};
+
+// Considered "learned" when the child has practiced at least targetSessions
+// times AND the recent success rate is ≥ 80%.
+export const PUPPY_LEARNED_SUCCESS_PCT = 80;
+
 // External measurement — per docs/parent-guide.md §6 (MyLevel §11.3)
 export type ExternalTestVerdict = "passed" | "gap" | "false_mastery";
 
