@@ -119,6 +119,10 @@ export type HebrewCompItem = {
   difficulty: Difficulty;
   text: string;
   questions: [HebrewCompQuestion, HebrewCompQuestion];
+  // CORE-HEBREW-EMILIA-001: optional metadata for the Emilia bank.
+  // Evelyn's existing bank doesn't carry these fields — they're additive only.
+  source_type?: "article" | "story";
+  topic?: string;
 };
 
 export type Item =

@@ -10,6 +10,7 @@ import multBank from "@/content/math/multiplication.json";
 import mult2DigitBank from "@/content/math/mult-2digit.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
+import hebrewCompEmiliaBank from "@/content/hebrew/comprehension-emilia.json";
 import vocabEvelynBank from "@/content/english/vocab-evelyn.json";
 import vocabEmiliaBank from "@/content/english/vocab-emilia.json";
 import type {
@@ -85,7 +86,8 @@ const MULTIPLICATION_BANK = multBank as unknown as readonly Item[];
 const MULT_2DIGIT_BANK = mult2DigitBank as unknown as readonly Item[];
 const LONG_DIVISION_BANK = longDivisionBank as unknown as readonly Item[];
 const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
-const HEBREW_COMP_BANK = hebrewCompBank as unknown as readonly Item[];
+const HEBREW_COMP_EVELYN_BANK = hebrewCompBank as unknown as readonly Item[];
+const HEBREW_COMP_EMILIA_BANK = hebrewCompEmiliaBank as unknown as readonly Item[];
 const VOCAB_EVELYN_BANK = vocabEvelynBank as unknown as readonly Item[];
 const VOCAB_EMILIA_BANK = vocabEmiliaBank as unknown as readonly Item[];
 
@@ -106,7 +108,10 @@ function bankForSkill(skill: Skill, profile?: Profile): readonly Item[] {
     case "bar_models":
       return BAR_MODELS_BANK;
     case "hebrew_comprehension":
-      return HEBREW_COMP_BANK;
+      // Age-keyed: 7-8 → Evelyn's text bank; 9-10 → Emilia's harder bank.
+      return profile && profile.age >= 9
+        ? HEBREW_COMP_EMILIA_BANK
+        : HEBREW_COMP_EVELYN_BANK;
     case "english_vocab":
       // Age-keyed: 7-8 → A1 starter bank; 9-10 → A2 bank. Defaults to A1
       // if profile is missing so the route still renders something sensible.
