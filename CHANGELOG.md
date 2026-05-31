@@ -5,6 +5,41 @@
 
 ## [Unreleased]
 
+### Added — הרחבת מאגרי אנגלית ל-100 מילים פר בת (CORE-ENGLISH-001)
+- **טריגר:** המשך טבעי אחרי שהמסלול הראשון של אנגלית נשלח. 50 → 100
+  לכל בת, ומשמרים את אותה תשתית, פורמט, וכללי ה-direction.
+- **vocab-evelyn.json (eve-051 → eve-100, A1)**:
+  - D1 (51-60): אוכל ושתייה — apple, banana, bread, milk, egg,
+    rice, cheese, tea, chicken, vegetable.
+  - D2 (61-70): בגדים + חלקי גוף — shirt, shoes, hat, pants, coat,
+    hand, eye, head, leg, mouth.
+  - D3 (71-80): מזג אוויר + טבע — rain, snow, wind, cloud, sky,
+    sea, river, mountain, beach, star.
+  - D4 (81-90): צעצועים, תחבורה, אנשים, משפחה מורחבת — doll, game,
+    bike, boat, plane, boy, girl, baby, grandma, grandpa.
+  - D5 (91-100): ברכות + זמן — hello, goodbye, please, thanks, sorry,
+    yesterday, tomorrow, evening, noon, clock.
+- **vocab-emilia.json (emi-051 → emi-100, A2)**:
+  - D1 (51-60): רגשות ומופשטים — proud, jealous, confident,
+    embarrassed, grateful, joy, hope, courage, emotion, worry.
+  - D2 (61-70): פעלים תקשורת ומחשבה — announce, claim, express,
+    persuade, discuss, think, assume, encourage, warn, listen.
+  - D3 (71-80): תכונות מתקדמות — essential, sufficient, obvious,
+    complicated, particular, rare, modern, traditional, ordinary, unique.
+  - D4 (81-90): מושגים אקדמיים + פעלי מחקר — theory, evidence, method,
+    analysis, research, analyze, prove, summarize, check, publish.
+  - D5 (91-100): connectors מתקדמים — eventually, immediately, recently,
+    furthermore, nevertheless, similarly, in contrast, simultaneously,
+    initially, in principle.
+- **טוהר מילים נשמר**: אכיפת הבדיקות הקיימות מוודאת שאין מילה שכבר
+  הופיעה בבנק A1 בבנק A2 (50 לכל בת → 100 לכל בת בלי חפיפה),
+  שאין כפילות באותו בנק, ושכל ה-distractors מתאימים סמנטית.
+- **תשתית נשמרת**: אותה תשתית של `bankForSkill(skill, profile)`,
+  אותו UI direction-aware (LTR לאנגלית, RTL לעברית), אותו SRS.
+  שום שינוי בקוד מערכת.
+- **בלי שינוי בטסטים** — הספים הקיימים (`≥ 50 פריטים`, `≥ 10 לדרגה`)
+  היו רכים מספיק כדי לקבל את ההרחבה. כל 545 הטסטים עוברים בלי שינוי.
+
 ### Added — יומן הגור לאמיליה — סקאפולד + מצב תכנון + מצב פעיל (FLAGSHIP-PUPPY-001)
 - **טריגר:** ROADMAP §v3 — פרויקט דגל ראשון של Emiva. החלטת PM
   (2026-05-31): להתחיל מיד גם בלי גור בפועל. **הרחבה fundamental**:
