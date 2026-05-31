@@ -5,6 +5,62 @@
 
 ## [Unreleased]
 
+### Added — מבחן חיצוני אוטומטי — סליס 1 (MEASUREMENT-EXTERNAL-TEST-001)
+- **טריגר:** CLAUDE.md §כלל מדידה — "כל החלטת מוצר חייבת להיות מדידה
+  בשני מימדים: (א) proxy פנימי (ב) מבחן חיצוני תקופתי על פריט שלא
+  נראה". עד עכשיו כל graduation במערכת הייתה טענת שליטה לא־מאומתת,
+  והחוב הצטבר עם כל מיומנות חדשה.
+- **מאגרי holdout נפרדים** ב-`src/content/measurement/`:
+  - `add-sub-100-holdout.json` — 30 פריטים (6 לכל דרגה), `ext-as100-*`.
+  - `fractions-intro-holdout.json` — 30 פריטים מאוזנים על 5 הסוגים
+    (identify, name_to_visual, halving, compare, equivalent), `ext-fi-*`.
+  - **טוהר נאכף**: טסט `measurement-holdout-purity.test.ts` מוודא שאין
+    `id` חוזר בין מאגר holdout למאגר תרגול.
+- **מודול חדש `src/lib/measurement.ts`** (pure, ניתן לבדיקה):
+  `pickTestItems` (10 פריטים אקראיים, דטרמיניסטי עם `rand?`),
+  `computeVerdict` (ספים מ-parent-guide §6: ≥80% עברה, 60–80% פער,
+  <60% false mastery), `dueForRetest` (חלון של 6 שבועות),
+  `getLastResult` / `saveResult` (היסטוריה append-only),
+  `verdictBadge` / `verdictHebrew` (מחרוזות מזמינות־אוטונומיה).
+- **טיפוסים חדשים** ב-`src/lib/types.ts`: `ExternalTestResult`,
+  `ExternalTestVerdict`. קבועים: `MEASUREMENT_TOTAL = 10`,
+  `MEASUREMENT_PASSED_PCT = 80`, `MEASUREMENT_GAP_PCT = 60`,
+  `MEASUREMENT_RETEST_INTERVAL_MS = 42d`.
+- **אחסון**: `emiva.measurement.v1.{profileId}.{skill}` (array של
+  תוצאות, append-only). מתווסף ל-`purgeProfileStorage`.
+- **Telemetry חדש**: אירוע `external_test_completed` עם
+  `{skill, score, total, verdict}`.
+- **מסך חדש `/parent/measurement`** מאחורי PIN של ההורה:
+  - שלב 1 — בחירת ילדה ונושא (רק נושאים שיש להם holdout pool ושמותרים
+    לגיל הילדה).
+  - שלב 2 — 10 פריטים, ניסיון יחיד לכל אחד, ללא retry, ללא הסברי CPA.
+    ✓/✗ דיסקרטי, מעבר אוטומטי ב-800ms. שורת התקדמות.
+  - שלב 3 — אחוז + verdict (תווית קצרה) + פירוש מילולי מזמין־אוטונומיה.
+  - אותו timeout של 3 דק' כמו דשבורד; יציאה לאחר חוסר פעילות → /parent.
+  - מסגור לילדה (טקסט מודגש למעלה): "סיבוב מהיר, בלי רמזים, בלי
+    'נסי שוב'. רק לראות איפה את היום." — בלי המילה "מבחן".
+- **דשבורד ההורה**: סעיף חדש "מדידה חיצונית" בכל כרטיס ילדה, כפתור
+  "סיבוב מהיר" בכותרת הראשית. הסעיף מציג לכל נושא נמדד: תוצאה אחרונה
+  (אחוז + verdict + תאריך) או "טרם נמדד", ותווית "כדאי לבדוק" כאשר
+  עברו ≥ 6 שבועות.
+- **סקופ סליס 1**: רק `add_sub_100` ו-`fractions_intro` — המיומנויות
+  הראשונות במחיקה לכל ילדה. אם false mastery בהן, כל מה שמעליהן
+  מתערער. סליס 2 ירחיב לשאר אחרי 2–3 מבחנים שמראים שהפורמט עובד.
+- **בדיקות**: `tests/unit/measurement.test.ts` (28 מקרים — verdict,
+  pickTestItems, dueForRetest, save/load roundtrip, scope, growth-mindset
+  guard) + `tests/unit/measurement-holdout-purity.test.ts` (10 מקרים —
+  אי-חפיפת ids, גודל, פיזור דרגה, תיוג skill) + הרחבת
+  `tests/unit/storage.test.ts` (6 מקרים: append-only, isolation
+  פרופיל×מיומנות, ערך פגום, ניקוי דרך `purgeProfileStorage`) + הרחבת
+  `tests/ui/parent-dashboard-page.test.tsx` (6 מקרים: סעיף מוצג,
+  badge "כדאי לבדוק" מופיע/נעלם, "טרם נמדד", קישור כותרת) + חדש
+  `tests/ui/measurement-page.test.tsx` (10 מקרים: route guard, pick
+  stage, מסגור "סיבוב מהיר" ולא "מבחן", אין retry, אין הסבר CPA, flow
+  מלא של 10 פריטים → סיכום עברה/כדאי לחזק, היסטוריה נשמרת). סה"כ:
+  **420 → 480 עוברות**.
+- **תיעוד**: `docs/parent-guide.md §6` עודכן ל-"סטטוס במוצר 2026-05-26"
+  עם flow מלא, מסגור לילדה, וטריגר ה-badge.
+
 ### Added — תשתית חבילות חזרה + חבילה ראשונה לאמיליה (PACK-INFRA-001 + PACK-EMILIA-AR2-001)
 - **טריגר:** Marina (2026-05-24) — "יש לי מסמך של חזרה למשימת הערכה
   לאמיליה שהולכים לעשות לכל הכיתה במתמטיקה, איך אני יכולה לשלב

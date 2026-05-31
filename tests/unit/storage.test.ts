@@ -1,14 +1,18 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  appendMeasurementResult,
   hasBankExhaustedFlag,
   hasGraduatedFlag,
   loadMastery,
+  loadMeasurementHistory,
   markBankExhausted,
   markGraduated,
+  purgeProfileStorage,
   resetMastery,
   saveMastery,
 } from "@/lib/storage";
 import { emptyMastery, recordAttempt } from "@/lib/mastery";
+import type { ExternalTestResult } from "@/lib/types";
 
 type LegacyMasteryShape = {
   skill: "add_sub_100" | "fractions_intro";
@@ -30,6 +34,12 @@ class MemoryStorage {
   }
   keys(): string[] {
     return [...this.store.keys()];
+  }
+  get length() {
+    return this.store.size;
+  }
+  key(i: number): string | null {
+    return [...this.store.keys()][i] ?? null;
   }
 }
 
@@ -171,6 +181,73 @@ describe("storage — graduation flag (one-shot)", () => {
     markGraduated("p1", "add_sub_100");
     expect(hasGraduatedFlag("p1", "add_sub_100")).toBe(true);
     expect(hasGraduatedFlag("p2", "add_sub_100")).toBe(false);
+  });
+});
+
+describe("storage — measurement history (MEASUREMENT-EXTERNAL-TEST-001)", () => {
+  function mkResult(
+    skill: ExternalTestResult["skill"],
+    score: number,
+    at: number,
+  ): ExternalTestResult {
+    return {
+      skill,
+      score,
+      total: 10,
+      verdict: score >= 8 ? "passed" : score >= 6 ? "gap" : "false_mastery",
+      at,
+    };
+  }
+
+  it("loadMeasurementHistory returns [] when nothing is stored", () => {
+    expect(loadMeasurementHistory("p1", "add_sub_100")).toEqual([]);
+  });
+
+  it("appendMeasurementResult writes a single result; loadMeasurementHistory reads it back", () => {
+    appendMeasurementResult("p1", mkResult("add_sub_100", 8, 100));
+    const history = loadMeasurementHistory("p1", "add_sub_100");
+    expect(history.length).toBe(1);
+    expect(history[0]?.score).toBe(8);
+    expect(history[0]?.verdict).toBe("passed");
+  });
+
+  it("appends are additive (history grows, oldest first)", () => {
+    appendMeasurementResult("p1", mkResult("add_sub_100", 5, 100));
+    appendMeasurementResult("p1", mkResult("add_sub_100", 7, 200));
+    appendMeasurementResult("p1", mkResult("add_sub_100", 9, 300));
+    const history = loadMeasurementHistory("p1", "add_sub_100");
+    expect(history.map((r) => r.at)).toEqual([100, 200, 300]);
+    expect(history.map((r) => r.score)).toEqual([5, 7, 9]);
+  });
+
+  it("history is isolated per profile × skill", () => {
+    appendMeasurementResult("p1", mkResult("add_sub_100", 8, 1));
+    appendMeasurementResult("p2", mkResult("add_sub_100", 3, 2));
+    appendMeasurementResult("p1", mkResult("fractions_intro", 6, 3));
+
+    expect(loadMeasurementHistory("p1", "add_sub_100").length).toBe(1);
+    expect(loadMeasurementHistory("p1", "add_sub_100")[0]?.score).toBe(8);
+    expect(loadMeasurementHistory("p2", "add_sub_100")[0]?.score).toBe(3);
+    expect(loadMeasurementHistory("p1", "fractions_intro")[0]?.score).toBe(6);
+    expect(loadMeasurementHistory("p2", "fractions_intro")).toEqual([]);
+  });
+
+  it("corrupt stored value is treated as empty without throwing", () => {
+    const mem = installMemoryStorage();
+    mem.setItem("emiva.measurement.v1.p1.add_sub_100", "{not valid json");
+    expect(loadMeasurementHistory("p1", "add_sub_100")).toEqual([]);
+  });
+
+  it("purgeProfileStorage removes measurement history for that profile only", () => {
+    appendMeasurementResult("p1", mkResult("add_sub_100", 8, 1));
+    appendMeasurementResult("p1", mkResult("fractions_intro", 7, 2));
+    appendMeasurementResult("p2", mkResult("add_sub_100", 5, 3));
+
+    purgeProfileStorage("p1");
+
+    expect(loadMeasurementHistory("p1", "add_sub_100")).toEqual([]);
+    expect(loadMeasurementHistory("p1", "fractions_intro")).toEqual([]);
+    expect(loadMeasurementHistory("p2", "add_sub_100").length).toBe(1);
   });
 });
 

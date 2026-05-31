@@ -1,10 +1,11 @@
-import type { MasteryState, Skill } from "./types";
+import type { ExternalTestResult, MasteryState, Skill } from "./types";
 import { emptyMastery } from "./mastery";
 
 const MASTERY_PREFIX = "emiva.mastery.v1";
 const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 const GRADUATED_PREFIX = "emiva.graduated.v1";
 const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
+const MEASUREMENT_PREFIX = "emiva.measurement.v1";
 
 function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
@@ -128,6 +129,38 @@ export function markBankExhausted(profileId: string, skill: Skill): void {
   window.localStorage.setItem(bankExhaustedKey(profileId, skill), "1");
 }
 
+function measurementKey(profileId: string, skill: Skill): string {
+  return `${MEASUREMENT_PREFIX}.${profileId}.${skill}`;
+}
+
+export function loadMeasurementHistory(
+  profileId: string,
+  skill: Skill,
+): ExternalTestResult[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(measurementKey(profileId, skill));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as ExternalTestResult[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function appendMeasurementResult(
+  profileId: string,
+  result: ExternalTestResult,
+): void {
+  if (typeof window === "undefined") return;
+  const history = loadMeasurementHistory(profileId, result.skill);
+  history.push(result);
+  window.localStorage.setItem(
+    measurementKey(profileId, result.skill),
+    JSON.stringify(history),
+  );
+}
+
 export function purgeProfileStorage(profileId: string): void {
   if (typeof window === "undefined") return;
   const ls = window.localStorage;
@@ -136,6 +169,7 @@ export function purgeProfileStorage(profileId: string): void {
     `${GRADUATED_PREFIX}.${profileId}`,
     `${LAST_SESSION_PREFIX}.${profileId}`,
     `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
+    `${MEASUREMENT_PREFIX}.${profileId}`,
   ];
   const toRemove: string[] = [];
   for (let i = 0; i < ls.length; i++) {

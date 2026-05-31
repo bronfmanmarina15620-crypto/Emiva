@@ -21,7 +21,8 @@ export type TelemetryEvent =
   | { t: "belief_submitted"; at: number; weekKey: string; kind: "performance" | "feeling" | "other" }
   | { t: "action_line_shown"; at: number; trigger: "wheel_spin" | "inactivity" | "srs_due" | "default" }
   | { t: "session_feeling"; at: number; skill: string; rating: "happy" | "ok" | "hard" }
-  | { t: "comprehension_bank_exhausted"; at: number; skill: string };
+  | { t: "comprehension_bank_exhausted"; at: number; skill: string }
+  | { t: "external_test_completed"; at: number; skill: string; score: number; total: number; verdict: "passed" | "gap" | "false_mastery" };
 
 function key(profileId: string): string {
   return `${PREFIX}.${profileId}`;

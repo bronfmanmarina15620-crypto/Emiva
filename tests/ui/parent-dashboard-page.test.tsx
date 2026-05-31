@@ -14,9 +14,10 @@ vi.mock("next/navigation", () => ({
 import ParentDashboard from "@/app/parent/dashboard/page";
 import { setPin } from "@/lib/parent-auth";
 import { createProfile } from "@/lib/profiles";
-import { saveMastery } from "@/lib/storage";
+import { appendMeasurementResult, saveMastery } from "@/lib/storage";
 import { emptyMastery, recordAttempt, incrementSession } from "@/lib/mastery";
 import { saveBelief } from "@/lib/parent-belief";
+import { MEASUREMENT_RETEST_INTERVAL_MS } from "@/lib/types";
 
 beforeEach(() => {
   localStorage.clear();
@@ -111,6 +112,70 @@ describe("<ParentDashboard> — belief form", () => {
     const feeling = screen.getAllByLabelText(/על רגש/)[0]!;
     await user.click(feeling);
     expect((feeling as HTMLInputElement).checked).toBe(true);
+  });
+});
+
+describe("<ParentDashboard> — measurement section (MEASUREMENT-EXTERNAL-TEST-001)", () => {
+  beforeEach(async () => {
+    await setPin("1234");
+  });
+
+  it("renders 'מדידה חיצונית' section once a measurable skill is in the profile", async () => {
+    createProfile("Evelyn", 7);
+    render(<ParentDashboard />);
+    expect(await screen.findByText("מדידה חיצונית")).toBeInTheDocument();
+  });
+
+  it("shows 'כדאי לבדוק' badge when no measurement was ever taken", async () => {
+    createProfile("Evelyn", 7);
+    render(<ParentDashboard />);
+    await screen.findByText("מדידה חיצונית");
+    expect(screen.getAllByText("כדאי לבדוק").length).toBeGreaterThan(0);
+  });
+
+  it("shows 'טרם נמדד' caption for skills with no history", async () => {
+    createProfile("Evelyn", 7);
+    render(<ParentDashboard />);
+    await screen.findByText("מדידה חיצונית");
+    expect(screen.getAllByText(/טרם נמדד/).length).toBeGreaterThan(0);
+  });
+
+  it("shows last score + 'עברה' badge after a recent passed result; hides 'כדאי לבדוק'", async () => {
+    // sliver 1: only add_sub_100 is measurable for an age-7 profile
+    const p = createProfile("Evelyn", 7);
+    appendMeasurementResult(p.id, {
+      skill: "add_sub_100",
+      score: 9,
+      total: 10,
+      verdict: "passed",
+      at: Date.now() - 1000,
+    });
+    render(<ParentDashboard />);
+    await screen.findByText("מדידה חיצונית");
+    expect(screen.getByText(/9\/10/)).toBeInTheDocument();
+    expect(screen.getByText("עברה")).toBeInTheDocument();
+    expect(screen.queryByText("כדאי לבדוק")).not.toBeInTheDocument();
+  });
+
+  it("re-shows 'כדאי לבדוק' once the retest interval has passed", async () => {
+    const p = createProfile("Evelyn", 7);
+    appendMeasurementResult(p.id, {
+      skill: "add_sub_100",
+      score: 9,
+      total: 10,
+      verdict: "passed",
+      at: Date.now() - MEASUREMENT_RETEST_INTERVAL_MS - 1000,
+    });
+    render(<ParentDashboard />);
+    await screen.findByText("מדידה חיצונית");
+    expect(screen.getAllByText("כדאי לבדוק").length).toBe(1);
+  });
+
+  it("renders a 'התחילי סיבוב מהיר' link in the section header", async () => {
+    createProfile("Evelyn", 7);
+    render(<ParentDashboard />);
+    await screen.findByText("מדידה חיצונית");
+    expect(screen.getAllByText("התחילי סיבוב מהיר").length).toBeGreaterThan(0);
   });
 });
 

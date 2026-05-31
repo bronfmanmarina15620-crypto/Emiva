@@ -170,3 +170,19 @@ export const FOCUS_MIN_ATTEMPTS = 10;
 export const FOCUS_LOW_PCT_THRESHOLD = 60;
 export const FOCUS_DROP_THRESHOLD = 10;
 export const FOCUS_NEG_FEELING_SESSIONS = 3;
+
+// External measurement — per docs/parent-guide.md §6 (MyLevel §11.3)
+export type ExternalTestVerdict = "passed" | "gap" | "false_mastery";
+
+export type ExternalTestResult = {
+  skill: Skill;
+  score: number;
+  total: number;
+  verdict: ExternalTestVerdict;
+  at: number;
+};
+
+export const MEASUREMENT_TOTAL = 10;
+export const MEASUREMENT_PASSED_PCT = 80;
+export const MEASUREMENT_GAP_PCT = 60;
+export const MEASUREMENT_RETEST_INTERVAL_MS = 42 * 24 * 60 * 60 * 1000;

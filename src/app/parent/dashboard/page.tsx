@@ -41,7 +41,14 @@ import {
   saveActivePackId,
   type ReviewPack,
 } from "@/lib/review-packs";
-import type { Skill } from "@/lib/types";
+import {
+  dueForRetest,
+  getLastResult,
+  hasMeasurement,
+  MEASURABLE_SKILLS,
+  verdictBadge,
+} from "@/lib/measurement";
+import type { ExternalTestResult, ExternalTestVerdict, Skill } from "@/lib/types";
 import {
   isoWeekKey,
   loadBelief,
@@ -49,6 +56,13 @@ import {
   type BeliefKind,
 } from "@/lib/parent-belief";
 import { logEvent } from "@/lib/telemetry";
+
+type MeasurementRow = {
+  skill: Skill;
+  skillHebrew: string;
+  last: ExternalTestResult | null;
+  due: boolean;
+};
 
 type DaughterView = {
   profile: Profile;
@@ -65,6 +79,23 @@ type DaughterView = {
   recentSessions: RecentSession[];
   digest: WeeklyDigest;
   trend: Trend;
+  measurements: MeasurementRow[];
+};
+
+const MEASUREMENT_SKILL_HEBREW: Record<Skill, string> = {
+  add_sub_100: "חיבור וחיסור עד 100",
+  fractions_intro: "שברים",
+  ops_1000: "פעולות עד 1000",
+  multiplication: "לוח הכפל",
+  long_division: "חילוק ארוך",
+  bar_models: "בעיות מילוליות",
+  hebrew_comprehension: "הבנת הנקרא",
+};
+
+const MEASUREMENT_VERDICT_CLASS: Record<ExternalTestVerdict, string> = {
+  passed: "bg-sage-soft text-warm-dark",
+  gap: "bg-mustard-soft text-warm-dark",
+  false_mastery: "bg-warm-indigo-soft text-warm-dark",
 };
 
 const VERDICT_LABEL: Record<Verdict, string> = {
@@ -147,6 +178,17 @@ function buildView(profile: Profile): DaughterView {
   const lastSessionAt = computeLastSessionAt(profile);
   const recentSessions = computeRecentSessions(profile);
   const trend = computeTrend(profile);
+  const measurements: MeasurementRow[] = MEASURABLE_SKILLS.filter(
+    (s) => hasMeasurement(s) && profile.allowedSkills.includes(s),
+  ).map((skill) => {
+    const last = getLastResult(profile.id, skill);
+    return {
+      skill,
+      skillHebrew: MEASUREMENT_SKILL_HEBREW[skill],
+      last,
+      due: dueForRetest(last?.at ?? null),
+    };
+  });
   return {
     profile,
     verdict,
@@ -162,6 +204,7 @@ function buildView(profile: Profile): DaughterView {
     recentSessions,
     digest,
     trend,
+    measurements,
   };
 }
 
@@ -286,6 +329,12 @@ export default function ParentDashboard() {
             מבט אחורה
           </Link>
           <Link
+            href="/parent/measurement"
+            className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
+          >
+            סיבוב מהיר
+          </Link>
+          <Link
             href="/"
             className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
           >
@@ -376,6 +425,9 @@ export default function ParentDashboard() {
                 onAuto={() => clearFocus(v.profile.id)}
               />
 
+              {v.measurements.length > 0 && (
+                <MeasurementSection rows={v.measurements} />
+              )}
 
               {v.wheelSpins.length > 0 && (
                 <div className="bg-mustard-soft rounded-2xl px-4 py-3 text-sm text-warm-dark">
@@ -690,6 +742,63 @@ function CoveragePicker({
           </ul>
         </div>
       ))}
+    </section>
+  );
+}
+
+function formatMeasurementDate(at: number): string {
+  const d = new Date(at);
+  return `${d.getDate()}/${d.getMonth() + 1}/${String(d.getFullYear()).slice(-2)}`;
+}
+
+function MeasurementSection({ rows }: { rows: MeasurementRow[] }) {
+  return (
+    <section className="border border-warm-line rounded-2xl p-4 space-y-3 bg-cream/40">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-sm font-semibold text-warm-dark">
+          מדידה חיצונית
+        </h3>
+        <Link
+          href="/parent/measurement"
+          className="text-xs px-3 py-1.5 rounded-2xl bg-terracotta text-white shadow-warm hover:bg-terracotta-dark transition"
+        >
+          התחילי סיבוב מהיר
+        </Link>
+      </div>
+      <ul className="space-y-1.5">
+        {rows.map((row) => {
+          const last = row.last;
+          return (
+            <li
+              key={row.skill}
+              className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-sm bg-surface text-warm-dark"
+            >
+              <span className="flex items-center gap-2 truncate">
+                <span className="truncate">{row.skillHebrew}</span>
+                <span className="text-xs text-warm-muted truncate">
+                  {last
+                    ? `· ${last.score}/${last.total} · ${formatMeasurementDate(last.at)}`
+                    : "· טרם נמדד"}
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                {last && (
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${MEASUREMENT_VERDICT_CLASS[last.verdict]}`}
+                  >
+                    {verdictBadge(last.verdict)}
+                  </span>
+                )}
+                {row.due && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-mustard text-warm-dark font-semibold">
+                    כדאי לבדוק
+                  </span>
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }

@@ -1,0 +1,36 @@
+[
+  { "id": "ext-as100-001", "skill": "add_sub_100", "difficulty": 1, "prompt": "2 + 5 = ?", "answer": 7, "operands": [2, 5], "op": "+" },
+  { "id": "ext-as100-002", "skill": "add_sub_100", "difficulty": 1, "prompt": "4 + 3 = ?", "answer": 7, "operands": [4, 3], "op": "+" },
+  { "id": "ext-as100-003", "skill": "add_sub_100", "difficulty": 1, "prompt": "6 + 2 = ?", "answer": 8, "operands": [6, 2], "op": "+" },
+  { "id": "ext-as100-004", "skill": "add_sub_100", "difficulty": 1, "prompt": "8 - 6 = ?", "answer": 2, "operands": [8, 6], "op": "-" },
+  { "id": "ext-as100-005", "skill": "add_sub_100", "difficulty": 1, "prompt": "9 - 5 = ?", "answer": 4, "operands": [9, 5], "op": "-" },
+  { "id": "ext-as100-006", "skill": "add_sub_100", "difficulty": 1, "prompt": "7 - 4 = ?", "answer": 3, "operands": [7, 4], "op": "-" },
+
+  { "id": "ext-as100-007", "skill": "add_sub_100", "difficulty": 2, "prompt": "9 + 6 = ?", "answer": 15, "operands": [9, 6], "op": "+" },
+  { "id": "ext-as100-008", "skill": "add_sub_100", "difficulty": 2, "prompt": "7 + 7 = ?", "answer": 14, "operands": [7, 7], "op": "+" },
+  { "id": "ext-as100-009", "skill": "add_sub_100", "difficulty": 2, "prompt": "8 + 9 = ?", "answer": 17, "operands": [8, 9], "op": "+" },
+  { "id": "ext-as100-010", "skill": "add_sub_100", "difficulty": 2, "prompt": "11 - 4 = ?", "answer": 7, "operands": [11, 4], "op": "-" },
+  { "id": "ext-as100-011", "skill": "add_sub_100", "difficulty": 2, "prompt": "18 - 9 = ?", "answer": 9, "operands": [18, 9], "op": "-" },
+  { "id": "ext-as100-012", "skill": "add_sub_100", "difficulty": 2, "prompt": "14 - 5 = ?", "answer": 9, "operands": [14, 5], "op": "-" },
+
+  { "id": "ext-as100-013", "skill": "add_sub_100", "difficulty": 3, "prompt": "32 + 6 = ?", "answer": 38, "operands": [32, 6], "op": "+" },
+  { "id": "ext-as100-014", "skill": "add_sub_100", "difficulty": 3, "prompt": "55 + 3 = ?", "answer": 58, "operands": [55, 3], "op": "+" },
+  { "id": "ext-as100-015", "skill": "add_sub_100", "difficulty": 3, "prompt": "78 + 1 = ?", "answer": 79, "operands": [78, 1], "op": "+" },
+  { "id": "ext-as100-016", "skill": "add_sub_100", "difficulty": 3, "prompt": "47 - 6 = ?", "answer": 41, "operands": [47, 6], "op": "-" },
+  { "id": "ext-as100-017", "skill": "add_sub_100", "difficulty": 3, "prompt": "69 - 5 = ?", "answer": 64, "operands": [69, 5], "op": "-" },
+  { "id": "ext-as100-018", "skill": "add_sub_100", "difficulty": 3, "prompt": "86 - 3 = ?", "answer": 83, "operands": [86, 3], "op": "-" },
+
+  { "id": "ext-as100-019", "skill": "add_sub_100", "difficulty": 4, "prompt": "26 + 9 = ?", "answer": 35, "operands": [26, 9], "op": "+" },
+  { "id": "ext-as100-020", "skill": "add_sub_100", "difficulty": 4, "prompt": "48 + 7 = ?", "answer": 55, "operands": [48, 7], "op": "+" },
+  { "id": "ext-as100-021", "skill": "add_sub_100", "difficulty": 4, "prompt": "57 + 8 = ?", "answer": 65, "operands": [57, 8], "op": "+" },
+  { "id": "ext-as100-022", "skill": "add_sub_100", "difficulty": 4, "prompt": "33 - 7 = ?", "answer": 26, "operands": [33, 7], "op": "-" },
+  { "id": "ext-as100-023", "skill": "add_sub_100", "difficulty": 4, "prompt": "65 - 9 = ?", "answer": 56, "operands": [65, 9], "op": "-" },
+  { "id": "ext-as100-024", "skill": "add_sub_100", "difficulty": 4, "prompt": "82 - 5 = ?", "answer": 77, "operands": [82, 5], "op": "-" },
+
+  { "id": "ext-as100-025", "skill": "add_sub_100", "difficulty": 5, "prompt": "27 + 36 = ?", "answer": 63, "operands": [27, 36], "op": "+" },
+  { "id": "ext-as100-026", "skill": "add_sub_100", "difficulty": 5, "prompt": "48 + 25 = ?", "answer": 73, "operands": [48, 25], "op": "+" },
+  { "id": "ext-as100-027", "skill": "add_sub_100", "difficulty": 5, "prompt": "39 + 44 = ?", "answer": 83, "operands": [39, 44], "op": "+" },
+  { "id": "ext-as100-028", "skill": "add_sub_100", "difficulty": 5, "prompt": "64 - 27 = ?", "answer": 37, "operands": [64, 27], "op": "-" },
+  { "id": "ext-as100-029", "skill": "add_sub_100", "difficulty": 5, "prompt": "75 - 38 = ?", "answer": 37, "operands": [75, 38], "op": "-" },
+  { "id": "ext-as100-030", "skill": "add_sub_100", "difficulty": 5, "prompt": "91 - 46 = ?", "answer": 45, "operands": [91, 46], "op": "-" }
+]
