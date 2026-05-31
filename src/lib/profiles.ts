@@ -18,7 +18,13 @@ export function allowedSkillsForAge(age: number): Skill[] {
     return ["add_sub_100", "multiplication", "hebrew_comprehension"];
   }
   if (age >= 9 && age <= 10) {
-    return ["fractions_intro", "ops_1000", "long_division", "bar_models"];
+    return [
+      "fractions_intro",
+      "ops_1000",
+      "long_division",
+      "bar_models",
+      "mult_2digit",
+    ];
   }
   return [];
 }

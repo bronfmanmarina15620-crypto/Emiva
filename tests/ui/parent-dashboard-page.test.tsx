@@ -73,13 +73,14 @@ describe("<ParentDashboard> — with profiles", () => {
     expect(screen.getAllByText("לוח הכפל").length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders 4 skill tiles for age-9 profile", async () => {
+  it("renders 5 skill tiles for age-9 profile (incl. 2-digit multiplication)", async () => {
     render(<ParentDashboard />);
     await screen.findAllByText(/Emilia/);
     expect(screen.getAllByText("שברים").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("חיבור וחיסור עד 1000").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("חילוק ארוך").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("בעיות מילוליות").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("כפל דו־ספרתי").length).toBeGreaterThanOrEqual(1);
   });
 });
 

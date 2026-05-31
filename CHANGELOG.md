@@ -5,6 +5,42 @@
 
 ## [Unreleased]
 
+### Added — כפל דו־ספרתי × דו־ספרתי לאמיליה (MATH-EMILIA-MULT-2DIGIT-001)
+- **טריגר:** ROADMAP §v1 מתמטיקה — נחשף דרך חבילת PACK-EMILIA-AR2
+  (8 פריטי דמו ב-pack של חזרה לכיתה ד'); אמיליה זקוקה למסלול קבוע
+  לכפל אנכי בעמודות, לא רק להיחשפות חד-פעמית.
+- **מיומנות חדשה `mult_2digit`** (נפרדת מ-`multiplication`):
+  הצדקה — קושי שונה דרמטית (retrieval של לוח כפל ↔ אלגוריתם רב-שלבי
+  בעמודות). שמירה על `multiplication` כתנאי קדם פדגוגי דרך ה-routing.
+- **בנק `src/content/math/mult-2digit.json`** — 30 פריטים ב-5 דרגות:
+  - D1: 2-ספרתי × 1-ספרתי (6 פריטים) — בלי carry בעשרות.
+  - D2: 2×2 בלי carry במכפלים החלקיים (6).
+  - D3: 2×2 עם carry בודד (6).
+  - D4: 2×2 עם carry כפול (6).
+  - D5: edge cases — עשרות עגולות, קרוב ל-100, ספרות כפולות (6).
+- **CPA scaffold**: D1-D3 פירוק area-model ("23 = 20 + 3"), D4-D5
+  אלגוריתם עמודות טהור ("47 × 6 = 282, 47 × 5 = 235 → 2350, חיבור").
+  כל פריט נושא `explanation` מפורש ב-JSON (לא computed).
+- **טיפוסים:** `Skill` += `"mult_2digit"`; `MultItem.skill` הורחב ל-
+  `"multiplication" | "mult_2digit"`. שום שינוי במבנה הפריט.
+- **חיווט מערכת:**
+  - `bankForSkill` ו-`isArithmeticItem` תומכים במיומנות החדשה.
+  - `profiles.allowedSkillsForAge(9-10)` += `mult_2digit` (אחרון →
+    routing אוטומטי אחרי graduation של `bar_models`).
+  - `ALL_SKILLS`, `SKILL_SUBJECT`, `SKILL_HEBREW`, `POSSIBLE_CAUSE_HEBREW`
+    מאוכלסים. דשבורד ההורה מציג כעת 5 כרטיסי מיומנות לבת 9 (4→5).
+- **שיפור reveal**: `ItemReveal` של פריט אריתמטי משתמש עכשיו ב-
+  `item.explanation` כאשר קיים (לפני: רק לפריטי money). מאפשר לכל פריט
+  לשאת הסבר ייעודי, תופס גם בעיות עתידיות.
+- **בדיקות**: `tests/unit/mult-2digit.test.ts` (11 מקרים — גודל,
+  פיזור דרגה, יעוד `m2d-*`, נכונות `a*b=answer`, `explanation` קיים
+  ולא ריק, אכיפת קושי D1=mixed/D2-5=both-2-digit, אינטגרציה עם
+  `isArithmeticItem` ו-`isItemCorrect`); הרחבת UI test של דשבורד
+  אמיליה (4→5 אריחי מיומנות); תיקון `profiles.test.ts` ו-
+  `parent-focus.test.ts` למספרים החדשים. סה"כ: **480 → 491 עוברות**.
+- **סקופ סליס 1**: אין מדידה חיצונית, אין money context — אלה נדחים
+  ל-`MEASUREMENT-EXTERNAL-TEST-002` ול-2digit-money עתידי.
+
 ### Added — מבחן חיצוני אוטומטי — סליס 1 (MEASUREMENT-EXTERNAL-TEST-001)
 - **טריגר:** CLAUDE.md §כלל מדידה — "כל החלטת מוצר חייבת להיות מדידה
   בשני מימדים: (א) proxy פנימי (ב) מבחן חיצוני תקופתי על פריט שלא

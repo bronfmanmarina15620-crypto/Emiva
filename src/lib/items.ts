@@ -12,6 +12,7 @@ export function isArithmeticItem(
     item.skill === "add_sub_100" ||
     item.skill === "ops_1000" ||
     item.skill === "multiplication" ||
+    item.skill === "mult_2digit" ||
     item.skill === "long_division"
   );
 }

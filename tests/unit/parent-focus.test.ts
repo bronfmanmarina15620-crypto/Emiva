@@ -153,7 +153,7 @@ describe("computeCoverage", () => {
     expect(cov.map((g) => g.subject)).toEqual(["math", "hebrew"]);
     const math = cov.find((g) => g.subject === "math")!;
     const hebrew = cov.find((g) => g.subject === "hebrew")!;
-    expect(math.rows).toHaveLength(6);
+    expect(math.rows).toHaveLength(7);
     expect(hebrew.rows).toHaveLength(1);
   });
 

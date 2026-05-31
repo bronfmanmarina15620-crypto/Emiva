@@ -79,6 +79,7 @@ export type WeeklyDigest = {
 export const SKILL_HEBREW: Record<Skill, string> = {
   add_sub_100: "חיבור וחיסור עד 100",
   multiplication: "לוח הכפל",
+  mult_2digit: "כפל דו־ספרתי",
   fractions_intro: "שברים",
   ops_1000: "חיבור וחיסור עד 1000",
   long_division: "חילוק ארוך",
@@ -89,6 +90,7 @@ export const SKILL_HEBREW: Record<Skill, string> = {
 export const POSSIBLE_CAUSE_HEBREW: Partial<Record<Skill, string>> = {
   fractions_intro: "חיבור/חיסור עד 100 שלא התייצב",
   multiplication: "חיבור/חיסור עד 100 שלא התייצב",
+  mult_2digit: "לוח הכפל שלא התייצב",
   ops_1000: "חיבור/חיסור עד 100 שלא התייצב",
   long_division: "כפל שלא התייצב",
   bar_models: "חיבור/חיסור או כפל בסיסיים",

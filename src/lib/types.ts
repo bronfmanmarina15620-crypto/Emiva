@@ -5,6 +5,7 @@ export type Skill =
   | "fractions_intro"
   | "ops_1000"
   | "multiplication"
+  | "mult_2digit"
   | "long_division"
   | "bar_models"
   | "hebrew_comprehension";
@@ -23,7 +24,7 @@ export type AddSubItem = {
 
 export type MultItem = {
   id: string;
-  skill: "multiplication";
+  skill: "multiplication" | "mult_2digit";
   difficulty: Difficulty;
   prompt: string;
   answer: number;

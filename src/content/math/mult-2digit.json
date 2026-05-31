@@ -1,0 +1,36 @@
+[
+  { "id": "m2d-001", "skill": "mult_2digit", "difficulty": 1, "prompt": "23 × 4 = ?", "answer": 92, "operands": [23, 4], "op": "*", "explanation": "23 = 20 + 3. 20 × 4 = 80. 3 × 4 = 12. 80 + 12 = 92." },
+  { "id": "m2d-002", "skill": "mult_2digit", "difficulty": 1, "prompt": "36 × 3 = ?", "answer": 108, "operands": [36, 3], "op": "*", "explanation": "36 = 30 + 6. 30 × 3 = 90. 6 × 3 = 18. 90 + 18 = 108." },
+  { "id": "m2d-003", "skill": "mult_2digit", "difficulty": 1, "prompt": "47 × 2 = ?", "answer": 94, "operands": [47, 2], "op": "*", "explanation": "47 = 40 + 7. 40 × 2 = 80. 7 × 2 = 14. 80 + 14 = 94." },
+  { "id": "m2d-004", "skill": "mult_2digit", "difficulty": 1, "prompt": "52 × 4 = ?", "answer": 208, "operands": [52, 4], "op": "*", "explanation": "52 = 50 + 2. 50 × 4 = 200. 2 × 4 = 8. 200 + 8 = 208." },
+  { "id": "m2d-005", "skill": "mult_2digit", "difficulty": 1, "prompt": "64 × 3 = ?", "answer": 192, "operands": [64, 3], "op": "*", "explanation": "64 = 60 + 4. 60 × 3 = 180. 4 × 3 = 12. 180 + 12 = 192." },
+  { "id": "m2d-006", "skill": "mult_2digit", "difficulty": 1, "prompt": "31 × 5 = ?", "answer": 155, "operands": [31, 5], "op": "*", "explanation": "31 = 30 + 1. 30 × 5 = 150. 1 × 5 = 5. 150 + 5 = 155." },
+
+  { "id": "m2d-011", "skill": "mult_2digit", "difficulty": 2, "prompt": "12 × 13 = ?", "answer": 156, "operands": [12, 13], "op": "*", "explanation": "מפרקים את 13 ל-10 + 3. 12 × 10 = 120. 12 × 3 = 36. 120 + 36 = 156." },
+  { "id": "m2d-012", "skill": "mult_2digit", "difficulty": 2, "prompt": "21 × 14 = ?", "answer": 294, "operands": [21, 14], "op": "*", "explanation": "מפרקים את 14 ל-10 + 4. 21 × 10 = 210. 21 × 4 = 84. 210 + 84 = 294." },
+  { "id": "m2d-013", "skill": "mult_2digit", "difficulty": 2, "prompt": "23 × 12 = ?", "answer": 276, "operands": [23, 12], "op": "*", "explanation": "מפרקים את 12 ל-10 + 2. 23 × 10 = 230. 23 × 2 = 46. 230 + 46 = 276." },
+  { "id": "m2d-014", "skill": "mult_2digit", "difficulty": 2, "prompt": "14 × 12 = ?", "answer": 168, "operands": [14, 12], "op": "*", "explanation": "מפרקים את 12 ל-10 + 2. 14 × 10 = 140. 14 × 2 = 28. 140 + 28 = 168." },
+  { "id": "m2d-015", "skill": "mult_2digit", "difficulty": 2, "prompt": "32 × 13 = ?", "answer": 416, "operands": [32, 13], "op": "*", "explanation": "מפרקים את 13 ל-10 + 3. 32 × 10 = 320. 32 × 3 = 96. 320 + 96 = 416." },
+  { "id": "m2d-016", "skill": "mult_2digit", "difficulty": 2, "prompt": "13 × 22 = ?", "answer": 286, "operands": [13, 22], "op": "*", "explanation": "מפרקים את 22 ל-20 + 2. 13 × 20 = 260. 13 × 2 = 26. 260 + 26 = 286." },
+
+  { "id": "m2d-021", "skill": "mult_2digit", "difficulty": 3, "prompt": "24 × 17 = ?", "answer": 408, "operands": [24, 17], "op": "*", "explanation": "מפרקים את 17 ל-10 + 7. 24 × 10 = 240. 24 × 7 = 168. 240 + 168 = 408." },
+  { "id": "m2d-022", "skill": "mult_2digit", "difficulty": 3, "prompt": "35 × 26 = ?", "answer": 910, "operands": [35, 26], "op": "*", "explanation": "מפרקים את 26 ל-20 + 6. 35 × 20 = 700. 35 × 6 = 210. 700 + 210 = 910." },
+  { "id": "m2d-023", "skill": "mult_2digit", "difficulty": 3, "prompt": "18 × 42 = ?", "answer": 756, "operands": [18, 42], "op": "*", "explanation": "מפרקים את 42 ל-40 + 2. 18 × 40 = 720. 18 × 2 = 36. 720 + 36 = 756." },
+  { "id": "m2d-024", "skill": "mult_2digit", "difficulty": 3, "prompt": "27 × 36 = ?", "answer": 972, "operands": [27, 36], "op": "*", "explanation": "מפרקים את 36 ל-30 + 6. 27 × 30 = 810. 27 × 6 = 162. 810 + 162 = 972." },
+  { "id": "m2d-025", "skill": "mult_2digit", "difficulty": 3, "prompt": "19 × 31 = ?", "answer": 589, "operands": [19, 31], "op": "*", "explanation": "מפרקים את 31 ל-30 + 1. 19 × 30 = 570. 19 × 1 = 19. 570 + 19 = 589." },
+  { "id": "m2d-026", "skill": "mult_2digit", "difficulty": 3, "prompt": "25 × 38 = ?", "answer": 950, "operands": [25, 38], "op": "*", "explanation": "מפרקים את 38 ל-30 + 8. 25 × 30 = 750. 25 × 8 = 200. 750 + 200 = 950." },
+
+  { "id": "m2d-031", "skill": "mult_2digit", "difficulty": 4, "prompt": "47 × 56 = ?", "answer": 2632, "operands": [47, 56], "op": "*", "explanation": "בעמודות: 47 × 6 = 282 (ספרת היחידות של 56). 47 × 5 = 235 — זה עשרות, אז 2350. חיבור: 282 + 2350 = 2632." },
+  { "id": "m2d-032", "skill": "mult_2digit", "difficulty": 4, "prompt": "68 × 79 = ?", "answer": 5372, "operands": [68, 79], "op": "*", "explanation": "בעמודות: 68 × 9 = 612. 68 × 7 = 476 — עשרות, אז 4760. חיבור: 612 + 4760 = 5372." },
+  { "id": "m2d-033", "skill": "mult_2digit", "difficulty": 4, "prompt": "53 × 84 = ?", "answer": 4452, "operands": [53, 84], "op": "*", "explanation": "בעמודות: 53 × 4 = 212. 53 × 8 = 424 — עשרות, אז 4240. חיבור: 212 + 4240 = 4452." },
+  { "id": "m2d-034", "skill": "mult_2digit", "difficulty": 4, "prompt": "67 × 48 = ?", "answer": 3216, "operands": [67, 48], "op": "*", "explanation": "בעמודות: 67 × 8 = 536. 67 × 4 = 268 — עשרות, אז 2680. חיבור: 536 + 2680 = 3216." },
+  { "id": "m2d-035", "skill": "mult_2digit", "difficulty": 4, "prompt": "89 × 35 = ?", "answer": 3115, "operands": [89, 35], "op": "*", "explanation": "בעמודות: 89 × 5 = 445. 89 × 3 = 267 — עשרות, אז 2670. חיבור: 445 + 2670 = 3115." },
+  { "id": "m2d-036", "skill": "mult_2digit", "difficulty": 4, "prompt": "76 × 54 = ?", "answer": 4104, "operands": [76, 54], "op": "*", "explanation": "בעמודות: 76 × 4 = 304. 76 × 5 = 380 — עשרות, אז 3800. חיבור: 304 + 3800 = 4104." },
+
+  { "id": "m2d-041", "skill": "mult_2digit", "difficulty": 5, "prompt": "50 × 85 = ?", "answer": 4250, "operands": [50, 85], "op": "*", "explanation": "טריק: 50 = חצי מ-100. 85 × 100 = 8500, חצי = 4250. (בעמודות: 50 × 5 = 250, 50 × 8 = 400 → 4000, חיבור: 250 + 4000 = 4250.)" },
+  { "id": "m2d-042", "skill": "mult_2digit", "difficulty": 5, "prompt": "99 × 11 = ?", "answer": 1089, "operands": [99, 11], "op": "*", "explanation": "טריק: 99 × 11 = 99 × 10 + 99 = 990 + 99 = 1089. (בעמודות: 99 × 1 = 99, 99 × 1 = 99 → 990, חיבור: 99 + 990 = 1089.)" },
+  { "id": "m2d-043", "skill": "mult_2digit", "difficulty": 5, "prompt": "99 × 99 = ?", "answer": 9801, "operands": [99, 99], "op": "*", "explanation": "טריק: 99 × 99 = 99 × 100 − 99 = 9900 − 99 = 9801." },
+  { "id": "m2d-044", "skill": "mult_2digit", "difficulty": 5, "prompt": "75 × 80 = ?", "answer": 6000, "operands": [75, 80], "op": "*", "explanation": "טריק: שני המספרים עם 0 או 5 ביחידות. 75 × 8 = 600, אחר כך מכפילים ב-10 (כי 80 = 8 × 10) → 6000." },
+  { "id": "m2d-045", "skill": "mult_2digit", "difficulty": 5, "prompt": "63 × 97 = ?", "answer": 6111, "operands": [63, 97], "op": "*", "explanation": "טריק (97 קרוב ל-100): 63 × 100 − 63 × 3 = 6300 − 189 = 6111. (בעמודות: 63 × 7 = 441, 63 × 9 = 567 → 5670, חיבור: 441 + 5670 = 6111.)" },
+  { "id": "m2d-046", "skill": "mult_2digit", "difficulty": 5, "prompt": "25 × 40 = ?", "answer": 1000, "operands": [25, 40], "op": "*", "explanation": "טריק: 25 × 4 = 100. 25 × 40 = 100 × 10 = 1000." }
+]

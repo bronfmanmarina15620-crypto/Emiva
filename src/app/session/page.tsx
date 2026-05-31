@@ -7,6 +7,7 @@ import barModelsBank from "@/content/math/bar-models.json";
 import fractionsBank from "@/content/math/fractions-intro.json";
 import longDivisionBank from "@/content/math/long-division.json";
 import multBank from "@/content/math/multiplication.json";
+import mult2DigitBank from "@/content/math/mult-2digit.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
 import type {
@@ -79,6 +80,7 @@ const ADD_SUB_BANK = addSubBank as unknown as readonly Item[];
 const FRACTIONS_BANK = fractionsBank as unknown as readonly Item[];
 const OPS_1000_BANK = ops1000Bank as unknown as readonly Item[];
 const MULTIPLICATION_BANK = multBank as unknown as readonly Item[];
+const MULT_2DIGIT_BANK = mult2DigitBank as unknown as readonly Item[];
 const LONG_DIVISION_BANK = longDivisionBank as unknown as readonly Item[];
 const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
 const HEBREW_COMP_BANK = hebrewCompBank as unknown as readonly Item[];
@@ -93,6 +95,8 @@ function bankForSkill(skill: Skill): readonly Item[] {
       return OPS_1000_BANK;
     case "multiplication":
       return MULTIPLICATION_BANK;
+    case "mult_2digit":
+      return MULT_2DIGIT_BANK;
     case "long_division":
       return LONG_DIVISION_BANK;
     case "bar_models":
@@ -1012,7 +1016,12 @@ function ItemReveal({
   }
 
   if (isArithmeticItem(item)) {
-    const explainText = isMoneyItem(item) ? item.explanation : explain(item);
+    // Prefer item-level explanation when present (money items, mult_2digit's
+    // column-algorithm explanation). Fall back to computed explanation.
+    const explainText =
+      "explanation" in item && typeof item.explanation === "string" && item.explanation.length > 0
+        ? item.explanation
+        : explain(item);
     return (
       <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
         <div className="text-lg font-semibold text-warm-dark">

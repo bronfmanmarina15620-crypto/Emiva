@@ -32,6 +32,7 @@ const SKILL_HEBREW: Record<Skill, string> = {
   fractions_intro: "שברים",
   ops_1000: "פעולות עד 1000",
   multiplication: "לוח הכפל",
+  mult_2digit: "כפל דו־ספרתי",
   long_division: "חילוק ארוך",
   bar_models: "בעיות מילוליות (Bar Models)",
   hebrew_comprehension: "הבנת הנקרא בעברית",

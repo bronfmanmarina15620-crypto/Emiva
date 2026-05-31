@@ -60,20 +60,22 @@ describe("profiles", () => {
         "hebrew_comprehension",
       ]);
     });
-    it("age 9 → fractions_intro, ops_1000, long_division, bar_models (ordered)", () => {
+    it("age 9 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit (ordered)", () => {
       expect(allowedSkillsForAge(9)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
+        "mult_2digit",
       ]);
     });
-    it("age 10 → fractions_intro, ops_1000, long_division, bar_models (ordered)", () => {
+    it("age 10 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit (ordered)", () => {
       expect(allowedSkillsForAge(10)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
+        "mult_2digit",
       ]);
     });
     it("age 5 → empty", () => {
@@ -232,6 +234,7 @@ describe("profiles", () => {
         "ops_1000",
         "long_division",
         "bar_models",
+        "mult_2digit",
       ]);
     });
   });
