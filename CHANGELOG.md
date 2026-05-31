@@ -5,6 +5,52 @@
 
 ## [Unreleased]
 
+### Added — אנגלית, אוצר מילים לשתי הבנות (CORE-ENGLISH-001)
+- **טריגר:** ROADMAP §v1 אנגלית — מסלול אנגלית ראשון לשתי הבנות.
+  החלטות PM (2026-05-31): אוצר מילים בלבד, בלי phonics, בלי קריאה.
+  שתיהן ביחד דרך אותה תשתית, banks נפרדים לפי גיל.
+- **מיומנות חדשה `english_vocab`**, תת-תחום חדש `english`
+  (הוספה לראשונה ל-`Subject` ליד `math` ו-`hebrew`).
+- **שני banks נפרדים**, 50 פריטים בכל אחד (5 דרגות × 10):
+  - `src/content/english/vocab-evelyn.json` (A1, prefix `eve-`) —
+    חיות, פעלים בסיסיים, צבעים/תכונות, משפחה+מקומות, מספרים/זמן.
+  - `src/content/english/vocab-emilia.json` (A2, prefix `emi-`) —
+    שמות עצם מופשטים, פעלים מתקדמים, תכונות מורכבות, צירופי קישור,
+    מילים אקדמיות. **אין חפיפת מילים** עם A1 (נאכף בטסט).
+- **טיפוס חדש `EnglishVocabItem`** ב-`src/lib/types.ts` עם
+  `type: "en_to_he" | "he_to_en"` (איזון 50/50 לפי דרגה),
+  `category` תיוג, ו-4 אפשרויות choice.
+- **bankForSkill** קיבל פרמטר אופציונלי `profile?: Profile` — לכל
+  סקיל אחר זה ignored, ל-`english_vocab` בוחר לפי גיל
+  (≥9 → vocab-emilia, אחרת vocab-evelyn).
+- **UI session/page**:
+  - `ItemPrompt` — branch חדש שמשתמש ב-`dir="ltr"` ל-prompts באנגלית
+    ו-`rtl` לעברית.
+  - `ItemInput` — grid של 4 כפתורים עם direction-aware rendering.
+  - `ItemReveal` — מציג את התרגום הנכון + טקסט עידוד קטגורי
+    ("זוהי מילה מקטגוריית X. בואי ננסה לשנן אותה ביחד.")
+- **חיווט מערכת**:
+  - `Skill` union += `"english_vocab"`; `Item` union += `EnglishVocabItem`.
+  - `isItemCorrect` בודק `userInput === item.answer.correct`.
+  - `allowedSkillsForAge(7-8)` ו-`(9-10)` כוללים כעת `english_vocab`
+    בסוף השרשרת. routing אוטומטי אחרי `hebrew_comprehension` או
+    `mult_2digit` בהתאמה.
+  - `Subject` += `"english"`, `SUBJECT_HEBREW.english = "אנגלית"`,
+    `SUBJECT_ORDER` מציג כעת math → hebrew → english.
+  - `SKILL_HEBREW.english_vocab = "אוצר מילים באנגלית"` בכל 4
+    המיקומים הרלוונטיים.
+- **בדיקות**: `tests/unit/english-vocab-bank.test.ts` (9 מקרים פר בנק
+  × 2 + 3 cross-bank + 2 integration = 24 מקרים) — גודל, פיזור דרגה,
+  prefix, איזון 40-60% של direction, 4 אופציות ייחודיות עם `correct`
+  בתוכן, ASCII באנגלית בלבד, אין מילה כפולה באותו בנק, **אין חפיפת
+  מילים בין A1 ל-A2**, אינטגרציה עם `isItemCorrect`. הרחבת
+  `profiles.test.ts` (3 מקומות) + `parent-focus.test.ts` (subject חדש)
+  + `parent-dashboard-page.test.tsx` (2 הבנות רואות "אוצר מילים
+  באנגלית"). סה"כ: **491 → 510 עוברות**.
+- **סקופ סליס 1**: 50 מילים פתיחה (4 חודשים תוכן). הרחבות עתידיות:
+  phonics לאוולין אם נדרש, איות באנגלית (typing), אודיו (TTS), קריאה
+  ראשונה, מדידה חיצונית.
+
 ### Added — כפל דו־ספרתי × דו־ספרתי לאמיליה (MATH-EMILIA-MULT-2DIGIT-001)
 - **טריגר:** ROADMAP §v1 מתמטיקה — נחשף דרך חבילת PACK-EMILIA-AR2
   (8 פריטי דמו ב-pack של חזרה לכיתה ד'); אמיליה זקוקה למסלול קבוע

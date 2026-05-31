@@ -66,14 +66,15 @@ describe("<ParentDashboard> — with profiles", () => {
     expect(screen.getAllByText("כדאי לשים לב").length).toBeGreaterThan(0);
   });
 
-  it("renders 2 skill tiles for age-7 profile (add_sub, multiplication)", async () => {
+  it("renders age-7 skills (add_sub, multiplication, hebrew, english)", async () => {
     render(<ParentDashboard />);
     await screen.findAllByText(/Evelyn/);
     expect(screen.getAllByText("חיבור וחיסור עד 100").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("לוח הכפל").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("אוצר מילים באנגלית").length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders 5 skill tiles for age-9 profile (incl. 2-digit multiplication)", async () => {
+  it("renders age-9 skills (5 math + hebrew + english, incl. 2-digit multiplication)", async () => {
     render(<ParentDashboard />);
     await screen.findAllByText(/Emilia/);
     expect(screen.getAllByText("שברים").length).toBeGreaterThanOrEqual(1);
@@ -81,6 +82,7 @@ describe("<ParentDashboard> — with profiles", () => {
     expect(screen.getAllByText("חילוק ארוך").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("בעיות מילוליות").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("כפל דו־ספרתי").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("אוצר מילים באנגלית").length).toBeGreaterThanOrEqual(1);
   });
 });
 

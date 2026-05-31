@@ -10,6 +10,8 @@ import multBank from "@/content/math/multiplication.json";
 import mult2DigitBank from "@/content/math/mult-2digit.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
+import vocabEvelynBank from "@/content/english/vocab-evelyn.json";
+import vocabEmiliaBank from "@/content/english/vocab-emilia.json";
 import type {
   AddSubItem,
   BarModelItem,
@@ -84,8 +86,10 @@ const MULT_2DIGIT_BANK = mult2DigitBank as unknown as readonly Item[];
 const LONG_DIVISION_BANK = longDivisionBank as unknown as readonly Item[];
 const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
 const HEBREW_COMP_BANK = hebrewCompBank as unknown as readonly Item[];
+const VOCAB_EVELYN_BANK = vocabEvelynBank as unknown as readonly Item[];
+const VOCAB_EMILIA_BANK = vocabEmiliaBank as unknown as readonly Item[];
 
-function bankForSkill(skill: Skill): readonly Item[] {
+function bankForSkill(skill: Skill, profile?: Profile): readonly Item[] {
   switch (skill) {
     case "add_sub_100":
       return ADD_SUB_BANK;
@@ -103,6 +107,10 @@ function bankForSkill(skill: Skill): readonly Item[] {
       return BAR_MODELS_BANK;
     case "hebrew_comprehension":
       return HEBREW_COMP_BANK;
+    case "english_vocab":
+      // Age-keyed: 7-8 → A1 starter bank; 9-10 → A2 bank. Defaults to A1
+      // if profile is missing so the route still renders something sensible.
+      return profile && profile.age >= 9 ? VOCAB_EMILIA_BANK : VOCAB_EVELYN_BANK;
   }
 }
 
@@ -243,7 +251,7 @@ export default function SessionPage() {
     }
     setSkill(chosenSkill);
 
-    const bank = shuffleBank(bankForSkill(chosenSkill));
+    const bank = shuffleBank(bankForSkill(chosenSkill, active));
     sessionBankRef.current = bank;
     moneyShownRef.current = 0;
     plainShownRef.current = 0;
@@ -489,7 +497,7 @@ export default function SessionPage() {
     const sessionBank =
       sessionBankRef.current.length > 0
         ? sessionBankRef.current
-        : bankForSkill(skill);
+        : bankForSkill(skill, profile);
     const ratioOn = moneyRatioApplies(profile.age, skill);
     const desired: DesiredContext | undefined = ratioOn
       ? nextDesiredContext(moneyShownRef.current, plainShownRef.current)
@@ -830,6 +838,20 @@ function ItemPrompt({
     );
   }
 
+  if (item.skill === "english_vocab") {
+    const isEnPrompt = item.type === "en_to_he";
+    return (
+      <div className="bg-surface rounded-3xl shadow-soft py-10 px-6">
+        <div
+          dir={isEnPrompt ? "ltr" : "rtl"}
+          className={`text-3xl md:text-4xl font-display font-extrabold text-center text-warm-dark ${isEnPrompt ? "" : "leading-relaxed"}`}
+        >
+          {item.prompt}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-surface rounded-3xl shadow-soft py-8 px-6 space-y-5">
       <div className="text-2xl font-display font-extrabold text-center text-warm-dark">
@@ -879,6 +901,28 @@ function ItemInput({
             className="bg-surface border-2 border-warm-line rounded-2xl p-4 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft text-right"
           >
             <span className="text-base md:text-lg text-warm-dark leading-relaxed">
+              {opt}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  if (item.skill === "english_vocab") {
+    const isEnOption = item.type === "he_to_en";
+    return (
+      <div className="grid grid-cols-2 gap-3">
+        {item.answer.options.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChoose(opt)}
+            disabled={locked}
+            dir={isEnOption ? "ltr" : "rtl"}
+            className="bg-surface border-2 border-warm-line rounded-2xl p-4 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft flex items-center justify-center"
+          >
+            <span className="text-lg md:text-xl text-warm-dark font-medium">
               {opt}
             </span>
           </button>
@@ -1032,6 +1076,32 @@ function ItemReveal({
         </div>
         <div className="text-base text-warm-dark leading-relaxed">
           {explainText}
+        </div>
+        <button
+          onClick={onAdvance}
+          className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
+        >
+          הבנתי — המשך
+        </button>
+      </div>
+    );
+  }
+
+  if (item.skill === "english_vocab") {
+    const isEnAnswer = item.type === "he_to_en";
+    return (
+      <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
+        <div className="text-lg font-semibold text-warm-dark">
+          {introText}{" "}
+          <span
+            dir={isEnAnswer ? "ltr" : "rtl"}
+            className="font-display font-extrabold text-warm-indigo inline-block"
+          >
+            {item.answer.correct}
+          </span>
+        </div>
+        <div className="text-sm text-warm-muted leading-relaxed">
+          זוהי מילה מקטגוריית {item.category}. בואי ננסה לשנן אותה ביחד.
         </div>
         <button
           onClick={onAdvance}

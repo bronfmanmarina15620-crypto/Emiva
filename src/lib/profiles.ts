@@ -15,7 +15,12 @@ const ACTIVE_KEY = "emiva.active_profile.v1";
 
 export function allowedSkillsForAge(age: number): Skill[] {
   if (age >= 7 && age <= 8) {
-    return ["add_sub_100", "multiplication", "hebrew_comprehension"];
+    return [
+      "add_sub_100",
+      "multiplication",
+      "hebrew_comprehension",
+      "english_vocab",
+    ];
   }
   if (age >= 9 && age <= 10) {
     return [
@@ -24,6 +29,7 @@ export function allowedSkillsForAge(age: number): Skill[] {
       "long_division",
       "bar_models",
       "mult_2digit",
+      "english_vocab",
     ];
   }
   return [];

@@ -148,13 +148,15 @@ describe("resolveEffectiveSkill (live storage)", () => {
 });
 
 describe("computeCoverage", () => {
-  it("returns every skill grouped by subject (math + hebrew)", () => {
+  it("returns every skill grouped by subject (math + hebrew + english)", () => {
     const cov = computeCoverage(profileEvelyn());
-    expect(cov.map((g) => g.subject)).toEqual(["math", "hebrew"]);
+    expect(cov.map((g) => g.subject)).toEqual(["math", "hebrew", "english"]);
     const math = cov.find((g) => g.subject === "math")!;
     const hebrew = cov.find((g) => g.subject === "hebrew")!;
+    const english = cov.find((g) => g.subject === "english")!;
     expect(math.rows).toHaveLength(7);
     expect(hebrew.rows).toHaveLength(1);
+    expect(english.rows).toHaveLength(1);
   });
 
   it("marks isDefaultForAge per row using allowedSkillsForAge", () => {

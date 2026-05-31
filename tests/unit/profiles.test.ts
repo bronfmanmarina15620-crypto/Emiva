@@ -51,6 +51,7 @@ describe("profiles", () => {
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_vocab",
       ]);
     });
     it("age 8 → same chain as age 7", () => {
@@ -58,24 +59,27 @@ describe("profiles", () => {
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_vocab",
       ]);
     });
-    it("age 9 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit (ordered)", () => {
+    it("age 9 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, english_vocab (ordered)", () => {
       expect(allowedSkillsForAge(9)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
         "mult_2digit",
+        "english_vocab",
       ]);
     });
-    it("age 10 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit (ordered)", () => {
+    it("age 10 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, english_vocab (ordered)", () => {
       expect(allowedSkillsForAge(10)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
         "mult_2digit",
+        "english_vocab",
       ]);
     });
     it("age 5 → empty", () => {
@@ -119,6 +123,7 @@ describe("profiles", () => {
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_vocab",
       ]);
       expect(p.id).toBeTruthy();
     });
@@ -235,6 +240,7 @@ describe("profiles", () => {
         "long_division",
         "bar_models",
         "mult_2digit",
+        "english_vocab",
       ]);
     });
   });

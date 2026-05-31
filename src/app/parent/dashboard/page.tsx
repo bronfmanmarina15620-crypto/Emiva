@@ -91,6 +91,7 @@ const MEASUREMENT_SKILL_HEBREW: Record<Skill, string> = {
   long_division: "חילוק ארוך",
   bar_models: "בעיות מילוליות",
   hebrew_comprehension: "הבנת הנקרא",
+  english_vocab: "אוצר מילים באנגלית",
 };
 
 const MEASUREMENT_VERDICT_CLASS: Record<ExternalTestVerdict, string> = {

@@ -23,18 +23,14 @@
    הבנת הנקרא לאמיליה. 60 פריטים = 30 מאמרים + 30 סיפורים, רמת כיתה ד'-ה',
    80-200 מילים, 5 דרגות, שאלות עם אוצר מילים בהקשר ב-D3+. INSTRUCTIONS
    מוכן 2026-05-31; ממתין לקבוצת התחלת תוכן (10 פריטים batch ראשון).
-2. **[CORE-ENGLISH-001](tasks/CORE-ENGLISH-001/INSTRUCTIONS.md)** —
-   אנגלית, אוצר מילים בלבד (בלי phonics) לשתי הבנות. שני banks נפרדים
-   (A1 לאוולין, A2 לאמיליה), 50 מילים פתיחה לכל בת, רב-ברירה
-   EN↔HE עם SRS. INSTRUCTIONS מוכן 2026-05-31.
-3. **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** —
+2. **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** —
    יומן אילוף גור לאמיליה. שלב תכנון מתחיל עכשיו (גם בלי גור).
    PDF export client-side. הרחבה fundamental: מ"מסלול תרגול"
    ל"כלי פרודוקטיביות אישי". INSTRUCTIONS מוכן 2026-05-31.
-4. **MEASUREMENT-EXTERNAL-TEST-002** — סליס 2 של המבחן החיצוני: הרחבה
+3. **MEASUREMENT-EXTERNAL-TEST-002** — סליס 2 של המבחן החיצוני: הרחבה
    ל-`multiplication`, `mult_2digit`, `ops_1000`, `long_division`,
-   `bar_models`, `hebrew_comprehension`. טריגר: אחרי 2–3 מבחנים בסליס 1
-   שמאששים שהפורמט עובד בפועל.
+   `bar_models`, `hebrew_comprehension`, `english_vocab`. טריגר: אחרי
+   2–3 מבחנים בסליס 1 שמאששים שהפורמט עובד בפועל.
 
 ---
 
@@ -63,7 +59,7 @@
 ### אנגלית (`MyLevel.docx §3.3`)
 | משימה | משתמשת | תוכן | סטטוס |
 |---|---|---|---|
-| **[CORE-ENGLISH-001](tasks/CORE-ENGLISH-001/INSTRUCTIONS.md)** | שתיהן | אוצר מילים בלבד (בלי phonics): A1 לאוולין + A2 לאמיליה, 50 מילים פתיחה לכל בת, רב-ברירה EN↔HE עם SRS קיים. החלטה 2026-05-31: שתי הבנות ביחד דרך אותה תשתית, banks נפרדים. | 🟡 INSTRUCTIONS מוכן |
+| **[CORE-ENGLISH-001](tasks/CORE-ENGLISH-001/INSTRUCTIONS.md)** | שתיהן | אוצר מילים בלבד (בלי phonics): A1 לאוולין + A2 לאמיליה, 50 מילים פתיחה לכל בת, רב-ברירה EN↔HE עם SRS קיים. | ✅ יום 9 |
 
 ---
 
@@ -131,6 +127,7 @@
 
 | משימה | תוצאה |
 |---|---|
+| CORE-ENGLISH-001 (2026-05-31) | מסלול אנגלית ראשון לשתי הבנות — אוצר מילים בלבד, בלי phonics. תת-תחום חדש "english" ב-`Subject`. שני banks נפרדים (A1 לאוולין 50 מילים, A2 לאמיליה 50 מילים, אין חפיפת מילים). 5 דרגות × 10 פר בנק, איזון 50/50 כיוון EN↔HE, 4 אפשרויות choice per item. `bankForSkill` מקבל profile ובוחר לפי גיל. UI חדש: prompt direction-aware (LTR לאנגלית, RTL לעברית), 4-button grid, reveal עם הסבר קטגורי. routing אחרי `hebrew_comprehension`/`mult_2digit`. 491→510 טסטים. |
 | MATH-EMILIA-MULT-2DIGIT-001 (2026-05-31) | מיומנות חדשה `mult_2digit` לאמיליה. 30 פריטים, 5 דרגות: 2×1, 2×2 בלי/עם carry, edge. אלגוריתם סטנדרטי בעמודות; D1-D3 עם area-model scaffold, D4-D5 עמודות טהור. כל פריט נושא הסבר ייעודי. routing אוטומטי אחרי `bar_models`. דשבורד 4→5 אריחים לבת 9. תיקון כללי: `ItemReveal` תומך כעת ב-`item.explanation` לכל פריט אריתמטי (לא רק money). 480→491 טסטים. |
 | MEASUREMENT-EXTERNAL-TEST-001 (סליס 1) | מבחן חיצוני אוטומטי באפליקציה — סוגר את הפער הקריטי בין proxy פנימי ל"שליטה אמיתית". מאגרי holdout נפרדים (60 פריטים: 30 חיבור־חיסור + 30 שברים) שלעולם לא נכנסים לתרגול. מודול `measurement.ts` (pure): `pickTestItems`, `computeVerdict` (≥80% עברה, 60–80% פער, <60% false mastery), `dueForRetest` (6 שבועות). אחסון `emiva.measurement.v1` + telemetry `external_test_completed`. מסך `/parent/measurement` מאחורי PIN: 10 פריטים, ניסיון יחיד, ללא retry/CPA, ✓/✗ דיסקרטי + מסך סיכום עם verdict ופירוש מילולי. דשבורד ההורה: סעיף חדש "מדידה חיצונית" בכל כרטיס + כפתור "סיבוב מהיר" בכותרת + badge "כדאי לבדוק" אחרי 6 שבועות. מסגור לילדה: "סיבוב מהיר" — בלי המילה "מבחן" (Beilock & Ramirez על חרדת מתמטיקה בבנות 7–9). סקופ סליס 1: `add_sub_100` ו-`fractions_intro` בלבד. בדיקות: +38 (סה"כ 420 → 458 עוברות). |
 

@@ -7,11 +7,12 @@ import { skillNeedsReview } from "./parent-history";
 
 const FOCUS_PREFIX = "emiva.parent_focus.v1";
 
-export type Subject = "math" | "hebrew";
+export type Subject = "math" | "hebrew" | "english";
 
 export const SUBJECT_HEBREW: Record<Subject, string> = {
   math: "מתמטיקה",
   hebrew: "קריאה בעברית",
+  english: "אנגלית",
 };
 
 export const ALL_SKILLS: Skill[] = [
@@ -23,6 +24,7 @@ export const ALL_SKILLS: Skill[] = [
   "bar_models",
   "mult_2digit",
   "hebrew_comprehension",
+  "english_vocab",
 ];
 
 export const SKILL_SUBJECT: Record<Skill, Subject> = {
@@ -34,6 +36,7 @@ export const SKILL_SUBJECT: Record<Skill, Subject> = {
   bar_models: "math",
   mult_2digit: "math",
   hebrew_comprehension: "hebrew",
+  english_vocab: "english",
 };
 
 function focusKey(profileId: string): string {
@@ -119,7 +122,7 @@ export type CoverageBySubject = Array<{
   rows: CoverageRow[];
 }>;
 
-const SUBJECT_ORDER: Subject[] = ["math", "hebrew"];
+const SUBJECT_ORDER: Subject[] = ["math", "hebrew", "english"];
 
 function statusFor(profile: Profile, skill: Skill): CoverageStatus {
   if (hasGraduatedFlag(profile.id, skill)) {

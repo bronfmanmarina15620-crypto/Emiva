@@ -8,7 +8,8 @@ export type Skill =
   | "mult_2digit"
   | "long_division"
   | "bar_models"
-  | "hebrew_comprehension";
+  | "hebrew_comprehension"
+  | "english_vocab";
 
 export type AddSubItem = {
   id: string;
@@ -93,6 +94,18 @@ export type FractionItem = {
   external_test_eligible?: boolean;
 };
 
+// CORE-ENGLISH-001 — English vocabulary as a multiple-choice item.
+// Direction: en→he prompts in English with Hebrew choices; he→en the reverse.
+export type EnglishVocabItem = {
+  id: string;
+  skill: "english_vocab";
+  difficulty: Difficulty;
+  type: "en_to_he" | "he_to_en";
+  category: string;
+  prompt: string;
+  answer: { kind: "choice"; correct: string; options: [string, string, string, string] };
+};
+
 export type HebrewCompQuestion = {
   question: string;
   options: [string, string, string, string];
@@ -114,7 +127,8 @@ export type Item =
   | MultItem
   | DivisionItem
   | BarModelItem
-  | HebrewCompItem;
+  | HebrewCompItem
+  | EnglishVocabItem;
 
 export type Attempt = {
   itemId: string;
