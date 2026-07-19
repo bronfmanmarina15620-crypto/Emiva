@@ -6,9 +6,37 @@ export type Profile = {
   id: string;
   name: string;
   age: number;
+  // ISO YYYY-MM-DD. כשקיים — הגיל נגזר ממנו בכל טעינה, כך שיום-הולדת
+  // מקדם את הבת לתכנית הגיל הבא בלי עדכון ידני (postmortem 2026-07-19:
+  // גיל קפוא השאיר את אמיליה על נושאים של בת 7).
+  birthDate?: string;
   allowedSkills: Skill[];
   createdAt: number;
 };
+
+const BIRTH_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+export function ageFromBirthDate(
+  birthDate: string,
+  now: Date = new Date(),
+): number | null {
+  const m = BIRTH_DATE_RE.exec(birthDate);
+  if (!m) return null;
+  const y = Number(m[1]);
+  const mo = Number(m[2]);
+  const d = Number(m[3]);
+  const b = new Date(y, mo - 1, d);
+  if (b.getFullYear() !== y || b.getMonth() !== mo - 1 || b.getDate() !== d) {
+    return null;
+  }
+  let age = now.getFullYear() - y;
+  const hadBirthdayThisYear =
+    now.getMonth() > mo - 1 ||
+    (now.getMonth() === mo - 1 && now.getDate() >= d);
+  if (!hadBirthdayThisYear) age -= 1;
+  if (age < 0 || age > 120) return null;
+  return age;
+}
 
 const PROFILES_KEY = "emiva.profiles.v1";
 const ACTIVE_KEY = "emiva.active_profile.v1";
@@ -23,12 +51,15 @@ export function allowedSkillsForAge(age: number): Skill[] {
     ];
   }
   if (age >= 9 && age <= 10) {
+    // hebrew_comprehension אחרי mult_2digit — לפי CORE-HEBREW-EMILIA-001
+    // (מאושר 2026-05-31); הבנק הייעודי לבת 9 נבחר ב-bankForSkill לפי גיל.
     return [
       "fractions_intro",
       "ops_1000",
       "long_division",
       "bar_models",
       "mult_2digit",
+      "hebrew_comprehension",
       "english_vocab",
     ];
   }
@@ -58,9 +89,15 @@ export function loadProfiles(): Profile[] {
     if (!raw) return [];
     const arr = JSON.parse(raw) as Profile[];
     if (!Array.isArray(arr)) return [];
-    // Re-derive allowedSkills from age on every read so curriculum changes
-    // propagate to existing profiles without a separate migration step.
-    return arr.map((p) => ({ ...p, allowedSkills: allowedSkillsForAge(p.age) }));
+    // Re-derive age from birthDate (when present) and allowedSkills from age
+    // on every read, so birthdays and curriculum changes propagate to existing
+    // profiles without a separate migration step.
+    return arr.map((p) => {
+      const derived =
+        p.birthDate !== undefined ? ageFromBirthDate(p.birthDate) : null;
+      const age = derived ?? p.age;
+      return { ...p, age, allowedSkills: allowedSkillsForAge(age) };
+    });
   } catch {
     return [];
   }
@@ -71,17 +108,53 @@ export function saveProfiles(profiles: Profile[]): void {
   window.localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
 }
 
-export function createProfile(name: string, age: number): Profile {
+export function createProfile(
+  name: string,
+  age: number,
+  birthDate?: string,
+): Profile {
   const profile: Profile = {
     id: newProfileId(),
     name: name.trim(),
     age,
+    ...(birthDate !== undefined ? { birthDate } : {}),
     allowedSkills: allowedSkillsForAge(age),
     createdAt: Date.now(),
   };
   const all = loadProfiles();
   saveProfiles([...all, profile]);
   return profile;
+}
+
+/**
+ * עדכון פרופיל קיים ללא איבוד היסטוריה: ה-id לא משתנה, ולכן כל
+ * mastery / graduation / telemetry (שכולם ממופתחים לפי id) נשארים.
+ * birthDate: null מוחק את תאריך-הלידה; undefined משאיר כמו שהיה.
+ * מחזיר את הפרופיל כפי שנטען מחדש (גיל נגזר מ-birthDate אם קיים).
+ */
+export function updateProfile(
+  id: string,
+  patch: { name?: string; age?: number; birthDate?: string | null },
+): Profile | null {
+  const all = loadProfiles();
+  const idx = all.findIndex((p) => p.id === id);
+  const prev = all[idx];
+  if (prev === undefined) return null;
+  const next: Profile = {
+    ...prev,
+    name: patch.name !== undefined ? patch.name.trim() : prev.name,
+    age: patch.age ?? prev.age,
+  };
+  if (patch.birthDate === null) {
+    delete next.birthDate;
+  } else if (patch.birthDate !== undefined) {
+    next.birthDate = patch.birthDate;
+  }
+  next.allowedSkills = allowedSkillsForAge(next.age);
+  const updated = [...all];
+  updated[idx] = next;
+  saveProfiles(updated);
+  return loadProfiles().find((p) => p.id === id) ?? next;
 }
 
 export function setActiveProfileId(id: string | null): void {

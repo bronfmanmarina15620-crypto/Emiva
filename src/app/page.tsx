@@ -104,6 +104,13 @@ export default function Home() {
                         {hasContent ? `גיל ${p.age}` : `גיל ${p.age} · אין תוכן`}
                       </span>
                     </button>
+                    <Link
+                      href={`/profiles/edit/${p.id}`}
+                      aria-label={`עריכת הפרופיל של ${p.name}`}
+                      className="px-3 py-5 text-warm-muted hover:text-terracotta transition border-r border-warm-line/50"
+                    >
+                      ✎
+                    </Link>
                     <button
                       type="button"
                       onClick={() => handleDelete(p)}

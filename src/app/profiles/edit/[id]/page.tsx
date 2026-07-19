@@ -1,31 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   ageFromBirthDate,
   allowedSkillsForAge,
-  createProfile,
-  setActiveProfileId,
+  loadProfiles,
+  updateProfile,
+  type Profile,
 } from "@/lib/profiles";
 import { TopicsPreview } from "@/components/TopicsPreview";
 
-export default function NewProfilePage() {
+/**
+ * עריכת פרופיל קיים — שם, גיל ותאריך-לידה — בלי לגעת בהיסטוריה.
+ * נולד מ-postmortem 2026-07-19: עד היום הדרך היחידה לתקן גיל שגוי
+ * הייתה למחוק את הפרופיל, וזה מוחק את כל ההתקדמות.
+ */
+export default function EditProfilePage() {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
+  const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | "">("");
   const [birthDate, setBirthDate] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // תאריך-לידה גובר על גיל שהוקלד ידנית — הוא מקור-אמת שלא מזדקן.
+  useEffect(() => {
+    const found = loadProfiles().find((p) => p.id === params.id) ?? null;
+    setProfile(found);
+    if (found) {
+      setName(found.name);
+      setAge(found.age);
+      setBirthDate(found.birthDate ?? "");
+    }
+  }, [params.id]);
+
   const derivedAge = birthDate ? ageFromBirthDate(birthDate) : null;
   const effectiveAge = derivedAge ?? (age === "" ? null : Number(age));
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (submitting) return;
+    if (submitting || !profile) return;
     setError(null);
     const trimmed = name.trim();
     if (!trimmed) {
@@ -50,9 +67,33 @@ export default function NewProfilePage() {
       return;
     }
     setSubmitting(true);
-    const profile = createProfile(trimmed, ageN, birthDate || undefined);
-    setActiveProfileId(profile.id);
-    router.push("/session");
+    updateProfile(profile.id, {
+      name: trimmed,
+      age: ageN,
+      birthDate: birthDate === "" ? null : birthDate,
+    });
+    router.push("/");
+  }
+
+  if (profile === undefined) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-cream">
+        <p className="text-warm-muted">טוענת…</p>
+      </main>
+    );
+  }
+
+  if (profile === null) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-cream">
+        <div className="text-center space-y-4">
+          <p className="text-warm-dark">הפרופיל לא נמצא.</p>
+          <Link href="/" className="text-sm text-terracotta underline">
+            חזרה
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -60,14 +101,17 @@ export default function NewProfilePage() {
       <div className="max-w-md w-full space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-display font-extrabold text-warm-dark">
-            משתמשת חדשה
+            עריכת הפרופיל של {profile.name}
           </h1>
           <p className="text-sm text-warm-muted">
-            השם והגיל נשמרים על המכשיר הזה בלבד.
+            כל ההתקדמות וההיסטוריה נשמרות — משתנים רק הפרטים.
           </p>
         </div>
 
-        <form onSubmit={submit} className="bg-surface rounded-3xl shadow-soft p-6 space-y-4">
+        <form
+          onSubmit={submit}
+          className="bg-surface rounded-3xl shadow-soft p-6 space-y-4"
+        >
           <label className="block space-y-1">
             <span className="text-sm font-semibold text-warm-dark">שם</span>
             <input
@@ -75,13 +119,13 @@ export default function NewProfilePage() {
               onChange={(e) => setName(e.target.value)}
               maxLength={20}
               className="w-full text-lg bg-cream border-2 border-warm-line rounded-2xl py-3 px-4 focus:border-terracotta focus:outline-none text-warm-dark"
-              autoFocus
             />
           </label>
 
           <label className="block space-y-1">
             <span className="text-sm font-semibold text-warm-dark">
-              תאריך לידה <span className="font-normal text-warm-muted">(מומלץ)</span>
+              תאריך לידה{" "}
+              <span className="font-normal text-warm-muted">(מומלץ)</span>
             </span>
             <input
               type="date"
@@ -107,15 +151,10 @@ export default function NewProfilePage() {
               }
               className="w-full text-lg bg-cream border-2 border-warm-line rounded-2xl py-3 px-4 focus:border-terracotta focus:outline-none text-warm-dark tabular-nums disabled:opacity-70"
             />
-            <span className="block text-xs text-warm-muted pt-1">
-              כרגע 7–10. טווחים נוספים ייפתחו כשייכנס תוכן חדש.
-            </span>
             <TopicsPreview age={effectiveAge} />
           </label>
 
-          {error && (
-            <p className="text-sm text-terracotta-dark">{error}</p>
-          )}
+          {error && <p className="text-sm text-terracotta-dark">{error}</p>}
 
           <button
             type="submit"
@@ -128,7 +167,7 @@ export default function NewProfilePage() {
             href="/"
             className="block text-center text-sm text-warm-muted hover:text-terracotta"
           >
-            חזרה
+            חזרה בלי לשמור
           </Link>
         </form>
       </div>

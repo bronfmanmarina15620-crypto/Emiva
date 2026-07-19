@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  ageFromBirthDate,
   allowedSkillsForAge,
   createProfile,
   deleteProfile,
@@ -10,9 +11,15 @@ import {
   profileAllowsSkill,
   saveProfiles,
   setActiveProfileId,
+  updateProfile,
 } from "@/lib/profiles";
-import { hasGraduatedFlag, markGraduated, saveMastery } from "@/lib/storage";
-import { logEvent } from "@/lib/telemetry";
+import {
+  hasGraduatedFlag,
+  loadMastery,
+  markGraduated,
+  saveMastery,
+} from "@/lib/storage";
+import { exportTelemetry, logEvent } from "@/lib/telemetry";
 import { emptyMastery, recordAttempt } from "@/lib/mastery";
 
 class MemoryStorage {
@@ -62,23 +69,25 @@ describe("profiles", () => {
         "english_vocab",
       ]);
     });
-    it("age 9 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, english_vocab (ordered)", () => {
+    it("age 9 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, hebrew_comprehension, english_vocab (ordered)", () => {
       expect(allowedSkillsForAge(9)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
         "mult_2digit",
+        "hebrew_comprehension",
         "english_vocab",
       ]);
     });
-    it("age 10 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, english_vocab (ordered)", () => {
+    it("age 10 → fractions_intro, ops_1000, long_division, bar_models, mult_2digit, hebrew_comprehension, english_vocab (ordered)", () => {
       expect(allowedSkillsForAge(10)).toEqual([
         "fractions_intro",
         "ops_1000",
         "long_division",
         "bar_models",
         "mult_2digit",
+        "hebrew_comprehension",
         "english_vocab",
       ]);
     });
@@ -221,6 +230,96 @@ describe("profiles", () => {
       });
     });
 
+    // postmortem 2026-07-19: גיל קפוא בפרופיל שלח בת 9 לנושאים של בת 7.
+    // הבלוקים הבאים מקודדים את הלקח: גיל נגזר מתאריך-לידה, ועריכת גיל
+    // לא מוחקת היסטוריה.
+    describe("ageFromBirthDate", () => {
+      it("returns age before this year's birthday", () => {
+        expect(ageFromBirthDate("2016-12-01", new Date(2026, 6, 19))).toBe(9);
+      });
+      it("advances age on the birthday itself", () => {
+        expect(ageFromBirthDate("2016-07-19", new Date(2026, 6, 19))).toBe(10);
+      });
+      it("rejects malformed or impossible dates", () => {
+        expect(ageFromBirthDate("not-a-date")).toBeNull();
+        expect(ageFromBirthDate("2016-13-01")).toBeNull();
+        expect(ageFromBirthDate("2016-02-30")).toBeNull();
+      });
+      it("rejects future birth dates", () => {
+        expect(ageFromBirthDate("2027-01-01", new Date(2026, 6, 19))).toBeNull();
+      });
+    });
+
+    it("loadProfiles derives age from birthDate, overriding a stale stored age", () => {
+      // בדיוק התקרית: בפרופיל שמור age 8, אבל לפי תאריך-הלידה הבת כבר בת 9.
+      const now = new Date();
+      const nineAndAHalfYearsAgo = new Date(
+        now.getFullYear() - 9,
+        now.getMonth() - 6,
+        15,
+      );
+      const iso = `${nineAndAHalfYearsAgo.getFullYear()}-${String(
+        nineAndAHalfYearsAgo.getMonth() + 1,
+      ).padStart(2, "0")}-${String(nineAndAHalfYearsAgo.getDate()).padStart(2, "0")}`;
+      const stale = [
+        {
+          id: "p-stale-age",
+          name: "Emilia",
+          age: 8,
+          birthDate: iso,
+          allowedSkills: [] as const,
+          createdAt: 1,
+        },
+      ];
+      saveProfiles(stale as unknown as ReturnType<typeof loadProfiles>);
+      const loaded = loadProfiles();
+      expect(loaded[0]?.age).toBe(9);
+      expect(loaded[0]?.allowedSkills).toContain("fractions_intro");
+      expect(loaded[0]?.allowedSkills).not.toContain("add_sub_100");
+    });
+
+    describe("updateProfile", () => {
+      it("fixes a wrong age and re-derives allowedSkills, keeping id + createdAt", () => {
+        const p = createProfile("Emilia", 8);
+        const updated = updateProfile(p.id, { age: 9 });
+        expect(updated?.id).toBe(p.id);
+        expect(updated?.createdAt).toBe(p.createdAt);
+        expect(updated?.age).toBe(9);
+        expect(updated?.allowedSkills).toContain("fractions_intro");
+        expect(updated?.allowedSkills).not.toContain("add_sub_100");
+      });
+
+      it("keeps mastery, graduation, telemetry, and active id (unlike delete+recreate)", () => {
+        const p = createProfile("Emilia", 8);
+        setActiveProfileId(p.id);
+        saveMastery(p.id, recordAttempt(emptyMastery("add_sub_100"), "i1", true));
+        markGraduated(p.id, "add_sub_100");
+        logEvent(p.id, { t: "session_start", at: 1, skill: "add_sub_100" });
+
+        updateProfile(p.id, { age: 9 });
+
+        expect(loadMastery(p.id, "add_sub_100").attempts.length).toBe(1);
+        expect(hasGraduatedFlag(p.id, "add_sub_100")).toBe(true);
+        expect(JSON.parse(exportTelemetry(p.id)).length).toBe(1);
+        expect(getActiveProfileId()).toBe(p.id);
+      });
+
+      it("stores birthDate so future loads derive age from it", () => {
+        const p = createProfile("Emilia", 9);
+        updateProfile(p.id, { birthDate: "2016-12-01" });
+        const reloaded = loadProfiles().find((x) => x.id === p.id);
+        expect(reloaded?.birthDate).toBe("2016-12-01");
+      });
+
+      it("birthDate: null clears it; unknown id returns null", () => {
+        const p = createProfile("Emilia", 9, "2016-12-01");
+        updateProfile(p.id, { birthDate: null });
+        const reloaded = loadProfiles().find((x) => x.id === p.id);
+        expect(reloaded?.birthDate).toBeUndefined();
+        expect(updateProfile("ghost", { age: 9 })).toBeNull();
+      });
+    });
+
     it("loadProfiles re-derives allowedSkills from age (stale-cache safe)", () => {
       // Simulate a profile stored before a curriculum change, with empty allowedSkills.
       const stale = [
@@ -240,6 +339,7 @@ describe("profiles", () => {
         "long_division",
         "bar_models",
         "mult_2digit",
+        "hebrew_comprehension",
         "english_vocab",
       ]);
     });
