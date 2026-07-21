@@ -27,11 +27,12 @@ describe("<PuppyJournalPage> — access control", () => {
     await waitFor(() => expect(replaceMock).toHaveBeenCalledWith("/"));
   });
 
-  it("redirects to / when the active profile is younger than 9", async () => {
+  it("shows an age-gate message (no redirect) when the active profile is younger than 9", async () => {
     const p = createProfile("Evelyn", 7);
     setActiveProfileId(p.id);
     render(<PuppyJournalPage />);
-    await waitFor(() => expect(replaceMock).toHaveBeenCalledWith("/"));
+    expect(await screen.findByText("יומן הגור פתוח מגיל 9")).toBeInTheDocument();
+    expect(replaceMock).not.toHaveBeenCalled();
   });
 });
 

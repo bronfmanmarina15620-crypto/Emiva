@@ -27,6 +27,7 @@ export default function PuppyJournalPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [journal, setJournal] = useState<PuppyJournal | null>(null);
   const [ready, setReady] = useState(false);
+  const [tooYoung, setTooYoung] = useState(false);
 
   useEffect(() => {
     const p = getActiveProfile();
@@ -35,7 +36,10 @@ export default function PuppyJournalPage() {
       return;
     }
     if (p.age < MIN_AGE_FOR_PUPPY_JOURNAL) {
-      router.replace("/");
+      // Eligible-by-age gate. Show a friendly message instead of a silent
+      // redirect — a silent bounce reads as a broken/stuck page.
+      setTooYoung(true);
+      setReady(true);
       return;
     }
     setProfile(p);
@@ -52,7 +56,38 @@ export default function PuppyJournalPage() {
     [profile],
   );
 
-  if (!ready || profile === null) {
+  if (!ready) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-cream">
+        <p className="text-warm-muted">טוען…</p>
+      </main>
+    );
+  }
+
+  if (tooYoung) {
+    return (
+      <main className="flex min-h-screen items-center justify-center p-8 bg-cream">
+        <div className="max-w-sm w-full text-center bg-surface rounded-3xl shadow-soft p-8 space-y-4">
+          <div className="text-4xl">🐕</div>
+          <h1 className="text-xl font-display font-extrabold text-warm-dark">
+            יומן הגור פתוח מגיל 9
+          </h1>
+          <p className="text-sm text-warm-muted leading-relaxed">
+            עוד מעט תגדלי ותוכלי גם את לתעד גור משלך. בינתיים אפשר להמשיך
+            לתרגל.
+          </p>
+          <Link
+            href="/"
+            className="inline-block bg-terracotta text-white px-6 py-3 rounded-2xl font-semibold shadow-warm hover:bg-terracotta-dark transition"
+          >
+            חזרה
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (profile === null) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-cream">
         <p className="text-warm-muted">טוען…</p>
