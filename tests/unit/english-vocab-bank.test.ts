@@ -108,6 +108,101 @@ describe("english_vocab — no overlap between Evelyn and Emilia banks", () => {
   });
 });
 
+// ENGLISH-VOCAB-FIX-001: מקודד את הלקח שמסיח לא יהיה נרדף לתשובה
+// הנכונה. השופט האוטומטי (judge-content) בודק מבנה ולא תופס דו-משמעות
+// סמנטית; זה נתפס כאן, בקבוצות-נרדפים ידניות שנבנו מ-50 הפריטים
+// שהיו שבורים. אם מסיח וה-`correct` נופלים לאותה קבוצה — טעות.
+describe("vocab-emilia — אף מסיח אינו נרדף לתשובה הנכונה", () => {
+  // כל קבוצה = מילים שמתחלפות זו בזו כתרגום. מסיח מקבוצת ה-correct = פסול.
+  const SYNONYM_GROUPS: string[][] = [
+    // עברית
+    ["חיוני", "חשוב", "נחוץ", "הכרחי", "משמעותי", "מרכזי"],
+    ["מסובך", "מורכב", "קשה", "כאוטי", "מאתגר"],
+    ["מסוים", "מיוחד", "ייחודי", "ספציפי"],
+    ["ברור", "מובן", "פשוט", "נראה"],
+    ["מעניין", "מרתק", "מושך", "מסקרן"],
+    ["רעיון", "מחשבה"],
+    ["סיבה", "גורם"],
+    ["מקום", "אזור"],
+    ["מטרה", "כוונה"],
+    ["להבין", "לדעת"],
+    ["לבחור", "להחליט", "להעדיף"],
+    ["להחליט", "לקבוע", "לבחור"],
+    ["להצליח", "להשיג", "לנצח"],
+    ["ליצור", "לבנות", "ליצר"],
+    ["לזכור", "לשחזר"],
+    ["לתאר", "להסביר", "לספר"],
+    ["להשוות", "לבחון", "לבדוק"],
+    ["לדמיין", "לחלום"],
+    ["להציע", "להעלות"],
+    ["אף על פי כן", "למרות זאת", "ובכל זאת", "אבל", "אולם"],
+    ["למרות ש", "אף על פי", "אבל"],
+    ["במקום זאת", "אחרת", "לחילופין"],
+    ["יתרה מזאת", "בנוסף", "וגם", "מעבר לכך"],
+    ["בסופו של דבר", "בסוף", "לבסוף"],
+    ["מיד", "תכף", "מהר"],
+    ["לאחרונה", "מזמן"],
+    ["נבוך", "ביישן"],
+    // אנגלית
+    ["essential", "important", "necessary", "crucial"],
+    ["world", "earth", "universe", "planet"],
+    ["group", "team", "crowd"],
+    ["story", "tale"],
+    ["build", "create", "make", "form", "invent"],
+    ["learn", "understand", "know"],
+    ["teach", "guide"],
+    ["change", "switch"],
+    ["courage", "bravery"],
+    ["emotion", "feeling"],
+    ["hope", "dream", "wish"],
+    ["worry", "concern", "fear", "stress"],
+    ["announce", "notify"],
+    ["encourage", "support", "inspire", "motivate"],
+    ["warn", "alert", "caution"],
+    ["listen", "hear", "attend"],
+    ["assume", "suppose"],
+    ["rare", "uncommon", "unusual", "scarce"],
+    ["modern", "new", "current", "recent"],
+    ["traditional", "classic"],
+    ["ordinary", "normal", "usual", "common"],
+    ["unique", "special", "distinct"],
+    ["analyze", "examine", "study", "review"],
+    ["prove", "demonstrate", "verify", "show"],
+    ["summarize", "conclude"],
+    ["check", "verify", "test", "examine"],
+    ["publish", "release", "post"],
+    ["recognize", "identify"],
+    ["mention", "note"],
+    ["prefer", "like"],
+    ["similarly", "likewise", "alike", "equally"],
+    ["in contrast", "unlike"],
+    ["simultaneously", "meanwhile", "concurrently", "at the same time"],
+    ["initially", "at first", "originally"],
+    ["in principle", "basically", "essentially", "generally"],
+  ];
+
+  function groupOf(word: string): string[] | undefined {
+    const w = word.toLowerCase();
+    return SYNONYM_GROUPS.find((g) => g.some((x) => x.toLowerCase() === w));
+  }
+
+  it("לכל פריט: אף מסיח אינו באותה קבוצת-נרדפים כמו התשובה", () => {
+    const offenders: string[] = [];
+    for (const it of emi) {
+      const group = groupOf(it.answer.correct);
+      if (!group) continue;
+      const inGroup = new Set(group.map((x) => x.toLowerCase()));
+      for (const opt of it.answer.options) {
+        if (opt === it.answer.correct) continue;
+        if (inGroup.has(opt.toLowerCase())) {
+          offenders.push(`${it.id}: "${opt}" נרדף ל-"${it.answer.correct}"`);
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe("english_vocab — integration with items.ts", () => {
   it("isItemCorrect accepts the canonical option", () => {
     for (const it of [...eve, ...emi]) {
