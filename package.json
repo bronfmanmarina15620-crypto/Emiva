@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "eval:backlog": "vitest run --config vitest.evals.config.ts",
     "telemetry:check": "node scripts/check-telemetry.mjs",
-    "feedback:scan": "node scripts/scan-feedback.mjs"
+    "feedback:scan": "node scripts/scan-feedback.mjs",
+    "judge:content": "node scripts/judge-content.mjs"
   },
   "dependencies": {
     "@types/canvas-confetti": "^1.9.0",
