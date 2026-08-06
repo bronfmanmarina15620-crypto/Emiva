@@ -168,6 +168,32 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+// ערבוב יציב של מסיחים: אותו (פריט, שאלה) מקבל תמיד את אותו סדר בתוך
+// הסשן, כדי שהכפתורים לא יקפצו בין ניסיון 1 ל-2 ל-3 — אבל הסדר אקראי
+// בין סשנים. בלי זה התשובה הנכונה יושבת במקום קבוע במאגרי התוכן
+// (ראי tests/unit/option-order.test.ts) והילדה יכולה "לשלוט" בלי לדעת.
+function shuffleOptions(
+  options: readonly string[],
+  seed: string,
+): readonly string[] {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const copy = [...options];
+  for (let i = copy.length - 1; i > 0; i--) {
+    h ^= h << 13;
+    h ^= h >>> 17;
+    h ^= h << 5;
+    const j = Math.abs(h) % (i + 1);
+    const tmp = copy[i]!;
+    copy[i] = copy[j]!;
+    copy[j] = tmp;
+  }
+  return copy;
+}
+
 function shuffleBank(bank: readonly Item[]): readonly Item[] {
   const copy = [...bank];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -236,6 +262,11 @@ export default function SessionPage() {
   // session's age + skill combination.
   const moneyShownRef = useRef(0);
   const plainShownRef = useRef(0);
+  // מלח פר-סשן: מבטיח שסדר המסיחים משתנה בין סשנים, אבל קבוע בתוך סשן.
+  const optionSaltRef = useRef("");
+  if (optionSaltRef.current === "") {
+    optionSaltRef.current = Math.random().toString(36).slice(2);
+  }
 
   useEffect(() => {
     const active = getActiveProfile();
@@ -745,6 +776,7 @@ export default function SessionPage() {
             onSubmitText={submitText}
             onChoose={submitChoice}
             inputRef={inputRef}
+            optionSalt={optionSaltRef.current}
           />
         )}
 
@@ -886,11 +918,13 @@ type InputProps = {
   onSubmitText: (e: React.FormEvent) => void;
   onChoose: (choice: string) => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
+  optionSalt: string;
 };
 
 function ItemInput({
   item,
   questionIndex,
+  optionSalt,
   input,
   setInput,
   locked,
@@ -901,9 +935,13 @@ function ItemInput({
   if (item.skill === "hebrew_comprehension") {
     const compItem = item as HebrewCompItem;
     const q = compItem.questions[questionIndex];
+    const shown = shuffleOptions(
+      q.options,
+      `${optionSalt}:${compItem.id}:${questionIndex}`,
+    );
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {q.options.map((opt) => (
+        {shown.map((opt) => (
           <button
             key={opt}
             type="button"
@@ -922,9 +960,13 @@ function ItemInput({
 
   if (item.skill === "english_vocab") {
     const isEnOption = item.type === "he_to_en";
+    const shown = shuffleOptions(
+      item.answer.options,
+      `${optionSalt}:${item.id}`,
+    );
     return (
       <div className="grid grid-cols-2 gap-3">
-        {item.answer.options.map((opt) => (
+        {shown.map((opt) => (
           <button
             key={opt}
             type="button"
@@ -976,7 +1018,7 @@ function ItemInput({
           isVisualType ? "grid-cols-2" : frac.answer.options.length === 2 ? "grid-cols-2" : "grid-cols-2"
         }`}
       >
-        {frac.answer.options.map((opt) => {
+        {shuffleOptions(frac.answer.options, `${optionSalt}:${frac.id}`).map((opt) => {
           const parsed = parseFraction(opt);
           return (
             <button

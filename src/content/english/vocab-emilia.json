@@ -1,111 +1,1802 @@
 [
-  { "id": "emi-001", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "abstract", "prompt": "What does 'idea' mean?", "answer": { "kind": "choice", "correct": "רעיון", "options": ["רעיון", "שאלה", "חלום", "זיכרון"] } },
-  { "id": "emi-002", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "abstract", "prompt": "What does 'problem' mean?", "answer": { "kind": "choice", "correct": "בעיה", "options": ["בעיה", "שאלה", "פתרון", "סיפור"] } },
-  { "id": "emi-003", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "abstract", "prompt": "What does 'answer' mean?", "answer": { "kind": "choice", "correct": "תשובה", "options": ["תשובה", "שאלה", "פתרון", "רעיון"] } },
-  { "id": "emi-004", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "location", "prompt": "What does 'place' mean?", "answer": { "kind": "choice", "correct": "מקום", "options": ["מקום", "כתובת", "מפה", "חלל"] } },
-  { "id": "emi-005", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "abstract", "prompt": "What does 'reason' mean?", "answer": { "kind": "choice", "correct": "סיבה", "options": ["סיבה", "מטרה", "תוצאה", "דעה"] } },
-  { "id": "emi-006", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "social", "prompt": "מה זה 'קבוצה' באנגלית?", "answer": { "kind": "choice", "correct": "group", "options": ["group", "person", "place", "list"] } },
-  { "id": "emi-007", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "abstract", "prompt": "מה זה 'עולם' באנגלית?", "answer": { "kind": "choice", "correct": "world", "options": ["world", "country", "city", "map"] } },
-  { "id": "emi-008", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "time", "prompt": "מה זה 'שנה' באנגלית?", "answer": { "kind": "choice", "correct": "year", "options": ["year", "month", "decade", "century"] } },
-  { "id": "emi-009", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "social", "prompt": "מה זה 'משפחה' באנגלית?", "answer": { "kind": "choice", "correct": "family", "options": ["family", "friend", "teacher", "house"] } },
-  { "id": "emi-010", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "literature", "prompt": "מה זה 'סיפור' באנגלית?", "answer": { "kind": "choice", "correct": "story", "options": ["story", "book", "pen", "word"] } },
-
-  { "id": "emi-011", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'understand' mean?", "answer": { "kind": "choice", "correct": "להבין", "options": ["להבין", "לשכוח", "לשאול", "לזכור"] } },
-  { "id": "emi-012", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'choose' mean?", "answer": { "kind": "choice", "correct": "לבחור", "options": ["לבחור", "לספור", "לחלק", "לקבל"] } },
-  { "id": "emi-013", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'follow' mean?", "answer": { "kind": "choice", "correct": "לעקוב", "options": ["לעקוב", "להוביל", "להגיע", "ללכת"] } },
-  { "id": "emi-014", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'decide' mean?", "answer": { "kind": "choice", "correct": "להחליט", "options": ["להחליט", "לספר", "לחשוב", "לפתור"] } },
-  { "id": "emi-015", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'succeed' mean?", "answer": { "kind": "choice", "correct": "להצליח", "options": ["להצליח", "לנסות", "לעבוד", "לנוח"] } },
-  { "id": "emi-016", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'לבנות' באנגלית?", "answer": { "kind": "choice", "correct": "build", "options": ["build", "break", "carry", "open"] } },
-  { "id": "emi-017", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'ללמוד' באנגלית?", "answer": { "kind": "choice", "correct": "learn", "options": ["learn", "forget", "ask", "remember"] } },
-  { "id": "emi-018", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'ללמד' באנגלית?", "answer": { "kind": "choice", "correct": "teach", "options": ["teach", "read", "write", "ask"] } },
-  { "id": "emi-019", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'לשנות' באנגלית?", "answer": { "kind": "choice", "correct": "change", "options": ["change", "keep", "turn", "fix"] } },
-  { "id": "emi-020", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'ליצור' באנגלית?", "answer": { "kind": "choice", "correct": "create", "options": ["create", "find", "use", "keep"] } },
-
-  { "id": "emi-021", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'difficult' mean?", "answer": { "kind": "choice", "correct": "קשה", "options": ["קשה", "קל", "חדש", "יקר"] } },
-  { "id": "emi-022", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'important' mean?", "answer": { "kind": "choice", "correct": "חשוב", "options": ["חשוב", "יפה", "מהיר", "גדול"] } },
-  { "id": "emi-023", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'interesting' mean?", "answer": { "kind": "choice", "correct": "מעניין", "options": ["מעניין", "משעמם", "ארוך", "קשה"] } },
-  { "id": "emi-024", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'possible' mean?", "answer": { "kind": "choice", "correct": "אפשרי", "options": ["אפשרי", "בטוח", "חדש", "מוכן"] } },
-  { "id": "emi-025", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'careful' mean?", "answer": { "kind": "choice", "correct": "זהיר", "options": ["זהיר", "עייף", "שמח", "איטי"] } },
-  { "id": "emi-026", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'ישר' באנגלית?", "answer": { "kind": "choice", "correct": "honest", "options": ["honest", "funny", "loud", "open"] } },
-  { "id": "emi-027", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'אדיב' באנגלית?", "answer": { "kind": "choice", "correct": "kind", "options": ["kind", "tall", "fast", "young"] } },
-  { "id": "emi-028", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'אמיץ' באנגלית?", "answer": { "kind": "choice", "correct": "brave", "options": ["brave", "tired", "happy", "quiet"] } },
-  { "id": "emi-029", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'שקט' באנגלית?", "answer": { "kind": "choice", "correct": "quiet", "options": ["quiet", "loud", "bright", "warm"] } },
-  { "id": "emi-030", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'חכם' באנגלית?", "answer": { "kind": "choice", "correct": "wise", "options": ["wise", "kind", "brave", "calm"] } },
-
-  { "id": "emi-031", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "connectors", "prompt": "What does 'between' mean?", "answer": { "kind": "choice", "correct": "בין", "options": ["בין", "לפני", "אחרי", "ליד"] } },
-  { "id": "emi-032", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "connectors", "prompt": "What does 'however' mean?", "answer": { "kind": "choice", "correct": "אולם", "options": ["אולם", "כי", "אם", "אז"] } },
-  { "id": "emi-033", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "connectors", "prompt": "What does 'because' mean?", "answer": { "kind": "choice", "correct": "כי", "options": ["כי", "אבל", "אם", "אז"] } },
-  { "id": "emi-034", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "connectors", "prompt": "What does 'although' mean?", "answer": { "kind": "choice", "correct": "למרות ש", "options": ["למרות ש", "כי", "אם", "לכן"] } },
-  { "id": "emi-035", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "connectors", "prompt": "What does 'instead' mean?", "answer": { "kind": "choice", "correct": "במקום זאת", "options": ["במקום זאת", "כי", "אם", "לכן"] } },
-  { "id": "emi-036", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "time", "prompt": "מה זה 'במהלך' באנגלית?", "answer": { "kind": "choice", "correct": "during", "options": ["during", "while", "after", "before"] } },
-  { "id": "emi-037", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "frequency", "prompt": "מה זה 'לעיתים קרובות' באנגלית?", "answer": { "kind": "choice", "correct": "often", "options": ["often", "always", "sometimes", "rarely"] } },
-  { "id": "emi-038", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "transitions", "prompt": "מה זה 'פתאום' באנגלית?", "answer": { "kind": "choice", "correct": "suddenly", "options": ["suddenly", "slowly", "immediately", "later"] } },
-  { "id": "emi-039", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "social", "prompt": "מה זה 'ביחד' באנגלית?", "answer": { "kind": "choice", "correct": "together", "options": ["together", "alone", "with", "between"] } },
-  { "id": "emi-040", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "emphasis", "prompt": "מה זה 'במיוחד' באנגלית?", "answer": { "kind": "choice", "correct": "especially", "options": ["especially", "rarely", "maybe", "only"] } },
-
-  { "id": "emi-041", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "academic", "prompt": "What does 'imagine' mean?", "answer": { "kind": "choice", "correct": "לדמיין", "options": ["לדמיין", "לזכור", "לקרוא", "לכתוב"] } },
-  { "id": "emi-042", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "academic", "prompt": "What does 'suggest' mean?", "answer": { "kind": "choice", "correct": "להציע", "options": ["להציע", "לשאול", "לענות", "לבדוק"] } },
-  { "id": "emi-043", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "academic", "prompt": "What does 'describe' mean?", "answer": { "kind": "choice", "correct": "לתאר", "options": ["לתאר", "לשאול", "לספור", "להראות"] } },
-  { "id": "emi-044", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "academic", "prompt": "What does 'compare' mean?", "answer": { "kind": "choice", "correct": "להשוות", "options": ["להשוות", "לספור", "לבנות", "לכתוב"] } },
-  { "id": "emi-045", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "academic", "prompt": "What does 'remember' mean?", "answer": { "kind": "choice", "correct": "לזכור", "options": ["לזכור", "לשכוח", "לשאול", "לספר"] } },
-  { "id": "emi-046", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'להעדיף' באנגלית?", "answer": { "kind": "choice", "correct": "prefer", "options": ["prefer", "ask", "answer", "read"] } },
-  { "id": "emi-047", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'לזהות' באנגלית?", "answer": { "kind": "choice", "correct": "recognize", "options": ["recognize", "build", "carry", "open"] } },
-  { "id": "emi-048", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'להזכיר' באנגלית?", "answer": { "kind": "choice", "correct": "mention", "options": ["mention", "build", "carry", "open"] } },
-  { "id": "emi-049", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'להכין' באנגלית?", "answer": { "kind": "choice", "correct": "prepare", "options": ["prepare", "carry", "open", "close"] } },
-  { "id": "emi-050", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'להסביר' באנגלית?", "answer": { "kind": "choice", "correct": "explain", "options": ["explain", "carry", "open", "build"] } },
-
-  { "id": "emi-051", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "emotions", "prompt": "What does 'proud' mean?", "answer": { "kind": "choice", "correct": "גאה", "options": ["גאה", "שמח", "אמיץ", "בטוח"] } },
-  { "id": "emi-052", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "emotions", "prompt": "What does 'jealous' mean?", "answer": { "kind": "choice", "correct": "קנאי", "options": ["קנאי", "כועס", "עצוב", "מתוסכל"] } },
-  { "id": "emi-053", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "emotions", "prompt": "What does 'confident' mean?", "answer": { "kind": "choice", "correct": "בטוח בעצמו", "options": ["בטוח בעצמו", "חזק", "רגוע", "אמיץ"] } },
-  { "id": "emi-054", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "emotions", "prompt": "What does 'embarrassed' mean?", "answer": { "kind": "choice", "correct": "נבוך", "options": ["נבוך", "שמח", "רעב", "עייף"] } },
-  { "id": "emi-055", "skill": "english_vocab", "difficulty": 1, "type": "en_to_he", "category": "emotions", "prompt": "What does 'grateful' mean?", "answer": { "kind": "choice", "correct": "אסיר תודה", "options": ["אסיר תודה", "מאושר", "אדיב", "סבלני"] } },
-  { "id": "emi-056", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "emotions", "prompt": "מה זה 'שמחה' באנגלית?", "answer": { "kind": "choice", "correct": "joy", "options": ["joy", "pride", "hope", "peace"] } },
-  { "id": "emi-057", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "emotions", "prompt": "מה זה 'תקווה' באנגלית?", "answer": { "kind": "choice", "correct": "hope", "options": ["hope", "fear", "anger", "future"] } },
-  { "id": "emi-058", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "emotions", "prompt": "מה זה 'אומץ' באנגלית?", "answer": { "kind": "choice", "correct": "courage", "options": ["courage", "fear", "joy", "power"] } },
-  { "id": "emi-059", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "emotions", "prompt": "מה זה 'רגש' באנגלית?", "answer": { "kind": "choice", "correct": "emotion", "options": ["emotion", "idea", "action", "thought"] } },
-  { "id": "emi-060", "skill": "english_vocab", "difficulty": 1, "type": "he_to_en", "category": "emotions", "prompt": "מה זה 'דאגה' באנגלית?", "answer": { "kind": "choice", "correct": "worry", "options": ["worry", "joy", "hope", "pride"] } },
-
-  { "id": "emi-061", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'announce' mean?", "answer": { "kind": "choice", "correct": "להכריז", "options": ["להכריז", "לשאול", "לשמוע", "לבנות"] } },
-  { "id": "emi-062", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'claim' mean?", "answer": { "kind": "choice", "correct": "לטעון", "options": ["לטעון", "לשמוע", "לבנות", "לספור"] } },
-  { "id": "emi-063", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'express' mean?", "answer": { "kind": "choice", "correct": "לבטא", "options": ["לבטא", "לספור", "לבנות", "לשמוע"] } },
-  { "id": "emi-064", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'persuade' mean?", "answer": { "kind": "choice", "correct": "לשכנע", "options": ["לשכנע", "לספור", "לשמוע", "לבנות"] } },
-  { "id": "emi-065", "skill": "english_vocab", "difficulty": 2, "type": "en_to_he", "category": "verbs", "prompt": "What does 'discuss' mean?", "answer": { "kind": "choice", "correct": "לדון", "options": ["לדון", "לספור", "לבנות", "לצייר"] } },
-  { "id": "emi-066", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'לחשוב' באנגלית?", "answer": { "kind": "choice", "correct": "think", "options": ["think", "believe", "guess", "wonder"] } },
-  { "id": "emi-067", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'להניח' באנגלית?", "answer": { "kind": "choice", "correct": "assume", "options": ["assume", "build", "carry", "open"] } },
-  { "id": "emi-068", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'לעודד' באנגלית?", "answer": { "kind": "choice", "correct": "encourage", "options": ["encourage", "build", "carry", "open"] } },
-  { "id": "emi-069", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'להזהיר' באנגלית?", "answer": { "kind": "choice", "correct": "warn", "options": ["warn", "build", "carry", "open"] } },
-  { "id": "emi-070", "skill": "english_vocab", "difficulty": 2, "type": "he_to_en", "category": "verbs", "prompt": "מה זה 'להאזין' באנגלית?", "answer": { "kind": "choice", "correct": "listen", "options": ["listen", "build", "carry", "read"] } },
-
-  { "id": "emi-071", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'essential' mean?", "answer": { "kind": "choice", "correct": "חיוני", "options": ["חיוני", "מהיר", "יקר", "רחוק"] } },
-  { "id": "emi-072", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'sufficient' mean?", "answer": { "kind": "choice", "correct": "מספיק", "options": ["מספיק", "מהיר", "יקר", "רחוק"] } },
-  { "id": "emi-073", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'obvious' mean?", "answer": { "kind": "choice", "correct": "ברור", "options": ["ברור", "מהיר", "יקר", "רחוק"] } },
-  { "id": "emi-074", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'complicated' mean?", "answer": { "kind": "choice", "correct": "מסובך", "options": ["מסובך", "מהיר", "יקר", "רחוק"] } },
-  { "id": "emi-075", "skill": "english_vocab", "difficulty": 3, "type": "en_to_he", "category": "adjectives", "prompt": "What does 'particular' mean?", "answer": { "kind": "choice", "correct": "מסוים", "options": ["מסוים", "מהיר", "יקר", "רחוק"] } },
-  { "id": "emi-076", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'נדיר' באנגלית?", "answer": { "kind": "choice", "correct": "rare", "options": ["rare", "fast", "cheap", "far"] } },
-  { "id": "emi-077", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'מודרני' באנגלית?", "answer": { "kind": "choice", "correct": "modern", "options": ["modern", "fast", "cheap", "far"] } },
-  { "id": "emi-078", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'מסורתי' באנגלית?", "answer": { "kind": "choice", "correct": "traditional", "options": ["traditional", "fast", "cheap", "far"] } },
-  { "id": "emi-079", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'רגיל' באנגלית?", "answer": { "kind": "choice", "correct": "ordinary", "options": ["ordinary", "fast", "cheap", "far"] } },
-  { "id": "emi-080", "skill": "english_vocab", "difficulty": 3, "type": "he_to_en", "category": "adjectives", "prompt": "מה זה 'ייחודי' באנגלית?", "answer": { "kind": "choice", "correct": "unique", "options": ["unique", "fast", "cheap", "far"] } },
-
-  { "id": "emi-081", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "academic", "prompt": "What does 'theory' mean?", "answer": { "kind": "choice", "correct": "תיאוריה", "options": ["תיאוריה", "בית", "מכונית", "עונה"] } },
-  { "id": "emi-082", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "academic", "prompt": "What does 'evidence' mean?", "answer": { "kind": "choice", "correct": "ראיה", "options": ["ראיה", "בית", "מכונית", "עונה"] } },
-  { "id": "emi-083", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "academic", "prompt": "What does 'method' mean?", "answer": { "kind": "choice", "correct": "שיטה", "options": ["שיטה", "בית", "מכונית", "עונה"] } },
-  { "id": "emi-084", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "academic", "prompt": "What does 'analysis' mean?", "answer": { "kind": "choice", "correct": "ניתוח", "options": ["ניתוח", "בית", "מכונית", "עונה"] } },
-  { "id": "emi-085", "skill": "english_vocab", "difficulty": 4, "type": "en_to_he", "category": "academic", "prompt": "What does 'research' mean?", "answer": { "kind": "choice", "correct": "מחקר", "options": ["מחקר", "בית", "מכונית", "עונה"] } },
-  { "id": "emi-086", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'לנתח' באנגלית?", "answer": { "kind": "choice", "correct": "analyze", "options": ["analyze", "carry", "open", "close"] } },
-  { "id": "emi-087", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'להוכיח' באנגלית?", "answer": { "kind": "choice", "correct": "prove", "options": ["prove", "carry", "open", "close"] } },
-  { "id": "emi-088", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'לסכם' באנגלית?", "answer": { "kind": "choice", "correct": "summarize", "options": ["summarize", "carry", "open", "close"] } },
-  { "id": "emi-089", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'לבדוק' באנגלית?", "answer": { "kind": "choice", "correct": "check", "options": ["check", "carry", "open", "close"] } },
-  { "id": "emi-090", "skill": "english_vocab", "difficulty": 4, "type": "he_to_en", "category": "academic", "prompt": "מה זה 'לפרסם' באנגלית?", "answer": { "kind": "choice", "correct": "publish", "options": ["publish", "carry", "open", "close"] } },
-
-  { "id": "emi-091", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "connectors", "prompt": "What does 'eventually' mean?", "answer": { "kind": "choice", "correct": "בסופו של דבר", "options": ["בסופו של דבר", "מיד", "אתמול", "אולי"] } },
-  { "id": "emi-092", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "connectors", "prompt": "What does 'immediately' mean?", "answer": { "kind": "choice", "correct": "מיד", "options": ["מיד", "מחר", "אתמול", "אולי"] } },
-  { "id": "emi-093", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "connectors", "prompt": "What does 'recently' mean?", "answer": { "kind": "choice", "correct": "לאחרונה", "options": ["לאחרונה", "מחר", "תמיד", "אולי"] } },
-  { "id": "emi-094", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "connectors", "prompt": "What does 'furthermore' mean?", "answer": { "kind": "choice", "correct": "יתרה מזאת", "options": ["יתרה מזאת", "כי", "אם", "לכן"] } },
-  { "id": "emi-095", "skill": "english_vocab", "difficulty": 5, "type": "en_to_he", "category": "connectors", "prompt": "What does 'nevertheless' mean?", "answer": { "kind": "choice", "correct": "אף על פי כן", "options": ["אף על פי כן", "כי", "אם", "לכן"] } },
-  { "id": "emi-096", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "connectors", "prompt": "מה זה 'בדומה' באנגלית?", "answer": { "kind": "choice", "correct": "similarly", "options": ["similarly", "because", "if", "so"] } },
-  { "id": "emi-097", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "connectors", "prompt": "מה זה 'בניגוד' באנגלית?", "answer": { "kind": "choice", "correct": "in contrast", "options": ["in contrast", "because", "if", "so"] } },
-  { "id": "emi-098", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "connectors", "prompt": "מה זה 'במקביל' באנגלית?", "answer": { "kind": "choice", "correct": "simultaneously", "options": ["simultaneously", "because", "if", "so"] } },
-  { "id": "emi-099", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "connectors", "prompt": "מה זה 'בהתחלה' באנגלית?", "answer": { "kind": "choice", "correct": "initially", "options": ["initially", "because", "if", "so"] } },
-  { "id": "emi-100", "skill": "english_vocab", "difficulty": 5, "type": "he_to_en", "category": "connectors", "prompt": "מה זה 'בעיקרון' באנגלית?", "answer": { "kind": "choice", "correct": "in principle", "options": ["in principle", "because", "if", "so"] } }
+  {
+    "id": "emi-001",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "abstract",
+    "prompt": "What does 'idea' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "רעיון",
+      "options": [
+        "רעיון",
+        "שאלה",
+        "חלום",
+        "זיכרון"
+      ]
+    }
+  },
+  {
+    "id": "emi-002",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "abstract",
+    "prompt": "What does 'problem' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בעיה",
+      "options": [
+        "שאלה",
+        "פתרון",
+        "סיפור",
+        "בעיה"
+      ]
+    }
+  },
+  {
+    "id": "emi-003",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "abstract",
+    "prompt": "What does 'answer' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "תשובה",
+      "options": [
+        "פתרון",
+        "רעיון",
+        "תשובה",
+        "שאלה"
+      ]
+    }
+  },
+  {
+    "id": "emi-004",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "location",
+    "prompt": "What does 'place' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מקום",
+      "options": [
+        "חלל",
+        "מקום",
+        "כתובת",
+        "מפה"
+      ]
+    }
+  },
+  {
+    "id": "emi-005",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "abstract",
+    "prompt": "What does 'reason' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "סיבה",
+      "options": [
+        "סיבה",
+        "מטרה",
+        "תוצאה",
+        "דעה"
+      ]
+    }
+  },
+  {
+    "id": "emi-006",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "social",
+    "prompt": "מה זה 'קבוצה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "group",
+      "options": [
+        "person",
+        "place",
+        "list",
+        "group"
+      ]
+    }
+  },
+  {
+    "id": "emi-007",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "abstract",
+    "prompt": "מה זה 'עולם' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "world",
+      "options": [
+        "city",
+        "map",
+        "world",
+        "country"
+      ]
+    }
+  },
+  {
+    "id": "emi-008",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "time",
+    "prompt": "מה זה 'שנה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "year",
+      "options": [
+        "century",
+        "year",
+        "month",
+        "decade"
+      ]
+    }
+  },
+  {
+    "id": "emi-009",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "social",
+    "prompt": "מה זה 'משפחה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "family",
+      "options": [
+        "family",
+        "friend",
+        "teacher",
+        "house"
+      ]
+    }
+  },
+  {
+    "id": "emi-010",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "literature",
+    "prompt": "מה זה 'סיפור' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "story",
+      "options": [
+        "book",
+        "pen",
+        "word",
+        "story"
+      ]
+    }
+  },
+  {
+    "id": "emi-011",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'understand' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להבין",
+      "options": [
+        "לשאול",
+        "לזכור",
+        "להבין",
+        "לשכוח"
+      ]
+    }
+  },
+  {
+    "id": "emi-012",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'choose' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לבחור",
+      "options": [
+        "לקבל",
+        "לבחור",
+        "לספור",
+        "לחלק"
+      ]
+    }
+  },
+  {
+    "id": "emi-013",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'follow' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לעקוב",
+      "options": [
+        "לעקוב",
+        "להוביל",
+        "להגיע",
+        "ללכת"
+      ]
+    }
+  },
+  {
+    "id": "emi-014",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'decide' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להחליט",
+      "options": [
+        "לספר",
+        "לחשוב",
+        "לפתור",
+        "להחליט"
+      ]
+    }
+  },
+  {
+    "id": "emi-015",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'succeed' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להצליח",
+      "options": [
+        "לעבוד",
+        "לנוח",
+        "להצליח",
+        "לנסות"
+      ]
+    }
+  },
+  {
+    "id": "emi-016",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'לבנות' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "build",
+      "options": [
+        "open",
+        "build",
+        "break",
+        "carry"
+      ]
+    }
+  },
+  {
+    "id": "emi-017",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'ללמוד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "learn",
+      "options": [
+        "learn",
+        "forget",
+        "ask",
+        "remember"
+      ]
+    }
+  },
+  {
+    "id": "emi-018",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'ללמד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "teach",
+      "options": [
+        "read",
+        "write",
+        "ask",
+        "teach"
+      ]
+    }
+  },
+  {
+    "id": "emi-019",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'לשנות' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "change",
+      "options": [
+        "turn",
+        "fix",
+        "change",
+        "keep"
+      ]
+    }
+  },
+  {
+    "id": "emi-020",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'ליצור' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "create",
+      "options": [
+        "keep",
+        "create",
+        "find",
+        "use"
+      ]
+    }
+  },
+  {
+    "id": "emi-021",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'difficult' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "קשה",
+      "options": [
+        "קשה",
+        "קל",
+        "חדש",
+        "יקר"
+      ]
+    }
+  },
+  {
+    "id": "emi-022",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'important' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חשוב",
+      "options": [
+        "יפה",
+        "מהיר",
+        "גדול",
+        "חשוב"
+      ]
+    }
+  },
+  {
+    "id": "emi-023",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'interesting' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מעניין",
+      "options": [
+        "ארוך",
+        "קשה",
+        "מעניין",
+        "משעמם"
+      ]
+    }
+  },
+  {
+    "id": "emi-024",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'possible' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אפשרי",
+      "options": [
+        "מוכן",
+        "אפשרי",
+        "בטוח",
+        "חדש"
+      ]
+    }
+  },
+  {
+    "id": "emi-025",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'careful' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "זהיר",
+      "options": [
+        "זהיר",
+        "עייף",
+        "שמח",
+        "איטי"
+      ]
+    }
+  },
+  {
+    "id": "emi-026",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'ישר' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "honest",
+      "options": [
+        "funny",
+        "loud",
+        "open",
+        "honest"
+      ]
+    }
+  },
+  {
+    "id": "emi-027",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'אדיב' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "kind",
+      "options": [
+        "fast",
+        "young",
+        "kind",
+        "tall"
+      ]
+    }
+  },
+  {
+    "id": "emi-028",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'אמיץ' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "brave",
+      "options": [
+        "quiet",
+        "brave",
+        "tired",
+        "happy"
+      ]
+    }
+  },
+  {
+    "id": "emi-029",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'שקט' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "quiet",
+      "options": [
+        "quiet",
+        "loud",
+        "bright",
+        "warm"
+      ]
+    }
+  },
+  {
+    "id": "emi-030",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'חכם' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "wise",
+      "options": [
+        "kind",
+        "brave",
+        "calm",
+        "wise"
+      ]
+    }
+  },
+  {
+    "id": "emi-031",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'between' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בין",
+      "options": [
+        "אחרי",
+        "ליד",
+        "בין",
+        "לפני"
+      ]
+    }
+  },
+  {
+    "id": "emi-032",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'however' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אולם",
+      "options": [
+        "אז",
+        "אולם",
+        "כי",
+        "אם"
+      ]
+    }
+  },
+  {
+    "id": "emi-033",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'because' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כי",
+      "options": [
+        "כי",
+        "אבל",
+        "אם",
+        "אז"
+      ]
+    }
+  },
+  {
+    "id": "emi-034",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'although' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "למרות ש",
+      "options": [
+        "כי",
+        "אם",
+        "לכן",
+        "למרות ש"
+      ]
+    }
+  },
+  {
+    "id": "emi-035",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'instead' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "במקום זאת",
+      "options": [
+        "אם",
+        "לכן",
+        "במקום זאת",
+        "כי"
+      ]
+    }
+  },
+  {
+    "id": "emi-036",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "time",
+    "prompt": "מה זה 'במהלך' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "during",
+      "options": [
+        "before",
+        "during",
+        "while",
+        "after"
+      ]
+    }
+  },
+  {
+    "id": "emi-037",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "frequency",
+    "prompt": "מה זה 'לעיתים קרובות' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "often",
+      "options": [
+        "often",
+        "always",
+        "sometimes",
+        "rarely"
+      ]
+    }
+  },
+  {
+    "id": "emi-038",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "transitions",
+    "prompt": "מה זה 'פתאום' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "suddenly",
+      "options": [
+        "slowly",
+        "immediately",
+        "later",
+        "suddenly"
+      ]
+    }
+  },
+  {
+    "id": "emi-039",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "social",
+    "prompt": "מה זה 'ביחד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "together",
+      "options": [
+        "with",
+        "between",
+        "together",
+        "alone"
+      ]
+    }
+  },
+  {
+    "id": "emi-040",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "emphasis",
+    "prompt": "מה זה 'במיוחד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "especially",
+      "options": [
+        "only",
+        "especially",
+        "rarely",
+        "maybe"
+      ]
+    }
+  },
+  {
+    "id": "emi-041",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'imagine' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לדמיין",
+      "options": [
+        "לדמיין",
+        "לזכור",
+        "לקרוא",
+        "לכתוב"
+      ]
+    }
+  },
+  {
+    "id": "emi-042",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'suggest' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להציע",
+      "options": [
+        "לשאול",
+        "לענות",
+        "לבדוק",
+        "להציע"
+      ]
+    }
+  },
+  {
+    "id": "emi-043",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'describe' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לתאר",
+      "options": [
+        "לספור",
+        "להראות",
+        "לתאר",
+        "לשאול"
+      ]
+    }
+  },
+  {
+    "id": "emi-044",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'compare' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להשוות",
+      "options": [
+        "לכתוב",
+        "להשוות",
+        "לספור",
+        "לבנות"
+      ]
+    }
+  },
+  {
+    "id": "emi-045",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'remember' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לזכור",
+      "options": [
+        "לזכור",
+        "לשכוח",
+        "לשאול",
+        "לספר"
+      ]
+    }
+  },
+  {
+    "id": "emi-046",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'להעדיף' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "prefer",
+      "options": [
+        "ask",
+        "answer",
+        "read",
+        "prefer"
+      ]
+    }
+  },
+  {
+    "id": "emi-047",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'לזהות' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "recognize",
+      "options": [
+        "carry",
+        "open",
+        "recognize",
+        "build"
+      ]
+    }
+  },
+  {
+    "id": "emi-048",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'להזכיר' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "mention",
+      "options": [
+        "open",
+        "mention",
+        "build",
+        "carry"
+      ]
+    }
+  },
+  {
+    "id": "emi-049",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'להכין' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "prepare",
+      "options": [
+        "prepare",
+        "carry",
+        "open",
+        "close"
+      ]
+    }
+  },
+  {
+    "id": "emi-050",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'להסביר' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "explain",
+      "options": [
+        "carry",
+        "open",
+        "build",
+        "explain"
+      ]
+    }
+  },
+  {
+    "id": "emi-051",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "emotions",
+    "prompt": "What does 'proud' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "גאה",
+      "options": [
+        "אמיץ",
+        "בטוח",
+        "גאה",
+        "שמח"
+      ]
+    }
+  },
+  {
+    "id": "emi-052",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "emotions",
+    "prompt": "What does 'jealous' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "קנאי",
+      "options": [
+        "מתוסכל",
+        "קנאי",
+        "כועס",
+        "עצוב"
+      ]
+    }
+  },
+  {
+    "id": "emi-053",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "emotions",
+    "prompt": "What does 'confident' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בטוח בעצמו",
+      "options": [
+        "בטוח בעצמו",
+        "חזק",
+        "רגוע",
+        "אמיץ"
+      ]
+    }
+  },
+  {
+    "id": "emi-054",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "emotions",
+    "prompt": "What does 'embarrassed' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "נבוך",
+      "options": [
+        "שמח",
+        "רעב",
+        "עייף",
+        "נבוך"
+      ]
+    }
+  },
+  {
+    "id": "emi-055",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "en_to_he",
+    "category": "emotions",
+    "prompt": "What does 'grateful' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אסיר תודה",
+      "options": [
+        "אדיב",
+        "סבלני",
+        "אסיר תודה",
+        "מאושר"
+      ]
+    }
+  },
+  {
+    "id": "emi-056",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "emotions",
+    "prompt": "מה זה 'שמחה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "joy",
+      "options": [
+        "peace",
+        "joy",
+        "pride",
+        "hope"
+      ]
+    }
+  },
+  {
+    "id": "emi-057",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "emotions",
+    "prompt": "מה זה 'תקווה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "hope",
+      "options": [
+        "hope",
+        "fear",
+        "anger",
+        "future"
+      ]
+    }
+  },
+  {
+    "id": "emi-058",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "emotions",
+    "prompt": "מה זה 'אומץ' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "courage",
+      "options": [
+        "fear",
+        "joy",
+        "power",
+        "courage"
+      ]
+    }
+  },
+  {
+    "id": "emi-059",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "emotions",
+    "prompt": "מה זה 'רגש' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "emotion",
+      "options": [
+        "action",
+        "thought",
+        "emotion",
+        "idea"
+      ]
+    }
+  },
+  {
+    "id": "emi-060",
+    "skill": "english_vocab",
+    "difficulty": 1,
+    "type": "he_to_en",
+    "category": "emotions",
+    "prompt": "מה זה 'דאגה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "worry",
+      "options": [
+        "pride",
+        "worry",
+        "joy",
+        "hope"
+      ]
+    }
+  },
+  {
+    "id": "emi-061",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'announce' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להכריז",
+      "options": [
+        "להכריז",
+        "לשאול",
+        "לשמוע",
+        "לבנות"
+      ]
+    }
+  },
+  {
+    "id": "emi-062",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'claim' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לטעון",
+      "options": [
+        "לשמוע",
+        "לבנות",
+        "לספור",
+        "לטעון"
+      ]
+    }
+  },
+  {
+    "id": "emi-063",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'express' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לבטא",
+      "options": [
+        "לבנות",
+        "לשמוע",
+        "לבטא",
+        "לספור"
+      ]
+    }
+  },
+  {
+    "id": "emi-064",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'persuade' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לשכנע",
+      "options": [
+        "לבנות",
+        "לשכנע",
+        "לספור",
+        "לשמוע"
+      ]
+    }
+  },
+  {
+    "id": "emi-065",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "en_to_he",
+    "category": "verbs",
+    "prompt": "What does 'discuss' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לדון",
+      "options": [
+        "לדון",
+        "לספור",
+        "לבנות",
+        "לצייר"
+      ]
+    }
+  },
+  {
+    "id": "emi-066",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'לחשוב' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "think",
+      "options": [
+        "believe",
+        "guess",
+        "wonder",
+        "think"
+      ]
+    }
+  },
+  {
+    "id": "emi-067",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'להניח' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "assume",
+      "options": [
+        "carry",
+        "open",
+        "assume",
+        "build"
+      ]
+    }
+  },
+  {
+    "id": "emi-068",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'לעודד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "encourage",
+      "options": [
+        "open",
+        "encourage",
+        "build",
+        "carry"
+      ]
+    }
+  },
+  {
+    "id": "emi-069",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'להזהיר' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "warn",
+      "options": [
+        "warn",
+        "build",
+        "carry",
+        "open"
+      ]
+    }
+  },
+  {
+    "id": "emi-070",
+    "skill": "english_vocab",
+    "difficulty": 2,
+    "type": "he_to_en",
+    "category": "verbs",
+    "prompt": "מה זה 'להאזין' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "listen",
+      "options": [
+        "build",
+        "carry",
+        "read",
+        "listen"
+      ]
+    }
+  },
+  {
+    "id": "emi-071",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'essential' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חיוני",
+      "options": [
+        "יקר",
+        "רחוק",
+        "חיוני",
+        "מהיר"
+      ]
+    }
+  },
+  {
+    "id": "emi-072",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'sufficient' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מספיק",
+      "options": [
+        "רחוק",
+        "מספיק",
+        "מהיר",
+        "יקר"
+      ]
+    }
+  },
+  {
+    "id": "emi-073",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'obvious' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ברור",
+      "options": [
+        "ברור",
+        "מהיר",
+        "יקר",
+        "רחוק"
+      ]
+    }
+  },
+  {
+    "id": "emi-074",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'complicated' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מסובך",
+      "options": [
+        "מהיר",
+        "יקר",
+        "רחוק",
+        "מסובך"
+      ]
+    }
+  },
+  {
+    "id": "emi-075",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "en_to_he",
+    "category": "adjectives",
+    "prompt": "What does 'particular' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מסוים",
+      "options": [
+        "יקר",
+        "רחוק",
+        "מסוים",
+        "מהיר"
+      ]
+    }
+  },
+  {
+    "id": "emi-076",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'נדיר' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "rare",
+      "options": [
+        "far",
+        "rare",
+        "fast",
+        "cheap"
+      ]
+    }
+  },
+  {
+    "id": "emi-077",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'מודרני' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "modern",
+      "options": [
+        "modern",
+        "fast",
+        "cheap",
+        "far"
+      ]
+    }
+  },
+  {
+    "id": "emi-078",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'מסורתי' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "traditional",
+      "options": [
+        "fast",
+        "cheap",
+        "far",
+        "traditional"
+      ]
+    }
+  },
+  {
+    "id": "emi-079",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'רגיל' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ordinary",
+      "options": [
+        "cheap",
+        "far",
+        "ordinary",
+        "fast"
+      ]
+    }
+  },
+  {
+    "id": "emi-080",
+    "skill": "english_vocab",
+    "difficulty": 3,
+    "type": "he_to_en",
+    "category": "adjectives",
+    "prompt": "מה זה 'ייחודי' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "unique",
+      "options": [
+        "far",
+        "unique",
+        "fast",
+        "cheap"
+      ]
+    }
+  },
+  {
+    "id": "emi-081",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'theory' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "תיאוריה",
+      "options": [
+        "תיאוריה",
+        "בית",
+        "מכונית",
+        "עונה"
+      ]
+    }
+  },
+  {
+    "id": "emi-082",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'evidence' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ראיה",
+      "options": [
+        "בית",
+        "מכונית",
+        "עונה",
+        "ראיה"
+      ]
+    }
+  },
+  {
+    "id": "emi-083",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'method' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "שיטה",
+      "options": [
+        "מכונית",
+        "עונה",
+        "שיטה",
+        "בית"
+      ]
+    }
+  },
+  {
+    "id": "emi-084",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'analysis' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ניתוח",
+      "options": [
+        "עונה",
+        "ניתוח",
+        "בית",
+        "מכונית"
+      ]
+    }
+  },
+  {
+    "id": "emi-085",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "en_to_he",
+    "category": "academic",
+    "prompt": "What does 'research' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מחקר",
+      "options": [
+        "מחקר",
+        "בית",
+        "מכונית",
+        "עונה"
+      ]
+    }
+  },
+  {
+    "id": "emi-086",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'לנתח' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "analyze",
+      "options": [
+        "carry",
+        "open",
+        "close",
+        "analyze"
+      ]
+    }
+  },
+  {
+    "id": "emi-087",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'להוכיח' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "prove",
+      "options": [
+        "open",
+        "close",
+        "prove",
+        "carry"
+      ]
+    }
+  },
+  {
+    "id": "emi-088",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'לסכם' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "summarize",
+      "options": [
+        "close",
+        "summarize",
+        "carry",
+        "open"
+      ]
+    }
+  },
+  {
+    "id": "emi-089",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'לבדוק' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "check",
+      "options": [
+        "check",
+        "carry",
+        "open",
+        "close"
+      ]
+    }
+  },
+  {
+    "id": "emi-090",
+    "skill": "english_vocab",
+    "difficulty": 4,
+    "type": "he_to_en",
+    "category": "academic",
+    "prompt": "מה זה 'לפרסם' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "publish",
+      "options": [
+        "carry",
+        "open",
+        "close",
+        "publish"
+      ]
+    }
+  },
+  {
+    "id": "emi-091",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'eventually' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בסופו של דבר",
+      "options": [
+        "אתמול",
+        "אולי",
+        "בסופו של דבר",
+        "מיד"
+      ]
+    }
+  },
+  {
+    "id": "emi-092",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'immediately' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מיד",
+      "options": [
+        "אולי",
+        "מיד",
+        "מחר",
+        "אתמול"
+      ]
+    }
+  },
+  {
+    "id": "emi-093",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'recently' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לאחרונה",
+      "options": [
+        "לאחרונה",
+        "מחר",
+        "תמיד",
+        "אולי"
+      ]
+    }
+  },
+  {
+    "id": "emi-094",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'furthermore' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "יתרה מזאת",
+      "options": [
+        "כי",
+        "אם",
+        "לכן",
+        "יתרה מזאת"
+      ]
+    }
+  },
+  {
+    "id": "emi-095",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "en_to_he",
+    "category": "connectors",
+    "prompt": "What does 'nevertheless' mean?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אף על פי כן",
+      "options": [
+        "אם",
+        "לכן",
+        "אף על פי כן",
+        "כי"
+      ]
+    }
+  },
+  {
+    "id": "emi-096",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "connectors",
+    "prompt": "מה זה 'בדומה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "similarly",
+      "options": [
+        "so",
+        "similarly",
+        "because",
+        "if"
+      ]
+    }
+  },
+  {
+    "id": "emi-097",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "connectors",
+    "prompt": "מה זה 'בניגוד' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "in contrast",
+      "options": [
+        "in contrast",
+        "because",
+        "if",
+        "so"
+      ]
+    }
+  },
+  {
+    "id": "emi-098",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "connectors",
+    "prompt": "מה זה 'במקביל' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "simultaneously",
+      "options": [
+        "because",
+        "if",
+        "so",
+        "simultaneously"
+      ]
+    }
+  },
+  {
+    "id": "emi-099",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "connectors",
+    "prompt": "מה זה 'בהתחלה' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "initially",
+      "options": [
+        "if",
+        "so",
+        "initially",
+        "because"
+      ]
+    }
+  },
+  {
+    "id": "emi-100",
+    "skill": "english_vocab",
+    "difficulty": 5,
+    "type": "he_to_en",
+    "category": "connectors",
+    "prompt": "מה זה 'בעיקרון' באנגלית?",
+    "answer": {
+      "kind": "choice",
+      "correct": "in principle",
+      "options": [
+        "so",
+        "in principle",
+        "because",
+        "if"
+      ]
+    }
+  }
 ]

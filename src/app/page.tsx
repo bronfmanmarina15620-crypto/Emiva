@@ -11,6 +11,7 @@ import {
   type Profile,
 } from "@/lib/profiles";
 import { computeParentReminderNeeded } from "@/lib/parent-dashboard";
+import { runEnglishResetMigration } from "@/lib/storage";
 import { Logo } from "@/components/Logo";
 
 export default function Home() {
@@ -20,6 +21,9 @@ export default function Home() {
   const [parentCodeInput, setParentCodeInput] = useState("");
 
   useEffect(() => {
+    // חייבת לרוץ לפני קריאת הפרופילים — מאפסת ציוני אנגלית לא-אמינים
+    // שנצברו כשהתשובה הנכונה הייתה תמיד הכפתור הראשון (ראי storage.ts).
+    runEnglishResetMigration();
     setProfiles(loadProfiles());
     setParentReminder(computeParentReminderNeeded());
   }, []);

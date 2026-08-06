@@ -45,6 +45,47 @@ function migrateLegacyIfPresent(profileId: string): void {
   window.localStorage.removeItem(legacyMasteryKey(profileId));
 }
 
+const ENGLISH_RESET_FLAG = "emiva.migration.english_shuffle_reset.v1";
+
+/**
+ * מיגרציה חד-פעמית (2026-08-06): מאפסת ציוני שליטה באנגלית.
+ *
+ * עד לתאריך הזה הכפתורים הוצגו בסדר שבו התשובות כתובות בקובץ התוכן,
+ * והתשובה הנכונה הייתה כתובה ראשונה כמעט תמיד (99/100 אצל אוולין,
+ * 100/100 אצל אמיליה). אפשר היה להגיע ל-100% שליטה בלי לדעת מילה —
+ * פשוט ללחוץ תמיד על הכפתור הראשון. לכן כל ציון אנגלית שנצבר לפני
+ * התיקון אינו אמין, ובלעדי האיפוס האפליקציה תדלג על מילים שהילדה
+ * לא יודעת.
+ *
+ * רצה פעם אחת בטעינה, מסמנת דגל, ולא נוגעת בשום מיומנות אחרת.
+ */
+export function runEnglishResetMigration(): void {
+  if (typeof window === "undefined") return;
+  try {
+    if (window.localStorage.getItem(ENGLISH_RESET_FLAG) === "1") return;
+
+    const prefixes = [
+      MASTERY_PREFIX,
+      GRADUATED_PREFIX,
+      BANK_EXHAUSTED_PREFIX,
+      MEASUREMENT_PREFIX,
+    ];
+    const doomed: string[] = [];
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (!key) continue;
+      if (!key.endsWith(".english_vocab")) continue;
+      if (!prefixes.some((p) => key.startsWith(p))) continue;
+      doomed.push(key);
+    }
+    for (const key of doomed) window.localStorage.removeItem(key);
+
+    window.localStorage.setItem(ENGLISH_RESET_FLAG, "1");
+  } catch {
+    // אחסון חסום/מלא — לא מפילים את טעינת האפליקציה בגלל מיגרציה.
+  }
+}
+
 function normalizeMastery(raw: unknown, skill: Skill): MasteryState {
   if (!raw || typeof raw !== "object") return emptyMastery(skill);
   const r = raw as Partial<MasteryState>;
