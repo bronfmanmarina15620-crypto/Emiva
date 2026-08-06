@@ -1,9 +1,11 @@
 import type {
+  Difficulty,
   ExternalTestResult,
   MasteryState,
   PuppyJournal,
   Skill,
 } from "./types";
+import { WINDOW_SIZE } from "./types";
 import { emptyMastery } from "./mastery";
 
 const MASTERY_PREFIX = "emiva.mastery.v1";
@@ -59,7 +61,27 @@ function normalizeMastery(raw: unknown, skill: Skill): MasteryState {
       r.itemLastSeen && typeof r.itemLastSeen === "object"
         ? r.itemLastSeen
         : {},
+    // מיגרציה (Marina 2026-08-01): פרופילים שנשמרו לפני מעבר-המדרגות
+    // אינם מכילים `level`. לזרוע 1 היה מאפס ילדה ותיקה לקושי הנמוך
+    // ביותר, ולכן נגזרת כאן דרגת-פתיחה מהציון הקיים — פעם אחת בלבד,
+    // ומכאן ואילך היא זזה במדרגות.
+    level: isDifficulty(r.level) ? r.level : seedLevelFromHistory(r),
   };
+}
+
+function isDifficulty(v: unknown): v is Difficulty {
+  return v === 1 || v === 2 || v === 3 || v === 4 || v === 5;
+}
+
+function seedLevelFromHistory(r: Partial<MasteryState>): Difficulty {
+  const attempts = Array.isArray(r.attempts) ? r.attempts : [];
+  if (attempts.length === 0) return 1;
+  const recent = attempts.slice(-WINDOW_SIZE);
+  const correct = recent.filter((a) => a.correct).length;
+  const score = correct / recent.length;
+  // אותה נוסחה ישנה, פעם אחרונה — רק כדי לא לאפס ילדה קיימת.
+  const raw = Math.round(score * 5);
+  return Math.max(1, Math.min(5, raw || 1)) as Difficulty;
 }
 
 export function loadMastery(profileId: string, skill: Skill): MasteryState {

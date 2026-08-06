@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   DIFFICULTY_TOLERANCE,
   nextDesiredContext,
+  nextLevel,
   selectNextItem,
   targetDifficulty,
 } from "@/lib/adaptive";
@@ -23,9 +24,14 @@ describe("adaptive", () => {
     expect(targetDifficulty(emptyMastery("add_sub_100"))).toBe(1);
   });
 
-  it("perfect mastery targets difficulty 5", () => {
+  // Marina 2026-08-01: הבדיקה הזו קודדה את המיפוי הישן (ציון → דרגה).
+  // מאז המעבר למדרגות, ציון מושלם מעלה דרגה אחת בכל פעם — ילדה
+  // מטפסת ל-5, לא מוקפצת לשם. ראי tests/unit/difficulty-offset.test.ts.
+  it("perfect mastery climbs one step at a time, reaching 5 only after 4 steps", () => {
     let s = emptyMastery("add_sub_100");
     for (let i = 0; i < 10; i++) s = recordAttempt(s, `i${i}`, true);
+    expect(targetDifficulty(s)).toBe(1);
+    for (let step = 0; step < 4; step++) s = { ...s, level: nextLevel(s) };
     expect(targetDifficulty(s)).toBe(5);
   });
 
@@ -35,9 +41,10 @@ describe("adaptive", () => {
     expect(next?.difficulty).toBeLessThanOrEqual(1 + DIFFICULTY_TOLERANCE);
   });
 
-  it("high mastery picks item within tolerance of difficulty 5", () => {
+  it("high mastery picks item within tolerance of difficulty 5 once she has climbed there", () => {
     let s = emptyMastery("add_sub_100");
     for (let i = 0; i < 10; i++) s = recordAttempt(s, `i${i}`, true);
+    for (let step = 0; step < 4; step++) s = { ...s, level: nextLevel(s) };
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
     expect(next?.difficulty).toBeGreaterThanOrEqual(5 - DIFFICULTY_TOLERANCE);
   });
@@ -55,10 +62,13 @@ describe("adaptive", () => {
     expect(selectNextItem(s, bank, used, DETERMINISTIC)).toBeNull();
   });
 
-  it("50% mastery picks item within tolerance of difficulty 3 (middle)", () => {
+  it("50% mastery holds the current level (target zone) and picks near it", () => {
     let s = emptyMastery("add_sub_100");
     for (let i = 0; i < 5; i++) s = recordAttempt(s, `c${i}`, true);
     for (let i = 0; i < 5; i++) s = recordAttempt(s, `w${i}`, false);
+    // 50% נמצא באזור-היעד — לא עולים ולא יורדים.
+    s = { ...s, level: 3 };
+    expect(nextLevel(s)).toBe(3);
     expect(targetDifficulty(s)).toBe(3);
     const next = selectNextItem(s, bank, new Set(), DETERMINISTIC);
     expect(next?.difficulty).toBeGreaterThanOrEqual(3 - DIFFICULTY_TOLERANCE);

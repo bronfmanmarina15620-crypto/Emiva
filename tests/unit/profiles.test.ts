@@ -103,11 +103,11 @@ describe("profiles", () => {
     it("age 8 → 15 (same band as 7)", () => {
       expect(itemsPerSessionForAge(8)).toBe(15);
     });
-    it("age 9 → 18 (MyLevel 15 + 3)", () => {
-      expect(itemsPerSessionForAge(9)).toBe(18);
+    it("age 9 → 13 (Marina 2026-07-26)", () => {
+      expect(itemsPerSessionForAge(9)).toBe(13);
     });
-    it("age 10 → 18 (same band as 9)", () => {
-      expect(itemsPerSessionForAge(10)).toBe(18);
+    it("age 10 → 13 (same band as 9)", () => {
+      expect(itemsPerSessionForAge(10)).toBe(13);
     });
     it("age outside 7-10 → 10 fallback", () => {
       expect(itemsPerSessionForAge(5)).toBe(10);

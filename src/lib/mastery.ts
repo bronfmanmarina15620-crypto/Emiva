@@ -1,9 +1,9 @@
 import type { MasteryState, Skill } from "./types";
 import {
-  GRADUATION_MIN_CORRECT,
   GRADUATION_MIN_GAP_MS,
   GRADUATION_MIN_SESSIONS,
   WINDOW_SIZE,
+  graduationMinCorrect,
 } from "./types";
 
 export function emptyMastery(skill: Skill): MasteryState {
@@ -14,6 +14,7 @@ export function emptyMastery(skill: Skill): MasteryState {
     sessionCount: 0,
     sessionTimestamps: [],
     itemLastSeen: {},
+    level: 1,
   };
 }
 
@@ -60,8 +61,11 @@ export type GraduationResult =
   | { graduated: false; reason: "need_more_correct" | "need_more_sessions" | "need_more_time";
       firstAttemptCorrect: number; sessionCount: number; gapMs: number };
 
+// itemsPerSession נדרש כדי שהסף יתאים לגודל הסשן של הילדה
+// (13 לבת 9, 15 לבת 7–8) ולא יהיה מספר קבוע שמתעלם ממנו.
 export function skillGraduated(
   state: MasteryState,
+  itemsPerSession: number,
   now: number = Date.now(),
 ): GraduationResult {
   const firstAttemptCorrect = state.attempts.filter((a) => a.correct).length;
@@ -69,7 +73,7 @@ export function skillGraduated(
   const firstSession = state.sessionTimestamps[0];
   const gapMs = firstSession !== undefined ? now - firstSession : 0;
 
-  if (firstAttemptCorrect < GRADUATION_MIN_CORRECT) {
+  if (firstAttemptCorrect < graduationMinCorrect(itemsPerSession)) {
     return { graduated: false, reason: "need_more_correct", firstAttemptCorrect, sessionCount, gapMs };
   }
   if (sessionCount < GRADUATION_MIN_SESSIONS) {

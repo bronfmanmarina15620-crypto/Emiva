@@ -152,6 +152,10 @@ export type MasteryState = {
   sessionCount: number;
   sessionTimestamps: number[];
   itemLastSeen: Record<string, number>;
+  // Marina 2026-08-01: הרמה הנוכחית נשמרת כדי שהתקדמות תהיה במדרגות
+  // (עולים/יורדים אחת מהמקום הנוכחי) ולא מיפוי-מחדש מהציון בכל שאלה.
+  // חסר → מתחילים ב-1, כמו ילדה חדשה.
+  level?: Difficulty;
 };
 
 export const SRS_INTERVALS: Record<ItemSrsState["box"], number> = {
@@ -163,9 +167,32 @@ export const SRS_INTERVALS: Record<ItemSrsState["box"], number> = {
 };
 
 export const WINDOW_SIZE = 10;
+// MyLevel.docx §שכבה 1: "80% יעד הצלחה" — זה מצב-היעד שבו המערכת
+// אמורה להחזיק את הילדה, לא רף שחוצים פעם אחת.
 export const MASTERY_TARGET = 0.8;
 
-export const GRADUATION_MIN_CORRECT = 20;
+// גבול תחתון של אזור-היעד. מתחתיו הילדה יורדת דרגה.
+// parent-guide.md §2 מבטיח "נשארים בדרגה הנוכחית (או יורדים)" אבל לא
+// מגדיר את הגבול; 0.5 נבחר כך שאזור-היעד (50–80%) יהיה רחב מספיק
+// שהילדה לא תקפוץ בין דרגות אחרי שאלה בודדת.
+export const LEVEL_DOWN_THRESHOLD = 0.5;
+// מינימום תשובות לפני שינוי דרגה — בלי זה שאלה ראשונה שגויה
+// (ציון 0%) מפילה דרגה מיד.
+export const LEVEL_CHANGE_MIN_ATTEMPTS = 5;
+
+// Marina 2026-08-01: סף קבוע של 20 היה שגוי מהיסוד — הוא התעלם מכמה
+// שאלות הילדה בכלל מקבלת בסשן. אמיליה (13 שאלות) נדרשה לשני סשנים
+// כמעט-מושלמים כדי לעבור נושא, ולכן נתקעה בנושא שכבר שלטה בו.
+// הסף נגזר עכשיו מגודל הסשן: סשן מלא אחד.
+// ×1.5 נוסה תחילה ונפסל — 13×1.5 מתעגל בחזרה ל-20, כלומר לא שינה כלום
+// בדיוק במקרה שבגללו התיקון נעשה. שני התנאים האחרים (2 סשנים, 24 שעות)
+// עדיין מונעים מעבר על סמך יום מוצלח בודד.
+export const GRADUATION_SESSIONS_WORTH = 1.0;
+
+export function graduationMinCorrect(itemsPerSession: number): number {
+  return Math.round(itemsPerSession * GRADUATION_SESSIONS_WORTH);
+}
+
 export const GRADUATION_MIN_SESSIONS = 2;
 export const GRADUATION_MIN_GAP_MS = 24 * 60 * 60 * 1000;
 

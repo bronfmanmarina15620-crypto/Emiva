@@ -12,6 +12,12 @@ export type Profile = {
   birthDate?: string;
   allowedSkills: Skill[];
   createdAt: number;
+  // Marina 2026-08-01: כיוון-קושי ידני. הרמה מחושבת מחדש אחרי כל שאלה
+  // לפי אחוז ההצלחה, ולכן הורדה חד-פעמית נמחקת תוך סשן. הערך הזה נשמר
+  // בפרופיל ומופחת מהרמה המחושבת בכל פעם, כך שההורדה מחזיקה.
+  // רלוונטי כשההורה עוזרת לילדה: ההצלחות נרשמות כשלה, הציון מנופח,
+  // והמערכת מסיקה רמה גבוהה מדי.
+  difficultyOffset?: number;
 };
 
 const BIRTH_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -69,9 +75,10 @@ export function allowedSkillsForAge(age: number): Skill[] {
 // MyLevel §3.1: 7→10–12 דק', 9→15 דק'. Marina chose upper-bound + 3 items
 // (2026-04-27). Mapping is items, not minutes — the +3 is intentional buffer
 // over MyLevel's time targets, set by parent.
+// 9–10 הורד ל-13 לבקשת Marina (2026-07-26).
 export function itemsPerSessionForAge(age: number): number {
   if (age >= 7 && age <= 8) return 15;
-  if (age >= 9 && age <= 10) return 18;
+  if (age >= 9 && age <= 10) return 13;
   return 10;
 }
 
@@ -80,6 +87,27 @@ export function newProfileId(): string {
     return crypto.randomUUID();
   }
   return `p_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+// Marina 2026-08-01: אוולין מצליחה רק אחרי שמרינה מסבירה לה, ולכן הציון
+// שלה מנופח והמערכת מכוונת אותה לרמה גבוהה מדי.
+//
+// גרסה ראשונה של הזריעה הזו הותנתה בשם "אוולין" ולא הגיעה אליה בפועל
+// (השם השמור בפרופיל אינו בהכרח זהה). מהיום ההתניה היא על **גיל**
+// 7–8 — אין דרך לפספס, ואין תלות באיות. ערך שכבר קיים בפרופיל
+// לא נדרס, כך שכיוון ידני עתידי מנצח את הזריעה.
+const SEED_OFFSET_AGE_MIN = 7;
+const SEED_OFFSET_AGE_MAX = 8;
+
+function seedDifficultyOffset(age: number): number {
+  return age >= SEED_OFFSET_AGE_MIN && age <= SEED_OFFSET_AGE_MAX ? 1 : 0;
+}
+
+export function setDifficultyOffset(profileId: string, offset: number): void {
+  const all = loadProfiles();
+  saveProfiles(
+    all.map((p) => (p.id === profileId ? { ...p, difficultyOffset: offset } : p)),
+  );
 }
 
 export function loadProfiles(): Profile[] {
@@ -96,7 +124,14 @@ export function loadProfiles(): Profile[] {
       const derived =
         p.birthDate !== undefined ? ageFromBirthDate(p.birthDate) : null;
       const age = derived ?? p.age;
-      return { ...p, age, allowedSkills: allowedSkillsForAge(age) };
+      // `0` נחשב "לא הוגדר" ולא רק `undefined`: גרסת-הזריעה הקודמת
+      // (לפי שם) כתבה 0 לפרופילים שלא התאימו, וזה היה חוסם את הזריעה
+      // לפי גיל. כיוון ידני שאינו-אפס תמיד מנצח.
+      const withOffset =
+        p.difficultyOffset === undefined || p.difficultyOffset === 0
+          ? { ...p, difficultyOffset: seedDifficultyOffset(age) }
+          : p;
+      return { ...withOffset, age, allowedSkills: allowedSkillsForAge(age) };
     });
   } catch {
     return [];

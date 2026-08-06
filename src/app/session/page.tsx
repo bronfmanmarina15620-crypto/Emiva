@@ -35,6 +35,7 @@ import {
 import { applySrsUpdate, decaySrsForNewSession } from "@/lib/srs";
 import {
   nextDesiredContext,
+  nextLevel,
   selectNextItem,
   type DesiredContext,
 } from "@/lib/adaptive";
@@ -287,6 +288,7 @@ export default function SessionPage() {
       undefined,
       firstDesired,
       suppressRepeats,
+      active.difficultyOffset ?? 0,
     );
     if (first) {
       if (isMoneyItem(first)) moneyShownRef.current++;
@@ -309,10 +311,16 @@ export default function SessionPage() {
     }
   }, [phase, current]);
 
+  // מוצהר לפני האפקט של ה-summary כי סף המעבר נגזר ממנו.
+  const itemsPerSession = useMemo(
+    () => ITEMS_OVERRIDE ?? (profile ? itemsPerSessionForAge(profile.age) : 10),
+    [profile],
+  );
+
   useEffect(() => {
     if (phase !== "summary" || !profile || !skill) return;
 
-    const grad = skillGraduated(state);
+    const grad = skillGraduated(state, itemsPerSession);
     const justGraduated = grad.graduated && !hasGraduatedFlag(profile.id, skill);
     if (justGraduated) {
       markGraduated(profile.id, skill);
@@ -339,12 +347,7 @@ export default function SessionPage() {
       celebratedRef.current = true;
       void fireCelebration();
     }
-  }, [phase, state, profile, skill]);
-
-  const itemsPerSession = useMemo(
-    () => ITEMS_OVERRIDE ?? (profile ? itemsPerSessionForAge(profile.age) : 10),
-    [profile],
-  );
+  }, [phase, state, profile, skill, itemsPerSession]);
 
   const progress = useMemo(
     () => `${answered} / ${itemsPerSession}`,
@@ -379,11 +382,13 @@ export default function SessionPage() {
 
   function finishItem(correct: boolean) {
     if (!current || !profile) return;
-    const next = applySrsUpdate(
+    const recorded = applySrsUpdate(
       recordAttempt(state, current.id, correct),
       current.id,
       correct,
     );
+    // מדרגות: הדרגה זזה לכל היותר ב-1 מהמקום הנוכחי (Marina 2026-08-01).
+    const next = { ...recorded, level: nextLevel(recorded) };
     setState(next);
     saveMastery(profile.id, next);
     if (correct) setCorrectCount((c) => c + 1);
@@ -514,6 +519,7 @@ export default function SessionPage() {
       undefined,
       desired,
       shouldSuppressRepeats(skill),
+      profile.difficultyOffset ?? 0,
     );
     if (next) {
       if (isMoneyItem(next)) moneyShownRef.current++;
@@ -615,7 +621,7 @@ export default function SessionPage() {
     const endMastery = masteryScore(state);
     const delta = endMastery - startMasteryRef.current;
     const ready = endMastery >= MASTERY_TARGET;
-    const graduated = skillGraduated(state).graduated;
+    const graduated = skillGraduated(state, itemsPerSession).graduated;
     return (
       <main className="flex min-h-screen items-center justify-center p-6 bg-cream">
         <div className="max-w-md w-full space-y-8 text-center">
