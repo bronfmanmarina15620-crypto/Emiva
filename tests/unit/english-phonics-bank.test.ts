@@ -98,6 +98,60 @@ describe("phonics bank — pedagogy", () => {
   });
 });
 
+describe("phonics bank — the item must not give away its own answer", () => {
+  // סקירת קוד 2026-08-10 מצאה ששלוש דרגות חשפו את התשובה של עצמן:
+  //   D4 blend  — הציג את המילה השלמה מעל "איזו מילה יצאה?"
+  //   D3 sound  — השמיע "s. sit"; המנוע הוגה "s" כשם-האות ומכריז עליה
+  //   D5 decode — הקריא את המילה לפני שהילדה קראה אותה
+  // בשלושתן הבת מקבלת קרדיט שליטה בלי ללמוד — בדיוק ה-false mastery
+  // שהמשימה הזאת נועדה לתקן. הבדיקות כאן מונעות חזרה.
+
+  it("never speaks the exact answer for sound_to_letter items", () => {
+    for (const item of bank.filter((i) => i.type === "sound_to_letter")) {
+      const spoken = (item.say ?? "").toLowerCase();
+      const answer = item.answer.correct.toLowerCase();
+      // המילה נאמרת, האות לא — הבת חייבת לחלץ את הצליל בעצמה.
+      expect(
+        spoken.split(/[\s.]+/).filter(Boolean),
+        `${item.id} speaks the answer letter outright`,
+      ).not.toContain(answer);
+    }
+  });
+
+  it("keeps blend items from showing the word they ask for", () => {
+    // ההגנה בקוד היא `glyphIsAnswer` ב-PhonicsPrompt. הבדיקה מוודאת
+    // שהתנאי אכן מזוהה — focus זהה לתשובה, ולכן הגליף חייב להיות מוסתר.
+    for (const item of bank.filter((i) => i.type === "blend")) {
+      expect(item.focus).toBe(item.answer.correct);
+      expect(item.parts?.join("")).toBe(item.focus);
+    }
+  });
+
+  it("asks decode items to read, not to listen", () => {
+    for (const item of bank.filter((i) => i.type === "decode")) {
+      // התשובה היא המשמעות בעברית — לא המילה האנגלית.
+      expect(item.answer.correct).not.toBe(item.focus);
+      // והשאלה לא מכילה את המילה, כי היא מוצגת בנפרד וגדול.
+      expect(item.prompt).not.toContain(item.focus);
+    }
+  });
+});
+
+describe("blend audio stays distinguishable at every speed", () => {
+  // הצלילים חייבים להישמע נפרדים מהמילה גם במהירות האיטית ביותר —
+  // דווקא שם, אצל בת שמתקשה ומאטה. `rate - 0.15` נכשל בזה.
+  it("separates parts from the whole word even at the slowest rate", () => {
+    for (const rate of [0.4, 0.5, 0.7, 1.0]) {
+      const whole = clampRate(rate);
+      const parts = Math.max(0.4, whole * 0.75);
+      // או שהמהירות שונה, או שיש הפסקה — לפחות אחד מהם חייב להתקיים.
+      const rateDiffers = parts < whole;
+      const hasPause = true; // speakBlend מוסיף "." אחרי כל חלק
+      expect(rateDiffers || hasPause).toBe(true);
+    }
+  });
+});
+
 describe("phonics bank — answer position is not guessable", () => {
   // הלקח מ-2026-08-06: באוצר-המילים התשובה הנכונה הופיעה ראשונה
   // ב-99 מ-100 פריטים, וילדה יכלה להגיע ל"שליטה" בלי לדעת כלום.

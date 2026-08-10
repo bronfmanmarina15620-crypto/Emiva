@@ -37,6 +37,20 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
     rateRef.current = rate;
   }, [rate]);
 
+  // ה-timeout של הבהוב הכפתור נשמר ומנוקה, אחרת הוא יורה אחרי unmount
+  // או מכבה את ההדגשה של הפריט הבא.
+  const flashRef = useRef<number | null>(null);
+  useEffect(() => {
+    return () => {
+      if (flashRef.current !== null) window.clearTimeout(flashRef.current);
+    };
+  }, []);
+
+  // decode: המילה מוצגת (זו כל השאלה — לקרוא אותה), אבל אסור שהמחשב
+  // יקריא אותה מראש; אחרת זו בחינת-שמיעה ולא בחינת-קריאה.
+  // הכפתור נשאר זמין כעזרה יזומה, בלי השמעה אוטומטית.
+  const autoPlays = item.type !== "decode";
+
   function play() {
     const current = rateRef.current;
     if (item.parts && item.parts.length > 0) {
@@ -45,19 +59,33 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
       speak(item.say, current);
     }
     setPlaying(true);
-    window.setTimeout(() => setPlaying(false), 600);
+    if (flashRef.current !== null) window.clearTimeout(flashRef.current);
+    flashRef.current = window.setTimeout(() => setPlaying(false), 600);
   }
 
   // השמעה אוטומטית כשהפריט מופיע — הילדה לא צריכה לדעת שצריך ללחוץ.
+  // מלבד decode, שם השמעה מראש הופכת קריאה לשמיעה.
   useEffect(() => {
-    if (!speechSupported()) return;
+    if (!speechSupported() || !autoPlays) return;
     const t = window.setTimeout(play, 350);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item.id]);
+  }, [item.id, autoPlays]);
 
-  // בדרגות שבהן האות/המילה היא השאלה — מציגים אותה גדול.
-  const showsGlyph = item.type !== "letter_name" && item.type !== "sound_to_letter";
+  // מציגים את הגליף רק כשהוא *לא* התשובה.
+  //
+  // באג שנתפס בסקירה (2026-08-10): `blend` הציג את `focus` — שהוא
+  // בדיוק `answer.correct` — מעל השאלה "איזו מילה יצאה?". הילדה
+  // התאימה צורות במקום לחבר צלילים, וקיבלה קרדיט שליטה על כלום.
+  // זה בדיוק ה-false mastery שהמשימה הזאת נועדה לתקן.
+  // ב-decode המילה עצמה היא השאלה (התשובה היא המשמעות בעברית), ולכן
+  // היא מוצגת. בשאר הדרגות מסתירים גליף שהוא-הוא התשובה.
+  const glyphIsAnswer = item.focus === item.answer.correct;
+  const showsGlyph =
+    item.type === "decode" ||
+    (item.type !== "letter_name" &&
+      item.type !== "sound_to_letter" &&
+      !glyphIsAnswer);
 
   return (
     <div className="bg-surface rounded-3xl shadow-soft py-8 px-6 space-y-5">

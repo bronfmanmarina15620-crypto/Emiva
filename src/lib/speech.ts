@@ -78,9 +78,14 @@ export function speakBlend(
 ): void {
   if (!speechSupported()) return;
   cancelSpeech();
-  const partRate = clampRate(rate - 0.15);
+  // הצלילים נפרדים מהמילה השלמה בשתי דרכים, כי מהירות לבדה לא מספיקה:
+  // ב-0.4 (האיטי ביותר) גם הצלילים וגם המילה נחתכים לאותו ערך, והניגוד
+  // נעלם דווקא אצל בת שמתקשה ומאטה. לכן מוסיפים גם **הפסקה** בין
+  // הצלילים — נקודה גורמת למנוע לעצור, וזה עובד בכל מהירות.
+  const wholeRate = clampRate(rate);
+  const partRate = Math.max(SPEECH_RATE_MIN, wholeRate * 0.75);
   for (const part of parts) {
-    window.speechSynthesis.speak(utterance(part, partRate));
+    window.speechSynthesis.speak(utterance(`${part}.`, partRate));
   }
-  window.speechSynthesis.speak(utterance(whole, rate));
+  window.speechSynthesis.speak(utterance(whole, wholeRate));
 }

@@ -498,8 +498,8 @@
     "type": "sound_to_letter",
     "focus": "s",
     "anchorWord": "sit",
-    "say": "s. sit",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "sit",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "s",
@@ -510,7 +510,7 @@
         "f"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות s — כמו בתחילת המילה sit."
+    "explanation": "המילה sit מתחילה בצליל של האות s."
   },
   {
     "id": "ph-d3-002",
@@ -519,8 +519,8 @@
     "type": "sound_to_letter",
     "focus": "m",
     "anchorWord": "man",
-    "say": "m. man",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "man",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "m",
@@ -531,7 +531,7 @@
         "h"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות m — כמו בתחילת המילה man."
+    "explanation": "המילה man מתחילה בצליל של האות m."
   },
   {
     "id": "ph-d3-003",
@@ -540,8 +540,8 @@
     "type": "sound_to_letter",
     "focus": "t",
     "anchorWord": "ten",
-    "say": "t. ten",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "ten",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "t",
@@ -552,7 +552,7 @@
         "k"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות t — כמו בתחילת המילה ten."
+    "explanation": "המילה ten מתחילה בצליל של האות t."
   },
   {
     "id": "ph-d3-004",
@@ -561,8 +561,8 @@
     "type": "sound_to_letter",
     "focus": "b",
     "anchorWord": "bag",
-    "say": "b. bag",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "bag",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "b",
@@ -573,7 +573,7 @@
         "b"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות b — כמו בתחילת המילה bag."
+    "explanation": "המילה bag מתחילה בצליל של האות b."
   },
   {
     "id": "ph-d3-005",
@@ -582,8 +582,8 @@
     "type": "sound_to_letter",
     "focus": "f",
     "anchorWord": "fish",
-    "say": "f. fish",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "fish",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "f",
@@ -594,7 +594,7 @@
         "j"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות f — כמו בתחילת המילה fish."
+    "explanation": "המילה fish מתחילה בצליל של האות f."
   },
   {
     "id": "ph-d3-006",
@@ -603,8 +603,8 @@
     "type": "sound_to_letter",
     "focus": "l",
     "anchorWord": "lamp",
-    "say": "l. lamp",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "lamp",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "l",
@@ -615,7 +615,7 @@
         "y"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות l — כמו בתחילת המילה lamp."
+    "explanation": "המילה lamp מתחילה בצליל של האות l."
   },
   {
     "id": "ph-d3-007",
@@ -624,8 +624,8 @@
     "type": "sound_to_letter",
     "focus": "h",
     "anchorWord": "hat",
-    "say": "h. hat",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "hat",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "h",
@@ -636,7 +636,7 @@
         "c"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות h — כמו בתחילת המילה hat."
+    "explanation": "המילה hat מתחילה בצליל של האות h."
   },
   {
     "id": "ph-d3-008",
@@ -645,8 +645,8 @@
     "type": "sound_to_letter",
     "focus": "j",
     "anchorWord": "jam",
-    "say": "j. jam",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "jam",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "j",
@@ -657,7 +657,7 @@
         "j"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות j — כמו בתחילת המילה jam."
+    "explanation": "המילה jam מתחילה בצליל של האות j."
   },
   {
     "id": "ph-d3-009",
@@ -666,8 +666,8 @@
     "type": "sound_to_letter",
     "focus": "w",
     "anchorWord": "wet",
-    "say": "w. wet",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "wet",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "w",
@@ -678,7 +678,7 @@
         "u"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות w — כמו בתחילת המילה wet."
+    "explanation": "המילה wet מתחילה בצליל של האות w."
   },
   {
     "id": "ph-d3-010",
@@ -687,8 +687,8 @@
     "type": "sound_to_letter",
     "focus": "v",
     "anchorWord": "van",
-    "say": "v. van",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "van",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "v",
@@ -699,7 +699,7 @@
         "b"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות v — כמו בתחילת המילה van."
+    "explanation": "המילה van מתחילה בצליל של האות v."
   },
   {
     "id": "ph-d3-011",
@@ -708,8 +708,8 @@
     "type": "sound_to_letter",
     "focus": "z",
     "anchorWord": "zip",
-    "say": "z. zip",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "zip",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "z",
@@ -720,7 +720,7 @@
         "x"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות z — כמו בתחילת המילה zip."
+    "explanation": "המילה zip מתחילה בצליל של האות z."
   },
   {
     "id": "ph-d3-012",
@@ -729,8 +729,8 @@
     "type": "sound_to_letter",
     "focus": "c",
     "anchorWord": "cup",
-    "say": "c. cup",
-    "prompt": "לחצי על הרמקול — איזו אות עושה את הצליל הזה?",
+    "say": "cup",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
     "answer": {
       "kind": "choice",
       "correct": "c",
@@ -741,7 +741,7 @@
         "c"
       ]
     },
-    "explanation": "הצליל הזה שייך לאות c — כמו בתחילת המילה cup."
+    "explanation": "המילה cup מתחילה בצליל של האות c."
   },
   {
     "id": "ph-d4-001",
@@ -1050,7 +1050,7 @@
     "type": "decode",
     "focus": "cat",
     "say": "cat",
-    "prompt": "קראי את המילה: cat",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "חתול",
@@ -1070,7 +1070,7 @@
     "type": "decode",
     "focus": "sun",
     "say": "sun",
-    "prompt": "קראי את המילה: sun",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "שמש",
@@ -1090,7 +1090,7 @@
     "type": "decode",
     "focus": "dog",
     "say": "dog",
-    "prompt": "קראי את המילה: dog",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "כלב",
@@ -1110,7 +1110,7 @@
     "type": "decode",
     "focus": "bed",
     "say": "bed",
-    "prompt": "קראי את המילה: bed",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "מיטה",
@@ -1130,7 +1130,7 @@
     "type": "decode",
     "focus": "hat",
     "say": "hat",
-    "prompt": "קראי את המילה: hat",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "כובע",
@@ -1150,7 +1150,7 @@
     "type": "decode",
     "focus": "cup",
     "say": "cup",
-    "prompt": "קראי את המילה: cup",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "כוס",
@@ -1170,7 +1170,7 @@
     "type": "decode",
     "focus": "fish",
     "say": "fish",
-    "prompt": "קראי את המילה: fish",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "דג",
@@ -1190,7 +1190,7 @@
     "type": "decode",
     "focus": "book",
     "say": "book",
-    "prompt": "קראי את המילה: book",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "ספר",
@@ -1210,7 +1210,7 @@
     "type": "decode",
     "focus": "milk",
     "say": "milk",
-    "prompt": "קראי את המילה: milk",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "חלב",
@@ -1230,7 +1230,7 @@
     "type": "decode",
     "focus": "red",
     "say": "red",
-    "prompt": "קראי את המילה: red",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "אדום",
@@ -1250,7 +1250,7 @@
     "type": "decode",
     "focus": "big",
     "say": "big",
-    "prompt": "קראי את המילה: big",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "גדול",
@@ -1270,7 +1270,7 @@
     "type": "decode",
     "focus": "run",
     "say": "run",
-    "prompt": "קראי את המילה: run",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
     "answer": {
       "kind": "choice",
       "correct": "לרוץ",

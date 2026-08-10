@@ -1160,13 +1160,15 @@ function ItemReveal({
   questionIndex,
   introText,
   onAdvance,
-  speechRate = SPEECH_RATE_DEFAULT,
+  speechRate,
 }: {
   item: Item;
   questionIndex: 0 | 1;
   introText: string;
   onAdvance: () => void;
-  speechRate?: number;
+  // חובה, לא אופציונלי: ברירת-מחדל שקטה תתעלם מהמהירות שהבת בחרה
+  // אם ייווסף בעתיד call site שישכח להעביר אותה.
+  speechRate: number;
 }) {
   if (item.skill === "hebrew_comprehension") {
     const compItem = item as HebrewCompItem;
