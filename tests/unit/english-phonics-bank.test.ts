@@ -147,6 +147,54 @@ describe("phonics bank — the item must not give away its own answer", () => {
   });
 });
 
+describe("phonics bank — a sound question must have an audible answer", () => {
+  // סקירה 2026-08-10 (סבב שני): שני פריטי D3 ביקשו מאווה להבחין בין
+  // צלילים שאי אפשר להבחין ביניהם.
+  //   ph-d3-012 "cup" — המסיחים כללו k. הצליל של c ו-k **זהה לחלוטין**;
+  //             לא הייתה תשובה שאפשר לשמוע, רק לנחש.
+  //   ph-d3-010 "van" — המסיחים כללו f, ההבחנה הקשה ביותר שיש.
+  // פריט כזה מעניש על מה שהוא לא מלמד: הבת טועה, מקבלת חשיפה, והאות
+  // האדפטיבי מסיק שהיא לא שולטת בדרגה 3 — בזמן שהיא כן.
+  //
+  // זוגות קוליים/אטומים (s/z, b/p, t/d) **נשארים מותרים** בכוונה: הם
+  // נבדלים באוזן, וההבחנה ביניהם היא בדיוק מה שפוניקה מלמדת.
+  const IDENTICAL_SOUND: Record<string, readonly string[]> = {
+    c: ["k"],
+    k: ["c"],
+  };
+
+  it("never offers a distractor that sounds identical to the answer", () => {
+    for (const file of [phonicsEvelyn, phonicsEmilia]) {
+      const items = file as unknown as EnglishPhonicsItem[];
+      for (const item of items.filter((i) => i.type === "sound_to_letter")) {
+        const correct = item.answer.correct.toLowerCase();
+        const clashes = item.answer.options
+          .map((o) => o.toLowerCase())
+          .filter(
+            (o) => o !== correct && (IDENTICAL_SOUND[correct] ?? []).includes(o),
+          );
+        expect(
+          clashes,
+          `${item.id} ("${item.say}") offers ${clashes.join("/")} — indistinguishable from "${correct}" by ear`,
+        ).toEqual([]);
+      }
+    }
+  });
+
+  it("keeps the spoken word actually starting with the answer letter", () => {
+    for (const file of [phonicsEvelyn, phonicsEmilia]) {
+      const items = file as unknown as EnglishPhonicsItem[];
+      for (const item of items.filter((i) => i.type === "sound_to_letter")) {
+        const spoken = (item.say ?? "").trim().toLowerCase();
+        expect(
+          spoken.startsWith(item.answer.correct.toLowerCase()),
+          `${item.id}: "${spoken}" does not start with "${item.answer.correct}"`,
+        ).toBe(true);
+      }
+    }
+  });
+});
+
 describe("blend audio stays distinguishable at every speed", () => {
   // הצלילים חייבים להישמע נפרדים מהמילה גם במהירות האיטית ביותר —
   // דווקא שם, אצל בת שמתקשה ומאטה. `rate - 0.15` נכשל בזה.

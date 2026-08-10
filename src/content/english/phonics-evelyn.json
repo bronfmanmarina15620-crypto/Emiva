@@ -693,7 +693,7 @@
       "kind": "choice",
       "correct": "v",
       "options": [
-        "f",
+        "t",
         "v",
         "w",
         "b"
@@ -735,7 +735,7 @@
       "kind": "choice",
       "correct": "c",
       "options": [
-        "k",
+        "m",
         "g",
         "s",
         "c"
