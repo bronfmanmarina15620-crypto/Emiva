@@ -35,6 +35,25 @@ export function cancelSpeech(): void {
   window.speechSynthesis.cancel();
 }
 
+/**
+ * הקולות נטענים אסינכרונית. בטעינה קרה `getVoices()` מחזיר רשימה
+ * ריקה, ואז לא נבחר קול אנגלי — והמנוע הוגה את המילה בקול העברי
+ * של המערכת, כלומר בהגייה שגויה. זו בדיוק הסיבה שהוחלט שהמחשב
+ * יקריא ולא ההורה.
+ */
+export function voicesReady(): Promise<void> {
+  if (!speechSupported()) return Promise.resolve();
+  if (window.speechSynthesis.getVoices().length > 0) return Promise.resolve();
+  return new Promise((resolve) => {
+    const done = () => resolve();
+    window.speechSynthesis.addEventListener("voiceschanged", done, {
+      once: true,
+    });
+    // גיבוי: יש דפדפנים שלא יורים את האירוע כלל.
+    window.setTimeout(done, 1000);
+  });
+}
+
 function utterance(text: string, rate: number): SpeechSynthesisUtterance {
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "en-US";
@@ -77,7 +96,20 @@ export function speakBlend(
   rate = SPEECH_RATE_DEFAULT,
 ): void {
   if (!speechSupported()) return;
+  // `cancel()` ב-Chrome אסינכרוני: אם מוסיפים לתור מיד אחריו, הביטול
+  // עלול לנחות *אחרי* ההוספה ולבלוע את הצלילים הראשונים — כך שנשמעת
+  // רק המילה השלמה והחיבור, שהוא כל העניין, לא נשמע כלל.
+  // ההשהיה הקצרה נותנת ל-cancel לנחות לפני שממלאים את התור מחדש.
   cancelSpeech();
+  window.setTimeout(() => queueBlend(parts, whole, rate), 60);
+}
+
+function queueBlend(
+  parts: readonly string[],
+  whole: string,
+  rate: number,
+): void {
+  if (!speechSupported()) return;
   // הצלילים נפרדים מהמילה השלמה בשתי דרכים, כי מהירות לבדה לא מספיקה:
   // ב-0.4 (האיטי ביותר) גם הצלילים וגם המילה נחתכים לאותו ערך, והניגוד
   // נעלם דווקא אצל בת שמתקשה ומאטה. לכן מוסיפים גם **הפסקה** בין

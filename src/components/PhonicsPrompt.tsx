@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import type { EnglishPhonicsItem } from "@/lib/types";
 import {
+  cancelSpeech,
   SPEECH_RATE_DEFAULT,
   SPEECH_RATE_MAX,
   SPEECH_RATE_MIN,
   speak,
   speakBlend,
   speechSupported,
+  voicesReady,
 } from "@/lib/speech";
 
 // CORE-ENGLISH-PHONICS-001 — תצוגת פריט פוניקה.
@@ -43,15 +45,29 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
   useEffect(() => {
     return () => {
       if (flashRef.current !== null) window.clearTimeout(flashRef.current);
+      // עוצרים גם את תור-הדיבור: הקראה איטית שעדיין רצה כשהסשן מתקדם
+      // הייתה נשפכת לפריט הבא — ובפריט "איזו אות" עלולה להכריז עליה.
+      cancelSpeech();
     };
   }, []);
 
-  // decode: המילה מוצגת (זו כל השאלה — לקרוא אותה), אבל אסור שהמחשב
-  // יקריא אותה מראש; אחרת זו בחינת-שמיעה ולא בחינת-קריאה.
-  // הכפתור נשאר זמין כעזרה יזומה, בלי השמעה אוטומטית.
-  const autoPlays = item.type !== "decode";
+  // אותו ניקוי גם במעבר בין פריטים, לא רק ב-unmount.
+  useEffect(() => cancelSpeech, [item.id]);
+
+  // ב-decode הבת אמורה **לקרוא** את המילה, ולכן המחשב לא מקריא אותה —
+  // לא אוטומטית ולא בלחיצה.
+  //
+  // באג שנתפס בסקירה השנייה (2026-08-10): חסימת ה-autoplay לבדה לא
+  // הספיקה. `play()` בדק `item.parts` תחילה, וכל 36 פריטי ה-decode של
+  // אמיליה נושאים `parts` — לחיצה אחת השמיעה "rab. bit. rabbit",
+  // כלומר את התשובה. היא הייתה בוחרת משמעות בלי לקרוא ומקבלת קרדיט
+  // שליטה על ניסיון ראשון. בדיוק ה-false mastery שהמשימה נועדה לתקן.
+  const isDecode = item.type === "decode";
+  const autoPlays = !isDecode;
+  const hasAudio = !isDecode && Boolean(item.say || item.parts?.length);
 
   function play() {
+    if (!hasAudio) return;
     const current = rateRef.current;
     if (item.parts && item.parts.length > 0) {
       speakBlend(item.parts, item.focus, current);
@@ -67,8 +83,18 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
   // מלבד decode, שם השמעה מראש הופכת קריאה לשמיעה.
   useEffect(() => {
     if (!speechSupported() || !autoPlays) return;
-    const t = window.setTimeout(play, 350);
-    return () => window.clearTimeout(t);
+    let cancelled = false;
+    // ממתינים שהקולות ייטענו — אחרת בטעינה קרה נבחר קול המערכת
+    // (עברי) והמילה נהגית שגוי.
+    const t = window.setTimeout(() => {
+      voicesReady().then(() => {
+        if (!cancelled) play();
+      });
+    }, 350);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.id, autoPlays]);
 
@@ -102,7 +128,7 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
         {item.prompt}
       </div>
 
-      {supported ? (
+      {supported && hasAudio ? (
         <div className="space-y-4">
           <div className="flex justify-center">
             <button
@@ -144,6 +170,10 @@ export function PhonicsPrompt({ item, rate, onRateChange }: Props) {
             מהירות {rate.toFixed(2)} — אפשר להזיז ולשמוע
           </p>
         </div>
+      ) : isDecode ? (
+        <p className="text-center text-sm text-warm-muted">
+          את קוראת את המילה בעצמך — אין השמעה בשלב הזה.
+        </p>
       ) : (
         <p className="text-center text-sm text-warm-muted">
           הדפדפן הזה לא יודע להשמיע קול. אפשר להמשיך — מסתכלים על האותיות.

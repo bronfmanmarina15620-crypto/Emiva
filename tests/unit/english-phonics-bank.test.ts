@@ -170,6 +170,26 @@ describe("both banks obey the same protections", () => {
     }
   });
 
+  // הפער שהסקירה השנייה חשפה (2026-08-10): הבדיקות אימתו את *הטקסט*
+  // של פריטי decode אבל לא את השמע. כל 36 פריטי ה-decode של אמיליה
+  // נשאו `parts`, ולחיצה אחת השמיעה "rab. bit. rabbit" — כלומר את
+  // המילה שהיא אמורה לקרוא בעצמה.
+  //
+  // ההגנה חיה ב-PhonicsPrompt (`hasAudio` = false ל-decode). הבדיקה
+  // הזאת נועלת את החוזה: אם מישהו יסיר את התנאי, פריטי decode יחזרו
+  // להשמיע את התשובה.
+  it.each(allBanks)("%s: decode items are read, never played", (_name, b) => {
+    const decodeItems = b.filter((i) => i.type === "decode");
+    for (const item of decodeItems) {
+      // המילה שהבת קוראת חייבת להיות מוצגת...
+      expect(item.focus, `${item.id}`).toBeTruthy();
+      // ...והתשובה היא המשמעות, לא המילה עצמה.
+      expect(item.answer.correct).not.toBe(item.focus);
+    }
+    // ולפחות פריט אחד כזה קיים, אחרת הבדיקה ריקה ולא מגינה על כלום.
+    if (b === emiliaBank) expect(decodeItems.length).toBeGreaterThan(0);
+  });
+
   it.each(allBanks)("%s: blend parts rebuild the word", (_name, b) => {
     for (const item of b.filter((i) => i.type === "blend")) {
       expect(item.parts?.join(""), `${item.id}`).toBe(item.focus);
