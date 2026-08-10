@@ -24,6 +24,7 @@ export const ALL_SKILLS: Skill[] = [
   "bar_models",
   "mult_2digit",
   "hebrew_comprehension",
+  "english_phonics",
   "english_vocab",
 ];
 
@@ -36,6 +37,7 @@ export const SKILL_SUBJECT: Record<Skill, Subject> = {
   bar_models: "math",
   mult_2digit: "math",
   hebrew_comprehension: "hebrew",
+  english_phonics: "english",
   english_vocab: "english",
 };
 

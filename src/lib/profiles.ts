@@ -18,6 +18,10 @@ export type Profile = {
   // רלוונטי כשההורה עוזרת לילדה: ההצלחות נרשמות כשלה, הציון מנופח,
   // והמערכת מסיקה רמה גבוהה מדי.
   difficultyOffset?: number;
+  // CORE-ENGLISH-PHONICS-001: מהירות ההקראה באנגלית, בשליטת הבת.
+  // רעיון של Marina (2026-08-10) — כל בת מווסתת את הקצב שנוח לה
+  // במקום ערך אחיד שנקבע מראש. נשמר פר-פרופיל.
+  speechRate?: number;
 };
 
 const BIRTH_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -53,6 +57,11 @@ export function allowedSkillsForAge(age: number): Skill[] {
       "add_sub_100",
       "multiplication",
       "hebrew_comprehension",
+      // CORE-ENGLISH-PHONICS-001 — פוניקה **לפני** אוצר מילים.
+      // MyLevel §3.3 דורש "Phonics מפורש (שיטתי)"; CORE-ENGLISH-001
+      // דילגה עליו והתוצאה הייתה שאווה לא הצליחה לקרוא כלום
+      // (Marina, 2026-08-10). קודם לומדים לקרוא, אחר כך מילים.
+      "english_phonics",
       "english_vocab",
     ];
   }
@@ -107,6 +116,20 @@ export function setDifficultyOffset(profileId: string, offset: number): void {
   const all = loadProfiles();
   saveProfiles(
     all.map((p) => (p.id === profileId ? { ...p, difficultyOffset: offset } : p)),
+  );
+}
+
+/**
+ * CORE-ENGLISH-PHONICS-001 — שמירת מהירות ההקראה שהבת בחרה.
+ *
+ * בניגוד ל-difficultyOffset, אין כאן זריעה אוטומטית: ערך חסר פירושו
+ * "עוד לא בחרה", והקורא נופל לברירת-המחדל. כך בחירה מפורשת של הבת
+ * לעולם לא נדרסת בטעינה הבאה.
+ */
+export function setSpeechRate(profileId: string, rate: number): void {
+  const all = loadProfiles();
+  saveProfiles(
+    all.map((p) => (p.id === profileId ? { ...p, speechRate: rate } : p)),
   );
 }
 

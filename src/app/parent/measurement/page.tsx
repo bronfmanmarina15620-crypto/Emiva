@@ -36,6 +36,7 @@ const SKILL_HEBREW: Record<Skill, string> = {
   long_division: "חילוק ארוך",
   bar_models: "בעיות מילוליות (Bar Models)",
   hebrew_comprehension: "הבנת הנקרא בעברית",
+  english_phonics: "קריאה באנגלית (פוניקה)",
   english_vocab: "אוצר מילים באנגלית",
 };
 
