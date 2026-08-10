@@ -81,6 +81,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -92,6 +93,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -345,6 +347,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });

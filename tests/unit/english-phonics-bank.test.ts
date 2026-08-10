@@ -1,10 +1,20 @@
 import { describe, expect, it } from "vitest";
+import phonicsEmilia from "@/content/english/phonics-emilia.json";
 import phonicsEvelyn from "@/content/english/phonics-evelyn.json";
 import { allowedSkillsForAge } from "@/lib/profiles";
 import { clampRate, SPEECH_RATE_DEFAULT } from "@/lib/speech";
 import type { EnglishPhonicsItem } from "@/lib/types";
 
 const bank = phonicsEvelyn as unknown as EnglishPhonicsItem[];
+const emiliaBank = phonicsEmilia as unknown as EnglishPhonicsItem[];
+
+// שני המאגרים חייבים לעמוד באותם כללים. `allBanks` נועד לוודא שכל
+// בדיקת-הגנה חלה על שניהם — מאגר חדש שנוסף בלי לעבור כאן הוא בדיוק
+// הפרצה שאפשרה ל-CORE-ENGLISH-001 לדלג על פוניקה מלכתחילה.
+const allBanks: ReadonlyArray<[string, EnglishPhonicsItem[]]> = [
+  ["evelyn", bank],
+  ["emilia", emiliaBank],
+];
 
 // CORE-ENGLISH-PHONICS-001.
 //
@@ -149,6 +159,86 @@ describe("blend audio stays distinguishable at every speed", () => {
       const hasPause = true; // speakBlend מוסיף "." אחרי כל חלק
       expect(rateDiffers || hasPause).toBe(true);
     }
+  });
+});
+
+describe("both banks obey the same protections", () => {
+  it.each(allBanks)("%s: no item reveals its answer in the prompt", (_name, b) => {
+    for (const item of b.filter((i) => i.type === "decode")) {
+      expect(item.prompt, `${item.id}`).not.toContain(item.focus);
+      expect(item.answer.correct).not.toBe(item.focus);
+    }
+  });
+
+  it.each(allBanks)("%s: blend parts rebuild the word", (_name, b) => {
+    for (const item of b.filter((i) => i.type === "blend")) {
+      expect(item.parts?.join(""), `${item.id}`).toBe(item.focus);
+    }
+  });
+
+  it.each(allBanks)("%s: answer position is spread", (_name, b) => {
+    const counts = new Map<number, number>();
+    for (const item of b) {
+      const idx = item.answer.options.indexOf(item.answer.correct);
+      counts.set(idx, (counts.get(idx) ?? 0) + 1);
+    }
+    expect(Math.max(...counts.values()) / b.length).toBeLessThan(0.5);
+  });
+
+  it.each(allBanks)("%s: every item explains and none shames", (_name, b) => {
+    const banned = ["לא נכון", "טעית", "שגוי", "פספסת", "כישלון", "נכשלת"];
+    for (const item of b) {
+      expect(item.explanation.trim().length).toBeGreaterThan(15);
+      for (const phrase of banned) {
+        expect(`${item.prompt} ${item.explanation}`).not.toContain(phrase);
+      }
+    }
+  });
+
+  it.each(allBanks)("%s: ids are unique and options distinct", (_name, b) => {
+    expect(new Set(b.map((i) => i.id)).size).toBe(b.length);
+    for (const item of b) {
+      expect(new Set(item.answer.options).size).toBe(4);
+      expect(item.answer.options).toContain(item.answer.correct);
+    }
+  });
+});
+
+describe("Emilia's bank starts where she actually is", () => {
+  // Marina 2026-08-10: "אמיליה מכירה טוב את ה-ABC". מסלול שמתחיל
+  // מזיהוי אותיות ייקרא אצל בת 9 כירידה לרמה של אחותה הקטנה.
+  it("never asks her to identify a letter", () => {
+    const babyTypes = emiliaBank.filter(
+      (i) => i.type === "letter_name" || i.type === "sound_to_letter",
+    );
+    expect(babyTypes).toHaveLength(0);
+  });
+
+  it("reaches multi-syllable words at the top difficulties", () => {
+    const top = emiliaBank.filter((i) => i.difficulty >= 4);
+    expect(top.length).toBeGreaterThan(0);
+    // כל פריט בדרגות הגבוהות חייב להיות מילה מרובת-הברות.
+    for (const item of top) {
+      expect(item.parts?.length ?? 0, `${item.id}`).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("keeps phonics before vocabulary for age 9-10 too", () => {
+    const skills = allowedSkillsForAge(9);
+    expect(skills.indexOf("english_phonics")).toBeLessThan(
+      skills.indexOf("english_vocab"),
+    );
+    expect(allowedSkillsForAge(10)).toContain("english_phonics");
+  });
+
+  it("does not reuse Evelyn's beginner words at difficulty 1-2", () => {
+    const evelynEasy = new Set(
+      bank.filter((i) => i.difficulty <= 2).map((i) => i.focus),
+    );
+    const overlap = emiliaBank
+      .filter((i) => i.difficulty <= 2)
+      .filter((i) => evelynEasy.has(i.focus));
+    expect(overlap.map((i) => i.focus)).toEqual([]);
   });
 });
 

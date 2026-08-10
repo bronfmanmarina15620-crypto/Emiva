@@ -75,6 +75,10 @@ export function allowedSkillsForAge(age: number): Skill[] {
       "bar_models",
       "mult_2digit",
       "hebrew_comprehension",
+      // CORE-ENGLISH-PHONICS-002 — גם אמיליה עוברת פוניקה לפני אוצר
+      // מילים. היא מכירה ABC וקוראת מילים חלקית, ולכן המאגר שלה
+      // מתחיל מהברות ולא מאותיות (נבחר ב-bankForSkill לפי גיל).
+      "english_phonics",
       "english_vocab",
     ];
   }

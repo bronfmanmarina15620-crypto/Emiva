@@ -11,6 +11,7 @@ import mult2DigitBank from "@/content/math/mult-2digit.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
 import hebrewCompEmiliaBank from "@/content/hebrew/comprehension-emilia.json";
+import phonicsEmiliaBank from "@/content/english/phonics-emilia.json";
 import phonicsEvelynBank from "@/content/english/phonics-evelyn.json";
 import vocabEvelynBank from "@/content/english/vocab-evelyn.json";
 import vocabEmiliaBank from "@/content/english/vocab-emilia.json";
@@ -99,6 +100,7 @@ const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
 const HEBREW_COMP_EVELYN_BANK = hebrewCompBank as unknown as readonly Item[];
 const HEBREW_COMP_EMILIA_BANK = hebrewCompEmiliaBank as unknown as readonly Item[];
 const PHONICS_EVELYN_BANK = phonicsEvelynBank as unknown as readonly Item[];
+const PHONICS_EMILIA_BANK = phonicsEmiliaBank as unknown as readonly Item[];
 const VOCAB_EVELYN_BANK = vocabEvelynBank as unknown as readonly Item[];
 const VOCAB_EMILIA_BANK = vocabEmiliaBank as unknown as readonly Item[];
 
@@ -124,9 +126,13 @@ function bankForSkill(skill: Skill, profile?: Profile): readonly Item[] {
         ? HEBREW_COMP_EMILIA_BANK
         : HEBREW_COMP_EVELYN_BANK;
     case "english_phonics":
-      // CORE-ENGLISH-PHONICS-001 — currently one bank (Evelyn). Emilia's
-      // syllable-first bank arrives in T2; she starts from blends, not letters.
-      return PHONICS_EVELYN_BANK;
+      // Age-keyed. Evelyn (7-8) starts at letter identification; Emilia
+      // (9-10) starts at syllables — she knows the alphabet, and a track
+      // opening with "which letter is this?" would read as a demotion
+      // to her younger sister's material (CORE-ENGLISH-PHONICS-002).
+      return profile && profile.age >= 9
+        ? PHONICS_EMILIA_BANK
+        : PHONICS_EVELYN_BANK;
     case "english_vocab":
       // Age-keyed: 7-8 → A1 starter bank; 9-10 → A2 bank. Defaults to A1
       // if profile is missing so the route still renders something sensible.
