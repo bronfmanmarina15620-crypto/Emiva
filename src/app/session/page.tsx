@@ -506,7 +506,11 @@ export default function SessionPage() {
     }
 
     finishItem(false);
-    const text = revealIntro();
+    // מילה נלמדת, לא נפתרת — ולכן מאגר פתיחה אחר לאוצר-המילים
+    // ולפוניקה (CORE-ENGLISH-VOCAB-EXPLAIN-001).
+    const isWord =
+      current.skill === "english_vocab" || current.skill === "english_phonics";
+    const text = revealIntro(Math.random, isWord ? "word" : "problem");
     setRevealText(text);
     logEvent(profile.id, {
       t: "reveal",
@@ -1286,8 +1290,18 @@ function ItemReveal({
             {item.answer.correct}
           </span>
         </div>
-        <div className="text-sm text-warm-muted leading-relaxed">
-          זוהי מילה מקטגוריית {item.category}. בואי ננסה לשנן אותה ביחד.
+        {/* כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה. קודם הוצג כאן משפט
+            גנרי ("זוהי מילה מקטגוריית {category}") שגם לא לימד כלום
+            וגם הזריק שם קטגוריה באנגלית לתוך משפט עברי. `text-warm-dark`
+            ולא `muted`: זה לימוד, לא הערת-שוליים — כמו בפוניקה.
+
+            `dir="rtl"` מפורש: המשפט עברי אבל **פותח במילה האנגלית**
+            ("cat — שלושה צלילים..."). בלי הכרזת כיוון, ה-bidi של
+            הדפדפן נגרר אחרי התו הראשון ועלול להזיז את המילה לקצה
+            השני של השורה. זה בדיוק הבאג שקרה עם הסליידר ב-T1,
+            בגרסת טקסט. */}
+        <div dir="rtl" className="text-sm text-warm-dark leading-relaxed">
+          {item.explanation}
         </div>
         <button
           onClick={onAdvance}

@@ -45,6 +45,9 @@ function goodVocab(overrides: Record<string, unknown> = {}) {
     category: "animals",
     prompt: "What does 'cat' mean?",
     answer: { kind: "choice", correct: "חתול", options: ["חתול", "כלב", "פיל", "ארנב"] },
+    // חובה מאז CORE-ENGLISH-VOCAB-EXPLAIN-001 — כלל הפדגוגיה:
+    // חשיפה תמיד מלווה בשיטה.
+    explanation: "c-a-t — שלושה צלילים, בדיוק כמו שלמדת לפרק. חתול.",
     ...overrides,
   };
 }
@@ -70,6 +73,18 @@ describe("judge-content — תופס כשלי מבנה", () => {
     const item = goodVocab();
     item.answer.correct = "סוס";
     expect(rules(judgeItems([item], VOCAB))).toContain("correct-not-in-options");
+  });
+
+  // CORE-ENGLISH-VOCAB-EXPLAIN-001 — הפער הזה איפשר ל-200 פריטים
+  // לחיות בלי הסבר: הבודק בדק מבנה, לא לימוד.
+  it("פריט בלי הסבר → error", () => {
+    const item = goodVocab({ explanation: "" });
+    expect(rules(judgeItems([item], VOCAB))).toContain("missing-explanation");
+  });
+
+  it("הסבר עם ביטוי fixed-mindset → error", () => {
+    const item = goodVocab({ explanation: "טעית — התשובה הנכונה היא חתול." });
+    expect(rules(judgeItems([item], VOCAB))).toContain("fixed-mindset");
   });
 
   it("אפשרות ריקה → error", () => {

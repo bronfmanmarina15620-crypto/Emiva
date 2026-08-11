@@ -284,6 +284,20 @@ function checkVocab(bank, item) {
   if (!item.prompt || norm(item.prompt) === "") {
     report("error", bank, id, "empty-prompt", "אין שאלה לפריט");
   }
+
+  // CORE-ENGLISH-VOCAB-EXPLAIN-001 — אותה אכיפה שכבר קיימת ב-checkComp.
+  // הפער הזה הוא בדיוק מה שאיפשר ל-200 פריטים לחיות בלי הסבר: הבודק
+  // בדק מבנה, לא לימוד. כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה.
+  if (!item.explanation || norm(item.explanation) === "") {
+    report("error", bank, id, "missing-explanation", "אין הסבר לפריט");
+  }
+
+  for (const phrase of FIXED_MINDSET) {
+    if (isText(item.explanation) && item.explanation.includes(phrase)) {
+      report("error", bank, id, "fixed-mindset",
+        `ההסבר מכיל ביטוי אסור "${phrase}"`);
+    }
+  }
 }
 
 /** בדיקות ברמת המאגר כולו — כפילויות שלא נראות בפריט בודד. */

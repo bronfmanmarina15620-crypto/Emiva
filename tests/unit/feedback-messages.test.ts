@@ -41,12 +41,29 @@ describe("feedback-messages", () => {
   });
 
   it("reveal intro never labels the child as wrong", () => {
-    for (let i = 0; i < 10; i++) {
-      const m = revealIntro(() => i / 10);
-      expect(m).not.toContain("טעית");
-      expect(m).not.toContain("לא נכון");
-      expect(m).not.toContain("כישלון");
+    // שני המאגרים, לא רק ברירת-המחדל — הווריאציה של המילים נוספה
+    // ב-CORE-ENGLISH-VOCAB-EXPLAIN-001 ואסור שתחמוק מהבדיקה.
+    for (const kind of ["problem", "word"] as const) {
+      for (let i = 0; i < 10; i++) {
+        const m = revealIntro(() => i / 10, kind);
+        expect(m).not.toContain("טעית");
+        expect(m).not.toContain("לא נכון");
+        expect(m).not.toContain("כישלון");
+      }
     }
+  });
+
+  // במילה באנגלית אין מה "לפתור". המאגר המתמטי היה מייצר
+  // "בואי נפתור יחד: cat" — ניסוח שלא מתאים למה שקורה על המסך.
+  it("word reveals do not talk about solving", () => {
+    const variants = new Set<string>();
+    for (let i = 0; i < 10; i++) {
+      const m = revealIntro(() => i / 10, "word");
+      expect(m).not.toContain("נפתור");
+      expect(m).not.toContain("לפתור");
+      variants.add(m);
+    }
+    expect(variants.size).toBeGreaterThanOrEqual(2);
   });
 
   it("all pools have multiple variations (avoid staleness)", () => {

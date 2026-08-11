@@ -105,6 +105,19 @@ export type EnglishVocabItem = {
   category: string;
   prompt: string;
   answer: { kind: "choice"; correct: string; options: [string, string, string, string] };
+  /**
+   * חובה — כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה.
+   *
+   * CORE-ENGLISH-001 החליטה "אין הסבר, זה אוצר מילים" — נימוק שגוי,
+   * כי כלל הפדגוגיה כבר הגדיר שלוש שיטות לא-אלגוריתמיות לאנגלית:
+   * פוניקה · קוגנטים · גשר ממילה מוכרת. עד התיקון הבנות ראו
+   * "זוהי מילה מקטגוריית abstract" — בלי לימוד, ועם שם קטגוריה
+   * באנגלית בתוך משפט עברי (CORE-ENGLISH-VOCAB-EXPLAIN-001).
+   *
+   * חובה ולא אופציונלי בכוונה: שדה אופציונלי אפשר לשכוח בשקט,
+   * ואילו כאן ה-typecheck סופר את כל הפריטים במקומנו.
+   */
+  explanation: string;
 };
 
 // CORE-ENGLISH-PHONICS-001 — פוניקה שיטתית באנגלית.
