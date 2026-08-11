@@ -1,0 +1,37 @@
+# סופי-שורה — נולד מתקלה אמיתית (2026-08-11)
+#
+# ההגדרה `core.autocrlf=true` במכונה הזאת ממירה LF ל-CRLF בכל checkout.
+# ברוב הקבצים זה בלתי-מזיק, אבל `scripts/judge-content.mjs` מתחיל
+# בשורת shebang (`#!/usr/bin/env node`), ו-`#!...\r` הוא **טוקן לא
+# חוקי** עבור esbuild — המנוע ש-vitest משתמש בו.
+#
+# התוצאה: אחרי איחוד הענף ל-main, `judge-content.test.ts` נפל עם
+# `SyntaxError: Invalid or unexpected token` והצביע על שורה 2 של
+# **קובץ אחר** — הודעה מטעה שעלתה זמן חקירה. Node עצמו סלח ל-\r,
+# ולכן `node --check` עבר ורק vitest נכשל.
+#
+# הקובץ הזה מבטיח שקבצי-מקור נשמרים ונבדקים ב-LF, בלי תלות
+# בהגדרה המקומית של git במכונה כלשהי.
+
+# ברירת-מחדל: git מזהה טקסט, ובעץ העבודה שומר LF.
+* text=auto eol=lf
+
+# קבצי מקור וקונפיג — LF תמיד.
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.js   text eol=lf
+*.mjs  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.css  text eol=lf
+*.sh   text eol=lf
+
+# PowerShell הוא כלי-Windows ומצפה ל-CRLF.
+*.ps1  text eol=crlf
+
+# בינאריים — לא לגעת.
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
