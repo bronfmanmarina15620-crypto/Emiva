@@ -61,6 +61,41 @@ function checkBank(label: string, bank: readonly EnglishVocabItem[], idPrefix: s
       }
     });
 
+    // סקירה 2026-08-11: שישה הסברים חזרו על המשמעות בעברית בלי לתת
+    // שום אחיזה במילה האנגלית ("rare — נדיר. משהו שקורה מעט פעמים").
+    // זה נכון, אבל זו **הגדרה מילונית ולא שיטה** — ובפריטי he_to_en
+    // הילדה צריכה להפיק את המילה בעצמה ונשארה בלי כלום.
+    //
+    // הבדיקה מחפשת עוגן — משהו שאפשר להיאחז בו מעבר לתרגום. שלוש
+    // צורות תקפות, אחת לכל שיטה:
+    //   פוניקה     → דיבור על צלילים/אותיות
+    //   חלקי-מילה  → מילה אנגלית נוספת מלבד הנלמדת
+    //   קוגנט      → הפניה לעברית ("אומרים בעברית 'גרופ'")
+    //
+    // הניסוח הראשון של הבדיקה דרש עוגן **לטיני** ונכשל על 30 פריטים
+    // תקינים — בדיוק על הקוגנטים, שם העוגן הוא התעתיק העברי. זה היה
+    // באג בבדיקה ולא בתוכן; תוקן במקום למחוק הסברים טובים.
+    it("anchors every explanation in a method, not just a Hebrew gloss", () => {
+      const weak: string[] = [];
+      for (const it of bank) {
+        // מסירים את המילה הנלמדת עצמה; מה שנשאר חייב להכיל עוגן.
+        const word =
+          it.type === "he_to_en"
+            ? it.answer.correct
+            : (it.prompt.match(/'([^']+)'/)?.[1] ?? "");
+        const rest = it.explanation
+          .replace(new RegExp(escapeRe(word), "gi"), " ")
+          .trim();
+        const hasOtherEnglish = /[A-Za-z]/.test(rest);
+        const hasSoundTalk = /צליל|אות |אותיות|נשמע|שקט|מתחרז|הגי/.test(rest);
+        const hasCognate = /בעברית|אומרים|מוכרת מ|נכנסה|מכירה את זה/.test(rest);
+        if (!hasOtherEnglish && !hasSoundTalk && !hasCognate) {
+          weak.push(`${it.id}: ${it.explanation}`);
+        }
+      }
+      expect(weak, "explanations that only restate the meaning").toEqual([]);
+    });
+
     // הסבר לא חושף את התשובה של הפריט **שלו**.
     //
     // הבחנה חשובה: הסבר *כן* מותר להזכיר מילה אנגלית אחרת מהמאגר
