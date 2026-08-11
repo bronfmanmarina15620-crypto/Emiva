@@ -69,6 +69,7 @@ import {
   type Profile,
 } from "@/lib/profiles";
 import { PhonicsPrompt } from "@/components/PhonicsPrompt";
+import { VocabPrompt, wordFromPrompt } from "@/components/VocabPrompt";
 import {
   clampRate,
   speak,
@@ -939,16 +940,12 @@ function ItemPrompt({
   }
 
   if (item.skill === "english_vocab") {
-    const isEnPrompt = item.type === "en_to_he";
     return (
-      <div className="bg-surface rounded-3xl shadow-soft py-10 px-6">
-        <div
-          dir={isEnPrompt ? "ltr" : "rtl"}
-          className={`text-3xl md:text-4xl font-display font-extrabold text-center text-warm-dark ${isEnPrompt ? "" : "leading-relaxed"}`}
-        >
-          {item.prompt}
-        </div>
-      </div>
+      <VocabPrompt
+        item={item}
+        rate={speechRate}
+        onRateChange={onSpeechRateChange}
+      />
     );
   }
 
@@ -1279,6 +1276,11 @@ function ItemReveal({
 
   if (item.skill === "english_vocab") {
     const isEnAnswer = item.type === "he_to_en";
+    // המילה האנגלית של הפריט, מאיזה צד שהיא יושבת: ב-he_to_en היא
+    // התשובה, וב-en_to_he היא המילה שבתוך המרכאות בשאלה.
+    const vocabWord = isEnAnswer
+      ? item.answer.correct
+      : wordFromPrompt(item.prompt);
     return (
       <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
         <div className="text-lg font-semibold text-warm-dark">
@@ -1303,6 +1305,18 @@ function ItemReveal({
         <div dir="rtl" className="text-sm text-warm-dark leading-relaxed">
           {item.explanation}
         </div>
+        {/* כאן ההקראה מותרת בשני הכיוונים — התשובה כבר נחשפה, ואין מה
+            למסור. שמיעת המילה ברגע הזה היא בדיוק מה שמקבע אותה.
+            במסך השאלה, לעומת זאת, `he_to_en` שותק (ראי VocabPrompt). */}
+        {vocabWord && (
+          <button
+            type="button"
+            onClick={() => speak(vocabWord, speechRate)}
+            className="w-full bg-sage-light border-2 border-sage py-3 rounded-xl text-base font-semibold hover:bg-sage transition"
+          >
+            🔊 לשמוע את המילה
+          </button>
+        )}
         <button
           onClick={onAdvance}
           className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
