@@ -131,14 +131,28 @@
 3. שאלה ראשונה: ✓ → עוברת לשאלה שנייה על אותו טקסט.
 4. שאלה אחרונה D5 דורשת חיבור בין שני מקטעים בטקסט.
 
+## מצב התקדמות (עודכן 2026-08-11)
+
+**40 מתוך 60 פריטים — 4 סבבים הושלמו.** `hce-001`..`hce-040`,
+8 בכל דרגה. הסבב הבא: **batch 5**, פריטים `hce-041`..`hce-050`.
+כלי ייעודי: skill `batch-hebrew`.
+
+> **למה הסעיף הזה נוסף:** ה-skill מורה לעדכן את הקובץ הזה בסוף
+> כל batch, ובפועל זה **לא קרה ב-4 הסבבים**. הקובץ נשאר עם כל
+> תיבות ה-DoD ריקות כאילו המשימה לא התחילה, בזמן ש-40 פריטים
+> כבר חיים במאגר. checkbox ≠ world-state — בדיוק הכשל שעקרון-איכות 3
+> מזהיר מפניו. נבדק מול המאגר ב-2026-08-11, לא מהזיכרון.
+
 ## DoD
 
-- [ ] `comprehension-emilia.json` עם 60 פריטים בכל 5 דרגות.
-- [ ] `HebrewCompItem` כולל `source_type` ו-`topic` אופציונליים.
-- [ ] `bankForSkill` מבחין לפי גיל.
-- [ ] `allowedSkillsForAge(9-10)` כולל `hebrew_comprehension`.
-- [ ] טסטי יחידה ירוקים + UI dashboard מעודכן.
-- [ ] CHANGELOG + ROADMAP מסונכרנים.
+- [ ] `comprehension-emilia.json` עם 60 פריטים בכל 5 דרגות —
+      **40/60** (נבדק 2026-08-11).
+- [x] `HebrewCompItem` כולל `source_type` ו-`topic` אופציונליים.
+- [x] `bankForSkill` מבחין לפי גיל.
+- [x] `allowedSkillsForAge(9-10)` כולל `hebrew_comprehension`.
+- [x] טסטי יחידה ירוקים — 11 בדיקות עוברות ב-
+      `hebrew-comprehension-emilia-bank.test.ts` + UI dashboard מעודכן.
+- [x] CHANGELOG + ROADMAP מסונכרנים.
 
 ## סיכונים ומיטיגציות
 
