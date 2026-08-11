@@ -53,11 +53,14 @@ beforeEach(() => {
 
 describe("profiles", () => {
   describe("allowedSkillsForAge", () => {
-    it("age 7 → add_sub_100, multiplication, hebrew_comprehension (ordered)", () => {
+    // CORE-ENGLISH-PHONICS-001: english_phonics קודם ל-english_vocab —
+    // קודם לומדים לקרוא, אחר כך מילים (MyLevel §3.3).
+    it("age 7 → add_sub_100, multiplication, hebrew_comprehension, phonics, vocab (ordered)", () => {
       expect(allowedSkillsForAge(7)).toEqual([
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -66,6 +69,7 @@ describe("profiles", () => {
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -77,6 +81,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -88,6 +93,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });
@@ -132,6 +138,7 @@ describe("profiles", () => {
         "add_sub_100",
         "multiplication",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
       expect(p.id).toBeTruthy();
@@ -340,6 +347,7 @@ describe("profiles", () => {
         "bar_models",
         "mult_2digit",
         "hebrew_comprehension",
+        "english_phonics",
         "english_vocab",
       ]);
     });

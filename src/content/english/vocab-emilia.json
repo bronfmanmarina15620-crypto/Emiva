@@ -15,7 +15,8 @@
         "חלום",
         "זיכרון"
       ]
-    }
+    },
+    "explanation": "idea — רעיון. נכנסה לעברית כמו שהיא: \"יש לי איידיאה\"."
   },
   {
     "id": "emi-002",
@@ -33,7 +34,8 @@
         "סיפור",
         "בעיה"
       ]
-    }
+    },
+    "explanation": "problem — בעיה. אומרים בעברית \"אין פרובלמה\", מאותו מקור."
   },
   {
     "id": "emi-003",
@@ -51,7 +53,8 @@
         "תשובה",
         "שאלה"
       ]
-    }
+    },
+    "explanation": "answer — תשובה. ה-w באמצע שקט, אומרים \"אנסר\"."
   },
   {
     "id": "emi-004",
@@ -69,7 +72,8 @@
         "כתובת",
         "מפה"
       ]
-    }
+    },
+    "explanation": "place — מקום. מוכרת מ\"פלייס\" ומשמות של מקומות באנגלית."
   },
   {
     "id": "emi-005",
@@ -87,7 +91,8 @@
         "תוצאה",
         "דעה"
       ]
-    }
+    },
+    "explanation": "reason — סיבה. קרובה ל-reasonable, כלומר הגיוני."
   },
   {
     "id": "emi-006",
@@ -105,7 +110,8 @@
         "list",
         "group"
       ]
-    }
+    },
+    "explanation": "group — קבוצה. בעברית אומרים \"גרופ\" על קבוצת ווטסאפ."
   },
   {
     "id": "emi-007",
@@ -123,7 +129,8 @@
         "world",
         "country"
       ]
-    }
+    },
+    "explanation": "world — עולם. מוכרת מ-World Cup, מונדיאל."
   },
   {
     "id": "emi-008",
@@ -141,7 +148,8 @@
         "month",
         "decade"
       ]
-    }
+    },
+    "explanation": "year — שנה. מוכרת מ-Happy New Year."
   },
   {
     "id": "emi-009",
@@ -159,7 +167,8 @@
         "teacher",
         "house"
       ]
-    }
+    },
+    "explanation": "family — משפחה. אומרים בעברית \"פמיליה\"."
   },
   {
     "id": "emi-010",
@@ -177,7 +186,8 @@
         "word",
         "story"
       ]
-    }
+    },
+    "explanation": "story — סיפור. מוכרת מ\"סטורי\" באינסטגרם — סיפור קצר."
   },
   {
     "id": "emi-011",
@@ -195,7 +205,8 @@
         "להבין",
         "לשכוח"
       ]
-    }
+    },
+    "explanation": "understand — להבין. under (מתחת) + stand (לעמוד): לעמוד על משהו."
   },
   {
     "id": "emi-012",
@@ -213,7 +224,8 @@
         "לספור",
         "לחלק"
       ]
-    }
+    },
+    "explanation": "choose — לבחור. שם העצם שלה הוא choice, בחירה."
   },
   {
     "id": "emi-013",
@@ -231,7 +243,8 @@
         "להגיע",
         "ללכת"
       ]
-    }
+    },
+    "explanation": "follow — לעקוב. מוכרת מ\"פולואר\" — מי שעוקב אחרייך ברשת."
   },
   {
     "id": "emi-014",
@@ -249,7 +262,8 @@
         "לפתור",
         "להחליט"
       ]
-    }
+    },
+    "explanation": "decide — להחליט. שם העצם: decision, החלטה."
   },
   {
     "id": "emi-015",
@@ -267,7 +281,8 @@
         "להצליח",
         "לנסות"
       ]
-    }
+    },
+    "explanation": "succeed — להצליח. שם העצם: success, הצלחה."
   },
   {
     "id": "emi-016",
@@ -285,7 +300,8 @@
         "break",
         "carry"
       ]
-    }
+    },
+    "explanation": "build — לבנות. הבניין שנבנה נקרא building."
   },
   {
     "id": "emi-017",
@@ -303,7 +319,8 @@
         "ask",
         "remember"
       ]
-    }
+    },
+    "explanation": "learn — ללמוד. מי שלומד הוא learner, ומה שלמדנו זה lesson."
   },
   {
     "id": "emi-018",
@@ -321,7 +338,8 @@
         "ask",
         "teach"
       ]
-    }
+    },
+    "explanation": "teach — ללמד. מי שמלמד הוא teacher, מורה."
   },
   {
     "id": "emi-019",
@@ -339,7 +357,8 @@
         "change",
         "keep"
       ]
-    }
+    },
+    "explanation": "change — לשנות. מוכרת מ\"צ'יינג'\", והשינוי עצמו הוא a change."
   },
   {
     "id": "emi-020",
@@ -357,7 +376,8 @@
         "find",
         "use"
       ]
-    }
+    },
+    "explanation": "create — ליצור. מוכרת מ\"קריאייטיב\", יצירתי."
   },
   {
     "id": "emi-021",
@@ -375,7 +395,8 @@
         "חדש",
         "יקר"
       ]
-    }
+    },
+    "explanation": "difficult — קשה. ההפך שלה הוא easy."
   },
   {
     "id": "emi-022",
@@ -393,7 +414,8 @@
         "גדול",
         "חשוב"
       ]
-    }
+    },
+    "explanation": "important — חשוב. הסיומת ant מופיעה גם ב-elegant."
   },
   {
     "id": "emi-023",
@@ -411,7 +433,8 @@
         "מעניין",
         "משעמם"
       ]
-    }
+    },
+    "explanation": "interesting — מעניין. מ-interest, עניין."
   },
   {
     "id": "emi-024",
@@ -429,7 +452,8 @@
         "בטוח",
         "חדש"
       ]
-    }
+    },
+    "explanation": "possible — אפשרי. עם im בהתחלה זה impossible, בלתי אפשרי."
   },
   {
     "id": "emi-025",
@@ -447,7 +471,8 @@
         "שמח",
         "איטי"
       ]
-    }
+    },
+    "explanation": "careful — זהיר. care (אכפתיות) + ful (מלא): מלא תשומת לב."
   },
   {
     "id": "emi-026",
@@ -465,7 +490,8 @@
         "open",
         "honest"
       ]
-    }
+    },
+    "explanation": "honest — ישר. ה-h בהתחלה שקט לגמרי, אומרים \"אונסט\"."
   },
   {
     "id": "emi-027",
@@ -483,7 +509,8 @@
         "kind",
         "tall"
       ]
-    }
+    },
+    "explanation": "kind — אדיב. יש גם kindness, אדיבות."
   },
   {
     "id": "emi-028",
@@ -501,7 +528,8 @@
         "tired",
         "happy"
       ]
-    }
+    },
+    "explanation": "brave — אמיץ. שם העצם שלה הוא bravery."
   },
   {
     "id": "emi-029",
@@ -519,7 +547,8 @@
         "bright",
         "warm"
       ]
-    }
+    },
+    "explanation": "quiet — שקט. אל תתבלבלי עם quite, שזה \"די\"."
   },
   {
     "id": "emi-030",
@@ -537,7 +566,8 @@
         "calm",
         "wise"
       ]
-    }
+    },
+    "explanation": "wise — חכם. שם העצם: wisdom, חוכמה."
   },
   {
     "id": "emi-031",
@@ -555,7 +585,8 @@
         "בין",
         "לפני"
       ]
-    }
+    },
+    "explanation": "between — בין. be + tween, קרוב ל-two: משהו שנמצא בין שניים."
   },
   {
     "id": "emi-032",
@@ -573,7 +604,8 @@
         "כי",
         "אם"
       ]
-    }
+    },
+    "explanation": "however — אולם. מילת ניגוד, מנומסת יותר מ-but."
   },
   {
     "id": "emi-033",
@@ -591,7 +623,8 @@
         "אם",
         "אז"
       ]
-    }
+    },
+    "explanation": "because — כי. בפנים יושבת cause, שפירושה סיבה."
   },
   {
     "id": "emi-034",
@@ -609,7 +642,8 @@
         "לכן",
         "למרות ש"
       ]
-    }
+    },
+    "explanation": "although — למרות ש. קרובה ל-though, ושתיהן מציגות ניגוד."
   },
   {
     "id": "emi-035",
@@ -627,7 +661,8 @@
         "במקום זאת",
         "כי"
       ]
-    }
+    },
+    "explanation": "instead — במקום זאת. in + stead, ו-stead זה מקום."
   },
   {
     "id": "emi-036",
@@ -645,7 +680,8 @@
         "while",
         "after"
       ]
-    }
+    },
+    "explanation": "during — במהלך. מ-endure, להימשך: לאורך כל הזמן הזה."
   },
   {
     "id": "emi-037",
@@ -663,7 +699,8 @@
         "sometimes",
         "rarely"
       ]
-    }
+    },
+    "explanation": "often — לעיתים קרובות. ה-t באמצע לרוב שקט, \"אופן\"."
   },
   {
     "id": "emi-038",
@@ -681,7 +718,8 @@
         "later",
         "suddenly"
       ]
-    }
+    },
+    "explanation": "suddenly — פתאום. מ-sudden, פתאומי, עם ly שהופך לתיאור."
   },
   {
     "id": "emi-039",
@@ -699,7 +737,8 @@
         "together",
         "alone"
       ]
-    }
+    },
+    "explanation": "together — ביחד. to + gether, קרוב ל-gather, להתאסף."
   },
   {
     "id": "emi-040",
@@ -717,7 +756,8 @@
         "rarely",
         "maybe"
       ]
-    }
+    },
+    "explanation": "especially — במיוחד. מ-special, מיוחד."
   },
   {
     "id": "emi-041",
@@ -735,7 +775,8 @@
         "לקרוא",
         "לכתוב"
       ]
-    }
+    },
+    "explanation": "imagine — לדמיין. מ-image, תמונה: לעשות תמונה בראש."
   },
   {
     "id": "emi-042",
@@ -753,7 +794,8 @@
         "לבדוק",
         "להציע"
       ]
-    }
+    },
+    "explanation": "suggest — להציע. שם העצם: suggestion, הצעה."
   },
   {
     "id": "emi-043",
@@ -771,7 +813,8 @@
         "לתאר",
         "לשאול"
       ]
-    }
+    },
+    "explanation": "describe — לתאר. de + scribe, ו-scribe זה לכתוב."
   },
   {
     "id": "emi-044",
@@ -789,7 +832,8 @@
         "לספור",
         "לבנות"
       ]
-    }
+    },
+    "explanation": "compare — להשוות. בפנים יושב par, שפירושו שווה."
   },
   {
     "id": "emi-045",
@@ -807,7 +851,8 @@
         "לשאול",
         "לספר"
       ]
-    }
+    },
+    "explanation": "remember — לזכור. בפנים מסתתר member, וגם memory — זיכרון."
   },
   {
     "id": "emi-046",
@@ -825,7 +870,8 @@
         "read",
         "prefer"
       ]
-    }
+    },
+    "explanation": "prefer — להעדיף. pre (לפני) — לשים משהו לפני האחרים."
   },
   {
     "id": "emi-047",
@@ -843,7 +889,8 @@
         "recognize",
         "build"
       ]
-    }
+    },
+    "explanation": "recognize — לזהות. re (שוב) + cognize (לדעת): לדעת שוב."
   },
   {
     "id": "emi-048",
@@ -861,7 +908,8 @@
         "build",
         "carry"
       ]
-    }
+    },
+    "explanation": "mention — להזכיר. אומרים don't mention it — אין על מה לדבר."
   },
   {
     "id": "emi-049",
@@ -879,7 +927,8 @@
         "open",
         "close"
       ]
-    }
+    },
+    "explanation": "prepare — להכין. pre (לפני): לעשות משהו מראש."
   },
   {
     "id": "emi-050",
@@ -897,7 +946,8 @@
         "build",
         "explain"
       ]
-    }
+    },
+    "explanation": "explain — להסביר. ex (החוצה) + plain (ברור): להוציא לברור."
   },
   {
     "id": "emi-051",
@@ -915,7 +965,8 @@
         "גאה",
         "שמח"
       ]
-    }
+    },
+    "explanation": "proud — גאה. שם העצם: pride, גאווה."
   },
   {
     "id": "emi-052",
@@ -933,7 +984,8 @@
         "כועס",
         "עצוב"
       ]
-    }
+    },
+    "explanation": "jealous — קנאי. שם העצם: jealousy."
   },
   {
     "id": "emi-053",
@@ -951,7 +1003,8 @@
         "רגוע",
         "אמיץ"
       ]
-    }
+    },
+    "explanation": "confident — בטוח בעצמו. מ-confidence, ביטחון."
   },
   {
     "id": "emi-054",
@@ -969,7 +1022,8 @@
         "עייף",
         "נבוך"
       ]
-    }
+    },
+    "explanation": "embarrassed — נבוך. שימי לב לשני r ושני s."
   },
   {
     "id": "emi-055",
@@ -987,7 +1041,8 @@
         "אסיר תודה",
         "מאושר"
       ]
-    }
+    },
+    "explanation": "grateful — אסיר תודה. קרובה ל-gratitude, הכרת תודה."
   },
   {
     "id": "emi-056",
@@ -1005,7 +1060,8 @@
         "pride",
         "hope"
       ]
-    }
+    },
+    "explanation": "joy — שמחה. קצרה, ומתחרזת עם boy ו-toy."
   },
   {
     "id": "emi-057",
@@ -1023,7 +1079,8 @@
         "anger",
         "future"
       ]
-    }
+    },
+    "explanation": "hope — תקווה. מי שמלא תקווה הוא hopeful."
   },
   {
     "id": "emi-058",
@@ -1041,7 +1098,8 @@
         "power",
         "courage"
       ]
-    }
+    },
+    "explanation": "courage — אומץ. עם en בהתחלה: encourage, לעודד."
   },
   {
     "id": "emi-059",
@@ -1059,7 +1117,8 @@
         "emotion",
         "idea"
       ]
-    }
+    },
+    "explanation": "emotion — רגש. בעברית אומרים \"אמושנל\" על מישהו רגשן."
   },
   {
     "id": "emi-060",
@@ -1077,7 +1136,8 @@
         "joy",
         "hope"
       ]
-    }
+    },
+    "explanation": "worry — דאגה. אומרים don't worry — אל תדאגי."
   },
   {
     "id": "emi-061",
@@ -1095,7 +1155,8 @@
         "לשמוע",
         "לבנות"
       ]
-    }
+    },
+    "explanation": "announce — להכריז. מוכרת מ\"אנאונסר\", כרוז."
   },
   {
     "id": "emi-062",
@@ -1113,7 +1174,8 @@
         "לספור",
         "לטעון"
       ]
-    }
+    },
+    "explanation": "claim — לטעון. מוכרת מ\"קליים\" — לדרוש משהו שמגיע לך."
   },
   {
     "id": "emi-063",
@@ -1131,7 +1193,8 @@
         "לבטא",
         "לספור"
       ]
-    }
+    },
+    "explanation": "express — לבטא. ex (החוצה) + press (ללחוץ): להוציא החוצה."
   },
   {
     "id": "emi-064",
@@ -1149,7 +1212,8 @@
         "לספור",
         "לשמוע"
       ]
-    }
+    },
+    "explanation": "persuade — לשכנע. שם העצם: persuasion."
   },
   {
     "id": "emi-065",
@@ -1167,7 +1231,8 @@
         "לבנות",
         "לצייר"
       ]
-    }
+    },
+    "explanation": "discuss — לדון. שם העצם: discussion, דיון."
   },
   {
     "id": "emi-066",
@@ -1185,7 +1250,8 @@
         "wonder",
         "think"
       ]
-    }
+    },
+    "explanation": "think — לחשוב. המחשבה עצמה היא thought."
   },
   {
     "id": "emi-067",
@@ -1203,7 +1269,8 @@
         "assume",
         "build"
       ]
-    }
+    },
+    "explanation": "assume — להניח. שם העצם: assumption, הנחה."
   },
   {
     "id": "emi-068",
@@ -1221,7 +1288,8 @@
         "build",
         "carry"
       ]
-    }
+    },
+    "explanation": "encourage — לעודד. en + courage: להכניס אומץ למישהו."
   },
   {
     "id": "emi-069",
@@ -1239,7 +1307,8 @@
         "carry",
         "open"
       ]
-    }
+    },
+    "explanation": "warn — להזהיר. האזהרה עצמה היא warning."
   },
   {
     "id": "emi-070",
@@ -1257,7 +1326,8 @@
         "read",
         "listen"
       ]
-    }
+    },
+    "explanation": "listen — להאזין. ה-t באמצע שקט, אומרים \"ליסן\"."
   },
   {
     "id": "emi-071",
@@ -1275,7 +1345,8 @@
         "חיוני",
         "מהיר"
       ]
-    }
+    },
+    "explanation": "essential — חיוני. מ-essence, מהות: משהו שהוא לב העניין."
   },
   {
     "id": "emi-072",
@@ -1293,7 +1364,8 @@
         "מהיר",
         "יקר"
       ]
-    }
+    },
+    "explanation": "sufficient — מספיק. קרובה ל-suffice, להספיק."
   },
   {
     "id": "emi-073",
@@ -1311,7 +1383,8 @@
         "יקר",
         "רחוק"
       ]
-    }
+    },
+    "explanation": "obvious — ברור. קרובה ל-obviously, \"מן הסתם\"."
   },
   {
     "id": "emi-074",
@@ -1329,7 +1402,8 @@
         "רחוק",
         "מסובך"
       ]
-    }
+    },
+    "explanation": "complicated — מסובך. בעברית אומרים \"מסובך\" גם על \"קומפליקציה\"."
   },
   {
     "id": "emi-075",
@@ -1347,7 +1421,8 @@
         "מסוים",
         "מהיר"
       ]
-    }
+    },
+    "explanation": "particular — מסוים. קרובה ל-part, חלק: חלק אחד ספציפי."
   },
   {
     "id": "emi-076",
@@ -1365,7 +1440,8 @@
         "fast",
         "cheap"
       ]
-    }
+    },
+    "explanation": "rare — נדיר. מוכרת מסטייק \"רייר\", שנצלה מעט מאוד."
   },
   {
     "id": "emi-077",
@@ -1383,7 +1459,8 @@
         "cheap",
         "far"
       ]
-    }
+    },
+    "explanation": "modern — מודרני. נכנסה לעברית כמעט בלי שינוי."
   },
   {
     "id": "emi-078",
@@ -1401,7 +1478,8 @@
         "far",
         "traditional"
       ]
-    }
+    },
+    "explanation": "traditional — מסורתי. מ-tradition, מסורת."
   },
   {
     "id": "emi-079",
@@ -1419,7 +1497,8 @@
         "ordinary",
         "fast"
       ]
-    }
+    },
+    "explanation": "ordinary — רגיל. עם extra בהתחלה: extraordinary, יוצא דופן."
   },
   {
     "id": "emi-080",
@@ -1437,7 +1516,8 @@
         "fast",
         "cheap"
       ]
-    }
+    },
+    "explanation": "unique — ייחודי. uni זה אחד — משהו שיש ממנו רק אחד."
   },
   {
     "id": "emi-081",
@@ -1455,7 +1535,8 @@
         "מכונית",
         "עונה"
       ]
-    }
+    },
+    "explanation": "theory — תיאוריה. נכנסה לעברית כמו שהיא."
   },
   {
     "id": "emi-082",
@@ -1473,7 +1554,8 @@
         "עונה",
         "ראיה"
       ]
-    }
+    },
+    "explanation": "evidence — ראיה. קרובה ל-evident, גלוי לעין."
   },
   {
     "id": "emi-083",
@@ -1491,7 +1573,8 @@
         "שיטה",
         "בית"
       ]
-    }
+    },
+    "explanation": "method — שיטה. בעברית אומרים \"מתודה\"."
   },
   {
     "id": "emi-084",
@@ -1509,7 +1592,8 @@
         "בית",
         "מכונית"
       ]
-    }
+    },
+    "explanation": "analysis — ניתוח. בעברית אומרים \"אנליזה\"."
   },
   {
     "id": "emi-085",
@@ -1527,7 +1611,8 @@
         "מכונית",
         "עונה"
       ]
-    }
+    },
+    "explanation": "research — מחקר. re (שוב) + search (לחפש): לחפש שוב ושוב."
   },
   {
     "id": "emi-086",
@@ -1545,7 +1630,8 @@
         "close",
         "analyze"
       ]
-    }
+    },
+    "explanation": "analyze — לנתח. הפועל של analysis."
   },
   {
     "id": "emi-087",
@@ -1563,7 +1649,8 @@
         "prove",
         "carry"
       ]
-    }
+    },
+    "explanation": "prove — להוכיח. ההוכחה עצמה היא proof."
   },
   {
     "id": "emi-088",
@@ -1581,7 +1668,8 @@
         "carry",
         "open"
       ]
-    }
+    },
+    "explanation": "summarize — לסכם. מ-summary, סיכום."
   },
   {
     "id": "emi-089",
@@ -1599,7 +1687,8 @@
         "open",
         "close"
       ]
-    }
+    },
+    "explanation": "check — לבדוק. נכנסה לעברית: \"לעשות צ'ק\"."
   },
   {
     "id": "emi-090",
@@ -1617,7 +1706,8 @@
         "close",
         "publish"
       ]
-    }
+    },
+    "explanation": "publish — לפרסם. קרובה ל-public, ציבורי: להוציא לציבור."
   },
   {
     "id": "emi-091",
@@ -1635,7 +1725,8 @@
         "בסופו של דבר",
         "מיד"
       ]
-    }
+    },
+    "explanation": "eventually — בסופו של דבר. מ-event, אירוע — אחרי שהכל קרה."
   },
   {
     "id": "emi-092",
@@ -1653,7 +1744,8 @@
         "מחר",
         "אתמול"
       ]
-    }
+    },
+    "explanation": "immediately — מיד. im (לא) + mediate (באמצע): בלי שום דבר באמצע."
   },
   {
     "id": "emi-093",
@@ -1671,7 +1763,8 @@
         "תמיד",
         "אולי"
       ]
-    }
+    },
+    "explanation": "recently — לאחרונה. מ-recent, אחרון."
   },
   {
     "id": "emi-094",
@@ -1689,7 +1782,8 @@
         "לכן",
         "יתרה מזאת"
       ]
-    }
+    },
+    "explanation": "furthermore — יתרה מזאת. further (יותר רחוק) + more: ועוד משהו."
   },
   {
     "id": "emi-095",
@@ -1707,7 +1801,8 @@
         "אף על פי כן",
         "כי"
       ]
-    }
+    },
+    "explanation": "nevertheless — אף על פי כן. never + the + less, שלוש מילים שהודבקו."
   },
   {
     "id": "emi-096",
@@ -1725,7 +1820,8 @@
         "because",
         "if"
       ]
-    }
+    },
+    "explanation": "similarly — בדומה. מ-similar, דומה."
   },
   {
     "id": "emi-097",
@@ -1743,7 +1839,8 @@
         "if",
         "so"
       ]
-    }
+    },
+    "explanation": "in contrast — בניגוד. contrast זה ניגוד, כמו בהגדרות מסך."
   },
   {
     "id": "emi-098",
@@ -1761,7 +1858,8 @@
         "so",
         "simultaneously"
       ]
-    }
+    },
+    "explanation": "simultaneously — במקביל. קרובה ל-simultaneous: באותו רגע בדיוק."
   },
   {
     "id": "emi-099",
@@ -1779,7 +1877,8 @@
         "initially",
         "because"
       ]
-    }
+    },
+    "explanation": "initially — בהתחלה. מ-initial, ראשוני — כמו ראשי תיבות."
   },
   {
     "id": "emi-100",
@@ -1797,6 +1896,7 @@
         "because",
         "if"
       ]
-    }
+    },
+    "explanation": "in principle — בעיקרון. principle זה עיקרון, כלל יסוד."
   }
 ]

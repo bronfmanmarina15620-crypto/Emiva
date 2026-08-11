@@ -1,0 +1,1286 @@
+[
+  {
+    "id": "ph-d1-001",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "A",
+    "say": "A",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "A",
+      "options": [
+        "A",
+        "E",
+        "O",
+        "U"
+      ]
+    },
+    "explanation": "זו האות A. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-002",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "B",
+    "say": "B",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "B",
+      "options": [
+        "D",
+        "B",
+        "P",
+        "R"
+      ]
+    },
+    "explanation": "זו האות B. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-003",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "C",
+    "say": "C",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "C",
+      "options": [
+        "G",
+        "O",
+        "C",
+        "Q"
+      ]
+    },
+    "explanation": "זו האות C. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-004",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "M",
+    "say": "M",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "M",
+      "options": [
+        "N",
+        "W",
+        "H",
+        "M"
+      ]
+    },
+    "explanation": "זו האות M. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-005",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "S",
+    "say": "S",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "S",
+      "options": [
+        "S",
+        "Z",
+        "C",
+        "J"
+      ]
+    },
+    "explanation": "זו האות S. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-006",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "T",
+    "say": "T",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "T",
+      "options": [
+        "F",
+        "T",
+        "L",
+        "I"
+      ]
+    },
+    "explanation": "זו האות T. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-007",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "P",
+    "say": "P",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "P",
+      "options": [
+        "B",
+        "R",
+        "P",
+        "D"
+      ]
+    },
+    "explanation": "זו האות P. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-008",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "N",
+    "say": "N",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "N",
+      "options": [
+        "M",
+        "H",
+        "U",
+        "N"
+      ]
+    },
+    "explanation": "זו האות N. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-009",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "D",
+    "say": "D",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "D",
+      "options": [
+        "D",
+        "B",
+        "O",
+        "P"
+      ]
+    },
+    "explanation": "זו האות D. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-010",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "F",
+    "say": "F",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "F",
+      "options": [
+        "E",
+        "F",
+        "T",
+        "L"
+      ]
+    },
+    "explanation": "זו האות F. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-011",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "G",
+    "say": "G",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "G",
+      "options": [
+        "C",
+        "Q",
+        "G",
+        "S"
+      ]
+    },
+    "explanation": "זו האות G. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d1-012",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "letter_name",
+    "focus": "R",
+    "say": "R",
+    "prompt": "לחצי על הרמקול ובחרי את האות ששמעת",
+    "answer": {
+      "kind": "choice",
+      "correct": "R",
+      "options": [
+        "P",
+        "B",
+        "K",
+        "R"
+      ]
+    },
+    "explanation": "זו האות R. לכל אות באנגלית יש שם, וגם צליל — וזה לא תמיד אותו דבר."
+  },
+  {
+    "id": "ph-d2-001",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "m",
+    "anchorWord": "mat",
+    "say": "m. mat",
+    "prompt": "איזה צליל עושה האות m?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מ",
+      "options": [
+        "מ",
+        "נ",
+        "ב",
+        "ס"
+      ]
+    },
+    "explanation": "האות m עושה את הצליל \"מ\" — כמו במילה mat."
+  },
+  {
+    "id": "ph-d2-002",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "s",
+    "anchorWord": "sun",
+    "say": "s. sun",
+    "prompt": "איזה צליל עושה האות s?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ס",
+      "options": [
+        "ש",
+        "ס",
+        "ז",
+        "ת"
+      ]
+    },
+    "explanation": "האות s עושה את הצליל \"ס\" — כמו במילה sun."
+  },
+  {
+    "id": "ph-d2-003",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "t",
+    "anchorWord": "top",
+    "say": "t. top",
+    "prompt": "איזה צליל עושה האות t?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ט",
+      "options": [
+        "ד",
+        "פ",
+        "ט",
+        "ק"
+      ]
+    },
+    "explanation": "האות t עושה את הצליל \"ט\" — כמו במילה top."
+  },
+  {
+    "id": "ph-d2-004",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "p",
+    "anchorWord": "pen",
+    "say": "p. pen",
+    "prompt": "איזה צליל עושה האות p?",
+    "answer": {
+      "kind": "choice",
+      "correct": "פּ",
+      "options": [
+        "בּ",
+        "ט",
+        "ג",
+        "פּ"
+      ]
+    },
+    "explanation": "האות p עושה את הצליל \"פּ\" — כמו במילה pen."
+  },
+  {
+    "id": "ph-d2-005",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "n",
+    "anchorWord": "net",
+    "say": "n. net",
+    "prompt": "איזה צליל עושה האות n?",
+    "answer": {
+      "kind": "choice",
+      "correct": "נ",
+      "options": [
+        "נ",
+        "מ",
+        "ל",
+        "ר"
+      ]
+    },
+    "explanation": "האות n עושה את הצליל \"נ\" — כמו במילה net."
+  },
+  {
+    "id": "ph-d2-006",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "d",
+    "anchorWord": "dog",
+    "say": "d. dog",
+    "prompt": "איזה צליל עושה האות d?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ד",
+      "options": [
+        "ט",
+        "ד",
+        "ב",
+        "ג"
+      ]
+    },
+    "explanation": "האות d עושה את הצליל \"ד\" — כמו במילה dog."
+  },
+  {
+    "id": "ph-d2-007",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "b",
+    "anchorWord": "bed",
+    "say": "b. bed",
+    "prompt": "איזה צליל עושה האות b?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בּ",
+      "options": [
+        "פּ",
+        "ד",
+        "בּ",
+        "ו"
+      ]
+    },
+    "explanation": "האות b עושה את הצליל \"בּ\" — כמו במילה bed."
+  },
+  {
+    "id": "ph-d2-008",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "f",
+    "anchorWord": "fan",
+    "say": "f. fan",
+    "prompt": "איזה צליל עושה האות f?",
+    "answer": {
+      "kind": "choice",
+      "correct": "פ",
+      "options": [
+        "ו",
+        "ת",
+        "ס",
+        "פ"
+      ]
+    },
+    "explanation": "האות f עושה את הצליל \"פ\" — כמו במילה fan."
+  },
+  {
+    "id": "ph-d2-009",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "g",
+    "anchorWord": "gate",
+    "say": "g. gate",
+    "prompt": "איזה צליל עושה האות g?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ג",
+      "options": [
+        "ג",
+        "ק",
+        "כ",
+        "ד"
+      ]
+    },
+    "explanation": "האות g עושה את הצליל \"ג\" — כמו במילה gate."
+  },
+  {
+    "id": "ph-d2-010",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "k",
+    "anchorWord": "kite",
+    "say": "k. kite",
+    "prompt": "איזה צליל עושה האות k?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ק",
+      "options": [
+        "ג",
+        "ק",
+        "ת",
+        "ח"
+      ]
+    },
+    "explanation": "האות k עושה את הצליל \"ק\" — כמו במילה kite."
+  },
+  {
+    "id": "ph-d2-011",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "l",
+    "anchorWord": "leg",
+    "say": "l. leg",
+    "prompt": "איזה צליל עושה האות l?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ל",
+      "options": [
+        "ר",
+        "נ",
+        "ל",
+        "מ"
+      ]
+    },
+    "explanation": "האות l עושה את הצליל \"ל\" — כמו במילה leg."
+  },
+  {
+    "id": "ph-d2-012",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "letter_sound",
+    "focus": "r",
+    "anchorWord": "red",
+    "say": "r. red",
+    "prompt": "איזה צליל עושה האות r?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ר",
+      "options": [
+        "ל",
+        "ו",
+        "נ",
+        "ר"
+      ]
+    },
+    "explanation": "האות r עושה את הצליל \"ר\" — כמו במילה red."
+  },
+  {
+    "id": "ph-d3-001",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "s",
+    "anchorWord": "sit",
+    "say": "sit",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "s",
+      "options": [
+        "s",
+        "c",
+        "z",
+        "f"
+      ]
+    },
+    "explanation": "המילה sit מתחילה בצליל של האות s."
+  },
+  {
+    "id": "ph-d3-002",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "m",
+    "anchorWord": "man",
+    "say": "man",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "m",
+      "options": [
+        "n",
+        "m",
+        "w",
+        "h"
+      ]
+    },
+    "explanation": "המילה man מתחילה בצליל של האות m."
+  },
+  {
+    "id": "ph-d3-003",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "t",
+    "anchorWord": "ten",
+    "say": "ten",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "t",
+      "options": [
+        "d",
+        "p",
+        "t",
+        "k"
+      ]
+    },
+    "explanation": "המילה ten מתחילה בצליל של האות t."
+  },
+  {
+    "id": "ph-d3-004",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "b",
+    "anchorWord": "bag",
+    "say": "bag",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "b",
+      "options": [
+        "p",
+        "d",
+        "g",
+        "b"
+      ]
+    },
+    "explanation": "המילה bag מתחילה בצליל של האות b."
+  },
+  {
+    "id": "ph-d3-005",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "f",
+    "anchorWord": "fish",
+    "say": "fish",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "f",
+      "options": [
+        "f",
+        "v",
+        "s",
+        "j"
+      ]
+    },
+    "explanation": "המילה fish מתחילה בצליל של האות f."
+  },
+  {
+    "id": "ph-d3-006",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "l",
+    "anchorWord": "lamp",
+    "say": "lamp",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "l",
+      "options": [
+        "r",
+        "l",
+        "n",
+        "y"
+      ]
+    },
+    "explanation": "המילה lamp מתחילה בצליל של האות l."
+  },
+  {
+    "id": "ph-d3-007",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "h",
+    "anchorWord": "hat",
+    "say": "hat",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "h",
+      "options": [
+        "n",
+        "k",
+        "h",
+        "c"
+      ]
+    },
+    "explanation": "המילה hat מתחילה בצליל של האות h."
+  },
+  {
+    "id": "ph-d3-008",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "j",
+    "anchorWord": "jam",
+    "say": "jam",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "j",
+      "options": [
+        "g",
+        "y",
+        "z",
+        "j"
+      ]
+    },
+    "explanation": "המילה jam מתחילה בצליל של האות j."
+  },
+  {
+    "id": "ph-d3-009",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "w",
+    "anchorWord": "wet",
+    "say": "wet",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "w",
+      "options": [
+        "w",
+        "v",
+        "m",
+        "u"
+      ]
+    },
+    "explanation": "המילה wet מתחילה בצליל של האות w."
+  },
+  {
+    "id": "ph-d3-010",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "v",
+    "anchorWord": "van",
+    "say": "van",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "v",
+      "options": [
+        "t",
+        "v",
+        "w",
+        "b"
+      ]
+    },
+    "explanation": "המילה van מתחילה בצליל של האות v."
+  },
+  {
+    "id": "ph-d3-011",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "z",
+    "anchorWord": "zip",
+    "say": "zip",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "z",
+      "options": [
+        "s",
+        "j",
+        "z",
+        "x"
+      ]
+    },
+    "explanation": "המילה zip מתחילה בצליל של האות z."
+  },
+  {
+    "id": "ph-d3-012",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "sound_to_letter",
+    "focus": "c",
+    "anchorWord": "cup",
+    "say": "cup",
+    "prompt": "לחצי על הרמקול — באיזו אות מתחילה המילה ששמעת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "c",
+      "options": [
+        "m",
+        "g",
+        "s",
+        "c"
+      ]
+    },
+    "explanation": "המילה cup מתחילה בצליל של האות c."
+  },
+  {
+    "id": "ph-d4-001",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "cat",
+    "parts": [
+      "c",
+      "a",
+      "t"
+    ],
+    "say": "cat",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "cat",
+      "options": [
+        "cat",
+        "cap",
+        "car",
+        "cot"
+      ]
+    },
+    "explanation": "c-a-t מתחברים ל-cat. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-002",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "sun",
+    "parts": [
+      "s",
+      "u",
+      "n"
+    ],
+    "say": "sun",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "sun",
+      "options": [
+        "sit",
+        "sun",
+        "son",
+        "fun"
+      ]
+    },
+    "explanation": "s-u-n מתחברים ל-sun. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-003",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "map",
+    "parts": [
+      "m",
+      "a",
+      "p"
+    ],
+    "say": "map",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "map",
+      "options": [
+        "mop",
+        "man",
+        "map",
+        "lap"
+      ]
+    },
+    "explanation": "m-a-p מתחברים ל-map. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-004",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "bed",
+    "parts": [
+      "b",
+      "e",
+      "d"
+    ],
+    "say": "bed",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "bed",
+      "options": [
+        "bad",
+        "bag",
+        "red",
+        "bed"
+      ]
+    },
+    "explanation": "b-e-d מתחברים ל-bed. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-005",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "dog",
+    "parts": [
+      "d",
+      "o",
+      "g"
+    ],
+    "say": "dog",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "dog",
+      "options": [
+        "dog",
+        "dig",
+        "dot",
+        "log"
+      ]
+    },
+    "explanation": "d-o-g מתחברים ל-dog. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-006",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "pen",
+    "parts": [
+      "p",
+      "e",
+      "n"
+    ],
+    "say": "pen",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "pen",
+      "options": [
+        "pin",
+        "pen",
+        "pet",
+        "ten"
+      ]
+    },
+    "explanation": "p-e-n מתחברים ל-pen. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-007",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "big",
+    "parts": [
+      "b",
+      "i",
+      "g"
+    ],
+    "say": "big",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "big",
+      "options": [
+        "bag",
+        "bit",
+        "big",
+        "pig"
+      ]
+    },
+    "explanation": "b-i-g מתחברים ל-big. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-008",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "hat",
+    "parts": [
+      "h",
+      "a",
+      "t"
+    ],
+    "say": "hat",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "hat",
+      "options": [
+        "hot",
+        "hop",
+        "bat",
+        "hat"
+      ]
+    },
+    "explanation": "h-a-t מתחברים ל-hat. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-009",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "cup",
+    "parts": [
+      "c",
+      "u",
+      "p"
+    ],
+    "say": "cup",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "cup",
+      "options": [
+        "cup",
+        "cap",
+        "cut",
+        "pup"
+      ]
+    },
+    "explanation": "c-u-p מתחברים ל-cup. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-010",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "leg",
+    "parts": [
+      "l",
+      "e",
+      "g"
+    ],
+    "say": "leg",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "leg",
+      "options": [
+        "log",
+        "leg",
+        "let",
+        "bag"
+      ]
+    },
+    "explanation": "l-e-g מתחברים ל-leg. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-011",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "fish",
+    "parts": [
+      "f",
+      "i",
+      "sh"
+    ],
+    "say": "fish",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "fish",
+      "options": [
+        "fist",
+        "dish",
+        "fish",
+        "wish"
+      ]
+    },
+    "explanation": "f-i-sh מתחברים ל-fish. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d4-012",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "blend",
+    "focus": "ship",
+    "parts": [
+      "sh",
+      "i",
+      "p"
+    ],
+    "say": "ship",
+    "prompt": "לחצי על הרמקול ותשמעי את הצלילים מתחברים. איזו מילה יצאה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ship",
+      "options": [
+        "shop",
+        "chip",
+        "sip",
+        "ship"
+      ]
+    },
+    "explanation": "sh-i-p מתחברים ל-ship. ככה קוראים באנגלית — צליל אחרי צליל, ואז מחברים."
+  },
+  {
+    "id": "ph-d5-001",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "cat",
+    "say": "cat",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חתול",
+      "options": [
+        "חתול",
+        "כלב",
+        "עכבר",
+        "דג"
+      ]
+    },
+    "explanation": "cat = חתול. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-002",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "sun",
+    "say": "sun",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "שמש",
+      "options": [
+        "ירח",
+        "שמש",
+        "כוכב",
+        "ענן"
+      ]
+    },
+    "explanation": "sun = שמש. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-003",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "dog",
+    "say": "dog",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כלב",
+      "options": [
+        "חתול",
+        "סוס",
+        "כלב",
+        "ציפור"
+      ]
+    },
+    "explanation": "dog = כלב. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-004",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "bed",
+    "say": "bed",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מיטה",
+      "options": [
+        "כיסא",
+        "שולחן",
+        "דלת",
+        "מיטה"
+      ]
+    },
+    "explanation": "bed = מיטה. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-005",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "hat",
+    "say": "hat",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כובע",
+      "options": [
+        "כובע",
+        "נעל",
+        "חולצה",
+        "מעיל"
+      ]
+    },
+    "explanation": "hat = כובע. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-006",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "cup",
+    "say": "cup",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כוס",
+      "options": [
+        "צלחת",
+        "כוס",
+        "כף",
+        "סיר"
+      ]
+    },
+    "explanation": "cup = כוס. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-007",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "fish",
+    "say": "fish",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "דג",
+      "options": [
+        "ציפור",
+        "פרה",
+        "דג",
+        "צפרדע"
+      ]
+    },
+    "explanation": "fish = דג. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-008",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "book",
+    "say": "book",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ספר",
+      "options": [
+        "עט",
+        "תיק",
+        "שולחן",
+        "ספר"
+      ]
+    },
+    "explanation": "book = ספר. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-009",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "milk",
+    "say": "milk",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חלב",
+      "options": [
+        "חלב",
+        "מים",
+        "לחם",
+        "ביצה"
+      ]
+    },
+    "explanation": "milk = חלב. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-010",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "red",
+    "say": "red",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אדום",
+      "options": [
+        "כחול",
+        "אדום",
+        "ירוק",
+        "צהוב"
+      ]
+    },
+    "explanation": "red = אדום. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-011",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "big",
+    "say": "big",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "גדול",
+      "options": [
+        "קטן",
+        "ארוך",
+        "גדול",
+        "חם"
+      ]
+    },
+    "explanation": "big = גדול. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  },
+  {
+    "id": "ph-d5-012",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "run",
+    "say": "run",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לרוץ",
+      "options": [
+        "לקפוץ",
+        "לשבת",
+        "לישון",
+        "לרוץ"
+      ]
+    },
+    "explanation": "run = לרוץ. אפשר לפרק אותה לצלילים ולהרכיב אותה לאט."
+  }
+]

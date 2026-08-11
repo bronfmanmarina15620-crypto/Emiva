@@ -11,6 +11,8 @@ import mult2DigitBank from "@/content/math/mult-2digit.json";
 import ops1000Bank from "@/content/math/ops-1000.json";
 import hebrewCompBank from "@/content/hebrew/comprehension-evelyn.json";
 import hebrewCompEmiliaBank from "@/content/hebrew/comprehension-emilia.json";
+import phonicsEmiliaBank from "@/content/english/phonics-emilia.json";
+import phonicsEvelynBank from "@/content/english/phonics-evelyn.json";
 import vocabEvelynBank from "@/content/english/vocab-evelyn.json";
 import vocabEmiliaBank from "@/content/english/vocab-emilia.json";
 import type {
@@ -63,8 +65,16 @@ import {
   getActiveProfile,
   itemsPerSessionForAge,
   setActiveProfileId,
+  setSpeechRate as setSpeechRate_persist,
   type Profile,
 } from "@/lib/profiles";
+import { PhonicsPrompt } from "@/components/PhonicsPrompt";
+import {
+  clampRate,
+  speak,
+  speakBlend,
+  SPEECH_RATE_DEFAULT,
+} from "@/lib/speech";
 import { MasteryJar } from "@/components/MasteryJar";
 import { FractionViz } from "@/components/FractionViz";
 import { BarModelViz } from "@/components/BarModelViz";
@@ -89,6 +99,8 @@ const LONG_DIVISION_BANK = longDivisionBank as unknown as readonly Item[];
 const BAR_MODELS_BANK = barModelsBank as unknown as readonly Item[];
 const HEBREW_COMP_EVELYN_BANK = hebrewCompBank as unknown as readonly Item[];
 const HEBREW_COMP_EMILIA_BANK = hebrewCompEmiliaBank as unknown as readonly Item[];
+const PHONICS_EVELYN_BANK = phonicsEvelynBank as unknown as readonly Item[];
+const PHONICS_EMILIA_BANK = phonicsEmiliaBank as unknown as readonly Item[];
 const VOCAB_EVELYN_BANK = vocabEvelynBank as unknown as readonly Item[];
 const VOCAB_EMILIA_BANK = vocabEmiliaBank as unknown as readonly Item[];
 
@@ -113,6 +125,14 @@ function bankForSkill(skill: Skill, profile?: Profile): readonly Item[] {
       return profile && profile.age >= 9
         ? HEBREW_COMP_EMILIA_BANK
         : HEBREW_COMP_EVELYN_BANK;
+    case "english_phonics":
+      // Age-keyed. Evelyn (7-8) starts at letter identification; Emilia
+      // (9-10) starts at syllables — she knows the alphabet, and a track
+      // opening with "which letter is this?" would read as a demotion
+      // to her younger sister's material (CORE-ENGLISH-PHONICS-002).
+      return profile && profile.age >= 9
+        ? PHONICS_EMILIA_BANK
+        : PHONICS_EVELYN_BANK;
     case "english_vocab":
       // Age-keyed: 7-8 → A1 starter bank; 9-10 → A2 bank. Defaults to A1
       // if profile is missing so the route still renders something sensible.
@@ -251,6 +271,8 @@ export default function SessionPage() {
   const [revealText, setRevealText] = useState("");
   const [input, setInput] = useState("");
   const [greeting, setGreeting] = useState("");
+  // CORE-ENGLISH-PHONICS-001: מהירות ההקראה, בשליטת הבת (Marina 2026-08-10).
+  const [speechRate, setSpeechRate] = useState(SPEECH_RATE_DEFAULT);
   const inputRef = useRef<HTMLInputElement>(null);
   const startMasteryRef = useRef(0);
   const celebratedRef = useRef(false);
@@ -275,6 +297,10 @@ export default function SessionPage() {
       return;
     }
     setProfile(active);
+    // ערך חסר = הבת עוד לא בחרה. נופלים לברירת-המחדל בלי לדרוס.
+    if (typeof active.speechRate === "number") {
+      setSpeechRate(clampRate(active.speechRate));
+    }
 
     const target = resolveActiveTarget(active);
     if (target.kind === "pack") {
@@ -385,6 +411,13 @@ export default function SessionPage() {
     [answered, itemsPerSession],
   );
 
+  // הבת מזיזה את הסליידר — נשמר בפרופיל כדי שהבחירה תחזיק בין סשנים.
+  function handleSpeechRateChange(rate: number) {
+    const next = clampRate(rate);
+    setSpeechRate(next);
+    if (profile) setSpeechRate_persist(profile.id, next);
+  }
+
   function beginSession() {
     if (!profile || !skill) return;
     const first = firstItemRef.current;
@@ -473,7 +506,11 @@ export default function SessionPage() {
     }
 
     finishItem(false);
-    const text = revealIntro();
+    // מילה נלמדת, לא נפתרת — ולכן מאגר פתיחה אחר לאוצר-המילים
+    // ולפוניקה (CORE-ENGLISH-VOCAB-EXPLAIN-001).
+    const isWord =
+      current.skill === "english_vocab" || current.skill === "english_phonics";
+    const text = revealIntro(Math.random, isWord ? "word" : "problem");
     setRevealText(text);
     logEvent(profile.id, {
       t: "reveal",
@@ -763,7 +800,12 @@ export default function SessionPage() {
         </div>
 
         {current && (
-          <ItemPrompt item={current} questionIndex={currentQuestionIndex} />
+          <ItemPrompt
+            item={current}
+            questionIndex={currentQuestionIndex}
+            speechRate={speechRate}
+            onSpeechRateChange={handleSpeechRateChange}
+          />
         )}
 
         {current && (
@@ -804,6 +846,7 @@ export default function SessionPage() {
             questionIndex={currentQuestionIndex}
             introText={revealText}
             onAdvance={advance}
+            speechRate={speechRate}
           />
         )}
       </div>
@@ -821,9 +864,13 @@ function needsTextInput(item: Item): boolean {
 function ItemPrompt({
   item,
   questionIndex,
+  speechRate,
+  onSpeechRateChange,
 }: {
   item: Item;
   questionIndex: 0 | 1;
+  speechRate: number;
+  onSpeechRateChange: (rate: number) => void;
 }) {
   if (item.skill === "hebrew_comprehension") {
     const compItem = item as HebrewCompItem;
@@ -878,6 +925,16 @@ function ItemPrompt({
           <BarModelViz bars={item.bars} />
         </div>
       </div>
+    );
+  }
+
+  if (item.skill === "english_phonics") {
+    return (
+      <PhonicsPrompt
+        item={item}
+        rate={speechRate}
+        onRateChange={onSpeechRateChange}
+      />
     );
   }
 
@@ -950,6 +1007,41 @@ function ItemInput({
             className="bg-surface border-2 border-warm-line rounded-2xl p-4 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft text-right"
           >
             <span className="text-base md:text-lg text-warm-dark leading-relaxed">
+              {opt}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  if (item.skill === "english_phonics") {
+    // Letter/word options render LTR and large — a 7-year-old learning to
+    // read needs the glyph to be unmistakable. Meaning options (D5) are
+    // Hebrew, so they stay RTL.
+    const isEnOption = item.type !== "decode" && item.type !== "letter_sound";
+    const shown = shuffleOptions(
+      item.answer.options,
+      `${optionSalt}:${item.id}`,
+    );
+    return (
+      <div className="grid grid-cols-2 gap-3">
+        {shown.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChoose(opt)}
+            disabled={locked}
+            dir={isEnOption ? "ltr" : "rtl"}
+            className="bg-surface border-2 border-warm-line rounded-2xl p-5 shadow-soft hover:border-terracotta hover:shadow-warm transition disabled:opacity-60 disabled:hover:border-warm-line disabled:hover:shadow-soft flex items-center justify-center"
+          >
+            <span
+              className={
+                isEnOption
+                  ? "text-4xl md:text-5xl text-warm-dark font-semibold"
+                  : "text-xl md:text-2xl text-warm-dark font-medium"
+              }
+            >
               {opt}
             </span>
           </button>
@@ -1078,11 +1170,15 @@ function ItemReveal({
   questionIndex,
   introText,
   onAdvance,
+  speechRate,
 }: {
   item: Item;
   questionIndex: 0 | 1;
   introText: string;
   onAdvance: () => void;
+  // חובה, לא אופציונלי: ברירת-מחדל שקטה תתעלם מהמהירות שהבת בחרה
+  // אם ייווסף בעתיד call site שישכח להעביר אותה.
+  speechRate: number;
 }) {
   if (item.skill === "hebrew_comprehension") {
     const compItem = item as HebrewCompItem;
@@ -1140,6 +1236,47 @@ function ItemReveal({
     );
   }
 
+  if (item.skill === "english_phonics") {
+    // כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה. כאן גם אפשר לשמוע שוב —
+    // בפוניקה השמיעה החוזרת *היא* הלימוד.
+    const isEnAnswer = item.type !== "decode" && item.type !== "letter_sound";
+    return (
+      <div className="text-right py-5 px-5 rounded-2xl bg-warm-indigo-soft border border-warm-indigo/30 space-y-3">
+        <div className="text-lg font-semibold text-warm-dark">
+          {introText}{" "}
+          <span
+            dir={isEnAnswer ? "ltr" : "rtl"}
+            className="font-display font-extrabold text-warm-indigo inline-block text-2xl"
+          >
+            {item.answer.correct}
+          </span>
+        </div>
+        <div className="text-sm text-warm-dark leading-relaxed">
+          {item.explanation}
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (item.parts && item.parts.length > 0) {
+              speakBlend(item.parts, item.focus, speechRate);
+            } else if (item.say) {
+              speak(item.say, speechRate);
+            }
+          }}
+          className="w-full bg-sage-light border-2 border-sage py-3 rounded-xl text-base font-semibold hover:bg-sage transition"
+        >
+          🔊 לשמוע שוב
+        </button>
+        <button
+          onClick={onAdvance}
+          className="w-full bg-warm-indigo text-white py-3 rounded-xl text-base font-semibold hover:brightness-95 transition"
+        >
+          הבנתי — המשך
+        </button>
+      </div>
+    );
+  }
+
   if (item.skill === "english_vocab") {
     const isEnAnswer = item.type === "he_to_en";
     return (
@@ -1153,8 +1290,18 @@ function ItemReveal({
             {item.answer.correct}
           </span>
         </div>
-        <div className="text-sm text-warm-muted leading-relaxed">
-          זוהי מילה מקטגוריית {item.category}. בואי ננסה לשנן אותה ביחד.
+        {/* כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה. קודם הוצג כאן משפט
+            גנרי ("זוהי מילה מקטגוריית {category}") שגם לא לימד כלום
+            וגם הזריק שם קטגוריה באנגלית לתוך משפט עברי. `text-warm-dark`
+            ולא `muted`: זה לימוד, לא הערת-שוליים — כמו בפוניקה.
+
+            `dir="rtl"` מפורש: המשפט עברי אבל **פותח במילה האנגלית**
+            ("cat — שלושה צלילים..."). בלי הכרזת כיוון, ה-bidi של
+            הדפדפן נגרר אחרי התו הראשון ועלול להזיז את המילה לקצה
+            השני של השורה. זה בדיוק הבאג שקרה עם הסליידר ב-T1,
+            בגרסת טקסט. */}
+        <div dir="rtl" className="text-sm text-warm-dark leading-relaxed">
+          {item.explanation}
         </div>
         <button
           onClick={onAdvance}

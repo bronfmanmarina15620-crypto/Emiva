@@ -7,6 +7,11 @@ import { isItemCorrect } from "@/lib/items";
 const eve = evelynBank as unknown as readonly EnglishVocabItem[];
 const emi = emiliaBank as unknown as readonly EnglishVocabItem[];
 
+/** התשובה עשויה להכיל תווים בעלי משמעות ב-regex (למשל "-"). */
+function escapeRe(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function checkBank(label: string, bank: readonly EnglishVocabItem[], idPrefix: string) {
   describe(`${label} — bank integrity`, () => {
     it("has ≥ 50 items", () => {
@@ -24,6 +29,130 @@ function checkBank(label: string, bank: readonly EnglishVocabItem[], idPrefix: s
       const ids = bank.map((i) => i.id);
       expect(new Set(ids).size).toBe(ids.length);
       for (const id of ids) expect(id.startsWith(idPrefix)).toBe(true);
+    });
+
+    // CORE-ENGLISH-VOCAB-EXPLAIN-001 — כלל הפדגוגיה: חשיפה תמיד
+    // מלווה בשיטה. עד התיקון הוצג משפט גנרי אחד לכל 100 הפריטים
+    // ("זוהי מילה מקטגוריית abstract"), שלא לימד כלום.
+    it("gives every item a non-trivial explanation", () => {
+      for (const it of bank) {
+        expect(
+          (it.explanation ?? "").trim().length,
+          `${it.id} has no real explanation`,
+        ).toBeGreaterThan(15);
+      }
+    });
+
+    it("never uses fixed-mindset wording", () => {
+      const banned = [
+        "לא נכון",
+        "טעית",
+        "שגוי",
+        "פספסת",
+        "כישלון",
+        "נכשלת",
+        "אחרי התלבטות",
+      ];
+      for (const it of bank) {
+        const text = `${it.prompt} ${it.explanation}`;
+        for (const phrase of banned) {
+          expect(text, `${it.id} uses "${phrase}"`).not.toContain(phrase);
+        }
+      }
+    });
+
+    // סקירה 2026-08-11: שישה הסברים חזרו על המשמעות בעברית בלי לתת
+    // שום אחיזה במילה האנגלית ("rare — נדיר. משהו שקורה מעט פעמים").
+    // זה נכון, אבל זו **הגדרה מילונית ולא שיטה** — ובפריטי he_to_en
+    // הילדה צריכה להפיק את המילה בעצמה ונשארה בלי כלום.
+    //
+    // הבדיקה מחפשת עוגן — משהו שאפשר להיאחז בו מעבר לתרגום. שלוש
+    // צורות תקפות, אחת לכל שיטה:
+    //   פוניקה     → דיבור על צלילים/אותיות
+    //   חלקי-מילה  → מילה אנגלית נוספת מלבד הנלמדת
+    //   קוגנט      → הפניה לעברית ("אומרים בעברית 'גרופ'")
+    //
+    // הניסוח הראשון של הבדיקה דרש עוגן **לטיני** ונכשל על 30 פריטים
+    // תקינים — בדיוק על הקוגנטים, שם העוגן הוא התעתיק העברי. זה היה
+    // באג בבדיקה ולא בתוכן; תוקן במקום למחוק הסברים טובים.
+    it("anchors every explanation in a method, not just a Hebrew gloss", () => {
+      const weak: string[] = [];
+      for (const it of bank) {
+        // מסירים את המילה הנלמדת עצמה; מה שנשאר חייב להכיל עוגן.
+        const word =
+          it.type === "he_to_en"
+            ? it.answer.correct
+            : (it.prompt.match(/'([^']+)'/)?.[1] ?? "");
+        const rest = it.explanation
+          .replace(new RegExp(escapeRe(word), "gi"), " ")
+          .trim();
+        const hasOtherEnglish = /[A-Za-z]/.test(rest);
+        const hasSoundTalk = /צליל|אות |אותיות|נשמע|שקט|מתחרז|הגי/.test(rest);
+        const hasCognate = /בעברית|אומרים|מוכרת מ|נכנסה|מכירה את זה/.test(rest);
+        if (!hasOtherEnglish && !hasSoundTalk && !hasCognate) {
+          weak.push(`${it.id}: ${it.explanation}`);
+        }
+      }
+      expect(weak, "explanations that only restate the meaning").toEqual([]);
+    });
+
+    // הסבר לא חושף את התשובה של הפריט **שלו**.
+    //
+    // הבחנה חשובה: הסבר *כן* מותר להזכיר מילה אנגלית אחרת מהמאגר
+    // ("slow — ההפך מ-fast"). זה לא דליפה אלא בדיוק שיטת "גשר ממילה
+    // מוכרת" שכלל הפדגוגיה דורש, והחשיפה ממילא מופיעה רק אחרי שלושה
+    // ניסיונות כושלים על אותו פריט — כלומר לא בזמן שנבחנים על האחר.
+    // מה שאסור הוא שההסבר של פריט he_to_en ימסור את המילה שהילדה
+    // עצמה אמורה להפיק, לפני שהיא ניסתה.
+    it("never states its own answer before the girl produces it", () => {
+      for (const it of bank) {
+        if (it.type !== "he_to_en") continue;
+        // ההסבר פותח במילה עצמה ("slow — איטי...") וזה תקין: הוא מוצג
+        // אחרי שהתשובה כבר נחשפה. מה שנבדק הוא שהוא לא מכיל אותה
+        // *פעמיים*, כלומר לא חוזר עליה כטריק במקום ללמד.
+        const rest = it.explanation.slice(it.answer.correct.length);
+        const re = new RegExp(`\\b${escapeRe(it.answer.correct)}\\b`, "gi");
+        const extra = (rest.match(re) ?? []).length;
+        expect(extra, `${it.id} repeats its own answer instead of teaching`)
+          .toBeLessThanOrEqual(1);
+      }
+    });
+
+    // ההסברים פותחים במילה האנגלית בתוך משפט עברי. זה תקין ומכוון —
+    // אבל רק כל עוד ה-div שמציג אותם מכריז `dir="rtl"` במפורש, אחרת
+    // ה-bidi של הדפדפן נגרר אחרי התו הראשון ומזיז את המילה לקצה
+    // השני. הבדיקה מתעדת את התלות הזאת: אם מישהו יוריד את ההכרזה
+    // ב-`page.tsx`, ההערה כאן היא העוגן שמסביר למה היא הייתה שם.
+    it("opens with the English word — which is why the reveal must declare RTL", () => {
+      const startsWithLatin = bank.filter((it) =>
+        /^[A-Za-z]/.test(it.explanation.trim()),
+      );
+      expect(startsWithLatin.length).toBe(bank.length);
+    });
+
+    // ההכרעה של Marina (2026-08-11): הסבר ייחודי לכל מילה, לא תבנית
+    // עם החלפת-מילה. הבדיקה הופכת את ההחלטה לדבר שאי אפשר לעקוף
+    // בשקט — בדיוק כמו הבדיקות שתפסו את חשיפת-התשובה ב-T1.
+    it("gives each word its own explanation, not a filled-in template", () => {
+      const seen = new Map<string, string[]>();
+      for (const it of bank) {
+        // שלד המשפט: מסירים את המילה עצמה, את התשובה ואת כל הספרות
+        // והאותיות הלטיניות, ומשווים את מה שנשאר. שתי תבניות זהות
+        // ייראו זהות גם אחרי ההסרה.
+        const skeleton = it.explanation
+          .replace(/[A-Za-z]+/g, "•")
+          .replace(new RegExp(escapeRe(it.answer.correct), "g"), "•")
+          .replace(/\s+/g, " ")
+          .trim();
+        const bucket = seen.get(skeleton) ?? [];
+        bucket.push(it.id);
+        seen.set(skeleton, bucket);
+      }
+      const overused = [...seen.entries()].filter(([, ids]) => ids.length >= 3);
+      expect(
+        overused.map(([sk, ids]) => `"${sk}" → ${ids.join(",")}`),
+        "explanations reuse a shared template",
+      ).toEqual([]);
     });
 
     it("5 difficulty tiers, each ≥ 10 items", () => {

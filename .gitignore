@@ -9,6 +9,8 @@ coverage/
 .obsidian/
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+# סימון "נסקר" — מצב מקומי פר-מכונה, לא היסטוריה משותפת
+.claude/.review-done
 .docx-extract/
 ~$*.docx
 ~$*.xlsx

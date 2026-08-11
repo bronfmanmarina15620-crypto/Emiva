@@ -40,7 +40,7 @@ export function isItemCorrect(
     const q = item.questions[questionIndex];
     return userInput === q.options[q.correctIndex];
   }
-  if (item.skill === "english_vocab") {
+  if (item.skill === "english_vocab" || item.skill === "english_phonics") {
     return userInput === item.answer.correct;
   }
   return isFractionCorrect(item, userInput);

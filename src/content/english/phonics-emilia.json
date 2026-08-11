@@ -1,0 +1,1441 @@
+[
+  {
+    "id": "phe-d1-001",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "hop",
+    "parts": [
+      "h",
+      "o",
+      "p"
+    ],
+    "say": "hop",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "hop",
+      "options": [
+        "hop",
+        "hip",
+        "hot",
+        "top"
+      ]
+    },
+    "explanation": "h-o-p מתחברים ל-hop."
+  },
+  {
+    "id": "phe-d1-002",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "net",
+    "parts": [
+      "n",
+      "e",
+      "t"
+    ],
+    "say": "net",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "net",
+      "options": [
+        "nut",
+        "net",
+        "neck",
+        "met"
+      ]
+    },
+    "explanation": "n-e-t מתחברים ל-net."
+  },
+  {
+    "id": "phe-d1-003",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "bug",
+    "parts": [
+      "b",
+      "u",
+      "g"
+    ],
+    "say": "bug",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "bug",
+      "options": [
+        "big",
+        "bag",
+        "bug",
+        "rug"
+      ]
+    },
+    "explanation": "b-u-g מתחברים ל-bug."
+  },
+  {
+    "id": "phe-d1-004",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "jam",
+    "parts": [
+      "j",
+      "a",
+      "m"
+    ],
+    "say": "jam",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "jam",
+      "options": [
+        "jem",
+        "ham",
+        "jab",
+        "jam"
+      ]
+    },
+    "explanation": "j-a-m מתחברים ל-jam."
+  },
+  {
+    "id": "phe-d1-005",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "fox",
+    "parts": [
+      "f",
+      "o",
+      "x"
+    ],
+    "say": "fox",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "fox",
+      "options": [
+        "fox",
+        "fix",
+        "box",
+        "fog"
+      ]
+    },
+    "explanation": "f-o-x מתחברים ל-fox."
+  },
+  {
+    "id": "phe-d1-006",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "wet",
+    "parts": [
+      "w",
+      "e",
+      "t"
+    ],
+    "say": "wet",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "wet",
+      "options": [
+        "wit",
+        "wet",
+        "web",
+        "vet"
+      ]
+    },
+    "explanation": "w-e-t מתחברים ל-wet."
+  },
+  {
+    "id": "phe-d1-007",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "cub",
+    "parts": [
+      "c",
+      "u",
+      "b"
+    ],
+    "say": "cub",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "cub",
+      "options": [
+        "cab",
+        "cup",
+        "cub",
+        "tub"
+      ]
+    },
+    "explanation": "c-u-b מתחברים ל-cub."
+  },
+  {
+    "id": "phe-d1-008",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "rip",
+    "parts": [
+      "r",
+      "i",
+      "p"
+    ],
+    "say": "rip",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "rip",
+      "options": [
+        "rap",
+        "rib",
+        "lip",
+        "rip"
+      ]
+    },
+    "explanation": "r-i-p מתחברים ל-rip."
+  },
+  {
+    "id": "phe-d1-009",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "gum",
+    "parts": [
+      "g",
+      "u",
+      "m"
+    ],
+    "say": "gum",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "gum",
+      "options": [
+        "gum",
+        "gem",
+        "gun",
+        "hum"
+      ]
+    },
+    "explanation": "g-u-m מתחברים ל-gum."
+  },
+  {
+    "id": "phe-d1-010",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "sad",
+    "parts": [
+      "s",
+      "a",
+      "d"
+    ],
+    "say": "sad",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "sad",
+      "options": [
+        "sod",
+        "sad",
+        "sat",
+        "mad"
+      ]
+    },
+    "explanation": "s-a-d מתחברים ל-sad."
+  },
+  {
+    "id": "phe-d1-011",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "log",
+    "parts": [
+      "l",
+      "o",
+      "g"
+    ],
+    "say": "log",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "log",
+      "options": [
+        "leg",
+        "lot",
+        "log",
+        "dog"
+      ]
+    },
+    "explanation": "l-o-g מתחברים ל-log."
+  },
+  {
+    "id": "phe-d1-012",
+    "skill": "english_phonics",
+    "difficulty": 1,
+    "type": "blend",
+    "focus": "pin",
+    "parts": [
+      "p",
+      "i",
+      "n"
+    ],
+    "say": "pin",
+    "prompt": "לחצי על הרמקול. איזו מילה נוצרה מהצלילים?",
+    "answer": {
+      "kind": "choice",
+      "correct": "pin",
+      "options": [
+        "pan",
+        "pig",
+        "win",
+        "pin"
+      ]
+    },
+    "explanation": "p-i-n מתחברים ל-pin."
+  },
+  {
+    "id": "phe-d2-001",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "stop",
+    "parts": [
+      "st",
+      "o",
+      "p"
+    ],
+    "say": "stop",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "stop",
+      "options": [
+        "stop",
+        "step",
+        "shop",
+        "spot"
+      ]
+    },
+    "explanation": "st-o-p = stop. הצירוף \"st\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-002",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "black",
+    "parts": [
+      "bl",
+      "a",
+      "ck"
+    ],
+    "say": "black",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "black",
+      "options": [
+        "block",
+        "black",
+        "back",
+        "blank"
+      ]
+    },
+    "explanation": "bl-a-ck = black. הצירוף \"bl\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-003",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "frog",
+    "parts": [
+      "fr",
+      "o",
+      "g"
+    ],
+    "say": "frog",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "frog",
+      "options": [
+        "from",
+        "flog",
+        "frog",
+        "fog"
+      ]
+    },
+    "explanation": "fr-o-g = frog. הצירוף \"fr\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-004",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "swim",
+    "parts": [
+      "sw",
+      "i",
+      "m"
+    ],
+    "say": "swim",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "swim",
+      "options": [
+        "slim",
+        "swam",
+        "skim",
+        "swim"
+      ]
+    },
+    "explanation": "sw-i-m = swim. הצירוף \"sw\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-005",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "trip",
+    "parts": [
+      "tr",
+      "i",
+      "p"
+    ],
+    "say": "trip",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "trip",
+      "options": [
+        "trip",
+        "trap",
+        "drip",
+        "tip"
+      ]
+    },
+    "explanation": "tr-i-p = trip. הצירוף \"tr\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-006",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "clap",
+    "parts": [
+      "cl",
+      "a",
+      "p"
+    ],
+    "say": "clap",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "clap",
+      "options": [
+        "clip",
+        "clap",
+        "flap",
+        "cap"
+      ]
+    },
+    "explanation": "cl-a-p = clap. הצירוף \"cl\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-007",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "grand",
+    "parts": [
+      "gr",
+      "a",
+      "nd"
+    ],
+    "say": "grand",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "grand",
+      "options": [
+        "grind",
+        "brand",
+        "grand",
+        "gland"
+      ]
+    },
+    "explanation": "gr-a-nd = grand. הצירוף \"gr\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-008",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "print",
+    "parts": [
+      "pr",
+      "i",
+      "nt"
+    ],
+    "say": "print",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "print",
+      "options": [
+        "paint",
+        "point",
+        "pint",
+        "print"
+      ]
+    },
+    "explanation": "pr-i-nt = print. הצירוף \"pr\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-009",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "skirt",
+    "parts": [
+      "sk",
+      "ir",
+      "t"
+    ],
+    "say": "skirt",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "skirt",
+      "options": [
+        "skirt",
+        "shirt",
+        "skate",
+        "sport"
+      ]
+    },
+    "explanation": "sk-ir-t = skirt. הצירוף \"sk\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-010",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "blend",
+    "parts": [
+      "bl",
+      "e",
+      "nd"
+    ],
+    "say": "blend",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "blend",
+      "options": [
+        "bland",
+        "blend",
+        "brand",
+        "bend"
+      ]
+    },
+    "explanation": "bl-e-nd = blend. הצירוף \"bl\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-011",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "stand",
+    "parts": [
+      "st",
+      "a",
+      "nd"
+    ],
+    "say": "stand",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "stand",
+      "options": [
+        "stood",
+        "sand",
+        "stand",
+        "strand"
+      ]
+    },
+    "explanation": "st-a-nd = stand. הצירוף \"st\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d2-012",
+    "skill": "english_phonics",
+    "difficulty": 2,
+    "type": "blend",
+    "focus": "crisp",
+    "parts": [
+      "cr",
+      "i",
+      "sp"
+    ],
+    "say": "crisp",
+    "prompt": "שני עיצורים ביחד — כל אחד שומר על הצליל שלו. איזו מילה?",
+    "answer": {
+      "kind": "choice",
+      "correct": "crisp",
+      "options": [
+        "crush",
+        "clasp",
+        "crips",
+        "crisp"
+      ]
+    },
+    "explanation": "cr-i-sp = crisp. הצירוף \"cr\" נשמע כשני צלילים רצופים."
+  },
+  {
+    "id": "phe-d3-001",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "cake",
+    "anchorWord": "ke",
+    "say": "cake",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "עוגה",
+      "options": [
+        "עוגה",
+        "מקל",
+        "אגם",
+        "אופה"
+      ]
+    },
+    "explanation": "cake = עוגה. שימי לב לצירוף \"ke\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-002",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "ship",
+    "anchorWord": "sh",
+    "say": "ship",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ספינה",
+      "options": [
+        "חנות",
+        "ספינה",
+        "כבשה",
+        "צ'יפס"
+      ]
+    },
+    "explanation": "ship = ספינה. שימי לב לצירוף \"sh\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-003",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "train",
+    "anchorWord": "ai",
+    "say": "train",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "רכבת",
+      "options": [
+        "גשם",
+        "מסלול",
+        "רכבת",
+        "מוח"
+      ]
+    },
+    "explanation": "train = רכבת. שימי לב לצירוף \"ai\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-004",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "chair",
+    "anchorWord": "ch",
+    "say": "chair",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כיסא",
+      "options": [
+        "שיער",
+        "אוויר",
+        "צלחת",
+        "כיסא"
+      ]
+    },
+    "explanation": "chair = כיסא. שימי לב לצירוף \"ch\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-005",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "night",
+    "anchorWord": "igh",
+    "say": "night",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לילה",
+      "options": [
+        "לילה",
+        "אור",
+        "ימין",
+        "מראה"
+      ]
+    },
+    "explanation": "night = לילה. שימי לב לצירוף \"igh\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-006",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "bike",
+    "anchorWord": "ke",
+    "say": "bike",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אופניים",
+      "options": [
+        "אגם",
+        "אופניים",
+        "עוגה",
+        "אופה"
+      ]
+    },
+    "explanation": "bike = אופניים. שימי לב לצירוף \"ke\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-007",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "whale",
+    "anchorWord": "wh",
+    "say": "whale",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לווייתן",
+      "options": [
+        "גל",
+        "קיר",
+        "לווייתן",
+        "לבן"
+      ]
+    },
+    "explanation": "whale = לווייתן. שימי לב לצירוף \"wh\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-008",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "thumb",
+    "anchorWord": "th",
+    "say": "thumb",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "אגודל",
+      "options": [
+        "רעם",
+        "חושב",
+        "מספר",
+        "אגודל"
+      ]
+    },
+    "explanation": "thumb = אגודל. שימי לב לצירוף \"th\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-009",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "boat",
+    "anchorWord": "oa",
+    "say": "boat",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "סירה",
+      "options": [
+        "סירה",
+        "מעיל",
+        "כביש",
+        "עז"
+      ]
+    },
+    "explanation": "boat = סירה. שימי לב לצירוף \"oa\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-010",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "queen",
+    "anchorWord": "ee",
+    "say": "queen",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מלכה",
+      "options": [
+        "ירוק",
+        "מלכה",
+        "שאלה",
+        "מהיר"
+      ]
+    },
+    "explanation": "queen = מלכה. שימי לב לצירוף \"ee\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-011",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "phone",
+    "anchorWord": "ph",
+    "say": "phone",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "טלפון",
+      "options": [
+        "צילום",
+        "ביטוי",
+        "טלפון",
+        "אבן"
+      ]
+    },
+    "explanation": "phone = טלפון. שימי לב לצירוף \"ph\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d3-012",
+    "skill": "english_phonics",
+    "difficulty": 3,
+    "type": "decode",
+    "focus": "knee",
+    "anchorWord": "kn",
+    "say": "knee",
+    "prompt": "קראי את המילה בעצמך. מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ברך",
+      "options": [
+        "סכין",
+        "לדעת",
+        "עץ",
+        "ברך"
+      ]
+    },
+    "explanation": "knee = ברך. שימי לב לצירוף \"kn\" — שתי אותיות שנשמעות כצליל אחד."
+  },
+  {
+    "id": "phe-d4-001",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "rabbit",
+    "parts": [
+      "rab",
+      "bit"
+    ],
+    "say": "rabbit",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "ארנב",
+      "options": [
+        "ארנב",
+        "עכבר",
+        "שועל",
+        "צב"
+      ]
+    },
+    "explanation": "rabbit מתפרקת ל-rab + bit = ארנב. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-002",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "basket",
+    "parts": [
+      "bas",
+      "ket"
+    ],
+    "say": "basket",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "סל",
+      "options": [
+        "ארגז",
+        "סל",
+        "שקית",
+        "מדף"
+      ]
+    },
+    "explanation": "basket מתפרקת ל-bas + ket = סל. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-003",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "sunset",
+    "parts": [
+      "sun",
+      "set"
+    ],
+    "say": "sunset",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "שקיעה",
+      "options": [
+        "זריחה",
+        "צהריים",
+        "שקיעה",
+        "חצות"
+      ]
+    },
+    "explanation": "sunset מתפרקת ל-sun + set = שקיעה. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-004",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "window",
+    "parts": [
+      "win",
+      "dow"
+    ],
+    "say": "window",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חלון",
+      "options": [
+        "דלת",
+        "קיר",
+        "גג",
+        "חלון"
+      ]
+    },
+    "explanation": "window מתפרקת ל-win + dow = חלון. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-005",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "garden",
+    "parts": [
+      "gar",
+      "den"
+    ],
+    "say": "garden",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "גינה",
+      "options": [
+        "גינה",
+        "יער",
+        "שדה",
+        "חצר"
+      ]
+    },
+    "explanation": "garden מתפרקת ל-gar + den = גינה. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-006",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "pencil",
+    "parts": [
+      "pen",
+      "cil"
+    ],
+    "say": "pencil",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "עיפרון",
+      "options": [
+        "מחברת",
+        "עיפרון",
+        "מחק",
+        "סרגל"
+      ]
+    },
+    "explanation": "pencil מתפרקת ל-pen + cil = עיפרון. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-007",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "monkey",
+    "parts": [
+      "mon",
+      "key"
+    ],
+    "say": "monkey",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "קוף",
+      "options": [
+        "דוב",
+        "נמר",
+        "קוף",
+        "פיל"
+      ]
+    },
+    "explanation": "monkey מתפרקת ל-mon + key = קוף. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-008",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "silver",
+    "parts": [
+      "sil",
+      "ver"
+    ],
+    "say": "silver",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "כסף",
+      "options": [
+        "זהב",
+        "ברזל",
+        "נחושת",
+        "כסף"
+      ]
+    },
+    "explanation": "silver מתפרקת ל-sil + ver = כסף. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-009",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "market",
+    "parts": [
+      "mar",
+      "ket"
+    ],
+    "say": "market",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "שוק",
+      "options": [
+        "שוק",
+        "חנות",
+        "רחוב",
+        "כיכר"
+      ]
+    },
+    "explanation": "market מתפרקת ל-mar + ket = שוק. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-010",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "winter",
+    "parts": [
+      "win",
+      "ter"
+    ],
+    "say": "winter",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חורף",
+      "options": [
+        "קיץ",
+        "חורף",
+        "אביב",
+        "סתיו"
+      ]
+    },
+    "explanation": "winter מתפרקת ל-win + ter = חורף. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-011",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "problem",
+    "parts": [
+      "prob",
+      "lem"
+    ],
+    "say": "problem",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בעיה",
+      "options": [
+        "פתרון",
+        "שאלה",
+        "בעיה",
+        "רעיון"
+      ]
+    },
+    "explanation": "problem מתפרקת ל-prob + lem = בעיה. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d4-012",
+    "skill": "english_phonics",
+    "difficulty": 4,
+    "type": "decode",
+    "focus": "invite",
+    "parts": [
+      "in",
+      "vite"
+    ],
+    "say": "invite",
+    "prompt": "מילה של שתי הברות. קראי אותה בעצמך — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להזמין",
+      "options": [
+        "לבקר",
+        "לענות",
+        "לחכות",
+        "להזמין"
+      ]
+    },
+    "explanation": "invite מתפרקת ל-in + vite = להזמין. מילה ארוכה נקראת הברה-הברה."
+  },
+  {
+    "id": "phe-d5-001",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "quickly",
+    "parts": [
+      "quick",
+      "ly"
+    ],
+    "say": "quickly",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "במהירות",
+      "options": [
+        "במהירות",
+        "באיטיות",
+        "בשקט",
+        "בזהירות"
+      ]
+    },
+    "explanation": "quickly = quick + ly = במהירות. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-002",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "beautiful",
+    "parts": [
+      "beau",
+      "ti",
+      "ful"
+    ],
+    "say": "beautiful",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "יפה",
+      "options": [
+        "מכוער",
+        "יפה",
+        "גדול",
+        "חדש"
+      ]
+    },
+    "explanation": "beautiful = beau + ti + ful = יפה. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-003",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "remember",
+    "parts": [
+      "re",
+      "mem",
+      "ber"
+    ],
+    "say": "remember",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "לזכור",
+      "options": [
+        "לשכוח",
+        "ללמוד",
+        "לזכור",
+        "לחשוב"
+      ]
+    },
+    "explanation": "remember = re + mem + ber = לזכור. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-004",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "important",
+    "parts": [
+      "im",
+      "por",
+      "tant"
+    ],
+    "say": "important",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "חשוב",
+      "options": [
+        "מיותר",
+        "מעניין",
+        "קשה",
+        "חשוב"
+      ]
+    },
+    "explanation": "important = im + por + tant = חשוב. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-005",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "carefully",
+    "parts": [
+      "care",
+      "ful",
+      "ly"
+    ],
+    "say": "carefully",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בזהירות",
+      "options": [
+        "בזהירות",
+        "במהירות",
+        "בכוח",
+        "בקול"
+      ]
+    },
+    "explanation": "carefully = care + ful + ly = בזהירות. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-006",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "different",
+    "parts": [
+      "dif",
+      "fer",
+      "ent"
+    ],
+    "say": "different",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "שונה",
+      "options": [
+        "דומה",
+        "שונה",
+        "זהה",
+        "רגיל"
+      ]
+    },
+    "explanation": "different = dif + fer + ent = שונה. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-007",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "understand",
+    "parts": [
+      "un",
+      "der",
+      "stand"
+    ],
+    "say": "understand",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "להבין",
+      "options": [
+        "לשאול",
+        "להסביר",
+        "להבין",
+        "לנחש"
+      ]
+    },
+    "explanation": "understand = un + der + stand = להבין. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-008",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "wonderful",
+    "parts": [
+      "won",
+      "der",
+      "ful"
+    ],
+    "say": "wonderful",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "נפלא",
+      "options": [
+        "נורא",
+        "רגיל",
+        "משעמם",
+        "נפלא"
+      ]
+    },
+    "explanation": "wonderful = won + der + ful = נפלא. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-009",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "suddenly",
+    "parts": [
+      "sud",
+      "den",
+      "ly"
+    ],
+    "say": "suddenly",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "פתאום",
+      "options": [
+        "פתאום",
+        "לאט",
+        "תמיד",
+        "אולי"
+      ]
+    },
+    "explanation": "suddenly = sud + den + ly = פתאום. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-010",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "dangerous",
+    "parts": [
+      "dan",
+      "ger",
+      "ous"
+    ],
+    "say": "dangerous",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "מסוכן",
+      "options": [
+        "בטוח",
+        "מסוכן",
+        "רגוע",
+        "נעים"
+      ]
+    },
+    "explanation": "dangerous = dan + ger + ous = מסוכן. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-011",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "invisible",
+    "parts": [
+      "in",
+      "vis",
+      "ible"
+    ],
+    "say": "invisible",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "בלתי נראה",
+      "options": [
+        "ברור",
+        "צבעוני",
+        "בלתי נראה",
+        "שקוף"
+      ]
+    },
+    "explanation": "invisible = in + vis + ible = בלתי נראה. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  },
+  {
+    "id": "phe-d5-012",
+    "skill": "english_phonics",
+    "difficulty": 5,
+    "type": "decode",
+    "focus": "adventure",
+    "parts": [
+      "ad",
+      "ven",
+      "ture"
+    ],
+    "say": "adventure",
+    "prompt": "מילה ארוכה. פרקי אותה להברות וקראי — מה היא אומרת?",
+    "answer": {
+      "kind": "choice",
+      "correct": "הרפתקה",
+      "options": [
+        "טיול",
+        "סיפור",
+        "משחק",
+        "הרפתקה"
+      ]
+    },
+    "explanation": "adventure = ad + ven + ture = הרפתקה. גם מילים ארוכות מתפרקות לחלקים קטנים."
+  }
+]

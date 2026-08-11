@@ -9,6 +9,7 @@ export type Skill =
   | "long_division"
   | "bar_models"
   | "hebrew_comprehension"
+  | "english_phonics"
   | "english_vocab";
 
 export type AddSubItem = {
@@ -104,6 +105,58 @@ export type EnglishVocabItem = {
   category: string;
   prompt: string;
   answer: { kind: "choice"; correct: string; options: [string, string, string, string] };
+  /**
+   * חובה — כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה.
+   *
+   * CORE-ENGLISH-001 החליטה "אין הסבר, זה אוצר מילים" — נימוק שגוי,
+   * כי כלל הפדגוגיה כבר הגדיר שלוש שיטות לא-אלגוריתמיות לאנגלית:
+   * פוניקה · קוגנטים · גשר ממילה מוכרת. עד התיקון הבנות ראו
+   * "זוהי מילה מקטגוריית abstract" — בלי לימוד, ועם שם קטגוריה
+   * באנגלית בתוך משפט עברי (CORE-ENGLISH-VOCAB-EXPLAIN-001).
+   *
+   * חובה ולא אופציונלי בכוונה: שדה אופציונלי אפשר לשכוח בשקט,
+   * ואילו כאן ה-typecheck סופר את כל הפריטים במקומנו.
+   */
+  explanation: string;
+};
+
+// CORE-ENGLISH-PHONICS-001 — פוניקה שיטתית באנגלית.
+//
+// MyLevel.docx §3.3: "Phonics מפורש (שיטתי, לא Whole Language)".
+// CORE-ENGLISH-001 בנתה אוצר-מילים במקום פוניקה, וההנמקה ("הבנות
+// קוראות עברית בשטף") הייתה היקש שגוי בין שתי שפות. אווה לא הצליחה
+// לקרוא כלום (Marina, 2026-08-10).
+//
+// חמש הדרגות משקפות את סדר רכישת הקריאה:
+//   1 letter_name  — שומעת שם אות → בוחרת את הצורה
+//   2 letter_sound — רואה אות → בוחרת את הצליל (עם מילת-עוגן)
+//   3 sound_to_letter — שומעת צליל → בוחרת את האות
+//   4 blend        — שומעת c-a-t → בוחרת את המילה
+//   5 decode       — רואה מילה → בוחרת את המשמעות
+export type PhonicsType =
+  | "letter_name"
+  | "letter_sound"
+  | "sound_to_letter"
+  | "blend"
+  | "decode";
+
+export type EnglishPhonicsItem = {
+  id: string;
+  skill: "english_phonics";
+  difficulty: Difficulty;
+  type: PhonicsType;
+  /** האות או המילה שהפריט מלמד — למשל "m" או "cat". */
+  focus: string;
+  /** מילה שמדגימה את הצליל. Marina בחרה את השיטה הזאת (2026-08-10). */
+  anchorWord?: string;
+  /** לפריטי blend: הצלילים לפני החיבור, למשל ["c","a","t"]. */
+  parts?: readonly string[];
+  /** מה נאמר בקול כשהילדה לוחצת 🔊. ריק = אין השמעה בפריט הזה. */
+  say?: string;
+  prompt: string;
+  answer: { kind: "choice"; correct: string; options: [string, string, string, string] };
+  /** חובה — כלל הפדגוגיה: חשיפה תמיד מלווה בשיטה. */
+  explanation: string;
 };
 
 export type HebrewCompQuestion = {
@@ -132,6 +185,7 @@ export type Item =
   | DivisionItem
   | BarModelItem
   | HebrewCompItem
+  | EnglishPhonicsItem
   | EnglishVocabItem;
 
 export type Attempt = {

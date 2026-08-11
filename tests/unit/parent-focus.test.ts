@@ -156,7 +156,8 @@ describe("computeCoverage", () => {
     const english = cov.find((g) => g.subject === "english")!;
     expect(math.rows).toHaveLength(7);
     expect(hebrew.rows).toHaveLength(1);
-    expect(english.rows).toHaveLength(1);
+    // CORE-ENGLISH-PHONICS-001 הוסיפה english_phonics לצד english_vocab.
+    expect(english.rows).toHaveLength(2);
   });
 
   it("marks isDefaultForAge per row using allowedSkillsForAge", () => {
