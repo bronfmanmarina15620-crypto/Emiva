@@ -13,6 +13,13 @@ const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 const GRADUATED_PREFIX = "emiva.graduated.v1";
 const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
 const MEASUREMENT_PREFIX = "emiva.measurement.v1";
+/**
+ * הפריטים שכבר נשאלו במבחן החיצוני (BL-008). **מפתח נפרד בכוונה**
+ * מ-`MEASUREMENT_PREFIX`: התוצאות עצמן נקראות בדשבורד ההורה, ושינוי
+ * המבנה שלהן היה מסכן את היסטוריית הבנות. זיכרון-הפריטים הוא מידע
+ * תפעולי של ההגרלה בלבד — אם ייעלם, המבחן עדיין עובד.
+ */
+const MEASUREMENT_SEEN_PREFIX = "emiva.measurement.seen.v1";
 const PUPPY_JOURNAL_PREFIX = "emiva.puppy_journal.v1";
 const ENRICHMENT_PREFIX = "emiva.enrichment.v1";
 // בדיקת התשתית החודשית (§11.2). בניגוד לכל שאר המפתחות — **אינו
@@ -234,6 +241,57 @@ export function appendMeasurementResult(
   );
 }
 
+function measurementSeenKey(profileId: string, skill: Skill): string {
+  return `${MEASUREMENT_SEEN_PREFIX}.${profileId}.${skill}`;
+}
+
+/** ה-ids שכבר נשאלו במבחן החיצוני בסבב הנוכחי (BL-008). */
+export function loadSeenMeasurementIds(
+  profileId: string,
+  skill: Skill,
+): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(measurementSeenKey(profileId, skill));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed.filter((x): x is string => typeof x === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * מוסיפה את הפריטים של המבחן שהסתיים לזיכרון.
+ *
+ * כשהסבב מוצה — כלומר נשאלו כל פריטי המאגר — הזיכרון **מתאפס
+ * לפריטי המבחן האחרון בלבד**. כך הסבב הבא מתחיל נקי, אבל המבחן
+ * שהילדה בדיוק עשתה עדיין נחשב "נראה" ולא חוזר מיד.
+ */
+export function appendSeenMeasurementIds(
+  profileId: string,
+  skill: Skill,
+  ids: readonly string[],
+  bankSize: number,
+): void {
+  if (typeof window === "undefined") return;
+  const merged = [...loadSeenMeasurementIds(profileId, skill)];
+  for (const id of ids) {
+    if (!merged.includes(id)) merged.push(id);
+  }
+  const next = bankSize > 0 && merged.length >= bankSize ? [...ids] : merged;
+  try {
+    window.localStorage.setItem(
+      measurementSeenKey(profileId, skill),
+      JSON.stringify(next),
+    );
+  } catch {
+    // אחסון מלא — עדיף לאבד את זיכרון-ההגרלה מאשר להפיל את סיום המבחן.
+  }
+}
+
 /**
  * שכבת ההעשרה (MyLevel §1, שכבה 2). המדידה כאן **רכה** בכוונה:
  * טקסט חופשי + סימון שקרה, בלי ציון ובלי אחוז. §11.2 שואל רק
@@ -352,6 +410,9 @@ export function purgeProfileStorage(profileId: string): void {
     `${LAST_SESSION_PREFIX}.${profileId}`,
     `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
     `${MEASUREMENT_PREFIX}.${profileId}`,
+    // מפתח נפרד — אינו נתפס ע"י ה-prefix שמעליו, ובלעדיו זיכרון
+    // ההגרלה היה שורד מחיקת פרופיל.
+    `${MEASUREMENT_SEEN_PREFIX}.${profileId}`,
     `${PUPPY_JOURNAL_PREFIX}.${profileId}`,
     `${ENRICHMENT_PREFIX}.${profileId}`,
   ];

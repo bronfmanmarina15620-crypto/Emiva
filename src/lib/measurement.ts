@@ -2,7 +2,9 @@ import addSubHoldout from "@/content/measurement/add-sub-100-holdout.json";
 import fractionsHoldout from "@/content/measurement/fractions-intro-holdout.json";
 import {
   appendMeasurementResult,
+  appendSeenMeasurementIds,
   loadMeasurementHistory,
+  loadSeenMeasurementIds,
 } from "./storage";
 import type {
   ExternalTestResult,
@@ -40,20 +42,83 @@ export function hasMeasurement(skill: Skill): boolean {
   return holdoutForSkill(skill).length > 0;
 }
 
-export function pickTestItems(
-  holdout: readonly Item[],
-  rand: () => number = Math.random,
-  count: number = MEASUREMENT_TOTAL,
-): readonly Item[] {
-  if (holdout.length === 0) return [];
-  const pool = [...holdout];
+function shuffled(items: readonly Item[], rand: () => number): Item[] {
+  const pool = [...items];
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
     const tmp = pool[i] as Item;
     pool[i] = pool[j] as Item;
     pool[j] = tmp;
   }
-  return pool.slice(0, Math.min(count, pool.length));
+  return pool;
+}
+
+/**
+ * בוחרת פריטים מתוך המאגר בפיזור מאוזן על פני דרגות הקושי.
+ *
+ * בלי זה כל 10 השאלות יכולות ליפול באותה דרגה, וה-verdict משקף
+ * מזל-הגרלה במקום ידע. עוברת סבב-סבב על הדרגות ולוקחת אחת מכל
+ * אחת, עד שמגיעים ל-`count`.
+ */
+function pickSpread(
+  items: readonly Item[],
+  rand: () => number,
+  count: number,
+): Item[] {
+  const byDifficulty = new Map<number, Item[]>();
+  for (const item of shuffled(items, rand)) {
+    const bucket = byDifficulty.get(item.difficulty);
+    if (bucket) bucket.push(item);
+    else byDifficulty.set(item.difficulty, [item]);
+  }
+  const levels = [...byDifficulty.keys()].sort((a, b) => a - b);
+  const picked: Item[] = [];
+  while (picked.length < count) {
+    let tookAny = false;
+    for (const level of levels) {
+      if (picked.length >= count) break;
+      const bucket = byDifficulty.get(level);
+      const next = bucket?.shift();
+      if (next) {
+        picked.push(next);
+        tookAny = true;
+      }
+    }
+    if (!tookAny) break;
+  }
+  return picked;
+}
+
+/**
+ * בוחרת את פריטי המבחן החיצוני.
+ *
+ * **מעדיפה פריטים שהילדה לא ראתה** (BL-008). עד לתיקון הזה כל סיבוב
+ * הגריל 10 מתוך 30 מחדש, ובין שני מבחנים עוקבים חזרו בממוצע 3.35
+ * שאלות — כלומר שליש מהמבחן בדק שינון במקום העברה, בדיוק ההפך
+ * מתפקידו.
+ *
+ * `seenIds` ריק (או לא מועבר) → התנהגות זהה לקודם.
+ * המאגר מוצה → משלימה מהפריטים שנראו, כלומר סבב חדש מתחיל.
+ */
+export function pickTestItems(
+  holdout: readonly Item[],
+  rand: () => number = Math.random,
+  count: number = MEASUREMENT_TOTAL,
+  seenIds: readonly string[] = [],
+): readonly Item[] {
+  if (holdout.length === 0) return [];
+  const target = Math.min(count, holdout.length);
+  if (seenIds.length === 0) return pickSpread(holdout, rand, target);
+
+  const seen = new Set(seenIds);
+  const fresh = holdout.filter((i) => !seen.has(i.id));
+  const picked = pickSpread(fresh, rand, target);
+  if (picked.length >= target) return picked;
+
+  // המאגר מוצה — משלימים מהנראים כדי שהמבחן תמיד יהיה באורך מלא.
+  const chosen = new Set(picked.map((i) => i.id));
+  const rest = holdout.filter((i) => !chosen.has(i.id));
+  return [...picked, ...pickSpread(rest, rand, target - picked.length)];
 }
 
 export function computeVerdict(
@@ -89,6 +154,36 @@ export function saveResult(
   result: ExternalTestResult,
 ): void {
   appendMeasurementResult(profileId, result);
+}
+
+/**
+ * בוחרת מבחן לפרופיל תוך קריאת זיכרון-הפריטים שלו (BL-008).
+ * עוטפת את `pickTestItems` הטהורה — כל הגישה לאחסון מרוכזת כאן,
+ * כך שהלוגיקה עצמה נשארת ניתנת לבדיקה בלי דפדפן.
+ */
+export function pickTestItemsForProfile(
+  profileId: string,
+  skill: Skill,
+  rand: () => number = Math.random,
+  count: number = MEASUREMENT_TOTAL,
+): readonly Item[] {
+  const holdout = holdoutForSkill(skill);
+  const seen = loadSeenMeasurementIds(profileId, skill);
+  return pickTestItems(holdout, rand, count, seen);
+}
+
+/** רושמת את פריטי המבחן שהסתיים, כדי שלא יחזרו בסיבוב הבא. */
+export function rememberTestItems(
+  profileId: string,
+  skill: Skill,
+  items: readonly Item[],
+): void {
+  appendSeenMeasurementIds(
+    profileId,
+    skill,
+    items.map((i) => i.id),
+    holdoutForSkill(skill).length,
+  );
 }
 
 const VERDICT_HEBREW: Record<ExternalTestVerdict, string> = {

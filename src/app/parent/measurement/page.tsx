@@ -7,9 +7,9 @@ import { hasPinSet } from "@/lib/parent-auth";
 import { loadProfiles, type Profile } from "@/lib/profiles";
 import {
   computeVerdict,
-  holdoutForSkill,
   MEASURABLE_SKILLS,
-  pickTestItems,
+  pickTestItemsForProfile,
+  rememberTestItems,
   saveResult,
   verdictBadge,
   verdictHebrew,
@@ -86,7 +86,7 @@ export default function MeasurementPage() {
   }, [router]);
 
   const startTest = useCallback((profile: Profile, skill: Skill) => {
-    const items = pickTestItems(holdoutForSkill(skill));
+    const items = pickTestItemsForProfile(profile.id, skill);
     if (items.length === 0) return;
     setStage({
       kind: "test",
@@ -120,6 +120,8 @@ export default function MeasurementPage() {
           at: Date.now(),
         };
         saveResult(stage.profile.id, result);
+        // רק כאן — מבחן שננטש באמצע לא "שורף" את הפריטים שלו (BL-008).
+        rememberTestItems(stage.profile.id, stage.skill, stage.items);
         logEvent(stage.profile.id, {
           t: "external_test_completed",
           at: result.at,

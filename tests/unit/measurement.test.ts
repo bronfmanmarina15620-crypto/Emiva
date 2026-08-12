@@ -7,6 +7,8 @@ import {
   holdoutForSkill,
   MEASURABLE_SKILLS,
   pickTestItems,
+  pickTestItemsForProfile,
+  rememberTestItems,
   saveResult,
   verdictBadge,
   verdictHebrew,
@@ -125,6 +127,114 @@ describe("measurement — pickTestItems", () => {
     const small = holdoutForSkill("add_sub_100").slice(0, 5);
     const picked = pickTestItems(small, undefined, 10);
     expect(picked.length).toBe(5);
+  });
+
+  it("spreads across difficulty levels instead of clustering (BL-008)", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    const levels = new Set(bank.map((i) => i.difficulty));
+    const picked = pickTestItems(bank);
+    const counts = new Map<number, number>();
+    for (const item of picked) {
+      counts.set(item.difficulty, (counts.get(item.difficulty) ?? 0) + 1);
+    }
+    // אף דרגה לא חוטפת את המבחן: התקרה היא מנה שווה + 1.
+    const ceiling = Math.ceil(MEASUREMENT_TOTAL / levels.size) + 1;
+    for (const n of counts.values()) expect(n).toBeLessThanOrEqual(ceiling);
+    expect(counts.size).toBeGreaterThanOrEqual(Math.min(levels.size, 3));
+  });
+});
+
+/**
+ * BL-008 — הלקח המקודד. לפני התיקון חזרו בממוצע 3.35 מתוך 10 שאלות
+ * בין שני מבחנים עוקבים; פריט שכבר נראה בודק שינון ולא העברה.
+ * הרף כאן הוא **אפס** חזרות עד מיצוי המאגר, לא "פחות".
+ */
+describe("measurement — no repeats across rounds (BL-008)", () => {
+  it("three consecutive rounds share zero items", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    const seen: string[] = [];
+    const rounds: string[][] = [];
+    for (let r = 0; r < 3; r++) {
+      const picked = pickTestItems(bank, Math.random, MEASUREMENT_TOTAL, seen);
+      const ids = picked.map((i) => i.id);
+      expect(ids.length).toBe(MEASUREMENT_TOTAL);
+      for (const id of ids) expect(seen).not.toContain(id);
+      rounds.push(ids);
+      seen.push(...ids);
+    }
+    expect(new Set(rounds.flat()).size).toBe(30);
+  });
+
+  it("exhausts the whole bank before reusing anything", () => {
+    const bank = holdoutForSkill("fractions_intro");
+    const seen: string[] = [];
+    for (let r = 0; r < 3; r++) {
+      const picked = pickTestItems(bank, Math.random, MEASUREMENT_TOTAL, seen);
+      seen.push(...picked.map((i) => i.id));
+    }
+    expect(new Set(seen).size).toBe(bank.length);
+  });
+
+  it("round 4 starts a fresh cycle instead of returning a short test", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    const allSeen = bank.map((i) => i.id);
+    const picked = pickTestItems(bank, Math.random, MEASUREMENT_TOTAL, allSeen);
+    expect(picked.length).toBe(MEASUREMENT_TOTAL);
+    expect(new Set(picked.map((i) => i.id)).size).toBe(MEASUREMENT_TOTAL);
+  });
+
+  it("partial exhaustion still fills a full-length test", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    // 25 מתוך 30 נראו — 5 טריים בלבד, אבל המבחן חייב להישאר באורך 10.
+    const seen = bank.slice(0, 25).map((i) => i.id);
+    const picked = pickTestItems(bank, Math.random, MEASUREMENT_TOTAL, seen);
+    expect(picked.length).toBe(MEASUREMENT_TOTAL);
+    expect(new Set(picked.map((i) => i.id)).size).toBe(MEASUREMENT_TOTAL);
+    const freshCount = picked.filter((i) => !seen.includes(i.id)).length;
+    expect(freshCount).toBe(5);
+  });
+
+  it("empty seenIds behaves exactly like the old signature", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    const fixed = () => 0.5;
+    const a = pickTestItems(bank, fixed, MEASUREMENT_TOTAL);
+    const b = pickTestItems(bank, fixed, MEASUREMENT_TOTAL, []);
+    expect(a.map((i) => i.id)).toEqual(b.map((i) => i.id));
+  });
+});
+
+describe("measurement — seen memory is per profile × skill", () => {
+  it("remembering for one profile does not affect another", () => {
+    const bank = holdoutForSkill("add_sub_100");
+    const first = pickTestItemsForProfile("p1", "add_sub_100");
+    rememberTestItems("p1", "add_sub_100", first);
+
+    const second = pickTestItemsForProfile("p1", "add_sub_100");
+    for (const item of second) {
+      expect(first.map((i) => i.id)).not.toContain(item.id);
+    }
+    // p2 לא ראתה כלום — המאגר המלא פתוח בפניה.
+    const other = pickTestItemsForProfile("p2", "add_sub_100");
+    expect(other.length).toBe(MEASUREMENT_TOTAL);
+    expect(bank.length).toBe(30);
+  });
+
+  it("a different skill keeps its own memory", () => {
+    const picked = pickTestItemsForProfile("p1", "add_sub_100");
+    rememberTestItems("p1", "add_sub_100", picked);
+    const fractions = pickTestItemsForProfile("p1", "fractions_intro");
+    expect(fractions.length).toBe(MEASUREMENT_TOTAL);
+  });
+
+  it("memory resets once the bank is fully consumed", () => {
+    for (let r = 0; r < 3; r++) {
+      const picked = pickTestItemsForProfile("p1", "add_sub_100");
+      rememberTestItems("p1", "add_sub_100", picked);
+    }
+    // הסבב נסגר: הזיכרון מכיל רק את המבחן האחרון, כך שהמבחן הבא
+    // נמנע ממנו אך שאר המאגר נפתח מחדש.
+    const fourth = pickTestItemsForProfile("p1", "add_sub_100");
+    expect(fourth.length).toBe(MEASUREMENT_TOTAL);
   });
 });
 
