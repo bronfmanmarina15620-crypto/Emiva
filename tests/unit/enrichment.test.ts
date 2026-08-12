@@ -278,6 +278,64 @@ describe("העשרה — היסטוריה היא חקירה, לא תאריכים
   });
 });
 
+describe("העשרה — תרבות ישראלית פותחת, לא מניחה", () => {
+  // הסיכון הייחודי כאן שונה מגיאוגרפיה והיסטוריה: לא שינון, אלא
+  // **הנחה**. פעילות שמניחה בית דתי, מסורת עדתית מסוימת או מבנה
+  // משפחה אחד — מוציאה את מי שאינה שם, וזה ההפך מחשיפה (§4).
+  const CUL = bankFor("culture") as EnrichmentActivity[];
+
+  it("יש 12 פעילויות, מחולקות שווה בין קבוצות הגיל", () => {
+    expect(CUL.length).toBe(12);
+    expect(CUL.filter((a) => a.ageBand === "7-8").length).toBe(6);
+    expect(CUL.filter((a) => a.ageBand === "9-10").length).toBe(6);
+  });
+
+  it("כל פעילות דורשת פעולה בעולם, לא שליפה מהזיכרון", () => {
+    for (const a of CUL) {
+      const hasWork = (a.materials?.length ?? 0) > 0 || (a.steps?.length ?? 0) > 0;
+      expect(hasWork, `${a.id}: אין ציוד ואין שלבים — זו שאלה, לא פעילות`).toBe(
+        true,
+      );
+    }
+  });
+
+  it("ההסבר עונה על 'למה', ולא מסתפק בשם המנהג", () => {
+    for (const a of CUL) {
+      expect(
+        a.why.length,
+        `${a.id}: ההסבר קצר מכדי להסביר סיבה`,
+      ).toBeGreaterThan(80);
+    }
+  });
+
+  it("אף פעילות אינה מנוסחת כהוראה דתית", () => {
+    // ההבדל הוא בין לתאר מנהג לבין להורות לקיים אותו. §4 מגדיר
+    // חשיפה וסקרנות; הוראה הופכת את השכבה לחינוך דתי, וזה מוציא
+    // כל בית שאינו נוהג כך.
+    const IMPERATIVES = ["חובה עלייך", "אסור לך", "את מחויבת", "כל ילדה חייבת"];
+    for (const a of CUL) {
+      const text = `${a.title} ${a.activity} ${(a.steps ?? []).join(" ")} ${a.why}`;
+      for (const bad of IMPERATIVES) {
+        expect(text, `${a.id}: ניסוח מצווה ולא מזמין`).not.toContain(bad);
+      }
+    }
+  });
+
+  it("פעילויות רגישות נושאות רמז להורה שמאפשר לעצור", () => {
+    // הגירה, כסף ודת נוגעים לעיתים בכאב משפחתי. הרמז אינו קישוט:
+    // הוא הדבר שמאפשר להורה לעצור בלי שהילדה תרגיש שנכשלה.
+    const SENSITIVE = ["cul-008", "cul-009", "cul-010"];
+    for (const id of SENSITIVE) {
+      const a = CUL.find((x) => x.id === id);
+      expect(a, `${id} חסר במאגר`).toBeDefined();
+      expect(
+        a!.parentTip.length,
+        `${id}: פעילות רגישה בלי רמז שמאפשר לעצור`,
+      ).toBeGreaterThan(40);
+    }
+  });
+});
+
 describe("העשרה — בחירת פעילות השבוע", () => {
   it("גיל 7–8 וגיל 9–10 ממופים נכון", () => {
     expect(ageBandFor(7)).toBe("7-8");

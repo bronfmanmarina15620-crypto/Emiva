@@ -2,6 +2,7 @@ import scienceBank from "@/content/enrichment/science.json";
 import logicBank from "@/content/enrichment/logic.json";
 import geographyBank from "@/content/enrichment/geography.json";
 import historyBank from "@/content/enrichment/history.json";
+import cultureBank from "@/content/enrichment/culture.json";
 
 /**
  * שכבה 2 — Enrichment (MyLevel.docx §1).
@@ -14,7 +15,12 @@ import historyBank from "@/content/enrichment/history.json";
  * נאכף ב-tests/unit/enrichment.test.ts.
  */
 
-export type EnrichmentTopic = "science" | "logic" | "geography" | "history";
+export type EnrichmentTopic =
+  | "science"
+  | "logic"
+  | "geography"
+  | "history"
+  | "culture";
 
 export type AgeBand = "7-8" | "9-10";
 
@@ -77,6 +83,7 @@ const BANKS: Record<EnrichmentTopic, readonly EnrichmentActivity[]> = {
   logic: logicBank as unknown as readonly EnrichmentActivity[],
   geography: geographyBank as unknown as readonly EnrichmentActivity[],
   history: historyBank as unknown as readonly EnrichmentActivity[],
+  culture: cultureBank as unknown as readonly EnrichmentActivity[],
 };
 
 export const ENRICHMENT_TOPICS: readonly EnrichmentTopic[] = [
@@ -84,6 +91,7 @@ export const ENRICHMENT_TOPICS: readonly EnrichmentTopic[] = [
   "logic",
   "geography",
   "history",
+  "culture",
 ];
 
 export const TOPIC_HEBREW: Record<EnrichmentTopic, string> = {
@@ -91,6 +99,7 @@ export const TOPIC_HEBREW: Record<EnrichmentTopic, string> = {
   logic: "לוגיקה וחידות",
   geography: "גיאוגרפיה",
   history: "היסטוריה",
+  culture: "תרבות ישראלית",
 };
 
 export function ageBandFor(age: number): AgeBand {
