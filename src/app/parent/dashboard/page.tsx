@@ -375,6 +375,12 @@ export default function ParentDashboard() {
         </div>
         <div className="flex gap-2">
           <Link
+            href="/parent/foundation"
+            className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
+          >
+            תשתית
+          </Link>
+          <Link
             href="/parent/history"
             className="bg-surface rounded-2xl shadow-soft px-4 py-2 text-warm-dark hover:shadow-warm transition"
           >

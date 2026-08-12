@@ -6,7 +6,7 @@
 - title: שלושת הדברים שאסור לפספס — בדיקת תשתית חודשית (T6)
 - owner: Marina
 - priority: P0 — המסמך מגדיר זאת כ**תנאי-סף** לכל השאר
-- status: 📋 **תכנון בלבד — טרם אושר לביצוע**
+- status: ✅ **הושלם 2026-08-12** (759 בדיקות עוברות · typecheck + lint נקיים)
 - תוכנית: [plans/FOUNDATION-CHECK-001.md](../../plans/FOUNDATION-CHECK-001.md)
 - references:
   - `MyLevel.docx` §2 — שלושת התנאים

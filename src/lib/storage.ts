@@ -15,6 +15,9 @@ const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
 const MEASUREMENT_PREFIX = "emiva.measurement.v1";
 const PUPPY_JOURNAL_PREFIX = "emiva.puppy_journal.v1";
 const ENRICHMENT_PREFIX = "emiva.enrichment.v1";
+// בדיקת התשתית החודשית (§11.2). בניגוד לכל שאר המפתחות — **אינו
+// פר-פרופיל**: שינה ויום-ריק הם החלטות של הבית, לא של ילדה.
+const FOUNDATION_KEY = "emiva.foundation.v1";
 
 function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
@@ -276,6 +279,40 @@ export function saveEnrichmentEntry(
   );
   log.push(entry);
   window.localStorage.setItem(enrichmentKey(profileId), JSON.stringify(log));
+}
+
+// §11.2 — בדיקת התשתית החודשית. הטיפוס יושב כאן ולא ב-foundation.ts
+// כדי למנוע תלות מעגלית, כמו EnrichmentEntry למעלה.
+export type SleepAnswer = "yes" | "mostly" | "no";
+export type BooksAnswer = "none" | "one" | "many";
+export type EmptyDayAnswer = "every_week" | "some_weeks" | "none";
+export type MoodAnswer = "happy" | "mixed" | "not_happy";
+
+export type FoundationEntry = {
+  readonly month: string;
+  readonly at: number;
+  readonly sleep: SleepAnswer;
+  readonly emptyDay: EmptyDayAnswer;
+  readonly books: Readonly<Record<string, BooksAnswer>>;
+  readonly mood: Readonly<Record<string, MoodAnswer>>;
+  readonly note?: string;
+};
+
+export function loadFoundationLog(): FoundationEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(FOUNDATION_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as FoundationEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveFoundationLog(log: readonly FoundationEntry[]): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(FOUNDATION_KEY, JSON.stringify(log));
 }
 
 function puppyJournalKey(profileId: string): string {
