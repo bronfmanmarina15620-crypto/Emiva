@@ -91,3 +91,54 @@ describe("סדר המסיחים במאגרי התוכן", () => {
     }
   });
 });
+
+/**
+ * רף מהודק למאגרי הבנת-הנקרא (נוסף 2026-08-12, batch 5).
+ *
+ * הרף הכללי למעלה הוא 50% — הוא נועד לתפוס הטיה קיצונית (99%-100%),
+ * ובמאגר בן 100 תשובות הוא מרווח מדי: batch של 10 פריטים שבו 7 מתוך
+ * 20 התשובות באותו מיקום עובר בירוק, כי הוא נבלע בממוצע של המאגר כולו.
+ * זה קרה בפועל בבנייה של batch 5 — מיקום 1 קיבל 7 מתוך 20, אוזן ידנית,
+ * ושום בדיקה לא הייתה תופסת אותו.
+ *
+ * המאגרים האלה נכתבים ב-batches קטנים ולכן חשופים בדיוק לדפוס הזה.
+ * שני תנאים, באותה רוח שנקבעה ב-T7ב על מאגר המדידה:
+ *   · אף מיקום אינו נושא יותר מ-40% מהתשובות;
+ *   · כל ארבעת המיקומים בשימוש — מיקום מת מצמצם את הבחירה ל-3.
+ */
+describe("פיזור התשובות במאגרי הבנת-הנקרא", () => {
+  const COMPREHENSION_BANKS = [
+    "src/content/hebrew/comprehension-emilia.json",
+    "src/content/hebrew/comprehension-evelyn.json",
+  ];
+
+  it.each(COMPREHENSION_BANKS)("%s — פיזור מלא על ארבעת המיקומים", (file) => {
+    const raw = JSON.parse(readFileSync(file, "utf8"));
+    const items = Array.isArray(raw) ? raw : (raw.items ?? []);
+
+    const counts: PositionCounts = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    let total = 0;
+    for (const item of items) {
+      for (const q of item.questions ?? []) {
+        if (q.correctIndex === undefined) continue;
+        counts[q.correctIndex] = (counts[q.correctIndex] ?? 0) + 1;
+        total++;
+      }
+    }
+
+    expect(total, `ב-${file} לא נמצאו שאלות`).toBeGreaterThan(0);
+
+    const top = Math.max(...Object.values(counts));
+    expect(
+      top / total,
+      `ב-${file}: ${top} מתוך ${total} מהתשובות באותו מיקום (${JSON.stringify(counts)})`,
+    ).toBeLessThanOrEqual(0.4);
+
+    for (let pos = 0; pos < 4; pos++) {
+      expect(
+        counts[pos],
+        `ב-${file} מיקום ${pos} אינו בשימוש כלל — הבחירה מצטמצמת ל-3`,
+      ).toBeGreaterThan(0);
+    }
+  });
+});
