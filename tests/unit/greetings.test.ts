@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  __GREETING_POOLS_FOR_TESTS,
   buildGreeting,
   continuityFrom,
   timeOfDay,
@@ -90,5 +91,49 @@ describe("greetings", () => {
       const g = buildGreeting(null, "  ", new Date("2026-04-20T08:00:00"), DET);
       expect(g.startsWith(",")).toBe(false);
     });
+  });
+});
+
+/**
+ * GENDER-INCLUSIVE-001 G2 — greetings per address form.
+ *
+ * The subtle bug this guards: "מתחילות לאט" LOOKS inclusive ("we, together")
+ * but is feminine plural — gender in disguise. Plural is only a neutralising
+ * device when the form itself doesn't inflect.
+ */
+describe("greetings — address forms", () => {
+  const FORMS = ["neutral", "feminine", "masculine"] as const;
+
+  it("every pool offers ≥2 variations in every address form", () => {
+    const { poolFor, ...pools } = __GREETING_POOLS_FOR_TESTS;
+    for (const [name, pool] of Object.entries(pools)) {
+      for (const form of FORMS) {
+        const available = poolFor(pool as never, form);
+        expect(
+          available.length,
+          `${name} / ${form} has ${available.length}`,
+        ).toBeGreaterThanOrEqual(2);
+      }
+    }
+  });
+
+  it("the neutral pools never leak gendered forms", () => {
+    const { poolFor, ...pools } = __GREETING_POOLS_FOR_TESTS;
+    for (const pool of Object.values(pools)) {
+      for (const s of poolFor(pool as never, "neutral")) {
+        expect(s).not.toMatch(/בואי|מתחילות|ברוכה|מתחילים|ברוך השב|בוא /);
+      }
+    }
+  });
+
+  it("no slash forms anywhere", () => {
+    const { poolFor, ...pools } = __GREETING_POOLS_FOR_TESTS;
+    for (const pool of Object.values(pools)) {
+      for (const form of FORMS) {
+        for (const s of poolFor(pool as never, form)) {
+          expect(s).not.toMatch(/[א-ת]\/[א-ת]/);
+        }
+      }
+    }
   });
 });

@@ -2,7 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { getActiveProfile, type Profile } from "@/lib/profiles";
+import {
+  addressFormOf,
+  getActiveProfile,
+  type AddressForm,
+  type Profile,
+} from "@/lib/profiles";
 import { logEvent } from "@/lib/telemetry";
 import { isItemCorrect, canonicalAnswer } from "@/lib/items";
 import type { Item, BarModelItem, FractionItem } from "@/lib/types";
@@ -208,6 +213,7 @@ export default function PackSessionPage() {
       <div className="max-w-2xl mx-auto space-y-4">
         <PackItemView
           packItem={current}
+          addressForm={addressFormOf(profile)}
           phase={phase}
           attemptCount={attemptCount}
           input={input}
@@ -238,6 +244,7 @@ function needsTextInput(item: Item): boolean {
 
 function PackItemView({
   packItem,
+  addressForm,
   phase,
   attemptCount,
   input,
@@ -249,6 +256,7 @@ function PackItemView({
   inputRef,
 }: {
   packItem: PackItem;
+  addressForm: AddressForm;
   phase: Phase;
   attemptCount: number;
   input: string;
@@ -280,7 +288,7 @@ function PackItemView({
 
       {phase === "correct" && (
         <div className="bg-sage-soft rounded-2xl px-4 py-3 text-warm-dark space-y-2">
-          <p className="font-semibold">{correctMessage(attemptCount === 1)}</p>
+          <p className="font-semibold">{correctMessage(attemptCount === 1, Math.random, addressForm)}</p>
           <button
             type="button"
             onClick={onAdvance}
@@ -293,13 +301,13 @@ function PackItemView({
 
       {phase === "retry" && (
         <div className="bg-mustard-soft rounded-2xl px-4 py-3 text-warm-dark">
-          <p>{retryMessage(MAX_ATTEMPTS - attemptCount)}</p>
+          <p>{retryMessage(MAX_ATTEMPTS - attemptCount, Math.random, addressForm)}</p>
         </div>
       )}
 
       {phase === "reveal" && (
         <div className="bg-warm-indigo-soft rounded-2xl px-4 py-3 text-warm-dark space-y-3">
-          <p>{revealIntro()}</p>
+          <p>{revealIntro(Math.random, "problem", addressForm)}</p>
           <p>
             <span className="text-warm-muted">התשובה: </span>
             <strong>{canonicalAnswer(item)}</strong>

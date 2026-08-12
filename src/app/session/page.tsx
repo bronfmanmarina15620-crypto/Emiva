@@ -62,6 +62,7 @@ import {
 } from "@/lib/feedback-messages";
 import { exportTelemetry, logEvent } from "@/lib/telemetry";
 import {
+  addressFormOf,
   getActiveProfile,
   itemsPerSessionForAge,
   setActiveProfileId,
@@ -248,6 +249,8 @@ export default function SessionPage() {
   const [greeting, setGreeting] = useState("");
   // CORE-ENGLISH-PHONICS-001: מהירות ההקראה, בשליטת הבת (Marina 2026-08-10).
   const [speechRate, setSpeechRate] = useState(SPEECH_RATE_DEFAULT);
+  // GENDER-INCLUSIVE-001 — נגזר מהפרופיל שכבר ב-state, כמו speechRate.
+  const addressForm = addressFormOf(profile);
   const inputRef = useRef<HTMLInputElement>(null);
   const startMasteryRef = useRef(0);
   const celebratedRef = useRef(false);
@@ -332,7 +335,15 @@ export default function SessionPage() {
     }
     setState(fresh);
     firstItemRef.current = first;
-    setGreeting(buildGreeting(loadLastSessionTime(active.id), active.name));
+    setGreeting(
+      buildGreeting(
+        loadLastSessionTime(active.id),
+        active.name,
+        new Date(),
+        Math.random,
+        addressFormOf(active),
+      ),
+    );
     setPhase(first ? "welcome" : "summary");
   }, [router]);
 
@@ -452,7 +463,7 @@ export default function SessionPage() {
 
     if (correct) {
       finishItem(attempts === 0);
-      const text = correctMessage(attempts === 0);
+      const text = correctMessage(attempts === 0, Math.random, addressForm);
       setCorrectText(text);
       logEvent(profile.id, {
         t: "feedback_text",
@@ -466,7 +477,7 @@ export default function SessionPage() {
 
     if (nextAttempts < MAX_ATTEMPTS) {
       const attemptsLeft = MAX_ATTEMPTS - nextAttempts;
-      const text = retryMessage(attemptsLeft);
+      const text = retryMessage(attemptsLeft, Math.random, addressForm);
       setAttempts(nextAttempts);
       setRetryText(text);
       logEvent(profile.id, {
@@ -485,7 +496,7 @@ export default function SessionPage() {
     // ולפוניקה (CORE-ENGLISH-VOCAB-EXPLAIN-001).
     const isWord =
       current.skill === "english_vocab" || current.skill === "english_phonics";
-    const text = revealIntro(Math.random, isWord ? "word" : "problem");
+    const text = revealIntro(Math.random, isWord ? "word" : "problem", addressForm);
     setRevealText(text);
     logEvent(profile.id, {
       t: "reveal",

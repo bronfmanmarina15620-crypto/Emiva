@@ -3,6 +3,7 @@ import {
   correctMessage,
   retryMessage,
   revealIntro,
+  __POOLS_FOR_TESTS,
 } from "@/lib/feedback-messages";
 
 const DETERMINISTIC = () => 0;
@@ -70,5 +71,68 @@ describe("feedback-messages", () => {
     const variants = new Set<string>();
     for (let i = 0; i < 10; i++) variants.add(retryMessage(2, () => i / 10));
     expect(variants.size).toBeGreaterThanOrEqual(2);
+  });
+});
+
+/**
+ * GENDER-INCLUSIVE-001 G2 — the pedagogy rule (≥2 variations per message
+ * category) has to hold **in every address form**, not just on average.
+ *
+ * This is the trap the plan predicted: splitting pools by gender quietly
+ * left the neutral pools with a single line each, so a child who chose
+ * "prefer not to say" would have heard the same sentence every time. The
+ * fix was to write more neutral copy — not to relax the threshold.
+ */
+describe("feedback-messages — address forms", () => {
+  const FORMS = ["neutral", "feminine", "masculine"] as const;
+
+  it("every pool offers ≥2 variations in every address form", () => {
+    const { poolFor, ...pools } = __POOLS_FOR_TESTS;
+    for (const [name, pool] of Object.entries(pools)) {
+      for (const form of FORMS) {
+        const available = poolFor(pool as never, form);
+        expect(
+          available.length,
+          `${name} / ${form} has ${available.length} variation(s)`,
+        ).toBeGreaterThanOrEqual(2);
+      }
+    }
+  });
+
+  it("addresses a boy in masculine and a girl in feminine", () => {
+    // Sample the whole pool: neutral lines are shared, so any single draw
+    // may legitimately be one of those.
+    const draws = (form: (typeof FORMS)[number]) =>
+      Array.from({ length: 12 }, (_, i) => retryMessage(1, () => i / 12, form));
+
+    const fem = draws("feminine").join(" | ");
+    expect(fem).toMatch(/את יכולה|קחי/);
+    expect(fem).not.toMatch(/אתה יכול|קח נשימה/);
+
+    const masc = draws("masculine").join(" | ");
+    expect(masc).toMatch(/אתה יכול|קח נשימה/);
+    expect(masc).not.toMatch(/את יכולה|קחי/);
+  });
+
+  it("never uses slash forms — they hurt beginning readers", () => {
+    // The Israeli government standard forbids them outright, and Emiva is
+    // partly a reading app for 7-year-olds.
+    const { poolFor, ...pools } = __POOLS_FOR_TESTS;
+    for (const pool of Object.values(pools)) {
+      for (const form of FORMS) {
+        for (const s of poolFor(pool as never, form)) {
+          expect(s).not.toMatch(/[א-ת]\/[א-ת]/);
+        }
+      }
+    }
+  });
+
+  it("the neutral form never leaks gendered address", () => {
+    const { poolFor, ...pools } = __POOLS_FOR_TESTS;
+    for (const pool of Object.values(pools)) {
+      for (const s of poolFor(pool as never, "neutral")) {
+        expect(s).not.toMatch(/בואי|קחי|את יכולה|בוא |קח |אתה יכול/);
+      }
+    }
   });
 });
