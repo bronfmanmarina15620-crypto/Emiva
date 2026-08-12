@@ -22,7 +22,30 @@ export type Profile = {
   // רעיון של Marina (2026-08-10) — כל בת מווסתת את הקצב שנוח לה
   // במקום ערך אחיד שנקבע מראש. נשמר פר-פרופיל.
   speechRate?: number;
+  // GENDER-INCLUSIVE-001: באיזו לשון פונים לילד/ה.
+  //
+  // **שאלת לשון, לא שאלת מין** — כך ממליץ התקן הממשלתי, וכך גם
+  // מנוסחת השאלה במסך. בעברית אין גוף שני ניטרלי, ולכן פנייה ישירה
+  // חייבת להכריע; מה שאפשר לנסח בלי מגדר מנוסח כך ואינו נשען על
+  // השדה הזה.
+  //
+  // **חסר = לא נבחר** → נופלים לנוסח הניטרלי ביותר שיש. פרופילים
+  // שנוצרו לפני השדה ממשיכים לעבוד בלי לגעת בהם, ואף אחת לא נדרשת
+  // למלא כלום (אותה קונבנציה כמו `speechRate`).
+  addressForm?: AddressForm;
 };
+
+/**
+ * `feminine` / `masculine` — פנייה מלאה בלשון המתאימה.
+ * `neutral` — "לא רוצה לומר" ⇒ נוסח שנמנע ממגדר גם במחיר חום מסוים.
+ */
+export type AddressForm = "feminine" | "masculine" | "neutral";
+
+export const ADDRESS_FORM_DEFAULT: AddressForm = "neutral";
+
+export function addressFormOf(profile?: Profile | null): AddressForm {
+  return profile?.addressForm ?? ADDRESS_FORM_DEFAULT;
+}
 
 const BIRTH_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -137,6 +160,19 @@ export function setSpeechRate(profileId: string, rate: number): void {
   );
 }
 
+/**
+ * GENDER-INCLUSIVE-001 — שמירת לשון הפנייה.
+ *
+ * כמו `setSpeechRate` ובניגוד ל-`difficultyOffset`: אין זריעה
+ * אוטומטית. ערך חסר פירושו "לא נבחר", והקורא נופל לנוסח הניטרלי.
+ */
+export function setAddressForm(profileId: string, form: AddressForm): void {
+  const all = loadProfiles();
+  saveProfiles(
+    all.map((p) => (p.id === profileId ? { ...p, addressForm: form } : p)),
+  );
+}
+
 export function loadProfiles(): Profile[] {
   if (typeof window === "undefined") return [];
   try {
@@ -174,12 +210,15 @@ export function createProfile(
   name: string,
   age: number,
   birthDate?: string,
+  addressForm?: AddressForm,
 ): Profile {
   const profile: Profile = {
     id: newProfileId(),
     name: name.trim(),
     age,
     ...(birthDate !== undefined ? { birthDate } : {}),
+    // נשמר רק כשנבחר במפורש — חסר פירושו "לא נבחר" (ראי §AddressForm).
+    ...(addressForm !== undefined ? { addressForm } : {}),
     allowedSkills: allowedSkillsForAge(age),
     createdAt: Date.now(),
   };
@@ -196,7 +235,12 @@ export function createProfile(
  */
 export function updateProfile(
   id: string,
-  patch: { name?: string; age?: number; birthDate?: string | null },
+  patch: {
+    name?: string;
+    age?: number;
+    birthDate?: string | null;
+    addressForm?: AddressForm;
+  },
 ): Profile | null {
   const all = loadProfiles();
   const idx = all.findIndex((p) => p.id === id);
@@ -206,6 +250,9 @@ export function updateProfile(
     ...prev,
     name: patch.name !== undefined ? patch.name.trim() : prev.name,
     age: patch.age ?? prev.age,
+    ...(patch.addressForm !== undefined
+      ? { addressForm: patch.addressForm }
+      : {}),
   };
   if (patch.birthDate === null) {
     delete next.birthDate;

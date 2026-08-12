@@ -8,14 +8,20 @@ import {
   allowedSkillsForAge,
   createProfile,
   setActiveProfileId,
+  type AddressForm,
 } from "@/lib/profiles";
 import { TopicsPreview } from "@/components/TopicsPreview";
+import { AddressFormPicker } from "@/components/AddressFormPicker";
 
 export default function NewProfilePage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | "">("");
   const [birthDate, setBirthDate] = useState("");
+  // GENDER-INCLUSIVE-001 — לא נבחר עד שנוגעים; חסר = ניטרלי.
+  const [addressForm, setAddressForm] = useState<AddressForm | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -50,7 +56,12 @@ export default function NewProfilePage() {
       return;
     }
     setSubmitting(true);
-    const profile = createProfile(trimmed, ageN, birthDate || undefined);
+    const profile = createProfile(
+      trimmed,
+      ageN,
+      birthDate || undefined,
+      addressForm,
+    );
     setActiveProfileId(profile.id);
     router.push("/session");
   }
@@ -112,6 +123,8 @@ export default function NewProfilePage() {
             </span>
             <TopicsPreview age={effectiveAge} />
           </label>
+
+          <AddressFormPicker value={addressForm} onChange={setAddressForm} />
 
           {error && (
             <p className="text-sm text-terracotta-dark">{error}</p>

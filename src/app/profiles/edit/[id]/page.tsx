@@ -8,9 +8,11 @@ import {
   allowedSkillsForAge,
   loadProfiles,
   updateProfile,
+  type AddressForm,
   type Profile,
 } from "@/lib/profiles";
 import { TopicsPreview } from "@/components/TopicsPreview";
+import { AddressFormPicker } from "@/components/AddressFormPicker";
 
 /**
  * עריכת פרופיל קיים — שם, גיל ותאריך-לידה — בלי לגעת בהיסטוריה.
@@ -24,6 +26,9 @@ export default function EditProfilePage() {
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | "">("");
   const [birthDate, setBirthDate] = useState("");
+  const [addressForm, setAddressForm] = useState<AddressForm | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -34,6 +39,7 @@ export default function EditProfilePage() {
       setName(found.name);
       setAge(found.age);
       setBirthDate(found.birthDate ?? "");
+      setAddressForm(found.addressForm);
     }
   }, [params.id]);
 
@@ -71,6 +77,8 @@ export default function EditProfilePage() {
       name: trimmed,
       age: ageN,
       birthDate: birthDate === "" ? null : birthDate,
+      // undefined = לא נגעו; לא דורסים בחירה קיימת.
+      ...(addressForm !== undefined ? { addressForm } : {}),
     });
     router.push("/");
   }
@@ -153,6 +161,8 @@ export default function EditProfilePage() {
             />
             <TopicsPreview age={effectiveAge} />
           </label>
+
+          <AddressFormPicker value={addressForm} onChange={setAddressForm} />
 
           {error && <p className="text-sm text-terracotta-dark">{error}</p>}
 

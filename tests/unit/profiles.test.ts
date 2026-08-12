@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  addressFormOf,
   ageFromBirthDate,
   allowedSkillsForAge,
   createProfile,
+  setAddressForm,
   deleteProfile,
   getActiveProfile,
   getActiveProfileId,
@@ -350,6 +352,65 @@ describe("profiles", () => {
         "english_phonics",
         "english_vocab",
       ]);
+    });
+  });
+
+  // GENDER-INCLUSIVE-001 G1 — לשון הפנייה. שאלת *לשון*, לא שאלת מין.
+  describe("addressForm", () => {
+    it("is absent unless explicitly chosen", () => {
+      const p = createProfile("דנה", 8);
+      expect(p.addressForm).toBeUndefined();
+      expect(addressFormOf(p)).toBe("neutral");
+    });
+
+    it("is stored when chosen at creation", () => {
+      const p = createProfile("איתי", 8, undefined, "masculine");
+      expect(p.addressForm).toBe("masculine");
+      expect(addressFormOf(loadProfiles()[0])).toBe("masculine");
+    });
+
+    // The migration guarantee: Evelyn and Emilia already have profiles and
+    // must neither break nor be forced to answer anything.
+    it("existing profiles keep working and are never forced to choose", () => {
+      const legacy = [
+        {
+          id: "p-old",
+          name: "אוולין",
+          age: 8,
+          allowedSkills: [] as const,
+          createdAt: 1,
+        },
+      ];
+      saveProfiles(legacy as unknown as ReturnType<typeof loadProfiles>);
+      const [reloaded] = loadProfiles();
+      expect(reloaded).toBeDefined();
+      expect(reloaded!.addressForm).toBeUndefined();
+      expect(addressFormOf(reloaded)).toBe("neutral");
+      // …and the rest of the profile is untouched.
+      expect(reloaded!.name).toBe("אוולין");
+      expect(reloaded!.age).toBe(8);
+    });
+
+    it("setAddressForm updates without touching id or history", () => {
+      const p = createProfile("נועה", 9);
+      setAddressForm(p.id, "feminine");
+      const [reloaded] = loadProfiles();
+      expect(reloaded!.id).toBe(p.id);
+      expect(reloaded!.addressForm).toBe("feminine");
+    });
+
+    it("updateProfile can change it, and leaves it alone when omitted", () => {
+      const p = createProfile("יובל", 9, undefined, "neutral");
+      updateProfile(p.id, { addressForm: "masculine" });
+      expect(loadProfiles()[0]?.addressForm).toBe("masculine");
+      // A name-only edit must not wipe the choice.
+      updateProfile(p.id, { name: "יובל כ." });
+      expect(loadProfiles()[0]?.addressForm).toBe("masculine");
+    });
+
+    it("addressFormOf tolerates null/undefined profiles", () => {
+      expect(addressFormOf(null)).toBe("neutral");
+      expect(addressFormOf(undefined)).toBe("neutral");
     });
   });
 });
