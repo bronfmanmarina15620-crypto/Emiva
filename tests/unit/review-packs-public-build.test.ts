@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { resolve } from "node:path";
 import { listPacks, getPackById } from "@/lib/review-packs";
 
@@ -45,15 +46,24 @@ describe("review packs — private content is gitignored, not flag-gated", () =>
     expect(source).toContain("review-packs/private");
   });
 
-  it("the tracked private barrel ships no packs", () => {
-    // A clean clone must build AND contain nothing private. If someone commits
-    // their local wiring by mistake, this fails loudly.
-    const barrel = readFileSync(
-      resolve(__dirname, "../../src/content/review-packs/private/index.ts"),
-      "utf8",
-    );
-    expect(barrel).toMatch(/PRIVATE_PACKS[^=]*=\s*\[\s*\]/);
-    expect(barrel).not.toMatch(/from\s+["']\.\/[^"']*\.json["']/);
+  it("the barrel COMMITTED to git ships no packs", () => {
+    // Checks what git holds, not the working file: a maintainer may legitimately
+    // wire her own private pack locally (that is the whole point of the folder).
+    // What must never happen is that wiring reaching the repo — which is exactly
+    // how the private content shipped the first time.
+    let tracked: string;
+    try {
+      tracked = execFileSync(
+        "git",
+        ["show", "HEAD:src/content/review-packs/private/index.ts"],
+        { encoding: "utf8", cwd: resolve(__dirname, "../..") },
+      );
+    } catch {
+      // No git (e.g. a tarball build) — nothing to assert against.
+      return;
+    }
+    expect(tracked).toMatch(/PRIVATE_PACKS[^=]*=\s*\[\s*\]/);
+    expect(tracked).not.toMatch(/from\s+["']\.\/[^"']*\.json["']/);
   });
 
   it("a child sharing the audience name is never served someone else's pack", () => {
