@@ -1,5 +1,6 @@
 import scienceBank from "@/content/enrichment/science.json";
 import logicBank from "@/content/enrichment/logic.json";
+import geographyBank from "@/content/enrichment/geography.json";
 
 /**
  * שכבה 2 — Enrichment (MyLevel.docx §1).
@@ -12,7 +13,7 @@ import logicBank from "@/content/enrichment/logic.json";
  * נאכף ב-tests/unit/enrichment.test.ts.
  */
 
-export type EnrichmentTopic = "science" | "logic";
+export type EnrichmentTopic = "science" | "logic" | "geography";
 
 export type AgeBand = "7-8" | "9-10";
 
@@ -62,17 +63,30 @@ export type EnrichmentActivity = {
   readonly parentTip: string;
 };
 
-const SCIENCE = scienceBank as unknown as readonly EnrichmentActivity[];
-const LOGIC = logicBank as unknown as readonly EnrichmentActivity[];
+/**
+ * מיפוי מפורש במקום שלישייה (`topic === "science" ? A : B`).
+ *
+ * הצורה הקודמת עבדה בדיוק לשני נושאים והייתה מחזירה בשקט את מאגר
+ * הלוגיקה לכל נושא שלישי — כלומר גיאוגרפיה הייתה מציגה חידות בלי
+ * שאף בדיקה תיפול. `Record` על הטיפוס מכריח את TypeScript לדרוש
+ * ערך לכל נושא, כך שנושא חדש בלי מאגר אינו מתקמפל.
+ */
+const BANKS: Record<EnrichmentTopic, readonly EnrichmentActivity[]> = {
+  science: scienceBank as unknown as readonly EnrichmentActivity[],
+  logic: logicBank as unknown as readonly EnrichmentActivity[],
+  geography: geographyBank as unknown as readonly EnrichmentActivity[],
+};
 
 export const ENRICHMENT_TOPICS: readonly EnrichmentTopic[] = [
   "science",
   "logic",
+  "geography",
 ];
 
 export const TOPIC_HEBREW: Record<EnrichmentTopic, string> = {
   science: "מדע",
   logic: "לוגיקה וחידות",
+  geography: "גיאוגרפיה",
 };
 
 export function ageBandFor(age: number): AgeBand {
@@ -80,7 +94,7 @@ export function ageBandFor(age: number): AgeBand {
 }
 
 export function bankFor(topic: EnrichmentTopic): readonly EnrichmentActivity[] {
-  return topic === "science" ? SCIENCE : LOGIC;
+  return BANKS[topic];
 }
 
 export function activitiesFor(

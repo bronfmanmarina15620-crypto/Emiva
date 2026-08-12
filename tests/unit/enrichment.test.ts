@@ -161,6 +161,58 @@ describe("העשרה — פעילות חייבת להיות בת-ביצוע", ()
       }
     }
   });
+
+  it("כל נושא ברשימה מחזיר מאגר משלו, ולא של נושא אחר", () => {
+    // `bankFor` היה כתוב כשלישייה (`topic === "science" ? A : B`) —
+    // צורה שעובדת בדיוק לשני נושאים ומחזירה בשקט את המאגר האחרון
+    // לכל נושא שלישי. גיאוגרפיה הייתה מציגה חידות לוגיקה בלי
+    // ששום בדיקה תיפול. נתפס בהוספת הנושא השלישי (2026-08-12).
+    const seen = new Map<string, string>();
+    for (const topic of ENRICHMENT_TOPICS) {
+      const bank = bankFor(topic) as EnrichmentActivity[];
+      expect(bank.length, `${topic}: מאגר ריק`).toBeGreaterThan(0);
+      for (const a of bank) {
+        expect(a.topic, `${a.id} יושב במאגר של ${topic}`).toBe(topic);
+        const prev = seen.get(a.id);
+        expect(prev, `${a.id} מופיע גם ב-${prev}`).toBeUndefined();
+        seen.set(a.id, topic);
+      }
+    }
+  });
+});
+
+describe("העשרה — גיאוגרפיה היא חקירה, לא שינון", () => {
+  // הסיכון הייחודי לנושא הזה: גיאוגרפיה מתפתה בקלות לרשימת בירות
+  // ודגלים. §4 מגדיר את השכבה כחשיפה וסקרנות, ו-§4.1 קובע במפורש
+  // "הדגש: 'למה זה קורה?' לא 'מה השם של זה?'".
+  const GEO = bankFor("geography") as EnrichmentActivity[];
+
+  it("יש 12 פעילויות, מחולקות שווה בין קבוצות הגיל", () => {
+    expect(GEO.length).toBe(12);
+    expect(GEO.filter((a) => a.ageBand === "7-8").length).toBe(6);
+    expect(GEO.filter((a) => a.ageBand === "9-10").length).toBe(6);
+  });
+
+  it("כל פעילות דורשת פעולה בעולם, לא שליפה מהזיכרון", () => {
+    // כל פעילות חייבת ציוד או שלבים שמתארים עשייה. פעילות בלי
+    // שניהם היא שאלת-ידע במסווה.
+    for (const a of GEO) {
+      const hasWork = (a.materials?.length ?? 0) > 0 || (a.steps?.length ?? 0) > 0;
+      expect(hasWork, `${a.id}: אין ציוד ואין שלבים — זו שאלה, לא פעילות`).toBe(
+        true,
+      );
+    }
+  });
+
+  it("ההסבר עונה על 'למה', לא על 'איך קוראים לזה'", () => {
+    for (const a of GEO) {
+      // הסבר קצר מדי הוא כמעט תמיד הגדרה ולא סיבה.
+      expect(
+        a.why.length,
+        `${a.id}: ההסבר קצר מכדי להסביר סיבה`,
+      ).toBeGreaterThan(80);
+    }
+  });
 });
 
 describe("העשרה — בחירת פעילות השבוע", () => {
