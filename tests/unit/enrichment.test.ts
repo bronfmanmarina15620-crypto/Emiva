@@ -83,6 +83,86 @@ describe("העשרה — שלמות המאגרים", () => {
   });
 });
 
+/**
+ * 🔴 הלקח מקודד (2026-08-12): Marina פתחה את מסך ההעשרה, קראה
+ * "הדגימי עם שמן, מים וסבון" — ולא הבינה מה לעשות. בלי כמויות,
+ * בלי סדר פעולות ובלי "מה אמור לקרות", `activity` הוא **כותרת
+ * ולא הוראה**, וילדה בת 9 לא יכולה לבצע ממנו.
+ *
+ * הכלל: אם ההורה לא מבינה — הילדה בוודאי לא. הבדיקות כאן הופכות
+ * את זה מהערה בפרוזה לכשל רועש ב-CI.
+ */
+describe("העשרה — פעילות חייבת להיות בת-ביצוע", () => {
+  it("לכל פעילות יש שלבים ממוספרים, לא רק משפט כותרת", () => {
+    for (const topic of ENRICHMENT_TOPICS) {
+      for (const a of bankFor(topic) as EnrichmentActivity[]) {
+        expect(
+          a.steps,
+          `${a.id} ("${a.title}") — אין שלבים. משפט אחד הוא כותרת, ` +
+            `לא הוראה: ילדה לא יכולה לבצע ממנו.`,
+        ).toBeDefined();
+        expect(
+          a.steps!.length,
+          `${a.id}: פחות מ-3 שלבים — כנראה עדיין כותרת מוסווית`,
+        ).toBeGreaterThanOrEqual(3);
+        for (const s of a.steps!) {
+          expect(s.trim(), `${a.id}: שלב ריק`).not.toBe("");
+        }
+      }
+    }
+  });
+
+  it("לכל פעילות יש 'מה אמור לקרות'", () => {
+    // בלי זה אי אפשר לדעת אם הניסוי נכשל או שפשוט בוצע אחרת —
+    // וזה מה שהופך פעילות ל"עשינו, לא קרה כלום, נמאס".
+    for (const topic of ENRICHMENT_TOPICS) {
+      for (const a of bankFor(topic) as EnrichmentActivity[]) {
+        expect(
+          a.expected?.trim(),
+          `${a.id} ("${a.title}") — אין "מה אמור לקרות"`,
+        ).toBeTruthy();
+      }
+    }
+  });
+
+  it("לכל פעילות יש רשימת ציוד", () => {
+    for (const topic of ENRICHMENT_TOPICS) {
+      for (const a of bankFor(topic) as EnrichmentActivity[]) {
+        expect(
+          a.materials?.length,
+          `${a.id} ("${a.title}") — אין רשימת ציוד. הילדה תגלה באמצע ` +
+            `שחסר משהו.`,
+        ).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("לכל פעילות יש ניחוש מקדים (§4.1 Guided Inquiry)", () => {
+    for (const topic of ENRICHMENT_TOPICS) {
+      for (const a of bankFor(topic) as EnrichmentActivity[]) {
+        expect(
+          a.predict?.trim(),
+          `${a.id} ("${a.title}") — אין ניחוש מקדים. §4.1 דורש ` +
+            `שהילדה תנחש לפני שהיא בודקת.`,
+        ).toBeTruthy();
+      }
+    }
+  });
+
+  it("'מה אמור לקרות' אינו מסגיר את ההסבר", () => {
+    // ה"למה" חייב להישאר מוסתר עד "כבר ניסיתי" — אחרת שדה
+    // ה-expected עוקף את Guided Inquiry ומגיש את התשובה מראש.
+    for (const topic of ENRICHMENT_TOPICS) {
+      for (const a of bankFor(topic) as EnrichmentActivity[]) {
+        expect(
+          a.expected,
+          `${a.id}: "מה אמור לקרות" זהה להסבר — זה מבטל את ההסתרה`,
+        ).not.toBe(a.why);
+      }
+    }
+  });
+});
+
 describe("העשרה — בחירת פעילות השבוע", () => {
   it("גיל 7–8 וגיל 9–10 ממופים נכון", () => {
     expect(ageBandFor(7)).toBe("7-8");

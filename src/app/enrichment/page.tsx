@@ -174,6 +174,63 @@ function ActivityCard({
           {activity.activity}
         </p>
 
+        {/* מה צריך להכין — לפני הכול, כדי לא לגלות באמצע שחסר משהו. */}
+        {activity.materials && activity.materials.length > 0 && (
+          <div className="bg-cream rounded-2xl p-4 space-y-2">
+            <div className="text-sm font-semibold text-warm-dark">
+              מה צריך
+            </div>
+            <ul className="space-y-1">
+              {activity.materials.map((m, i) => (
+                <li key={i} className="text-warm-dark leading-relaxed">
+                  • {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* §4.1 Guided Inquiry — הניחוש בא לפני הבדיקה, לא אחריה. */}
+        {activity.predict && (
+          <div className="bg-mustard-soft rounded-2xl p-4 space-y-1">
+            <div className="text-sm font-semibold text-warm-dark">
+              🤔 קודם כול — נחשי
+            </div>
+            <p className="text-warm-dark leading-relaxed">{activity.predict}</p>
+          </div>
+        )}
+
+        {/* השלבים עצמם. בלי אלה הפעילות היא כותרת, לא הוראה. */}
+        {activity.steps && activity.steps.length > 0 && (
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-warm-dark">
+              איך עושים את זה
+            </div>
+            <ol className="space-y-2">
+              {activity.steps.map((s, i) => (
+                <li key={i} className="flex gap-3 items-start">
+                  <span className="shrink-0 w-6 h-6 rounded-full bg-terracotta text-white text-sm font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <span className="text-warm-dark leading-relaxed pt-0.5">
+                    {s}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {/* מה לחפש — מונע "עשינו, לא קרה כלום". במכוון בלי ה"למה". */}
+        {activity.expected && (
+          <div className="bg-sage-soft rounded-2xl p-4 space-y-1">
+            <div className="text-sm font-semibold text-warm-dark">
+              👀 מה אמור לקרות
+            </div>
+            <p className="text-warm-dark leading-relaxed">{activity.expected}</p>
+          </div>
+        )}
+
         {!showWhy ? (
           <button
             type="button"
