@@ -5,8 +5,15 @@
     "difficulty": 1,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "fraction", "num": 1, "den": 2 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 1,
+      "den": 2
+    },
     "explanation": "הסרגל מחולק לשני חלקים שווים, חלק אחד צבוע. זה 1/2 — חצי."
   },
   {
@@ -15,8 +22,15 @@
     "difficulty": 1,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "fraction", "num": 1, "den": 4 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 1,
+      "den": 4
+    },
     "explanation": "ארבעה חלקים שווים, חלק אחד צבוע. 1 מתוך 4 — זה 1/4, רבע."
   },
   {
@@ -25,8 +39,15 @@
     "difficulty": 2,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "fraction", "num": 1, "den": 3 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 1,
+      "den": 3
+    },
     "explanation": "שלושה חלקים שווים, אחד צבוע. זה 1/3 — שליש."
   },
   {
@@ -35,8 +56,15 @@
     "difficulty": 3,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 4, "filled": 3 },
-    "answer": { "kind": "fraction", "num": 3, "den": 4 },
+    "viz": {
+      "parts": 4,
+      "filled": 3
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 3,
+      "den": 4
+    },
     "explanation": "ארבעה חלקים שווים, שלושה צבועים. 3 מתוך 4 — זה 3/4."
   },
   {
@@ -45,8 +73,15 @@
     "difficulty": 4,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 6, "filled": 2 },
-    "answer": { "kind": "fraction", "num": 2, "den": 6 },
+    "viz": {
+      "parts": 6,
+      "filled": 2
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 2,
+      "den": 6
+    },
     "explanation": "שישה חלקים שווים, שניים צבועים. 2 מתוך 6 — זה 2/6. זה אותו דבר כמו 1/3.",
     "external_test_eligible": true
   },
@@ -56,11 +91,17 @@
     "difficulty": 5,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 8, "filled": 3 },
-    "answer": { "kind": "fraction", "num": 3, "den": 8 },
+    "viz": {
+      "parts": 8,
+      "filled": 3
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 3,
+      "den": 8
+    },
     "explanation": "שמונה חלקים שווים, שלושה צבועים. 3 מתוך 8 — זה 3/8."
   },
-
   {
     "id": "fi-ntv-001",
     "skill": "fractions_intro",
@@ -70,7 +111,12 @@
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "1/3", "1/4", "2/3"]
+      "options": [
+        "1/2",
+        "1/3",
+        "1/4",
+        "2/3"
+      ]
     },
     "explanation": "1/2 זה חלק אחד מתוך שניים שווים. חצי."
   },
@@ -83,7 +129,12 @@
     "answer": {
       "kind": "choice",
       "correct": "1/3",
-      "options": ["1/2", "1/3", "2/3", "3/4"]
+      "options": [
+        "1/2",
+        "1/3",
+        "2/3",
+        "3/4"
+      ]
     },
     "explanation": "1/3 זה חלק אחד מתוך שלושה שווים."
   },
@@ -96,7 +147,12 @@
     "answer": {
       "kind": "choice",
       "correct": "2/3",
-      "options": ["1/3", "2/3", "1/2", "3/4"]
+      "options": [
+        "1/3",
+        "1/2",
+        "2/3",
+        "3/4"
+      ]
     },
     "explanation": "2/3 זה שני חלקים מתוך שלושה שווים."
   },
@@ -109,7 +165,12 @@
     "answer": {
       "kind": "choice",
       "correct": "2/5",
-      "options": ["1/5", "2/5", "3/5", "4/5"]
+      "options": [
+        "1/5",
+        "3/5",
+        "4/5",
+        "2/5"
+      ]
     },
     "explanation": "2/5 זה שני חלקים מתוך חמישה שווים.",
     "external_test_eligible": true
@@ -123,19 +184,29 @@
     "answer": {
       "kind": "choice",
       "correct": "5/6",
-      "options": ["3/6", "4/6", "5/6", "6/6"]
+      "options": [
+        "5/6",
+        "3/6",
+        "4/6",
+        "6/6"
+      ]
     },
     "explanation": "5/6 זה חמישה חלקים מתוך שישה שווים — כמעט הכל מלא."
   },
-
   {
     "id": "fi-hv-001",
     "skill": "fractions_intro",
     "difficulty": 1,
     "type": "halving",
     "prompt": "חצי מ-10 הוא?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 5 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 5
+    },
     "explanation": "חצי פירושו לחלק ל-2 חלקים שווים. 10 מחולק ב-2 זה 5."
   },
   {
@@ -144,8 +215,14 @@
     "difficulty": 2,
     "type": "halving",
     "prompt": "חצי מ-16 הוא?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 8 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 8
+    },
     "explanation": "מחלקים 16 ל-2 חלקים שווים: 8 ו-8. חצי = 8."
   },
   {
@@ -154,8 +231,14 @@
     "difficulty": 3,
     "type": "halving",
     "prompt": "שליש מ-9 הוא?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 3 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 3
+    },
     "explanation": "שליש = לחלק ל-3 חלקים שווים. 9 מחולק ב-3 זה 3."
   },
   {
@@ -164,8 +247,14 @@
     "difficulty": 4,
     "type": "halving",
     "prompt": "רבע מ-12 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 3 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 3
+    },
     "explanation": "רבע = לחלק ל-4 חלקים שווים. 12 מחולק ב-4 זה 3.",
     "external_test_eligible": true
   },
@@ -175,11 +264,16 @@
     "difficulty": 5,
     "type": "halving",
     "prompt": "רבע מ-20 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 5 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 5
+    },
     "explanation": "מחלקים 20 ל-4 חלקים שווים: 5, 5, 5, 5. רבע = 5."
   },
-
   {
     "id": "fi-cmp-001",
     "skill": "fractions_intro",
@@ -189,7 +283,10 @@
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "1/4"]
+      "options": [
+        "1/4",
+        "1/2"
+      ]
     },
     "explanation": "אותו עוגה, שתי חלוקות. מחלקים ל-2 חלקים — כל חלק גדול. מחלקים ל-4 — כל חלק קטן יותר. אז 1/2 גדול יותר מ-1/4."
   },
@@ -202,7 +299,10 @@
     "answer": {
       "kind": "choice",
       "correct": "1/3",
-      "options": ["1/3", "1/5"]
+      "options": [
+        "1/3",
+        "1/5"
+      ]
     },
     "explanation": "כשמחלקים לפחות חלקים — כל חלק גדול יותר. 3 חלקים > 5 חלקים, אז 1/3 גדול מ-1/5."
   },
@@ -215,7 +315,10 @@
     "answer": {
       "kind": "choice",
       "correct": "2/3",
-      "options": ["2/3", "1/2"]
+      "options": [
+        "1/2",
+        "2/3"
+      ]
     },
     "explanation": "2/3 זה יותר מחצי — לקחת 2 מתוך 3 חלקים זה יותר מחצי העוגה."
   },
@@ -228,7 +331,10 @@
     "answer": {
       "kind": "choice",
       "correct": "3/4",
-      "options": ["3/4", "2/3"]
+      "options": [
+        "3/4",
+        "2/3"
+      ]
     },
     "explanation": "3/4 זה רבע מתחת לשלם. 2/3 זה שליש מתחת לשלם. רבע < שליש, אז 3/4 קרוב יותר לשלם, כלומר גדול יותר."
   },
@@ -241,23 +347,33 @@
     "answer": {
       "kind": "choice",
       "correct": "3/4",
-      "options": ["4/6", "3/4"]
+      "options": [
+        "4/6",
+        "3/4"
+      ]
     },
     "explanation": "4/6 זה 2/3 (יחס 2:3). 3/4 זה רבע מתחת לשלם, 2/3 זה שליש מתחת. רבע קטן משליש, אז 3/4 גדול יותר.",
     "external_test_eligible": true
   },
-
   {
     "id": "fi-eq-001",
     "skill": "fractions_intro",
     "difficulty": 2,
     "type": "equivalent",
     "prompt": "2/4 זה אותו דבר כמו:",
-    "viz": { "parts": 4, "filled": 2 },
+    "viz": {
+      "parts": 4,
+      "filled": 2
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "1/3", "1/4", "3/4"]
+      "options": [
+        "1/3",
+        "1/4",
+        "1/2",
+        "3/4"
+      ]
     },
     "explanation": "בתוך 2/4 יש 2 חלקים צבועים מתוך 4. זה בדיוק חצי מהעוגה — 1/2."
   },
@@ -267,11 +383,19 @@
     "difficulty": 2,
     "type": "equivalent",
     "prompt": "3/6 זה אותו דבר כמו:",
-    "viz": { "parts": 6, "filled": 3 },
+    "viz": {
+      "parts": 6,
+      "filled": 3
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "2/3", "1/3", "1/6"]
+      "options": [
+        "2/3",
+        "1/3",
+        "1/6",
+        "1/2"
+      ]
     },
     "explanation": "3 מתוך 6 זה חצי מהחלקים. לכן 3/6 = 1/2."
   },
@@ -281,11 +405,19 @@
     "difficulty": 3,
     "type": "equivalent",
     "prompt": "2/6 זה אותו דבר כמו:",
-    "viz": { "parts": 6, "filled": 2 },
+    "viz": {
+      "parts": 6,
+      "filled": 2
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/3",
-      "options": ["1/2", "1/3", "2/3", "1/4"]
+      "options": [
+        "1/3",
+        "1/2",
+        "2/3",
+        "1/4"
+      ]
     },
     "explanation": "אפשר לקבץ את 6 החלקים לזוגות. יש 3 זוגות. 2 חלקים = זוג אחד מתוך 3 = 1/3."
   },
@@ -295,11 +427,19 @@
     "difficulty": 4,
     "type": "equivalent",
     "prompt": "4/8 זה אותו דבר כמו:",
-    "viz": { "parts": 8, "filled": 4 },
+    "viz": {
+      "parts": 8,
+      "filled": 4
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "1/4", "2/4", "3/4"]
+      "options": [
+        "1/4",
+        "1/2",
+        "2/4",
+        "3/4"
+      ]
     },
     "explanation": "4 מתוך 8 = חצי מהחלקים. 4/8 = 1/2."
   },
@@ -309,23 +449,37 @@
     "difficulty": 5,
     "type": "equivalent",
     "prompt": "3/9 זה אותו דבר כמו:",
-    "viz": { "parts": 9, "filled": 3 },
+    "viz": {
+      "parts": 9,
+      "filled": 3
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/3",
-      "options": ["1/2", "1/3", "3/6", "1/4"]
+      "options": [
+        "1/2",
+        "3/6",
+        "1/3",
+        "1/4"
+      ]
     },
     "explanation": "מקבצים את 9 החלקים לשלישיות — יש 3 שלישיות. 3 חלקים = שלישייה אחת = 1/3."
   },
-
   {
     "id": "fi-id-051",
     "skill": "fractions_intro",
     "difficulty": 1,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 3, "filled": 2 },
-    "answer": { "kind": "fraction", "num": 2, "den": 3 },
+    "viz": {
+      "parts": 3,
+      "filled": 2
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 2,
+      "den": 3
+    },
     "explanation": "שלושה חלקים שווים, שניים צבועים. 2 מתוך 3 — זה 2/3."
   },
   {
@@ -337,7 +491,12 @@
     "answer": {
       "kind": "choice",
       "correct": "1/4",
-      "options": ["1/4", "1/2", "1/3", "2/3"]
+      "options": [
+        "1/2",
+        "1/3",
+        "2/3",
+        "1/4"
+      ]
     },
     "explanation": "1/4 זה חלק אחד מתוך ארבעה שווים — רבע."
   },
@@ -347,8 +506,14 @@
     "difficulty": 1,
     "type": "halving",
     "prompt": "חצי מ-6 הוא?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 3 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 3
+    },
     "explanation": "מחלקים 6 ל-2 חלקים שווים: 3 ו-3. חצי = 3."
   },
   {
@@ -357,8 +522,14 @@
     "difficulty": 1,
     "type": "halving",
     "prompt": "חצי מ-8 הוא?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 4 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 4
+    },
     "explanation": "מחלקים 8 ל-2 חלקים שווים: 4 ו-4. חצי = 4."
   },
   {
@@ -367,8 +538,14 @@
     "difficulty": 1,
     "type": "halving",
     "prompt": "חצי מ-4 הוא?",
-    "viz": { "parts": 2, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 2 },
+    "viz": {
+      "parts": 2,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 2
+    },
     "explanation": "מחלקים 4 ל-2 חלקים שווים: 2 ו-2. חצי = 2."
   },
   {
@@ -380,7 +557,10 @@
     "answer": {
       "kind": "choice",
       "correct": "1/2",
-      "options": ["1/2", "1/3"]
+      "options": [
+        "1/2",
+        "1/3"
+      ]
     },
     "explanation": "לחלק עוגה ל-2 חלקים = כל חלק גדול. לחלק ל-3 = כל חלק קטן יותר. לכן 1/2 > 1/3."
   },
@@ -393,19 +573,28 @@
     "answer": {
       "kind": "choice",
       "correct": "1/4",
-      "options": ["1/4", "1/5"]
+      "options": [
+        "1/5",
+        "1/4"
+      ]
     },
     "explanation": "פחות חלוקות = חלקים גדולים יותר. 4 חלוקות < 5 חלוקות, אז 1/4 > 1/5."
   },
-
   {
     "id": "fi-id-061",
     "skill": "fractions_intro",
     "difficulty": 2,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 5, "filled": 2 },
-    "answer": { "kind": "fraction", "num": 2, "den": 5 },
+    "viz": {
+      "parts": 5,
+      "filled": 2
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 2,
+      "den": 5
+    },
     "explanation": "חמישה חלקים שווים, שניים צבועים. 2 מתוך 5 — זה 2/5."
   },
   {
@@ -417,7 +606,12 @@
     "answer": {
       "kind": "choice",
       "correct": "3/5",
-      "options": ["1/5", "2/5", "3/5", "4/5"]
+      "options": [
+        "1/5",
+        "2/5",
+        "3/5",
+        "4/5"
+      ]
     },
     "explanation": "3/5 זה שלושה חלקים מתוך חמישה שווים."
   },
@@ -427,8 +621,14 @@
     "difficulty": 2,
     "type": "halving",
     "prompt": "שליש מ-12 הוא?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 4 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 4
+    },
     "explanation": "מחלקים 12 ל-3 חלקים שווים: 4, 4, 4. שליש = 4."
   },
   {
@@ -437,8 +637,14 @@
     "difficulty": 2,
     "type": "halving",
     "prompt": "רבע מ-8 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 2 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 2
+    },
     "explanation": "מחלקים 8 ל-4 חלקים שווים: 2, 2, 2, 2. רבע = 2."
   },
   {
@@ -450,7 +656,10 @@
     "answer": {
       "kind": "choice",
       "correct": "1/3",
-      "options": ["1/3", "1/6"]
+      "options": [
+        "1/6",
+        "1/3"
+      ]
     },
     "explanation": "פחות חלוקות = חלקים גדולים יותר. 1/3 > 1/6."
   },
@@ -460,23 +669,37 @@
     "difficulty": 2,
     "type": "equivalent",
     "prompt": "6/8 זה אותו דבר כמו:",
-    "viz": { "parts": 8, "filled": 6 },
+    "viz": {
+      "parts": 8,
+      "filled": 6
+    },
     "answer": {
       "kind": "choice",
       "correct": "3/4",
-      "options": ["1/4", "1/2", "3/4", "2/4"]
+      "options": [
+        "3/4",
+        "1/4",
+        "1/2",
+        "2/4"
+      ]
     },
     "explanation": "מקבצים את 8 החלקים לזוגות — 4 זוגות. 6 חלקים = 3 זוגות מתוך 4 = 3/4."
   },
-
   {
     "id": "fi-id-071",
     "skill": "fractions_intro",
     "difficulty": 3,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 6, "filled": 5 },
-    "answer": { "kind": "fraction", "num": 5, "den": 6 },
+    "viz": {
+      "parts": 6,
+      "filled": 5
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 5,
+      "den": 6
+    },
     "explanation": "שישה חלקים, חמישה צבועים. 5 מתוך 6 — זה 5/6."
   },
   {
@@ -488,7 +711,12 @@
     "answer": {
       "kind": "choice",
       "correct": "3/8",
-      "options": ["1/8", "3/8", "5/8", "7/8"]
+      "options": [
+        "1/8",
+        "3/8",
+        "5/8",
+        "7/8"
+      ]
     },
     "explanation": "3/8 זה שלושה חלקים מתוך שמונה שווים."
   },
@@ -498,8 +726,14 @@
     "difficulty": 3,
     "type": "halving",
     "prompt": "שליש מ-15 הוא?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 5 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 5
+    },
     "explanation": "מחלקים 15 ל-3 חלקים שווים: 5, 5, 5. שליש = 5."
   },
   {
@@ -508,8 +742,14 @@
     "difficulty": 3,
     "type": "halving",
     "prompt": "רבע מ-16 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 4 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 4
+    },
     "explanation": "מחלקים 16 ל-4 חלקים שווים: 4, 4, 4, 4. רבע = 4."
   },
   {
@@ -521,7 +761,10 @@
     "answer": {
       "kind": "choice",
       "correct": "3/4",
-      "options": ["2/4", "3/4"]
+      "options": [
+        "3/4",
+        "2/4"
+      ]
     },
     "explanation": "אותו מכנה (4), יותר חלקים צבועים ⇒ גדול יותר. 3 > 2, לכן 3/4 > 2/4."
   },
@@ -534,7 +777,10 @@
     "answer": {
       "kind": "choice",
       "correct": "3/5",
-      "options": ["3/5", "2/5"]
+      "options": [
+        "2/5",
+        "3/5"
+      ]
     },
     "explanation": "אותו מכנה (5), 3 חלקים > 2 חלקים. 3/5 > 2/5."
   },
@@ -544,23 +790,37 @@
     "difficulty": 3,
     "type": "equivalent",
     "prompt": "2/8 זה אותו דבר כמו:",
-    "viz": { "parts": 8, "filled": 2 },
+    "viz": {
+      "parts": 8,
+      "filled": 2
+    },
     "answer": {
       "kind": "choice",
       "correct": "1/4",
-      "options": ["1/4", "1/2", "1/8", "2/4"]
+      "options": [
+        "1/4",
+        "1/2",
+        "1/8",
+        "2/4"
+      ]
     },
     "explanation": "מקבצים את 8 החלקים לזוגות — 4 זוגות. 2 חלקים = זוג אחד מתוך 4 = 1/4."
   },
-
   {
     "id": "fi-id-081",
     "skill": "fractions_intro",
     "difficulty": 4,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 8, "filled": 5 },
-    "answer": { "kind": "fraction", "num": 5, "den": 8 },
+    "viz": {
+      "parts": 8,
+      "filled": 5
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 5,
+      "den": 8
+    },
     "explanation": "שמונה חלקים שווים, חמישה צבועים. 5 מתוך 8 — זה 5/8."
   },
   {
@@ -572,7 +832,12 @@
     "answer": {
       "kind": "choice",
       "correct": "4/6",
-      "options": ["2/6", "3/6", "4/6", "5/6"]
+      "options": [
+        "2/6",
+        "4/6",
+        "3/6",
+        "5/6"
+      ]
     },
     "explanation": "4/6 זה ארבעה חלקים מתוך שישה שווים."
   },
@@ -582,8 +847,14 @@
     "difficulty": 4,
     "type": "halving",
     "prompt": "שליש מ-18 הוא?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 6 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 6
+    },
     "explanation": "מחלקים 18 ל-3 חלקים שווים: 6, 6, 6. שליש = 6."
   },
   {
@@ -592,8 +863,14 @@
     "difficulty": 4,
     "type": "halving",
     "prompt": "רבע מ-24 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 6 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 6
+    },
     "explanation": "מחלקים 24 ל-4 חלקים שווים: 6, 6, 6, 6. רבע = 6."
   },
   {
@@ -605,7 +882,10 @@
     "answer": {
       "kind": "choice",
       "correct": "5/6",
-      "options": ["5/6", "3/4"]
+      "options": [
+        "5/6",
+        "3/4"
+      ]
     },
     "explanation": "5/6 קרוב יותר לשלם (חסר 1/6), 3/4 חסר 1/4. 1/6 < 1/4, לכן 5/6 > 3/4."
   },
@@ -618,7 +898,10 @@
     "answer": {
       "kind": "choice",
       "correct": "5/8",
-      "options": ["5/8", "1/2"]
+      "options": [
+        "1/2",
+        "5/8"
+      ]
     },
     "explanation": "1/2 = 4/8. 5/8 יותר מ-4/8, לכן 5/8 > 1/2."
   },
@@ -628,23 +911,37 @@
     "difficulty": 4,
     "type": "equivalent",
     "prompt": "6/9 זה אותו דבר כמו:",
-    "viz": { "parts": 9, "filled": 6 },
+    "viz": {
+      "parts": 9,
+      "filled": 6
+    },
     "answer": {
       "kind": "choice",
       "correct": "2/3",
-      "options": ["1/3", "2/3", "3/4", "1/2"]
+      "options": [
+        "2/3",
+        "1/3",
+        "3/4",
+        "1/2"
+      ]
     },
     "explanation": "מקבצים את 9 החלקים לשלישיות — 3 שלישיות. 6 חלקים = 2 שלישיות מתוך 3 = 2/3."
   },
-
   {
     "id": "fi-id-091",
     "skill": "fractions_intro",
     "difficulty": 5,
     "type": "identify",
     "prompt": "איזה חלק צבוע?",
-    "viz": { "parts": 10, "filled": 3 },
-    "answer": { "kind": "fraction", "num": 3, "den": 10 },
+    "viz": {
+      "parts": 10,
+      "filled": 3
+    },
+    "answer": {
+      "kind": "fraction",
+      "num": 3,
+      "den": 10
+    },
     "explanation": "עשרה חלקים שווים, שלושה צבועים. 3 מתוך 10 — זה 3/10."
   },
   {
@@ -656,7 +953,12 @@
     "answer": {
       "kind": "choice",
       "correct": "5/8",
-      "options": ["3/8", "5/8", "7/8", "4/8"]
+      "options": [
+        "3/8",
+        "5/8",
+        "7/8",
+        "4/8"
+      ]
     },
     "explanation": "5/8 זה חמישה חלקים מתוך שמונה שווים — קצת יותר מחצי."
   },
@@ -666,8 +968,14 @@
     "difficulty": 5,
     "type": "halving",
     "prompt": "שליש מ-24 הוא?",
-    "viz": { "parts": 3, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 8 },
+    "viz": {
+      "parts": 3,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 8
+    },
     "explanation": "מחלקים 24 ל-3 חלקים שווים: 8, 8, 8. שליש = 8."
   },
   {
@@ -676,8 +984,14 @@
     "difficulty": 5,
     "type": "halving",
     "prompt": "רבע מ-32 הוא?",
-    "viz": { "parts": 4, "filled": 1 },
-    "answer": { "kind": "numeric", "correct": 8 },
+    "viz": {
+      "parts": 4,
+      "filled": 1
+    },
+    "answer": {
+      "kind": "numeric",
+      "correct": 8
+    },
     "explanation": "מחלקים 32 ל-4 חלקים שווים: 8, 8, 8, 8. רבע = 8."
   },
   {
@@ -689,7 +1003,10 @@
     "answer": {
       "kind": "choice",
       "correct": "5/8",
-      "options": ["5/8", "3/5"]
+      "options": [
+        "5/8",
+        "3/5"
+      ]
     },
     "explanation": "5/8 = 25/40, 3/5 = 24/40. 25 > 24, לכן 5/8 > 3/5 — בהפרש קטן."
   },
@@ -702,7 +1019,10 @@
     "answer": {
       "kind": "choice",
       "correct": "7/8",
-      "options": ["7/8", "5/6"]
+      "options": [
+        "5/6",
+        "7/8"
+      ]
     },
     "explanation": "7/8 חסר 1/8 לשלם, 5/6 חסר 1/6. 1/8 < 1/6, לכן 7/8 קרוב יותר לשלם — גדול יותר."
   },
@@ -712,15 +1032,22 @@
     "difficulty": 5,
     "type": "equivalent",
     "prompt": "8/12 זה אותו דבר כמו:",
-    "viz": { "parts": 12, "filled": 8 },
+    "viz": {
+      "parts": 12,
+      "filled": 8
+    },
     "answer": {
       "kind": "choice",
       "correct": "2/3",
-      "options": ["1/3", "2/3", "3/4", "1/2"]
+      "options": [
+        "2/3",
+        "1/3",
+        "3/4",
+        "1/2"
+      ]
     },
     "explanation": "מקבצים 12 חלקים לרביעיות — 3 רביעיות. 8 חלקים = 2 רביעיות מתוך 3 = 2/3."
   },
-
   {
     "id": "fi-mix-001",
     "skill": "fractions_intro",
@@ -728,7 +1055,12 @@
     "type": "arithmetic",
     "prompt": "2/5 + 3/5 = ?",
     "explanation": "מכנה זהה → 2+3 = 5. 5/5 = 1 שלם.",
-    "answer": { "kind": "mixed", "whole": 1, "num": 0, "den": 1 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 1,
+      "num": 0,
+      "den": 1
+    }
   },
   {
     "id": "fi-mix-002",
@@ -737,7 +1069,12 @@
     "type": "arithmetic",
     "prompt": "1/7 + 3/7 = ?",
     "explanation": "מכנה זהה → 1+3 = 4. התשובה 4/7.",
-    "answer": { "kind": "mixed", "whole": 0, "num": 4, "den": 7 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 0,
+      "num": 4,
+      "den": 7
+    }
   },
   {
     "id": "fi-mix-003",
@@ -746,7 +1083,12 @@
     "type": "arithmetic",
     "prompt": "4/9 + 4/9 = ?",
     "explanation": "מכנה זהה → 4+4 = 8. התשובה 8/9.",
-    "answer": { "kind": "mixed", "whole": 0, "num": 8, "den": 9 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 0,
+      "num": 8,
+      "den": 9
+    }
   },
   {
     "id": "fi-mix-004",
@@ -755,7 +1097,12 @@
     "type": "arithmetic",
     "prompt": "3/8 + 4/8 = ?",
     "explanation": "מכנה זהה → 3+4 = 7. התשובה 7/8.",
-    "answer": { "kind": "mixed", "whole": 0, "num": 7, "den": 8 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 0,
+      "num": 7,
+      "den": 8
+    }
   },
   {
     "id": "fi-mix-005",
@@ -764,7 +1111,12 @@
     "type": "arithmetic",
     "prompt": "8 2/5 − 1 2/5 = ?",
     "explanation": "שלמים: 8−1 = 7. שברים: 2/5 − 2/5 = 0. התשובה 7.",
-    "answer": { "kind": "mixed", "whole": 7, "num": 0, "den": 1 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 7,
+      "num": 0,
+      "den": 1
+    }
   },
   {
     "id": "fi-mix-006",
@@ -773,7 +1125,12 @@
     "type": "arithmetic",
     "prompt": "10 2/11 − 1 2/11 = ?",
     "explanation": "שלמים: 10−1 = 9. שברים: 2/11 − 2/11 = 0. התשובה 9.",
-    "answer": { "kind": "mixed", "whole": 9, "num": 0, "den": 1 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 9,
+      "num": 0,
+      "den": 1
+    }
   },
   {
     "id": "fi-mix-007",
@@ -782,7 +1139,12 @@
     "type": "arithmetic",
     "prompt": "5 5/8 − 2/8 = ?",
     "explanation": "השלם 5 נשאר. שברים: 5/8 − 2/8 = 3/8. התשובה 5 3/8.",
-    "answer": { "kind": "mixed", "whole": 5, "num": 3, "den": 8 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 5,
+      "num": 3,
+      "den": 8
+    }
   },
   {
     "id": "fi-mix-008",
@@ -791,7 +1153,12 @@
     "type": "arithmetic",
     "prompt": "4 4/8 − 1 2/8 = ?",
     "explanation": "שלמים: 4−1 = 3. שברים: 4/8 − 2/8 = 2/8 (וגם 1/4). התשובה 3 2/8.",
-    "answer": { "kind": "mixed", "whole": 3, "num": 2, "den": 8 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 3,
+      "num": 2,
+      "den": 8
+    }
   },
   {
     "id": "fi-mix-009",
@@ -800,7 +1167,12 @@
     "type": "arithmetic",
     "prompt": "9 5/9 − 2/9 = ?",
     "explanation": "השלם 9 נשאר. שברים: 5/9 − 2/9 = 3/9 (וגם 1/3). התשובה 9 3/9.",
-    "answer": { "kind": "mixed", "whole": 9, "num": 3, "den": 9 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 9,
+      "num": 3,
+      "den": 9
+    }
   },
   {
     "id": "fi-mix-010",
@@ -809,7 +1181,12 @@
     "type": "arithmetic",
     "prompt": "4 6/10 − 2 2/10 = ?",
     "explanation": "שלמים: 4−2 = 2. שברים: 6/10 − 2/10 = 4/10 (וגם 2/5). התשובה 2 4/10.",
-    "answer": { "kind": "mixed", "whole": 2, "num": 4, "den": 10 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 2,
+      "num": 4,
+      "den": 10
+    }
   },
   {
     "id": "fi-mix-011",
@@ -818,7 +1195,12 @@
     "type": "arithmetic",
     "prompt": "12/7 + 3/7 = ?",
     "explanation": "מכנה זהה: 12+3 = 15. 15/7 = 2 1/7 (כי 14/7 = 2 ועוד 1/7).",
-    "answer": { "kind": "mixed", "whole": 2, "num": 1, "den": 7 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 2,
+      "num": 1,
+      "den": 7
+    }
   },
   {
     "id": "fi-mix-012",
@@ -827,6 +1209,11 @@
     "type": "arithmetic",
     "prompt": "3 1/4 + 2 2/4 = ?",
     "explanation": "שלמים: 3+2 = 5. שברים: 1/4 + 2/4 = 3/4. התשובה 5 3/4.",
-    "answer": { "kind": "mixed", "whole": 5, "num": 3, "den": 4 }
+    "answer": {
+      "kind": "mixed",
+      "whole": 5,
+      "num": 3,
+      "den": 4
+    }
   }
 ]

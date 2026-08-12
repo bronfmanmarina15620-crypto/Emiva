@@ -80,7 +80,7 @@ import { MasteryJar } from "@/components/MasteryJar";
 import { FractionViz } from "@/components/FractionViz";
 import { BarModelViz } from "@/components/BarModelViz";
 import { FeelingPrompt } from "@/components/FeelingPrompt";
-import { isArithmeticItem, isItemCorrect } from "@/lib/items";
+import { isArithmeticItem, isItemCorrect, shuffleOptions } from "@/lib/items";
 import { parseFraction } from "@/lib/fractions";
 
 // Dev-only override — when set, applies to ALL profiles regardless of age.
@@ -187,32 +187,6 @@ type Phase =
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return true;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-// ערבוב יציב של מסיחים: אותו (פריט, שאלה) מקבל תמיד את אותו סדר בתוך
-// הסשן, כדי שהכפתורים לא יקפצו בין ניסיון 1 ל-2 ל-3 — אבל הסדר אקראי
-// בין סשנים. בלי זה התשובה הנכונה יושבת במקום קבוע במאגרי התוכן
-// (ראי tests/unit/option-order.test.ts) והילדה יכולה "לשלוט" בלי לדעת.
-function shuffleOptions(
-  options: readonly string[],
-  seed: string,
-): readonly string[] {
-  let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  const copy = [...options];
-  for (let i = copy.length - 1; i > 0; i--) {
-    h ^= h << 13;
-    h ^= h >>> 17;
-    h ^= h << 5;
-    const j = Math.abs(h) % (i + 1);
-    const tmp = copy[i]!;
-    copy[i] = copy[j]!;
-    copy[j] = tmp;
-  }
-  return copy;
 }
 
 function shuffleBank(bank: readonly Item[]): readonly Item[] {

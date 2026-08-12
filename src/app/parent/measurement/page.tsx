@@ -14,7 +14,7 @@ import {
   verdictBadge,
   verdictHebrew,
 } from "@/lib/measurement";
-import { isItemCorrect } from "@/lib/items";
+import { isItemCorrect, shuffleOptions } from "@/lib/items";
 import { logEvent } from "@/lib/telemetry";
 import { FractionViz } from "@/components/FractionViz";
 import { parseFraction } from "@/lib/fractions";
@@ -42,7 +42,7 @@ const SKILL_HEBREW: Record<Skill, string> = {
 
 type Stage =
   | { kind: "pick" }
-  | { kind: "test"; profile: Profile; skill: Skill; items: readonly Item[]; index: number; score: number; lastFeedback: "correct" | "wrong" | null }
+  | { kind: "test"; profile: Profile; skill: Skill; items: readonly Item[]; index: number; score: number; lastFeedback: "correct" | "wrong" | null; optionSalt: string }
   | { kind: "summary"; profile: Profile; skill: Skill; result: ExternalTestResult };
 
 const VERDICT_TONE: Record<ExternalTestVerdict, string> = {
@@ -96,6 +96,9 @@ export default function MeasurementPage() {
       index: 0,
       score: 0,
       lastFeedback: null,
+      // מתחלף בכל סיבוב, כך שהסדר שונה בין מבחן למבחן ואי אפשר
+      // ללמוד אותו בעל-פה. יציב בתוך הסיבוב — הכפתורים לא קופצים.
+      optionSalt: `${profile.id}:${skill}:${Date.now()}`,
     });
   }, []);
 
@@ -326,6 +329,7 @@ function TestStage({
       <ItemPrompt item={item} />
       <ItemInput
         item={item}
+        optionSalt={stage.optionSalt}
         input={input}
         setInput={setInput}
         locked={locked}
@@ -382,6 +386,7 @@ function ItemPrompt({ item }: { item: Item }) {
 
 type InputProps = {
   item: Item;
+  optionSalt: string;
   input: string;
   setInput: (v: string) => void;
   locked: boolean;
@@ -392,6 +397,7 @@ type InputProps = {
 
 function ItemInput({
   item,
+  optionSalt,
   input,
   setInput,
   locked,
@@ -427,9 +433,12 @@ function ItemInput({
     const frac = item as FractionItem;
     if (frac.answer.kind === "choice") {
       const isVisualType = frac.type === "name_to_visual";
+      // ערבוב — בלעדיו התשובה הנכונה יושבת במקום קבוע (11 מ-18 ראשונות)
+      // וילדה שלוחצת תמיד ראשון מקבלת "יש פער" במקום "לא יודעת".
+      const shown = shuffleOptions(frac.answer.options, `${optionSalt}:${frac.id}`);
       return (
         <div className="grid gap-3 grid-cols-2">
-          {frac.answer.options.map((opt) => {
+          {shown.map((opt) => {
             const parsed = parseFraction(opt);
             return (
               <button

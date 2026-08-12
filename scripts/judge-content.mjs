@@ -319,6 +319,42 @@ function checkBankLevel(bank, items, cfg) {
     byId.set(id, item);
   }
 
+  // הטיית-מיקום: התשובה הנכונה מרוכזת במקום קבוע. נתפס 2026-08-06
+  // באנגלית (99/100 ראשונות) וב-2026-08-11 בעברית ובשברים (11 מ-18
+  // במבחן החיצוני). הערבוב בזמן-ריצה מגן על הילדה, אבל מאגר מוטה
+  // שובר כל ניתוח שמסתכל על הנתונים הגולמיים ומשאיר את המוצר
+  // תלוי-לגמרי בשכבת-התצוגה. ראי tests/unit/option-order.test.ts.
+  {
+    const counts = {};
+    let n = 0;
+    const record = (idx) => {
+      if (idx < 0) return;
+      counts[idx] = (counts[idx] ?? 0) + 1;
+      n++;
+    };
+    for (const item of items) {
+      if (!item || typeof item !== "object") continue;
+      const a = item.answer;
+      if (a?.options && a.correct !== undefined) {
+        record(a.options.indexOf(a.correct));
+      }
+      for (const q of item.questions ?? []) {
+        if (!q?.options) continue;
+        if (typeof q.correctIndex === "number") record(q.correctIndex);
+        else if (q.correct !== undefined) record(q.options.indexOf(q.correct));
+      }
+    }
+    if (n >= 8) {
+      const top = Math.max(...Object.values(counts));
+      const slot = Object.keys(counts).find((k) => counts[k] === top);
+      if (top / n >= 0.5) {
+        report("error", bank, "—", "answer-position-bias",
+          `${top} מתוך ${n} מהתשובות הנכונות במקום ${Number(slot) + 1} — ` +
+          `ילדה שלוחצת שם קבוע "שולטת" בלי לדעת`);
+      }
+    }
+  }
+
   if (cfg.kind === "vocab") {
     // אותה מילה פעמיים במאגר = הילדה מתרגלת פחות מילים ממה שנדמה.
     const byPrompt = new Map();

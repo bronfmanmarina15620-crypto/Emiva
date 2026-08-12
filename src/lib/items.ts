@@ -5,6 +5,38 @@ export function itemSkill(item: Item): Skill {
   return item.skill;
 }
 
+/**
+ * ערבוב יציב של מסיחים: אותו (פריט, שאלה) מקבל תמיד את אותו סדר עבור
+ * אותו seed, כדי שהכפתורים לא יקפצו בין ניסיון 1 ל-2 ל-3 — אבל הסדר
+ * שונה בין סשנים.
+ *
+ * חי כאן ולא בדף מסוים בכוונה: ההטיה של 2026-08-06 תוקנה רק בדף
+ * התרגול, והמבחן החיצוני — המסך שבו זה הכי קריטי — המשיך לרנדר את
+ * הסדר מהקובץ. מקור אחד לכל מסך-בחירה מונע את החזרה השלישית.
+ * ראי tests/unit/option-order.test.ts.
+ */
+export function shuffleOptions(
+  options: readonly string[],
+  seed: string,
+): readonly string[] {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const copy = [...options];
+  for (let i = copy.length - 1; i > 0; i--) {
+    h ^= h << 13;
+    h ^= h >>> 17;
+    h ^= h << 5;
+    const j = Math.abs(h) % (i + 1);
+    const tmp = copy[i] as string;
+    copy[i] = copy[j] as string;
+    copy[j] = tmp;
+  }
+  return copy;
+}
+
 export function isArithmeticItem(
   item: Item,
 ): item is AddSubItem | MultItem | DivisionItem {
