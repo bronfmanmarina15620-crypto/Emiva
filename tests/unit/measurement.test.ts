@@ -342,24 +342,36 @@ describe("measurement — save + load roundtrip", () => {
 });
 
 describe("measurement — hasMeasurement / MEASURABLE_SKILLS", () => {
-  it("includes only currently-supported skills (sliver 1)", () => {
+  it("includes the six arithmetic skills (sliver 2 — T7א)", () => {
     expect([...MEASURABLE_SKILLS].sort()).toEqual(
-      ["add_sub_100", "fractions_intro"].sort(),
+      [
+        "add_sub_100",
+        "fractions_intro",
+        "multiplication",
+        "mult_2digit",
+        "ops_1000",
+        "long_division",
+      ].sort(),
     );
   });
 
-  it("hasMeasurement true for supported skills", () => {
-    expect(hasMeasurement("add_sub_100")).toBe(true);
-    expect(hasMeasurement("fractions_intro")).toBe(true);
+  it("hasMeasurement true for every measurable skill", () => {
+    for (const s of MEASURABLE_SKILLS) {
+      expect(hasMeasurement(s)).toBe(true);
+    }
   });
 
-  it("hasMeasurement false for unsupported skills", () => {
+  /**
+   * שלוש המיומנויות המילוליות נשארות מחוץ לסקופ (T7ב). כתיבת
+   * הפריטים שלהן היא עבודת תוכן — פסקאות, בעיות מילוליות ומסיחים
+   * שאינם נרדפים — ולא ייצור מכני.
+   */
+  it("hasMeasurement false for the verbal skills still pending", () => {
     const unsupported: Skill[] = [
-      "ops_1000",
-      "multiplication",
-      "long_division",
       "bar_models",
       "hebrew_comprehension",
+      "english_vocab",
+      "english_phonics",
     ];
     for (const s of unsupported) {
       expect(hasMeasurement(s)).toBe(false);

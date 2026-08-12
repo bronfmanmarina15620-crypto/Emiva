@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const pushMock = vi.fn();
@@ -143,8 +143,26 @@ describe("<ParentDashboard> — measurement section (MEASUREMENT-EXTERNAL-TEST-0
     expect(screen.getAllByText(/טרם נמדד/).length).toBeGreaterThan(0);
   });
 
-  it("shows last score + 'עברה' badge after a recent passed result; hides 'כדאי לבדוק'", async () => {
-    // sliver 1: only add_sub_100 is measurable for an age-7 profile
+  /**
+   * מאז T7א שש מיומנויות מדידות, ולכן "כדאי לבדוק" מופיע גם ליד
+   * מיומנויות שטרם נמדדו. הבדיקות כאן נבחנות על **השורה של
+   * המיומנות הנבדקת**, לא על כל הדף — קודם הן ספרו את הדף כולו
+   * והניחו שקיימת מיומנות אחת בלבד.
+   */
+  function rowFor(skillLabel: string): HTMLElement {
+    // שם המיומנות מופיע גם ברשימת המיומנויות של הכרטיס, ולכן
+    // מחפשים **בתוך סעיף המדידה** בלבד.
+    const heading = screen.getByText("מדידה חיצונית");
+    const section = heading.closest("div")?.parentElement as HTMLElement;
+    expect(section).toBeTruthy();
+    const row = within(section)
+      .getAllByRole("listitem")
+      .find((li) => li.textContent?.includes(skillLabel));
+    expect(row).toBeDefined();
+    return row as HTMLElement;
+  }
+
+  it("shows last score + 'עברה' badge after a recent passed result; hides 'כדאי לבדוק' on that row", async () => {
     const p = createProfile("Evelyn", 7);
     appendMeasurementResult(p.id, {
       skill: "add_sub_100",
@@ -157,7 +175,8 @@ describe("<ParentDashboard> — measurement section (MEASUREMENT-EXTERNAL-TEST-0
     await screen.findByText("מדידה חיצונית");
     expect(screen.getByText(/9\/10/)).toBeInTheDocument();
     expect(screen.getByText("עברה")).toBeInTheDocument();
-    expect(screen.queryByText("כדאי לבדוק")).not.toBeInTheDocument();
+    const row = rowFor("חיבור וחיסור עד 100");
+    expect(within(row).queryByText("כדאי לבדוק")).not.toBeInTheDocument();
   });
 
   it("re-shows 'כדאי לבדוק' once the retest interval has passed", async () => {
@@ -171,7 +190,7 @@ describe("<ParentDashboard> — measurement section (MEASUREMENT-EXTERNAL-TEST-0
     });
     render(<ParentDashboard />);
     await screen.findByText("מדידה חיצונית");
-    expect(screen.getAllByText("כדאי לבדוק").length).toBe(1);
+    expect(within(rowFor("חיבור וחיסור עד 100")).getAllByText("כדאי לבדוק").length).toBe(1);
   });
 
   it("renders a 'התחילי סיבוב מהיר' link in the section header", async () => {

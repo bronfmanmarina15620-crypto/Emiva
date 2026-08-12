@@ -1,5 +1,9 @@
 import addSubHoldout from "@/content/measurement/add-sub-100-holdout.json";
 import fractionsHoldout from "@/content/measurement/fractions-intro-holdout.json";
+import multiplicationHoldout from "@/content/measurement/multiplication-holdout.json";
+import ops1000Holdout from "@/content/measurement/ops-1000-holdout.json";
+import longDivisionHoldout from "@/content/measurement/long-division-holdout.json";
+import mult2digitHoldout from "@/content/measurement/mult-2digit-holdout.json";
 import {
   appendMeasurementResult,
   appendSeenMeasurementIds,
@@ -21,10 +25,18 @@ import {
 
 const ADD_SUB_HOLDOUT = addSubHoldout as unknown as readonly Item[];
 const FRACTIONS_HOLDOUT = fractionsHoldout as unknown as readonly Item[];
+const MULTIPLICATION_HOLDOUT = multiplicationHoldout as unknown as readonly Item[];
+const OPS_1000_HOLDOUT = ops1000Holdout as unknown as readonly Item[];
+const LONG_DIVISION_HOLDOUT = longDivisionHoldout as unknown as readonly Item[];
+const MULT_2DIGIT_HOLDOUT = mult2digitHoldout as unknown as readonly Item[];
 
 export const MEASURABLE_SKILLS: readonly Skill[] = [
   "add_sub_100",
   "fractions_intro",
+  "multiplication",
+  "mult_2digit",
+  "ops_1000",
+  "long_division",
 ];
 
 export function holdoutForSkill(skill: Skill): readonly Item[] {
@@ -33,6 +45,14 @@ export function holdoutForSkill(skill: Skill): readonly Item[] {
       return ADD_SUB_HOLDOUT;
     case "fractions_intro":
       return FRACTIONS_HOLDOUT;
+    case "multiplication":
+      return MULTIPLICATION_HOLDOUT;
+    case "mult_2digit":
+      return MULT_2DIGIT_HOLDOUT;
+    case "ops_1000":
+      return OPS_1000_HOLDOUT;
+    case "long_division":
+      return LONG_DIVISION_HOLDOUT;
     default:
       return [];
   }

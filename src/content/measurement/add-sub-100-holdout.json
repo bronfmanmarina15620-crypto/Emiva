@@ -1,7 +1,7 @@
 [
   { "id": "ext-as100-001", "skill": "add_sub_100", "difficulty": 1, "prompt": "2 + 5 = ?", "answer": 7, "operands": [2, 5], "op": "+" },
-  { "id": "ext-as100-002", "skill": "add_sub_100", "difficulty": 1, "prompt": "4 + 3 = ?", "answer": 7, "operands": [4, 3], "op": "+" },
-  { "id": "ext-as100-003", "skill": "add_sub_100", "difficulty": 1, "prompt": "6 + 2 = ?", "answer": 8, "operands": [6, 2], "op": "+" },
+  { "id": "ext-as100-002", "skill": "add_sub_100", "difficulty": 1, "prompt": "5 + 3 = ?", "answer": 8, "operands": [5, 3], "op": "+" },
+  { "id": "ext-as100-003", "skill": "add_sub_100", "difficulty": 1, "prompt": "6 + 4 = ?", "answer": 10, "operands": [6, 4], "op": "+" },
   { "id": "ext-as100-004", "skill": "add_sub_100", "difficulty": 1, "prompt": "8 - 6 = ?", "answer": 2, "operands": [8, 6], "op": "-" },
   { "id": "ext-as100-005", "skill": "add_sub_100", "difficulty": 1, "prompt": "9 - 5 = ?", "answer": 4, "operands": [9, 5], "op": "-" },
   { "id": "ext-as100-006", "skill": "add_sub_100", "difficulty": 1, "prompt": "7 - 4 = ?", "answer": 3, "operands": [7, 4], "op": "-" },
