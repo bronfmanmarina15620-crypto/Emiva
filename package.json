@@ -17,7 +17,10 @@
     "telemetry:check": "node scripts/check-telemetry.mjs",
     "feedback:scan": "node scripts/scan-feedback.mjs",
     "rituals:check": "node scripts/check-rituals.mjs",
-    "judge:content": "node scripts/judge-content.mjs"
+    "judge:content": "node scripts/judge-content.mjs",
+    "deploy:prep": "node scripts/deploy-prep.mjs",
+    "deploy:restore": "node scripts/deploy-prep.mjs restore",
+    "deploy": "npm run deploy:prep && vercel --prod --yes"
   },
   "dependencies": {
     "@types/canvas-confetti": "^1.9.0",

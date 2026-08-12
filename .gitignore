@@ -20,3 +20,5 @@ next-env.d.ts
 src/content/review-packs/private/*
 !src/content/review-packs/private/README.md
 !src/content/review-packs/private/index.ts
+.vercel
+.env*
