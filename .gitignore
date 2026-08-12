@@ -16,3 +16,7 @@ coverage/
 ~$*.xlsx
 tsconfig.tsbuildinfo
 next-env.d.ts
+# חבילות חזרה פרטיות — תוכן של בית ספציפי, לא של המוצר (LAUNCH-PUBLIC-001 D2)
+src/content/review-packs/private/*
+!src/content/review-packs/private/README.md
+!src/content/review-packs/private/index.ts

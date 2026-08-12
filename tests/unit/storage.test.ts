@@ -249,6 +249,50 @@ describe("storage — measurement history (MEASUREMENT-EXTERNAL-TEST-001)", () =
     expect(loadMeasurementHistory("p1", "fractions_intro")).toEqual([]);
     expect(loadMeasurementHistory("p2", "add_sub_100").length).toBe(1);
   });
+
+  /**
+   * LAUNCH-PUBLIC-001 D3 — deletion must leave NOTHING behind.
+   *
+   * This asserts by scanning the whole keyspace rather than by checking a
+   * hand-written list, because a hand-written list is exactly what went
+   * stale: `parent_focus`, `review_pack_active` and `parent_belief` are all
+   * per-profile yet none were purged. Once accounts exist this stops being
+   * untidiness and becomes a legal problem — "I deleted my child" has to be
+   * true (Amendment 13 / PUBLIC-READY-001).
+   */
+  it("purgeProfileStorage leaves no trace of the profile anywhere", () => {
+    const mem = installMemoryStorage();
+    // Every per-profile key the app writes today, plus the three that the
+    // old prefix list forgot.
+    const keys = [
+      "emiva.mastery.v1.p1.add_sub_100",
+      "emiva.graduated.v1.p1.add_sub_100",
+      "emiva.last_session.v1.p1",
+      "emiva.bank_exhausted.v1.p1.hebrew_comprehension",
+      "emiva.measurement.v1.p1.add_sub_100",
+      "emiva.measurement.seen.v1.p1.add_sub_100",
+      "emiva.puppy_journal.v1.p1",
+      "emiva.enrichment.v1.p1",
+      "emiva.parent_focus.v1.p1",
+      "emiva.review_pack_active.v1.p1",
+      "emiva.parent_belief.v1.p1.2026-W33",
+    ];
+    keys.forEach((k) => mem.setItem(k, "{}"));
+    // A second child's data must survive untouched.
+    mem.setItem("emiva.mastery.v1.p2.add_sub_100", "{}");
+    mem.setItem("emiva.parent_focus.v1.p2", "{}");
+
+    purgeProfileStorage("p1");
+
+    const leftovers: string[] = [];
+    for (let i = 0; i < mem.length; i++) {
+      const k = mem.key(i);
+      if (k && k.includes(".p1")) leftovers.push(k);
+    }
+    expect(leftovers).toEqual([]);
+    expect(mem.getItem("emiva.mastery.v1.p2.add_sub_100")).not.toBeNull();
+    expect(mem.getItem("emiva.parent_focus.v1.p2")).not.toBeNull();
+  });
 });
 
 describe("storage — bank-exhausted flag (CORE-HEBREW-EVELYN-003)", () => {

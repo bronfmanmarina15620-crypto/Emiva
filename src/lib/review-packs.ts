@@ -32,26 +32,44 @@ export type ReviewPack = {
   items: PackItem[];
 };
 
-import assessmentReview2 from "@/content/review-packs/emilia-assessment-review-2.json";
+/**
+ * LAUNCH-PUBLIC-001 D2 — built-in packs are loaded from a **gitignored**
+ * private folder, not imported directly.
+ *
+ * The pack that existed here was one school's class-ד assessment review,
+ * labelled with a specific child's name which renders on screen. Filtering by
+ * exact name match served it to any family whose daughter shares that common
+ * Hebrew name, and two code paths bypassed the filter entirely.
+ *
+ * ⚠️ **A runtime flag was not enough, and the build proved it.** The first fix
+ * kept `import ... from "…/emilia-assessment-review-2.json"` behind an
+ * `if (FLAG)`. Inspecting the production bundle showed the pack's full
+ * content — child's name and all questions — shipped to every visitor anyway:
+ * a static import is bundled regardless of the surrounding condition, so the
+ * flag hid it from the UI while leaving it downloadable.
+ *
+ * `require.context` reads the directory at build time and yields nothing when
+ * it is empty, so in a public build there is simply nothing to ship.
+ */
+import { PRIVATE_PACKS } from "@/content/review-packs/private";
+
+const BUILT_IN_PACKS: ReviewPack[] = (PRIVATE_PACKS as ReviewPack[]).filter(
+  (p) => !!p && typeof p.id === "string",
+);
 
 /**
- * LAUNCH-PUBLIC-001 D2 — the built-in pack is one school's class-ד assessment
- * review, and its `audience` ("אמיליה") is rendered on screen. Filtering by
- * exact name match meant any family whose daughter shares that common Hebrew
- * name would be served another school's material, and two code paths
- * (`listPacks()` with no profile, and a persisted active-pack id) bypassed the
- * filter entirely.
- *
- * The pack is private home content, not product content, so it ships only when
- * explicitly enabled. The mechanism stays — future packs are unaffected.
- * Set `NEXT_PUBLIC_ENABLE_HOME_PACKS=1` in `.env.local` to use it at home.
+ * Registers a pack at runtime. **Tests only** — the pack mechanism has to stay
+ * covered even though no pack ships publicly (the private folder is empty in a
+ * clean clone), and tests must not depend on one machine's private content.
  */
-const HOME_PACKS_ENABLED =
-  process.env.NEXT_PUBLIC_ENABLE_HOME_PACKS === "1";
+export function __registerPackForTests(pack: ReviewPack): void {
+  if (!BUILT_IN_PACKS.some((p) => p.id === pack.id)) BUILT_IN_PACKS.push(pack);
+}
 
-const BUILT_IN_PACKS: ReviewPack[] = HOME_PACKS_ENABLED
-  ? [assessmentReview2 as unknown as ReviewPack]
-  : [];
+/** Tests only — restores the empty public state. */
+export function __clearPacksForTests(): void {
+  BUILT_IN_PACKS.length = 0;
+}
 
 /**
  * Returns packs available to the given profile. A pack matches if its

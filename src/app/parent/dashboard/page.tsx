@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DASHBOARD_TIMEOUT_MS } from "@/lib/types";
 import { hasPinSet } from "@/lib/parent-auth";
+import { backupFileName, createBackup, restoreBackup } from "@/lib/backup";
 import { loadProfiles, type Profile } from "@/lib/profiles";
 import {
   computeActionLine,
@@ -634,6 +635,8 @@ export default function ParentDashboard() {
         })}
       </div>
 
+      <BackupSection />
+
       <footer className="max-w-3xl mx-auto mt-8 text-center">
         <Link
           href="/"
@@ -643,6 +646,100 @@ export default function ParentDashboard() {
         </Link>
       </footer>
     </main>
+  );
+}
+
+/**
+ * LAUNCH-PUBLIC-001 D3 — שמירה ושחזור. כל ההתקדמות יושבת בדפדפן הזה
+ * בלבד; ניקוי היסטוריה או מעבר למחשב אחר מוחקים אותה בלי אזהרה.
+ */
+function BackupSection() {
+  const [message, setMessage] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const onSave = () => {
+    const backup = createBackup();
+    if (!backup) return;
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = backupFileName();
+    a.click();
+    URL.revokeObjectURL(url);
+    setMessage("הקובץ נשמר. כדאי לשמור אותו במקום בטוח.");
+  };
+
+  const onRestoreFile = async (file: File) => {
+    const raw = await file.text();
+    // אזהרה לפני החלפה — שחזור מוחק את המצב הנוכחי.
+    if (
+      !window.confirm(
+        "השחזור יחליף את כל ההתקדמות ששמורה כאן עכשיו. להמשיך?",
+      )
+    ) {
+      return;
+    }
+    const res = restoreBackup(raw);
+    if (res.ok) {
+      setMessage(`שוחזרו ${res.keysRestored} פריטים. רענני את הדף.`);
+      return;
+    }
+    const why =
+      res.reason === "unreadable"
+        ? "לא הצלחנו לקרוא את הקובץ."
+        : res.reason === "future_version"
+          ? "הקובץ נוצר בגרסה חדשה יותר של Emiva."
+          : "הקובץ אינו קובץ גיבוי של Emiva.";
+    setMessage(`${why} ההתקדמות הקיימת לא השתנתה.`);
+  };
+
+  return (
+    <section className="max-w-3xl mx-auto mt-8 bg-surface rounded-3xl shadow-soft p-6 space-y-3">
+      <h2 className="font-display font-bold text-warm-dark">
+        שמירת גיבוי
+      </h2>
+      <p className="text-sm text-warm-muted leading-relaxed">
+        ההתקדמות של הבנות שמורה בדפדפן הזה בלבד. אם תנקי את היסטוריית
+        הדפדפן או תעברי למחשב אחר — היא תימחק. כדאי לשמור קובץ גיבוי
+        מדי פעם.
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          onClick={onSave}
+          className="bg-terracotta text-white px-5 py-2.5 rounded-2xl font-semibold shadow-warm hover:bg-terracotta-dark transition"
+        >
+          שמירת גיבוי
+        </button>
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          className="bg-cream text-warm-dark px-5 py-2.5 rounded-2xl font-semibold hover:shadow-warm transition"
+        >
+          שחזור מגיבוי
+        </button>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json,.json"
+          className="hidden"
+          aria-label="קובץ גיבוי"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void onRestoreFile(f);
+            e.target.value = "";
+          }}
+        />
+      </div>
+      {message && (
+        <p className="text-sm text-warm-dark" role="status">
+          {message}
+        </p>
+      )}
+    </section>
   );
 }
 

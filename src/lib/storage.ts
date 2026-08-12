@@ -401,21 +401,39 @@ export function savePuppyJournal(
   );
 }
 
+/**
+ * כל התחיליות שנכתבות **פר-פרופיל**. מקור-אמת אחד, כי רשימה ידנית
+ * היא בדיוק מה שהתיישן: `parent_focus`, `review_pack_active` ו-
+ * `parent_belief` נכתבים פר-פרופיל אך לא נוקו במחיקה (LAUNCH-PUBLIC-001 D3).
+ *
+ * שלושת האחרונים חיים במודולים אחרים ומשוכפלים כאן במכוון — יבוא מהם
+ * היה יוצר תלות מעגלית (`review-packs` → `parent-focus` → `storage`).
+ * הבדיקה ב-`storage.test.ts` סורקת את כל מרחב-המפתחות ולכן תיפול אם
+ * תיווסף תחילית פר-פרופיל שלא נרשמה כאן.
+ *
+ * **אינו כולל** `emiva.foundation.v1` — הוא של הבית ולא של ילדה
+ * (שינה, קריאה, זמן ריק הן החלטות של הבית).
+ */
+export const PER_PROFILE_PREFIXES = [
+  MASTERY_PREFIX,
+  GRADUATED_PREFIX,
+  LAST_SESSION_PREFIX,
+  BANK_EXHAUSTED_PREFIX,
+  MEASUREMENT_PREFIX,
+  // מפתח נפרד — אינו נתפס ע"י ה-prefix שמעליו.
+  MEASUREMENT_SEEN_PREFIX,
+  PUPPY_JOURNAL_PREFIX,
+  ENRICHMENT_PREFIX,
+  "emiva.telemetry.v1",
+  "emiva.parent_focus.v1",
+  "emiva.review_pack_active.v1",
+  "emiva.parent_belief.v1",
+] as const;
+
 export function purgeProfileStorage(profileId: string): void {
   if (typeof window === "undefined") return;
   const ls = window.localStorage;
-  const prefixes = [
-    `${MASTERY_PREFIX}.${profileId}`,
-    `${GRADUATED_PREFIX}.${profileId}`,
-    `${LAST_SESSION_PREFIX}.${profileId}`,
-    `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
-    `${MEASUREMENT_PREFIX}.${profileId}`,
-    // מפתח נפרד — אינו נתפס ע"י ה-prefix שמעליו, ובלעדיו זיכרון
-    // ההגרלה היה שורד מחיקת פרופיל.
-    `${MEASUREMENT_SEEN_PREFIX}.${profileId}`,
-    `${PUPPY_JOURNAL_PREFIX}.${profileId}`,
-    `${ENRICHMENT_PREFIX}.${profileId}`,
-  ];
+  const prefixes = PER_PROFILE_PREFIXES.map((p) => `${p}.${profileId}`);
   const toRemove: string[] = [];
   for (let i = 0; i < ls.length; i++) {
     const k = ls.key(i);
