@@ -15,48 +15,30 @@
 // אם *גם* אחרי זה שבור — `npm run dev:clean` מנקה גם את המטמון.
 
 import { spawn, spawnSync } from "node:child_process";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { findDevServerPids } from "./lib/find-dev-servers.mjs";
 
 const PORT = process.env.PORT ?? "3000";
 const isWindows = process.platform === "win32";
 
-/** מאתר תהליכי שרת-פיתוח חיים ועוצר אותם, כדי שהפורט יתפנה. */
+/**
+ * מאתר תהליכי שרת-פיתוח חיים ועוצר אותם, כדי שהפורט יתפנה.
+ *
+ * האיתור עצמו יושב ב-`lib/find-dev-servers.mjs` ומשותף גם עם
+ * `guard-build` ו-`dev-status`. לוגיקת-איתור משוכפלת נשברת בשקט
+ * באחד העותקים — בדיוק מה שקרה ב-2026-08-10, כשהשאילתה נשברה במעבר
+ * דרך המעטפת ודיווחה "לא נמצא שרת חי" בזמן שחמישה שרתים רצו.
+ */
 function stopLiveDevServers() {
-  if (!isWindows) {
-    const out = spawnSync("bash", ["-lc", `lsof -ti tcp:${PORT} || true`], {
-      encoding: "utf8",
-    });
-    const pids = (out.stdout ?? "").split("\n").map((s) => s.trim()).filter(Boolean);
-    for (const pid of pids) spawnSync("kill", ["-9", pid]);
-    return pids.length;
-  }
+  const { pids } = findDevServerPids();
 
-  // ב-Windows מזהים לפי שורת-הפקודה: רק תהליכי node שמריצים next dev.
-  // חשוב לא לסגור את כל תהליכי node — VS Code ו-Claude רצים גם הם.
-  //
-  // האיתור יושב ב-`find-dev-servers.ps1` ולא כמחרוזת כאן: שאילתה
-  // שעוברת דרך spawnSync ודרך Bash נשברת בשקט — `$_` מתפרש על ידי
-  // המעטפת לפני ש-PowerShell רואה אותו. התוצאה בפועל (2026-08-10)
-  // הייתה "לא נמצא שרת חי" בזמן שחמישה שרתים רצו וכתבו זה על זה.
-  const finder = path.join(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "find-dev-servers.ps1",
-  );
-  const out = spawnSync(
-    "powershell",
-    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", finder],
-    { encoding: "utf8" },
-  );
-  const pids = (out.stdout ?? "")
-    .split(/\r?\n/)
-    .map((s) => s.trim())
-    .filter((s) => /^\d+$/.test(s));
-
-  // `taskkill /T` סוגר גם תהליכי-בן. `process.kill` לא מגיע אליהם
-  // ב-Windows, ושרת יתום שנשאר ממשיך לכתוב ל-.next.
   for (const pid of pids) {
-    spawnSync("taskkill", ["/PID", pid, "/F", "/T"], { encoding: "utf8" });
+    if (isWindows) {
+      // `taskkill /T` סוגר גם תהליכי-בן. `process.kill` לא מגיע אליהם
+      // ב-Windows, ושרת יתום שנשאר ממשיך לכתוב ל-.next.
+      spawnSync("taskkill", ["/PID", pid, "/F", "/T"], { encoding: "utf8" });
+    } else {
+      spawnSync("kill", ["-9", pid]);
+    }
   }
   return pids.length;
 }
