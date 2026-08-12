@@ -48,13 +48,35 @@ export function weekNumber(date) {
   return Math.floor(diffDays / 7) + 1;
 }
 
-/** כל תגי ה-YYYY-W## שקיימים כקבצים מקומיים. */
+/**
+ * כל תגי ה-YYYY-W## המכוסים — בקובץ ייעודי **או בסיכום מאחד**.
+ *
+ * סיכום-רטרו שמכסה טווח (`...W17-W33.md`) הוא כיסוי לכל דבר: הוא
+ * נכתב בדיוק כדי להחליף 14 קריאות בקריאה אחת. בודק שמתעלם ממנו
+ * מדווח פיגור על עבודה שכבר נעשתה, ובודק רועש הוא בודק שמתעלמים
+ * ממנו — כלומר בדיוק הכשל שהוא נבנה למנוע.
+ * *(נתפס 2026-08-12, שעה אחרי שנכתב: דיווח 🔴 על 8 שבועות
+ * שכולם מכוסים ב-`2026-סיכום-רטרו-W17-W33.md`.)*
+ */
 function existingWeeknotes() {
   if (!fs.existsSync(DEVLOG_DIR)) return new Set();
   const out = new Set();
+
   for (const fn of fs.readdirSync(DEVLOG_DIR)) {
-    const m = fn.match(/^(\d{4})-W(\d{2})\.md$/);
-    if (m) out.add(`${m[1]}-W${m[2]}`);
+    const single = fn.match(/^(\d{4})-W(\d{2})\.md$/);
+    if (single) {
+      out.add(`${single[1]}-W${single[2]}`);
+      continue;
+    }
+
+    // סיכום-טווח: `YYYY-<כל טקסט>-W##-W##.md`
+    const range = fn.match(/^(\d{4})\D+W(\d{2})-W(\d{2})\.md$/);
+    if (range) {
+      const [, y, from, to] = range;
+      for (let w = Number(from); w <= Number(to); w++) {
+        out.add(`${y}-W${String(w).padStart(2, "0")}`);
+      }
+    }
   }
   return out;
 }
