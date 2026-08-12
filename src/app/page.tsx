@@ -147,6 +147,19 @@ export default function Home() {
                   >
                     🔬 העשרה — הפעילות של השבוע
                   </button>
+                  {/* לוח §7. הכניסה היחידה אליו — מסך בלי כניסה
+                      אינו קיים בפועל (הטריגר "אף אחת לא מוצאת את
+                      הכפתור" ב-BL-011). */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveProfileId(p.id);
+                      window.location.href = "/plan";
+                    }}
+                    className="text-sm text-warm-muted hover:text-terracotta-dark transition pr-2"
+                  >
+                    📅 מה עושים היום?
+                  </button>
                 </div>
               );
             })}
