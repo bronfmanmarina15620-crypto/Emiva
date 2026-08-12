@@ -14,6 +14,7 @@ const GRADUATED_PREFIX = "emiva.graduated.v1";
 const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
 const MEASUREMENT_PREFIX = "emiva.measurement.v1";
 const PUPPY_JOURNAL_PREFIX = "emiva.puppy_journal.v1";
+const ENRICHMENT_PREFIX = "emiva.enrichment.v1";
 
 function legacyMasteryKey(profileId: string): string {
   return `${MASTERY_PREFIX}.${profileId}`;
@@ -230,6 +231,53 @@ export function appendMeasurementResult(
   );
 }
 
+/**
+ * שכבת ההעשרה (MyLevel §1, שכבה 2). המדידה כאן **רכה** בכוונה:
+ * טקסט חופשי + סימון שקרה, בלי ציון ובלי אחוז. §11.2 שואל רק
+ * "האם היו 2 פעילויות העשרה החודש?".
+ */
+export type EnrichmentEntry = {
+  readonly topic: string;
+  readonly week: string;
+  readonly activityId: string;
+  /** "מה היה המעניין ביותר?" — §1, מדידה רכה. */
+  readonly note: string;
+  readonly done: boolean;
+  readonly at: number;
+};
+
+function enrichmentKey(profileId: string): string {
+  return `${ENRICHMENT_PREFIX}.${profileId}`;
+}
+
+export function loadEnrichmentLog(profileId: string): EnrichmentEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(enrichmentKey(profileId));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as EnrichmentEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * שמירה פר (נושא, שבוע): רשומה קיימת מוחלפת, כדי שילדה שמתקנת
+ * את מה שכתבה לא תיצור כפילות.
+ */
+export function saveEnrichmentEntry(
+  profileId: string,
+  entry: EnrichmentEntry,
+): void {
+  if (typeof window === "undefined") return;
+  const log = loadEnrichmentLog(profileId).filter(
+    (e) => !(e.topic === entry.topic && e.week === entry.week),
+  );
+  log.push(entry);
+  window.localStorage.setItem(enrichmentKey(profileId), JSON.stringify(log));
+}
+
 function puppyJournalKey(profileId: string): string {
   return `${PUPPY_JOURNAL_PREFIX}.${profileId}`;
 }
@@ -268,6 +316,7 @@ export function purgeProfileStorage(profileId: string): void {
     `${BANK_EXHAUSTED_PREFIX}.${profileId}`,
     `${MEASUREMENT_PREFIX}.${profileId}`,
     `${PUPPY_JOURNAL_PREFIX}.${profileId}`,
+    `${ENRICHMENT_PREFIX}.${profileId}`,
   ];
   const toRemove: string[] = [];
   for (let i = 0; i < ls.length; i++) {

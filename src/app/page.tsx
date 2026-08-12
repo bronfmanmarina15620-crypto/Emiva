@@ -136,6 +136,17 @@ export default function Home() {
                       🐕 פתחי את יומן הגור
                     </button>
                   )}
+                  {/* שכבה 2 (MyLevel §1) — פתוחה לכל גיל, בניגוד ליומן הגור. */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveProfileId(p.id);
+                      window.location.href = "/enrichment";
+                    }}
+                    className="text-sm text-warm-muted hover:text-terracotta-dark transition pr-2"
+                  >
+                    🔬 העשרה — הפעילות של השבוע
+                  </button>
                 </div>
               );
             })}
