@@ -6,7 +6,7 @@
 - title: פרויקט הגור — 4 השלבים + שילוב אווה (T8ב)
 - owner: Marina
 - priority: P0 — הגור כאן, חלון האילוף נסגר; אווה חסומה בפועל
-- status: 📋 **תכנון בלבד — טרם אושר לביצוע**
+- status: ✅ **הושלם 2026-08-12** (720 בדיקות עוברות · typecheck + lint נקיים)
 - תוכנית: [plans/FLAGSHIP-PUPPY-002.md](../../plans/FLAGSHIP-PUPPY-002.md)
 - references:
   - `MyLevel.docx` §6 — פרויקט הדגל (§6.2 שלבים, §6.3 שילוב אווה)

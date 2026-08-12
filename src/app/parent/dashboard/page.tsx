@@ -48,7 +48,15 @@ import {
   MEASURABLE_SKILLS,
   verdictBadge,
 } from "@/lib/measurement";
-import { commandIsLearned, load as loadPuppy } from "@/lib/puppy-journal";
+import {
+  commandIsLearned,
+  commandIsMastered,
+  journalStage,
+  load as loadPuppy,
+  roleForAge,
+  STAGE_HEBREW,
+  type JournalStage,
+} from "@/lib/puppy-journal";
 import type {
   ExternalTestResult,
   ExternalTestVerdict,
@@ -71,10 +79,13 @@ type MeasurementRow = {
 };
 
 type PuppySummary = {
+  stage: JournalStage;
+  masteredCommands: number;
+  breedFacts: number;
+  helperLogs: number;
   puppyName: string;
   totalCommands: number;
   learnedCommands: number;
-  isPlanning: boolean;
 };
 
 type DaughterView = {
@@ -206,8 +217,10 @@ function buildView(profile: Profile): DaughterView {
       due: dueForRetest(last?.at ?? null),
     };
   });
+  // The journal belongs to the owner (§6.3), so only her card shows it. The
+  // helper's contribution appears there too — see helperLogs below.
   const puppyJournal: PuppyJournal | null =
-    profile.age >= 9 ? loadPuppy(profile.id) : null;
+    roleForAge(profile.age) === "owner" ? loadPuppy(profile.id) : null;
   const puppy: PuppySummary | null =
     puppyJournal === null
       ? null
@@ -215,7 +228,17 @@ function buildView(profile: Profile): DaughterView {
           puppyName: puppyJournal.puppyName,
           totalCommands: puppyJournal.commands.length,
           learnedCommands: puppyJournal.commands.filter(commandIsLearned).length,
-          isPlanning: puppyJournal.trainingStartDate === null,
+          masteredCommands:
+            puppyJournal.commands.filter(commandIsMastered).length,
+          stage: journalStage(puppyJournal),
+          breedFacts: (puppyJournal.breedFacts ?? []).length,
+          // How many entries the younger sister logged — §6.3 makes her a
+          // participant, so her work should be visible to the parent.
+          helperLogs:
+            puppyJournal.commands.reduce(
+              (n, c) => n + c.attempts.filter((a) => a.loggedBy).length,
+              0,
+            ) + (puppyJournal.breedFacts ?? []).filter((f) => f.loggedBy).length,
         };
   return {
     profile,
@@ -789,11 +812,9 @@ function PuppySection({ summary }: { summary: PuppySummary }) {
         <h3 className="text-sm font-semibold text-warm-dark">
           🐕 פרויקט הגור
         </h3>
-        {summary.isPlanning && (
-          <span className="text-xs px-2 py-0.5 rounded-full bg-mustard-soft text-warm-dark">
-            מצב תכנון
-          </span>
-        )}
+        <span className="text-xs px-2 py-0.5 rounded-full bg-mustard-soft text-warm-dark whitespace-nowrap">
+          {STAGE_HEBREW[summary.stage]}
+        </span>
       </div>
       <div className="text-sm text-warm-dark">
         הגור: <span className="font-semibold">{summary.puppyName}</span>
@@ -801,8 +822,18 @@ function PuppySection({ summary }: { summary: PuppySummary }) {
       <div className="text-xs text-warm-muted">
         {summary.totalCommands === 0
           ? "עוד אין פקודות ביומן."
-          : `${summary.totalCommands} פקודות · ${summary.learnedCommands} נלמדו`}
+          : `${summary.totalCommands} פקודות · ${summary.learnedCommands} נלמדו · ${summary.masteredCommands} יודע בכל מקום`}
       </div>
+      {summary.breedFacts > 0 && (
+        <div className="text-xs text-warm-muted">
+          {summary.breedFacts} עובדות על הגזע
+        </div>
+      )}
+      {summary.helperLogs > 0 && (
+        <div className="text-xs text-warm-muted">
+          האחות הקטנה עזרה ורשמה {summary.helperLogs} פעמים 👋
+        </div>
+      )}
       <p className="text-xs text-warm-muted leading-relaxed">
         זה היומן האישי שלה. את רואה כאן רק סיכום — לא אמורה לערוך.
       </p>

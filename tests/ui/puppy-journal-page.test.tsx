@@ -27,11 +27,25 @@ describe("<PuppyJournalPage> — access control", () => {
     await waitFor(() => expect(replaceMock).toHaveBeenCalledWith("/"));
   });
 
-  it("shows an age-gate message (no redirect) when the active profile is younger than 9", async () => {
+  // T8ב — MyLevel §6.3 gives the 7-year-old an explicit role ("העוזרת"),
+  // so she must NOT hit the age gate any more. This is the regression the
+  // task exists to fix: before it, Eva was blocked in code.
+  it("a 7-year-old is admitted as the helper, not blocked", async () => {
     const p = createProfile("Evelyn", 7);
     setActiveProfileId(p.id);
     render(<PuppyJournalPage />);
-    expect(await screen.findByText("יומן הגור פתוח מגיל 9")).toBeInTheDocument();
+    expect(
+      await screen.findByText(/את העוזרת של הפרויקט/),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/יומן הגור פתוח מגיל/)).not.toBeInTheDocument();
+    expect(replaceMock).not.toHaveBeenCalled();
+  });
+
+  it("shows an age-gate message (no redirect) below the helper age", async () => {
+    const p = createProfile("Tiny", 6);
+    setActiveProfileId(p.id);
+    render(<PuppyJournalPage />);
+    expect(await screen.findByText("יומן הגור פתוח מגיל 7")).toBeInTheDocument();
     expect(replaceMock).not.toHaveBeenCalled();
   });
 });
@@ -49,18 +63,19 @@ describe("<PuppyJournalPage> — setup stage", () => {
     ).toBeInTheDocument();
   });
 
-  it("submitting a name creates a journal and moves to the planning stage", async () => {
+  it("submitting a name creates a journal and opens stage 1 (learning)", async () => {
     const user = userEvent.setup();
     render(<PuppyJournalPage />);
     const input = await screen.findByPlaceholderText("שם הגור");
     await user.type(input, "באדי");
     await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
     expect(await screen.findByText(/הגור שלי: באדי/)).toBeInTheDocument();
-    expect(screen.getByText("מצב תכנון")).toBeInTheDocument();
+    expect(screen.getByText(/שלב 1 — לומדות את השיטה/)).toBeInTheDocument();
   });
 });
 
-describe("<PuppyJournalPage> — planning stage", () => {
+// §6.2 stage 1 — watch videos, check the three principles, choose commands.
+describe("<PuppyJournalPage> — stage 1: learning the method", () => {
   beforeEach(async () => {
     const p = createProfile("Emilia", 9);
     setActiveProfileId(p.id);
@@ -72,79 +87,164 @@ describe("<PuppyJournalPage> — planning stage", () => {
     await screen.findByText(/הגור שלי: באדי/);
   });
 
-  it("shows the 'no commands yet' hint", () => {
-    expect(
-      screen.getByText(/עוד אין פקודות ביומן/),
-    ).toBeInTheDocument();
+  it("offers the three method principles from the document", () => {
+    expect(screen.getByText(/חיזוק חיובי/)).toBeInTheDocument();
+    expect(screen.getByText(/עקביות/)).toBeInTheDocument();
+    expect(screen.getByText(/סבלנות/)).toBeInTheDocument();
   });
 
-  it("adds a command via the form and persists it to storage", async () => {
-    const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "+ הוסיפי פקודה" }));
-    await user.type(screen.getByPlaceholderText(/שם בעברית/), "שב");
-    await user.type(screen.getByPlaceholderText(/Name in English/), "sit");
-    await user.click(screen.getByRole("button", { name: "שמרי" }));
-
-    expect(await screen.findByText("שב")).toBeInTheDocument();
-    expect(screen.getByText(/sit/)).toBeInTheDocument();
-
-    // The "תרגלנו" buttons are NOT shown in planning mode
-    expect(screen.queryByText("תרגלנו ✓")).not.toBeInTheDocument();
+  it("training cannot start before the method is learned and a command chosen", () => {
+    const start = screen.getByRole("button", {
+      name: "סיימנו ללמוד — מתחילות לאמן",
+    });
+    expect(start).toBeDisabled();
   });
 
-  it("starting training switches to active mode and exposes the practice buttons", async () => {
+  it("checking all three principles and picking a command unlocks training", async () => {
     const user = userEvent.setup();
-    // Add a command first
-    await user.click(screen.getByRole("button", { name: "+ הוסיפי פקודה" }));
-    await user.type(screen.getByPlaceholderText(/שם בעברית/), "שב");
-    await user.type(screen.getByPlaceholderText(/Name in English/), "sit");
-    await user.click(screen.getByRole("button", { name: "שמרי" }));
+    await user.click(screen.getByRole("button", { name: /חיזוק חיובי/ }));
+    await user.click(screen.getByRole("button", { name: /עקביות/ }));
+    await user.click(screen.getByRole("button", { name: /סבלנות/ }));
+    await user.click(screen.getByRole("button", { name: "+ שב" }));
 
-    await user.click(screen.getByRole("button", { name: "התחלתי לאמן היום" }));
-    expect(await screen.findByText(/מתאמנים — יום/)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "תרגלנו ✓" })).toBeInTheDocument();
+    const start = await screen.findByRole("button", {
+      name: "סיימנו ללמוד — מתחילות לאמן",
+    });
+    expect(start).toBeEnabled();
+    await user.click(start);
+    expect(await screen.findByText(/שלב 2 — מתאמנות/)).toBeInTheDocument();
   });
 });
 
-describe("<PuppyJournalPage> — active stage logging", () => {
-  it("logging a successful attempt updates the success rate", async () => {
+describe("<PuppyJournalPage> — logging attempts per context", () => {
+  async function reachTrainingStage(user: ReturnType<typeof userEvent.setup>) {
+    await user.type(await screen.findByPlaceholderText("שם הגור"), "באדי");
+    await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await user.click(await screen.findByRole("button", { name: /חיזוק חיובי/ }));
+    await user.click(screen.getByRole("button", { name: /עקביות/ }));
+    await user.click(screen.getByRole("button", { name: /סבלנות/ }));
+    await user.click(screen.getByRole("button", { name: "+ שב" }));
+    await user.click(
+      screen.getByRole("button", { name: "סיימנו ללמוד — מתחילות לאמן" }),
+    );
+    await screen.findByText(/שלב 2 — מתאמנות/);
+  }
+
+  it("logging a successful attempt updates the success rate and storage", async () => {
     const p = createProfile("Emilia", 9);
     setActiveProfileId(p.id);
     const user = userEvent.setup();
     render(<PuppyJournalPage />);
+    await reachTrainingStage(user);
 
-    // Setup
-    await user.type(
-      await screen.findByPlaceholderText("שם הגור"),
-      "באדי",
-    );
-    await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await user.click(await screen.findByRole("button", { name: "תרגלנו ✓" }));
 
-    // Add a command
-    await user.click(
-      await screen.findByRole("button", { name: "+ הוסיפי פקודה" }),
-    );
-    await user.type(screen.getByPlaceholderText(/שם בעברית/), "שב");
-    await user.type(screen.getByPlaceholderText(/Name in English/), "sit");
-    await user.click(screen.getByRole("button", { name: "שמרי" }));
-
-    // Start training
-    await user.click(screen.getByRole("button", { name: "התחלתי לאמן היום" }));
-
-    // Log a success
-    await user.click(
-      await screen.findByRole("button", { name: "תרגלנו ✓" }),
-    );
-
-    // After one attempt: 1 of 30 trainings, success 100%
     expect(
       await screen.findByText(/1 מתוך 30 אימונים · הצלחה 100%/),
     ).toBeInTheDocument();
 
-    // Storage was updated
     const stored = loadPuppy(p.id);
     expect(stored?.commands[0]?.attempts.length).toBe(1);
     expect(stored?.commands[0]?.attempts[0]?.success).toBe(true);
+    // §6.2 stage 3 — every attempt records where it happened. Home is the
+    // default because stage 2 training happens at home.
+    expect(stored?.commands[0]?.attempts[0]?.context).toBe("home");
+  });
+
+  it("choosing a context records the attempt there and advances to stage 3", async () => {
+    const p = createProfile("Emilia", 9);
+    setActiveProfileId(p.id);
+    const user = userEvent.setup();
+    render(<PuppyJournalPage />);
+    await reachTrainingStage(user);
+
+    await user.click(screen.getByRole("button", { name: "בחוץ" }));
+    await user.click(screen.getByRole("button", { name: "תרגלנו ✓" }));
+
+    const stored = loadPuppy(p.id);
+    expect(stored?.commands[0]?.attempts[0]?.context).toBe("outside");
+    // Working outside the home is what moves the project into stage 3.
+    expect(await screen.findByText(/שלב 3 — בודקות בכל מקום/)).toBeInTheDocument();
+  });
+});
+
+// §6.3 — Eva helps on Emilia's journal; she does not get a separate puppy.
+describe("<PuppyJournalPage> — the helper (Eva)", () => {
+  it("sees a waiting message when the owner has not started a journal", async () => {
+    const eva = createProfile("Evelyn", 7);
+    setActiveProfileId(eva.id);
+    render(<PuppyJournalPage />);
+    expect(await screen.findByText("הפרויקט עוד לא התחיל")).toBeInTheDocument();
+  });
+
+  it("opens the owner's journal and may log attempts but not add commands", async () => {
+    const emilia = createProfile("Emilia", 9);
+    const eva = createProfile("Evelyn", 7);
+
+    // Emilia sets up the project first.
+    setActiveProfileId(emilia.id);
+    const user = userEvent.setup();
+    const owner = render(<PuppyJournalPage />);
+    await user.type(await screen.findByPlaceholderText("שם הגור"), "באדי");
+    await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await user.click(await screen.findByRole("button", { name: /חיזוק חיובי/ }));
+    await user.click(screen.getByRole("button", { name: /עקביות/ }));
+    await user.click(screen.getByRole("button", { name: /סבלנות/ }));
+    await user.click(screen.getByRole("button", { name: "+ שב" }));
+    await user.click(
+      screen.getByRole("button", { name: "סיימנו ללמוד — מתחילות לאמן" }),
+    );
+    await screen.findByText(/שלב 2 — מתאמנות/);
+    owner.unmount();
+
+    // Now Eva opens the journal.
+    setActiveProfileId(eva.id);
+    render(<PuppyJournalPage />);
+
+    expect(await screen.findByText(/הגור שלי: באדי/)).toBeInTheDocument();
+    expect(screen.getByText(/Evelyn, את העוזרת/)).toBeInTheDocument();
+    // She may log the result of a training session (§6.3 "רושמת ביומן")...
+    expect(screen.getByRole("button", { name: "תרגלנו ✓" })).toBeInTheDocument();
+    // ...but the project stays Emilia's: no adding or deleting commands.
+    expect(
+      screen.queryByRole("button", { name: "+ הוסיפי פקודה" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "מחיקת פקודה" }),
+    ).not.toBeInTheDocument();
+
+    // Her logged attempt lands on Emilia's journal, stamped with her name.
+    await user.click(screen.getByRole("button", { name: "תרגלנו ✓" }));
+    await waitFor(() => {
+      const stored = loadPuppy(emilia.id);
+      expect(stored?.commands[0]?.attempts[0]?.loggedBy).toBe("Evelyn");
+    });
+  });
+
+  it("can add breed research facts (§6.3 independent research)", async () => {
+    const emilia = createProfile("Emilia", 9);
+    const eva = createProfile("Evelyn", 7);
+    setActiveProfileId(emilia.id);
+    const user = userEvent.setup();
+    const owner = render(<PuppyJournalPage />);
+    await user.type(await screen.findByPlaceholderText("שם הגור"), "באדי");
+    await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await screen.findByText(/הגור שלי: באדי/);
+    owner.unmount();
+
+    setActiveProfileId(eva.id);
+    render(<PuppyJournalPage />);
+
+    const factBox = await screen.findByPlaceholderText(/עובדה שגילית/);
+    await user.type(factBox, "לברדורים מגיעים מקנדה");
+    await user.click(screen.getByRole("button", { name: "הוסיפי עובדה" }));
+
+    expect(
+      await screen.findByText("לברדורים מגיעים מקנדה"),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(loadPuppy(emilia.id)?.breedFacts?.[0]?.loggedBy).toBe("Evelyn");
+    });
   });
 });
 
@@ -160,6 +260,7 @@ describe("<PuppyJournalPage> — free notes", () => {
       "באדי",
     );
     await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await screen.findByText(/הגור שלי: באדי/);
 
     const noteTextarea = await screen.findByPlaceholderText(/מה רצית לכתוב היום/);
     await user.type(noteTextarea, "באדי היה ממוקד היום");

@@ -275,10 +275,29 @@ export const FOCUS_NEG_FEELING_SESSIONS = 3;
 // This is not a practice/mastery loop; it's a productivity tool the child
 // uses to track her own training work.
 
+// MyLevel §6.2 stage 3 — every command must hold up in three contexts, not
+// just at home. Attempts logged before this field existed have no context.
+export type PuppyContext = "home" | "outside" | "distractions";
+
+export const PUPPY_CONTEXTS: readonly PuppyContext[] = [
+  "home",
+  "outside",
+  "distractions",
+] as const;
+
+export const PUPPY_CONTEXT_HEBREW: Record<PuppyContext, string> = {
+  home: "בבית",
+  outside: "בחוץ",
+  distractions: "עם הפרעות",
+};
+
 export type PuppyAttempt = {
   at: number;
   success: boolean;
   notes?: string;
+  context?: PuppyContext;
+  // §6.3 — Eva logs training results as the helper. Absent = Emilia logged it.
+  loggedBy?: string;
 };
 
 export type PuppyCommand = {
@@ -296,17 +315,58 @@ export type PuppyFreeNote = {
   text: string;
 };
 
+// §6.3 — a fact Eva researched about the breed (3–4 facts is the target).
+export type PuppyBreedFact = {
+  id: string;
+  at: number;
+  text: string;
+  loggedBy?: string;
+};
+
 export type PuppyJournal = {
   puppyName: string;
   puppyBirthday: string | null; // YYYY-MM-DD
   trainingStartDate: number | null; // ms epoch; null = still in planning
   commands: PuppyCommand[];
   freeNotes: PuppyFreeNote[];
+  // §6.2 stage 1 — the three method principles, checked off after watching
+  // videos and talking about them. Absent on journals created before T8ב.
+  methodLearned?: string[];
+  // §6.3 — Eva's independent breed research.
+  breedName?: string;
+  breedFacts?: PuppyBreedFact[];
 };
 
 // Considered "learned" when the child has practiced at least targetSessions
 // times AND the recent success rate is ≥ 80%.
+// Kept for journals/attempts that carry no context; §6.2 stage 3 raises the
+// bar to PUPPY_MASTERY_SUCCESS_PCT once a command is tested per-context.
 export const PUPPY_LEARNED_SUCCESS_PCT = 80;
+
+// MyLevel §6.2 stage 3 — "90% הצלחה ב-3 ההקשרים".
+export const PUPPY_MASTERY_SUCCESS_PCT = 90;
+
+// §6.2 stage 1 — the three principles the document names explicitly.
+export const PUPPY_METHOD_PRINCIPLES = [
+  { id: "positive", hebrew: "חיזוק חיובי", english: "Positive Reinforcement" },
+  { id: "consistency", hebrew: "עקביות", english: "Consistency" },
+  { id: "patience", hebrew: "סבלנות", english: "Patience" },
+] as const;
+
+// §6.2 stage 1 — "בחירת 5–7 פקודות יסוד". Suggestions, not a locked list.
+export const PUPPY_SUGGESTED_COMMANDS = [
+  { hebrew: "שב", english: "sit" },
+  { hebrew: "ארצה", english: "down" },
+  { hebrew: "בוא", english: "come" },
+  { hebrew: "חכה", english: "wait" },
+  { hebrew: "לא", english: "no" },
+  { hebrew: "נעצור", english: "stop" },
+  { hebrew: "למיטה", english: "bed" },
+] as const;
+
+// §6.2 — "פקודה אחת בכל שבוע. לא ממהרים. שליטה קודמת לריבוי."
+// Soft guidance (a warning), never a hard block — see plans/FLAGSHIP-PUPPY-002 §2.
+export const PUPPY_COMMANDS_PER_WEEK = 1;
 
 // External measurement — per docs/parent-guide.md §6 (MyLevel §11.3)
 export type ExternalTestVerdict = "passed" | "gap" | "false_mastery";
