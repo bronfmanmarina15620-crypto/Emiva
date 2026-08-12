@@ -57,6 +57,8 @@ Marina ביקשה **גישה לכולם, עם רישום דרך מייל של ה
 | **3** | [ACCOUNTS-001](tasks/ACCOUNTS-001/INSTRUCTIONS.md) | הורה במייל, ילדים תחתיה | [📄](plans/ACCOUNTS-001.md) |
 | **4** | [PUBLIC-READY-001](tasks/PUBLIC-READY-001/INSTRUCTIONS.md) | פרטיות, הסכמה, מחיקה, עו"ד | [📄](plans/PUBLIC-READY-001.md) |
 
+🔗 **הכתובת החיה: [emiva.vercel.app](https://emiva.vercel.app)**
+
 ✅ **שלב 1 נסגר 2026-08-12 — Emiva באוויר.** שני החסמים תוקנו
 (דליפת יומן הגור וחבילת בית-הספר), נוספו גיבוי/שחזור, ומחיקת
 פרופיל מנקה סוף-סוף הכל. **הלקח החזק ביותר:** דגל-סביבה לא
