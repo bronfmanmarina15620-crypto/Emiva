@@ -1,0 +1,572 @@
+[
+ {
+  "id": "ext-ev-001",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "en_to_he",
+  "category": "location",
+  "prompt": "What does 'bridge' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "גשר",
+   "options": [
+    "גשר",
+    "מדרגות",
+    "חלון",
+    "גדר"
+   ]
+  },
+  "explanation": "bridge — גשר. מה שעובר מעל נהר או כביש."
+ },
+ {
+  "id": "ext-ev-002",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "he_to_en",
+  "category": "location",
+  "prompt": "מה זה 'אי' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "island",
+   "options": [
+    "bridge",
+    "island",
+    "village",
+    "harbor"
+   ]
+  },
+  "explanation": "island — אי. יבשה מוקפת מים מכל הצדדים."
+ },
+ {
+  "id": "ext-ev-003",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "en_to_he",
+  "category": "location",
+  "prompt": "What does 'village' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "כפר",
+   "options": [
+    "נמל",
+    "מדבר",
+    "כפר",
+    "טירה"
+   ]
+  },
+  "explanation": "village — כפר. יישוב קטן, קטן מעיר."
+ },
+ {
+  "id": "ext-ev-004",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "he_to_en",
+  "category": "location",
+  "prompt": "מה זה 'מדבר' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "desert",
+   "options": [
+    "island",
+    "castle",
+    "bridge",
+    "desert"
+   ]
+  },
+  "explanation": "desert — מדבר. מקום חם מאוד עם מעט מאוד גשם."
+ },
+ {
+  "id": "ext-ev-005",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "en_to_he",
+  "category": "location",
+  "prompt": "What does 'castle' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "טירה",
+   "options": [
+    "טירה",
+    "גשר",
+    "כפר",
+    "אי"
+   ]
+  },
+  "explanation": "castle — טירה. מבנה אבן גדול עם חומות, מהסיפורים על אבירים."
+ },
+ {
+  "id": "ext-ev-006",
+  "skill": "english_vocab",
+  "difficulty": 1,
+  "type": "he_to_en",
+  "category": "location",
+  "prompt": "מה זה 'נמל' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "harbor",
+   "options": [
+    "desert",
+    "harbor",
+    "village",
+    "castle"
+   ]
+  },
+  "explanation": "harbor — נמל. המקום שבו ספינות עוגנות."
+ },
+ {
+  "id": "ext-ev-007",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "en_to_he",
+  "category": "verbs",
+  "prompt": "What does 'arrive' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "להגיע",
+   "options": [
+    "לעזוב",
+    "לישון",
+    "להגיע",
+    "לשאול"
+   ]
+  },
+  "explanation": "arrive — להגיע. הפועל ההפוך הוא depart, לעזוב."
+ },
+ {
+  "id": "ext-ev-008",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "he_to_en",
+  "category": "verbs",
+  "prompt": "מה זה 'לאסוף' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "gather",
+   "options": [
+    "arrive",
+    "whisper",
+    "repair",
+    "gather"
+   ]
+  },
+  "explanation": "gather — לאסוף. למשל לאסוף עלים או לאסוף אנשים למקום אחד."
+ },
+ {
+  "id": "ext-ev-009",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "en_to_he",
+  "category": "verbs",
+  "prompt": "What does 'protect' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "להגן",
+   "options": [
+    "להגן",
+    "לתקן",
+    "לגלות",
+    "לחגוג"
+   ]
+  },
+  "explanation": "protect — להגן. לשמור על מישהו מפני סכנה."
+ },
+ {
+  "id": "ext-ev-010",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "he_to_en",
+  "category": "verbs",
+  "prompt": "מה זה 'לתקן' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "repair",
+   "options": [
+    "protect",
+    "repair",
+    "deliver",
+    "depart"
+   ]
+  },
+  "explanation": "repair — לתקן. להחזיר משהו שבור למצב עובד."
+ },
+ {
+  "id": "ext-ev-011",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "en_to_he",
+  "category": "verbs",
+  "prompt": "What does 'shout' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "לצעוק",
+   "options": [
+    "ללחוש",
+    "לרוץ",
+    "לצעוק",
+    "לשבת"
+   ]
+  },
+  "explanation": "shout — לצעוק. ההפך מ-whisper, ללחוש."
+ },
+ {
+  "id": "ext-ev-012",
+  "skill": "english_vocab",
+  "difficulty": 2,
+  "type": "he_to_en",
+  "category": "verbs",
+  "prompt": "מה זה 'ללחוש' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "whisper",
+   "options": [
+    "shout",
+    "gather",
+    "arrive",
+    "whisper"
+   ]
+  },
+  "explanation": "whisper — ללחוש. לדבר בקול נמוך מאוד."
+ },
+ {
+  "id": "ext-ev-013",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "en_to_he",
+  "category": "verbs",
+  "prompt": "What does 'discover' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "לגלות",
+   "options": [
+    "לגלות",
+    "להגן",
+    "לאסוף",
+    "לצעוק"
+   ]
+  },
+  "explanation": "discover — לגלות. למצוא משהו שלא ידעו עליו קודם."
+ },
+ {
+  "id": "ext-ev-014",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "he_to_en",
+  "category": "verbs",
+  "prompt": "מה זה 'לחגוג' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "celebrate",
+   "options": [
+    "discover",
+    "celebrate",
+    "repair",
+    "protect"
+   ]
+  },
+  "explanation": "celebrate — לחגוג. מה שעושים ביום הולדת."
+ },
+ {
+  "id": "ext-ev-015",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "en_to_he",
+  "category": "verbs",
+  "prompt": "What does 'deliver' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "למסור",
+   "options": [
+    "לגלות",
+    "לחגוג",
+    "למסור",
+    "ללחוש"
+   ]
+  },
+  "explanation": "deliver — למסור. למשל שליח שמוסר חבילה."
+ },
+ {
+  "id": "ext-ev-016",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "he_to_en",
+  "category": "verbs",
+  "prompt": "מה זה 'לעזוב' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "depart",
+   "options": [
+    "arrive",
+    "gather",
+    "celebrate",
+    "depart"
+   ]
+  },
+  "explanation": "depart — לעזוב, לצאת לדרך. ההפך מ-arrive."
+ },
+ {
+  "id": "ext-ev-017",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "en_to_he",
+  "category": "abstract",
+  "prompt": "What does 'shadow' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "צל",
+   "options": [
+    "צל",
+    "אור",
+    "ענן",
+    "רוח"
+   ]
+  },
+  "explanation": "shadow — צל. מה שנוצר כשמשהו חוסם את האור."
+ },
+ {
+  "id": "ext-ev-018",
+  "skill": "english_vocab",
+  "difficulty": 3,
+  "type": "he_to_en",
+  "category": "abstract",
+  "prompt": "מה זה 'שקט' (היעדר רעש) באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "silence",
+   "options": [
+    "shadow",
+    "silence",
+    "journey",
+    "castle"
+   ]
+  },
+  "explanation": "silence — שקט מוחלט, בלי שום צליל."
+ },
+ {
+  "id": "ext-ev-019",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'gentle' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "עדין",
+   "options": [
+    "כבד",
+    "רחב",
+    "עדין",
+    "עתיק"
+   ]
+  },
+  "explanation": "gentle — עדין. נגיעה עדינה, בלי כוח."
+ },
+ {
+  "id": "ext-ev-020",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "he_to_en",
+  "category": "adjectives",
+  "prompt": "מה זה 'כבד' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "heavy",
+   "options": [
+    "gentle",
+    "narrow",
+    "sudden",
+    "heavy"
+   ]
+  },
+  "explanation": "heavy — כבד. משהו שקשה להרים."
+ },
+ {
+  "id": "ext-ev-021",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'narrow' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "צר",
+   "options": [
+    "צר",
+    "רחב",
+    "עדין",
+    "רחוק"
+   ]
+  },
+  "explanation": "narrow — צר. ההפך מ-wide, רחב. שביל צר."
+ },
+ {
+  "id": "ext-ev-022",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "he_to_en",
+  "category": "adjectives",
+  "prompt": "מה זה 'רחב' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "wide",
+   "options": [
+    "narrow",
+    "wide",
+    "heavy",
+    "ancient"
+   ]
+  },
+  "explanation": "wide — רחב. ההפך מ-narrow, צר."
+ },
+ {
+  "id": "ext-ev-023",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'ancient' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "עתיק",
+   "options": [
+    "חדש",
+    "מהיר",
+    "עתיק",
+    "שביר"
+   ]
+  },
+  "explanation": "ancient — עתיק. משהו מלפני אלפי שנים, כמו מצרים העתיקה."
+ },
+ {
+  "id": "ext-ev-024",
+  "skill": "english_vocab",
+  "difficulty": 4,
+  "type": "he_to_en",
+  "category": "adjectives",
+  "prompt": "מה זה 'שביר' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "fragile",
+   "options": [
+    "heavy",
+    "wide",
+    "ancient",
+    "fragile"
+   ]
+  },
+  "explanation": "fragile — שביר. כתוב על חבילות שצריך להיזהר איתן."
+ },
+ {
+  "id": "ext-ev-025",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'clever' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "פיקח",
+   "options": [
+    "פיקח",
+    "עייף",
+    "רעב",
+    "שקט"
+   ]
+  },
+  "explanation": "clever — פיקח. מי שחושב מהר ומוצא פתרונות."
+ },
+ {
+  "id": "ext-ev-026",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "he_to_en",
+  "category": "adjectives",
+  "prompt": "מה זה 'סקרן' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "curious",
+   "options": [
+    "clever",
+    "curious",
+    "patient",
+    "eager"
+   ]
+  },
+  "explanation": "curious — סקרן. מי שרוצה לדעת ושואל הרבה שאלות."
+ },
+ {
+  "id": "ext-ev-027",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'patient' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "סבלני",
+   "options": [
+    "סקרן",
+    "פיקח",
+    "סבלני",
+    "להוט"
+   ]
+  },
+  "explanation": "patient — סבלני. מי שיודע לחכות בלי להתעצבן."
+ },
+ {
+  "id": "ext-ev-028",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "he_to_en",
+  "category": "adjectives",
+  "prompt": "מה זה 'פתאומי' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "sudden",
+   "options": [
+    "distant",
+    "fragile",
+    "gentle",
+    "sudden"
+   ]
+  },
+  "explanation": "sudden — פתאומי. משהו שקורה בלי אזהרה מוקדמת."
+ },
+ {
+  "id": "ext-ev-029",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "en_to_he",
+  "category": "adjectives",
+  "prompt": "What does 'distant' mean?",
+  "answer": {
+   "kind": "choice",
+   "correct": "רחוק",
+   "options": [
+    "רחוק",
+    "פתאומי",
+    "צר",
+    "עדין"
+   ]
+  },
+  "explanation": "distant — רחוק. מקום שנמצא במרחק גדול."
+ },
+ {
+  "id": "ext-ev-030",
+  "skill": "english_vocab",
+  "difficulty": 5,
+  "type": "he_to_en",
+  "category": "abstract",
+  "prompt": "מה זה 'מסע' באנגלית?",
+  "answer": {
+   "kind": "choice",
+   "correct": "journey",
+   "options": [
+    "silence",
+    "journey",
+    "shadow",
+    "harbor"
+   ]
+  },
+  "explanation": "journey — מסע. נסיעה ארוכה ממקום למקום."
+ }
+]

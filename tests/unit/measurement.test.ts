@@ -342,7 +342,7 @@ describe("measurement — save + load roundtrip", () => {
 });
 
 describe("measurement — hasMeasurement / MEASURABLE_SKILLS", () => {
-  it("includes the six arithmetic skills (sliver 2 — T7א)", () => {
+  it("covers every skill that has a bank (T7א + T7ב)", () => {
     expect([...MEASURABLE_SKILLS].sort()).toEqual(
       [
         "add_sub_100",
@@ -351,6 +351,9 @@ describe("measurement — hasMeasurement / MEASURABLE_SKILLS", () => {
         "mult_2digit",
         "ops_1000",
         "long_division",
+        "bar_models",
+        "hebrew_comprehension",
+        "english_vocab",
       ].sort(),
     );
   });
@@ -362,20 +365,12 @@ describe("measurement — hasMeasurement / MEASURABLE_SKILLS", () => {
   });
 
   /**
-   * שלוש המיומנויות המילוליות נשארות מחוץ לסקופ (T7ב). כתיבת
-   * הפריטים שלהן היא עבודת תוכן — פסקאות, בעיות מילוליות ומסיחים
-   * שאינם נרדפים — ולא ייצור מכני.
+   * `english_phonics` נשארת בכוונה בלי מבחן חיצוני: היא מיומנות
+   * **פענוח בקול**, ומבחן שקט של 10 פריטים אינו מודד אותה. הרף
+   * שלה הוא הבת קוראת בקול בבית, לא ציון במסך.
    */
-  it("hasMeasurement false for the verbal skills still pending", () => {
-    const unsupported: Skill[] = [
-      "bar_models",
-      "hebrew_comprehension",
-      "english_vocab",
-      "english_phonics",
-    ];
-    for (const s of unsupported) {
-      expect(hasMeasurement(s)).toBe(false);
-    }
+  it("hasMeasurement false for english_phonics (deliberately out of scope)", () => {
+    expect(hasMeasurement("english_phonics")).toBe(false);
   });
 });
 

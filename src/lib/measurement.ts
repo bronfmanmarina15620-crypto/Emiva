@@ -4,6 +4,9 @@ import multiplicationHoldout from "@/content/measurement/multiplication-holdout.
 import ops1000Holdout from "@/content/measurement/ops-1000-holdout.json";
 import longDivisionHoldout from "@/content/measurement/long-division-holdout.json";
 import mult2digitHoldout from "@/content/measurement/mult-2digit-holdout.json";
+import barModelsHoldout from "@/content/measurement/bar-models-holdout.json";
+import hebrewCompHoldout from "@/content/measurement/hebrew-comprehension-holdout.json";
+import englishVocabHoldout from "@/content/measurement/english-vocab-holdout.json";
 import {
   appendMeasurementResult,
   appendSeenMeasurementIds,
@@ -29,6 +32,9 @@ const MULTIPLICATION_HOLDOUT = multiplicationHoldout as unknown as readonly Item
 const OPS_1000_HOLDOUT = ops1000Holdout as unknown as readonly Item[];
 const LONG_DIVISION_HOLDOUT = longDivisionHoldout as unknown as readonly Item[];
 const MULT_2DIGIT_HOLDOUT = mult2digitHoldout as unknown as readonly Item[];
+const BAR_MODELS_HOLDOUT = barModelsHoldout as unknown as readonly Item[];
+const HEBREW_COMP_HOLDOUT = hebrewCompHoldout as unknown as readonly Item[];
+const ENGLISH_VOCAB_HOLDOUT = englishVocabHoldout as unknown as readonly Item[];
 
 export const MEASURABLE_SKILLS: readonly Skill[] = [
   "add_sub_100",
@@ -37,6 +43,9 @@ export const MEASURABLE_SKILLS: readonly Skill[] = [
   "mult_2digit",
   "ops_1000",
   "long_division",
+  "bar_models",
+  "hebrew_comprehension",
+  "english_vocab",
 ];
 
 export function holdoutForSkill(skill: Skill): readonly Item[] {
@@ -53,6 +62,12 @@ export function holdoutForSkill(skill: Skill): readonly Item[] {
       return OPS_1000_HOLDOUT;
     case "long_division":
       return LONG_DIVISION_HOLDOUT;
+    case "bar_models":
+      return BAR_MODELS_HOLDOUT;
+    case "hebrew_comprehension":
+      return HEBREW_COMP_HOLDOUT;
+    case "english_vocab":
+      return ENGLISH_VOCAB_HOLDOUT;
     default:
       return [];
   }

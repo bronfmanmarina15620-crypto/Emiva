@@ -42,6 +42,19 @@ const BANKS = [
     kind: "vocab",
     lang: "en",
   },
+  // מאגרי המבחן החיצוני (T7ב, 2026-08-12). הם נכתבו באותו פורמט
+  // ונקראים על ידי אותן בנות — ולכן חייבים לעמוד באותו רף. בלי
+  // השורות האלה השופט היה מדווח "0 שגיאות" בלי שראה אותם כלל.
+  {
+    file: "src/content/measurement/hebrew-comprehension-holdout.json",
+    kind: "comprehension",
+    lang: "he",
+  },
+  {
+    file: "src/content/measurement/english-vocab-holdout.json",
+    kind: "vocab",
+    lang: "en",
+  },
 ];
 
 /**

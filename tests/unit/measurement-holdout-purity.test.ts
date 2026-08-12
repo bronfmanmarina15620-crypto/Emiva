@@ -11,6 +11,14 @@ import ops1000Bank from "@/content/math/ops-1000.json";
 import ops1000Holdout from "@/content/measurement/ops-1000-holdout.json";
 import longDivisionBank from "@/content/math/long-division.json";
 import longDivisionHoldout from "@/content/measurement/long-division-holdout.json";
+import barModelsBank from "@/content/math/bar-models.json";
+import barModelsHoldout from "@/content/measurement/bar-models-holdout.json";
+import hebrewEvelynBank from "@/content/hebrew/comprehension-evelyn.json";
+import hebrewEmiliaBank from "@/content/hebrew/comprehension-emilia.json";
+import hebrewCompHoldout from "@/content/measurement/hebrew-comprehension-holdout.json";
+import vocabEvelynBank from "@/content/english/vocab-evelyn.json";
+import vocabEmiliaBank from "@/content/english/vocab-emilia.json";
+import englishVocabHoldout from "@/content/measurement/english-vocab-holdout.json";
 import { MEASURABLE_SKILLS, holdoutForSkill } from "@/lib/measurement";
 import type { Item, Skill } from "@/lib/types";
 
@@ -21,6 +29,17 @@ const BANK_BY_SKILL = {
   mult_2digit: mult2digitBank as unknown as readonly Item[],
   ops_1000: ops1000Bank as unknown as readonly Item[],
   long_division: longDivisionBank as unknown as readonly Item[],
+  bar_models: barModelsBank as unknown as readonly Item[],
+  // שתי הבנות חולקות את שם המיומנות ומאגר נבחר לפי גיל, ולכן
+  // ה-holdout חייב להיות זר לשניהם.
+  hebrew_comprehension: [
+    ...(hebrewEvelynBank as unknown as readonly Item[]),
+    ...(hebrewEmiliaBank as unknown as readonly Item[]),
+  ],
+  english_vocab: [
+    ...(vocabEvelynBank as unknown as readonly Item[]),
+    ...(vocabEmiliaBank as unknown as readonly Item[]),
+  ],
 };
 
 const HOLDOUT_BY_SKILL = {
@@ -30,10 +49,22 @@ const HOLDOUT_BY_SKILL = {
   mult_2digit: mult2digitHoldout as unknown as readonly Item[],
   ops_1000: ops1000Holdout as unknown as readonly Item[],
   long_division: longDivisionHoldout as unknown as readonly Item[],
+  bar_models: barModelsHoldout as unknown as readonly Item[],
+  hebrew_comprehension: hebrewCompHoldout as unknown as readonly Item[],
+  english_vocab: englishVocabHoldout as unknown as readonly Item[],
 };
 
 type CoveredSkill = keyof typeof BANK_BY_SKILL;
 const COVERED = Object.keys(BANK_BY_SKILL) as CoveredSkill[];
+
+/** מיומנויות עם `operands`/`op` — רק עליהן חלה בדיקת החשבון. */
+const ARITHMETIC = new Set<string>([
+  "add_sub_100",
+  "multiplication",
+  "mult_2digit",
+  "ops_1000",
+  "long_division",
+]);
 
 /**
  * השער שמונע שמיומנות תיכנס ל-MEASURABLE_SKILLS בלי שהבדיקות כאן
@@ -121,7 +152,7 @@ function arithmeticKeys(item: Item, commutes: boolean): string[] {
 
 describe("measurement — holdout does not repeat a trained exercise", () => {
   for (const skill of COVERED) {
-    if (skill === "fractions_intro") continue; // אינו אריתמטי-אופרנדים
+    if (!ARITHMETIC.has(skill)) continue; // אינו אריתמטי-אופרנדים
     it(`${skill}: no holdout exercise appears in training by content`, () => {
       const commutes = !ORDER_INSENSITIVE_EXEMPT.has(skill);
       const trained = new Set(
@@ -142,7 +173,7 @@ describe("measurement — holdout does not repeat a trained exercise", () => {
  */
 describe("measurement — every holdout answer is arithmetically true", () => {
   for (const skill of COVERED) {
-    if (skill === "fractions_intro") continue;
+    if (!ARITHMETIC.has(skill)) continue;
     it(`${skill}: answer matches the operands`, () => {
       for (const item of HOLDOUT_BY_SKILL[skill]) {
         if (!isOperandItem(item)) continue;
@@ -186,6 +217,112 @@ describe("measurement — every holdout answer is arithmetically true", () => {
       if (!isOperandItem(item)) continue;
       const [n, d] = item.operands;
       expect(n % d).toBe(0);
+    }
+  });
+});
+
+/**
+ * המיומנויות המילוליות (T7ב). כאן החפיפה אינה אריתמטית: בהבנת
+ * הנקרא היא **הטקסט**, ובאוצר המילים היא **המילה הנלמדת**.
+ */
+describe("measurement — verbal holdouts do not reuse trained material", () => {
+  it("hebrew_comprehension: no holdout text appears in either training bank", () => {
+    const trained = new Set(
+      BANK_BY_SKILL.hebrew_comprehension.map((i) =>
+        "text" in i ? i.text : "",
+      ),
+    );
+    const clashes = HOLDOUT_BY_SKILL.hebrew_comprehension
+      .filter((i) => "text" in i && trained.has(i.text))
+      .map((i) => i.id);
+    expect(clashes).toEqual([]);
+  });
+
+  it("hebrew_comprehension: every item has 2 questions with 4 unique options", () => {
+    for (const item of HOLDOUT_BY_SKILL.hebrew_comprehension) {
+      if (!("questions" in item)) throw new Error(`${item.id} has no questions`);
+      expect(item.questions.length).toBe(2);
+      for (const q of item.questions) {
+        expect(q.options.length).toBe(4);
+        expect(new Set(q.options).size).toBe(4);
+        expect(q.correctIndex).toBeGreaterThanOrEqual(0);
+        expect(q.correctIndex).toBeLessThanOrEqual(3);
+        expect(q.explanation.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  /**
+   * הלקח של T4 מקודד: שם 11 מתוך 18 התשובות הראשונות היו נכונות,
+   * וילדה שניחשה "הראשונה" קיבלה "יש פער" במקום "לא יודעת".
+   * כאן הרף הוא פיזור אמיתי — אף מיקום אינו נושא יותר מ-40%.
+   */
+  it("hebrew_comprehension: the correct answer is not biased to one position", () => {
+    const counts = [0, 0, 0, 0];
+    let total = 0;
+    for (const item of HOLDOUT_BY_SKILL.hebrew_comprehension) {
+      if (!("questions" in item)) continue;
+      for (const q of item.questions) {
+        counts[q.correctIndex] = (counts[q.correctIndex] ?? 0) + 1;
+        total += 1;
+      }
+    }
+    for (const c of counts) {
+      expect(c).toBeGreaterThan(0);
+      expect(c / total).toBeLessThanOrEqual(0.4);
+    }
+  });
+
+  it("english_vocab: no holdout word appears in either training bank", () => {
+    const taught = new Set<string>();
+    for (const item of BANK_BY_SKILL.english_vocab) {
+      if (!("type" in item) || !("answer" in item)) continue;
+      const word =
+        item.type === "en_to_he"
+          ? (item.prompt.match(/'([^']+)'/) ?? [])[1]
+          : (item.answer as { correct: string }).correct;
+      if (word) taught.add(word.toLowerCase());
+    }
+    const clashes: string[] = [];
+    for (const item of HOLDOUT_BY_SKILL.english_vocab) {
+      if (!("type" in item) || !("answer" in item)) continue;
+      const word =
+        item.type === "en_to_he"
+          ? (item.prompt.match(/'([^']+)'/) ?? [])[1]
+          : (item.answer as { correct: string }).correct;
+      if (word && taught.has(word.toLowerCase())) {
+        clashes.push(`${item.id}: ${word}`);
+      }
+    }
+    expect(clashes).toEqual([]);
+  });
+
+  it("english_vocab: direction is balanced and options are well formed", () => {
+    const byType = new Map<string, number>();
+    for (const item of HOLDOUT_BY_SKILL.english_vocab) {
+      if (!("type" in item) || !("answer" in item)) continue;
+      byType.set(item.type, (byType.get(item.type) ?? 0) + 1);
+      const answer = item.answer as { correct: string; options: string[] };
+      expect(answer.options.length).toBe(4);
+      expect(new Set(answer.options).size).toBe(4);
+      expect(answer.options).toContain(answer.correct);
+    }
+    // איזון 50/50 בין הכיוונים, כמו במאגרי התרגול.
+    expect(byType.get("en_to_he")).toBe(byType.get("he_to_en"));
+  });
+
+  it("bar_models: segment weights match the stated total, and '?' matches the answer", () => {
+    for (const item of HOLDOUT_BY_SKILL.bar_models) {
+      if (!("bars" in item)) throw new Error(`${item.id} has no bars`);
+      for (const bar of item.bars) {
+        if (!bar.totalLabel || !/^\d+$/.test(bar.totalLabel)) continue;
+        const sum = bar.segments.reduce((s, g) => s + g.weight, 0);
+        expect(sum).toBe(Number(bar.totalLabel));
+        const unknown = bar.segments.filter((s) => s.label === "?");
+        if (unknown.length === 1) {
+          expect(unknown[0]!.weight).toBe(item.answer);
+        }
+      }
     }
   });
 });
