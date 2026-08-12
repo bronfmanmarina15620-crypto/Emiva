@@ -335,6 +335,14 @@ export type PuppyJournal = {
   // §6.3 — Eva's independent breed research.
   breedName?: string;
   breedFacts?: PuppyBreedFact[];
+  // LAUNCH-PUBLIC-001 D1 — who, besides the owner, may open this journal.
+  // The helper link must be **explicit**: before this field the helper was
+  // handed the first owner-aged journal found on the device, which inside one
+  // family is the intended "one puppy, one journal" behaviour but across two
+  // families sharing a tablet handed a child a stranger's journal with write
+  // access. Absent/empty on journals created before the fix — those keep
+  // working, they simply have no helper until the owner invites one.
+  helperIds?: string[];
 };
 
 // Considered "learned" when the child has practiced at least targetSessions

@@ -14,9 +14,12 @@ import {
   commandsAddedThisWeek,
   createJournal,
   daysSinceTrainingStart,
+  inviteHelper,
   journalStage,
   load,
   methodIsComplete,
+  ownerJournalForHelper,
+  removeHelper,
   pacingWarning,
   removeBreedFact,
   removeCommand,
@@ -537,5 +540,55 @@ describe("puppy-journal — backward compatibility", () => {
     // Adding a fact to a journal that has no breedFacts array must not throw.
     const withFact = addBreedFact(loaded, "עובדה", 2000);
     expect(withFact.breedFacts?.length).toBe(1);
+  });
+});
+
+// LAUNCH-PUBLIC-001 D1 — the helper link must be explicit. The previous
+// implementation scanned the device and returned the first owner-aged
+// journal, which on a tablet shared by two families handed a child a
+// stranger's journal with write access.
+describe("ownerJournalForHelper — explicit linking only", () => {
+  const journalFor = (helperIds?: string[]) => ({
+    ...createJournal("באדי", null),
+    ...(helperIds ? { helperIds } : {}),
+  });
+
+  it("returns the owner who explicitly invited this helper", () => {
+    const banks: Record<string, ReturnType<typeof journalFor>> = {
+      "owner-1": journalFor(["helper-1"]),
+    };
+    expect(
+      ownerJournalForHelper("helper-1", ["owner-1"], (id) => banks[id] ?? null),
+    ).toBe("owner-1");
+  });
+
+  it("returns null when a journal exists but never invited her", () => {
+    const banks: Record<string, ReturnType<typeof journalFor>> = {
+      "stranger": journalFor(),
+    };
+    expect(
+      ownerJournalForHelper("helper-1", ["stranger"], (id) => banks[id] ?? null),
+    ).toBeNull();
+  });
+
+  it("picks the inviting owner, never merely the first one found", () => {
+    const banks: Record<string, ReturnType<typeof journalFor>> = {
+      "stranger": journalFor(["someone-else"]),
+      "her-sister": journalFor(["helper-1"]),
+    };
+    expect(
+      ownerJournalForHelper(
+        "helper-1",
+        ["stranger", "her-sister"],
+        (id) => banks[id] ?? null,
+      ),
+    ).toBe("her-sister");
+  });
+
+  it("invite is idempotent and remove undoes it", () => {
+    const j = journalFor();
+    const once = inviteHelper(j, "h1");
+    expect(inviteHelper(once, "h1").helperIds).toEqual(["h1"]);
+    expect(removeHelper(once, "h1").helperIds).toEqual([]);
   });
 });

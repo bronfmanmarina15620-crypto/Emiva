@@ -34,7 +34,24 @@ export type ReviewPack = {
 
 import assessmentReview2 from "@/content/review-packs/emilia-assessment-review-2.json";
 
-const BUILT_IN_PACKS: ReviewPack[] = [assessmentReview2 as unknown as ReviewPack];
+/**
+ * LAUNCH-PUBLIC-001 D2 — the built-in pack is one school's class-ד assessment
+ * review, and its `audience` ("אמיליה") is rendered on screen. Filtering by
+ * exact name match meant any family whose daughter shares that common Hebrew
+ * name would be served another school's material, and two code paths
+ * (`listPacks()` with no profile, and a persisted active-pack id) bypassed the
+ * filter entirely.
+ *
+ * The pack is private home content, not product content, so it ships only when
+ * explicitly enabled. The mechanism stays — future packs are unaffected.
+ * Set `NEXT_PUBLIC_ENABLE_HOME_PACKS=1` in `.env.local` to use it at home.
+ */
+const HOME_PACKS_ENABLED =
+  process.env.NEXT_PUBLIC_ENABLE_HOME_PACKS === "1";
+
+const BUILT_IN_PACKS: ReviewPack[] = HOME_PACKS_ENABLED
+  ? [assessmentReview2 as unknown as ReviewPack]
+  : [];
 
 /**
  * Returns packs available to the given profile. A pack matches if its

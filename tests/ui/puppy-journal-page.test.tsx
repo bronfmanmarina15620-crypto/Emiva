@@ -195,6 +195,11 @@ describe("<PuppyJournalPage> — the helper (Eva)", () => {
       screen.getByRole("button", { name: "סיימנו ללמוד — מתחילות לאמן" }),
     );
     await screen.findByText(/שלב 2 — מתאמנות/);
+    // §6.3 — Emilia invites Eva onto the project. Since LAUNCH-PUBLIC-001 D1
+    // the link is explicit: without the invitation Eva gets her own empty
+    // journal rather than whichever one happens to sit on the device.
+    await user.click(screen.getByRole("button", { name: "להזמין" }));
+    await screen.findByRole("button", { name: "מוזמנת ✓" });
     owner.unmount();
 
     // Now Eva opens the journal.
@@ -230,6 +235,9 @@ describe("<PuppyJournalPage> — the helper (Eva)", () => {
     await user.type(await screen.findByPlaceholderText("שם הגור"), "באדי");
     await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
     await screen.findByText(/הגור שלי: באדי/);
+    // The helper link is explicit since LAUNCH-PUBLIC-001 D1.
+    await user.click(screen.getByRole("button", { name: "להזמין" }));
+    await screen.findByRole("button", { name: "מוזמנת ✓" });
     owner.unmount();
 
     setActiveProfileId(eva.id);
@@ -245,6 +253,35 @@ describe("<PuppyJournalPage> — the helper (Eva)", () => {
     await waitFor(() => {
       expect(loadPuppy(emilia.id)?.breedFacts?.[0]?.loggedBy).toBe("Evelyn");
     });
+  });
+
+  // LAUNCH-PUBLIC-001 D1 — the leak that opening to the public exposes.
+  // The helper used to be handed the FIRST owner-aged journal found on the
+  // device, whoever it belonged to. With one family that is the intended
+  // "one puppy, one journal" behaviour; with two families sharing a tablet
+  // it hands a child another family's journal, with write access.
+  // The link must be explicit, never guessed by scanning.
+  it("does NOT open an unrelated owner's journal (no device-wide scan)", async () => {
+    // A child from another household already keeps a journal on this device.
+    const stranger = createProfile("Noa", 9);
+    setActiveProfileId(stranger.id);
+    const user = userEvent.setup();
+    const strangerView = render(<PuppyJournalPage />);
+    await user.type(await screen.findByPlaceholderText("שם הגור"), "רקסי");
+    await user.click(screen.getByRole("button", { name: "התחילי לתכנן" }));
+    await screen.findByText(/הגור שלי: רקסי/);
+    strangerView.unmount();
+
+    // An unrelated 7-year-old opens the journal. She is not linked to Noa.
+    const otherChild = createProfile("Dana", 7);
+    setActiveProfileId(otherChild.id);
+    render(<PuppyJournalPage />);
+
+    // She must not see the stranger's puppy.
+    expect(await screen.findByText("הפרויקט עוד לא התחיל")).toBeInTheDocument();
+    expect(screen.queryByText(/רקסי/)).not.toBeInTheDocument();
+    // And nothing she does may reach the stranger's journal.
+    expect(loadPuppy(stranger.id)?.puppyName).toBe("רקסי");
   });
 });
 

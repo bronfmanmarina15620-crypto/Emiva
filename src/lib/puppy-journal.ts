@@ -354,6 +354,51 @@ export function load(profileId: string): PuppyJournal | null {
   return loadPuppyJournal(profileId);
 }
 
+/**
+ * LAUNCH-PUBLIC-001 D1 — which journal a helper may open.
+ *
+ * Returns the id of the owner whose journal has **explicitly invited** this
+ * helper, or `null` when nobody has. The previous version scanned the device
+ * and returned the first owner-aged journal it found; inside one family that
+ * is the intended "one puppy, one journal" shortcut, but on a shared tablet
+ * it handed a child another family's journal with write access.
+ *
+ * Pure and injectable: the caller passes the candidate owners, so this stays
+ * testable without touching storage (same style as `resolveEffectiveSkillPure`).
+ */
+export function ownerJournalForHelper(
+  helperId: string,
+  ownerIds: readonly string[],
+  loadJournal: (id: string) => PuppyJournal | null = loadPuppyJournal,
+): string | null {
+  for (const ownerId of ownerIds) {
+    if (ownerId === helperId) continue;
+    const journal = loadJournal(ownerId);
+    if (journal?.helperIds?.includes(helperId)) return ownerId;
+  }
+  return null;
+}
+
+/** Owner invites a helper onto the project (§6.3). Idempotent. */
+export function inviteHelper(
+  journal: PuppyJournal,
+  helperId: string,
+): PuppyJournal {
+  const current = journal.helperIds ?? [];
+  if (current.includes(helperId)) return journal;
+  return { ...journal, helperIds: [...current, helperId] };
+}
+
+/** Owner removes a helper. */
+export function removeHelper(
+  journal: PuppyJournal,
+  helperId: string,
+): PuppyJournal {
+  const current = journal.helperIds ?? [];
+  if (!current.includes(helperId)) return journal;
+  return { ...journal, helperIds: current.filter((id) => id !== helperId) };
+}
+
 export function save(profileId: string, journal: PuppyJournal): void {
   savePuppyJournal(profileId, journal);
 }

@@ -24,7 +24,10 @@ import {
   methodIsComplete,
   pacingWarning,
   removeBreedFact,
+  inviteHelper,
+  ownerJournalForHelper,
   removeCommand,
+  removeHelper,
   roleForAge,
   save,
   setBreedName,
@@ -48,14 +51,15 @@ import {
   type PuppyJournal,
 } from "@/lib/types";
 
-// §6.3 — the helper works on the owner's journal. Finds the first owner-aged
-// profile that already has a journal stored.
-function findOwnerJournalId(): string | null {
-  const owners = loadProfiles().filter((p) => roleForAge(p.age) === "owner");
-  for (const o of owners) {
-    if (load(o.id) !== null) return o.id;
-  }
-  return null;
+// §6.3 — the helper works on the owner's journal, but only on a journal that
+// **explicitly invited her** (LAUNCH-PUBLIC-001 D1). This used to return the
+// first owner-aged journal found on the device, which on a tablet shared by
+// two families handed a child a stranger's journal with write access.
+function findOwnerJournalId(helperId: string): string | null {
+  const ownerIds = loadProfiles()
+    .filter((p) => roleForAge(p.age) === "owner")
+    .map((p) => p.id);
+  return ownerJournalForHelper(helperId, ownerIds, load);
 }
 
 export default function PuppyJournalPage() {
@@ -85,7 +89,7 @@ export default function PuppyJournalPage() {
     setRole(r);
     // MyLevel §6.3 — Eva helps on Emilia's project, so the helper opens the
     // owner's journal. Falls back to her own id if no owner journal exists.
-    const ownerId = r === "owner" ? p.id : (findOwnerJournalId() ?? p.id);
+    const ownerId = r === "owner" ? p.id : (findOwnerJournalId(p.id) ?? p.id);
     setJournalOwnerId(ownerId);
     setJournal(load(ownerId));
     setReady(true);
@@ -205,6 +209,14 @@ export default function PuppyJournalPage() {
             persist(addBreedFact(journal, text, Date.now(), profile.name))
           }
           onRemoveBreedFact={(id) => persist(removeBreedFact(journal, id))}
+          ownerId={journalOwnerId ?? profile.id}
+          onToggleHelper={(helperId) =>
+            persist(
+              (journal.helperIds ?? []).includes(helperId)
+                ? removeHelper(journal, helperId)
+                : inviteHelper(journal, helperId),
+            )
+          }
         />
       )}
     </main>
@@ -294,11 +306,15 @@ function JournalStages({
   onSetBreedName,
   onAddBreedFact,
   onRemoveBreedFact,
+  ownerId,
+  onToggleHelper,
 }: {
   journal: PuppyJournal;
   stage: Exclude<JournalStage, "setup">;
   role: PuppyRole;
   childName: string;
+  ownerId: string;
+  onToggleHelper: (helperId: string) => void;
   onAddCommand: (he: string, en: string, target: number) => void;
   onLogAttempt: (
     cmdId: string,
@@ -369,7 +385,68 @@ function JournalStages({
       {role === "owner" && (
         <FreeNotesSection journal={journal} onAddNote={onAddNote} />
       )}
+
+      {role === "owner" && (
+        <HelpersSection
+          journal={journal}
+          ownerId={ownerId}
+          onToggleHelper={onToggleHelper}
+        />
+      )}
     </div>
+  );
+}
+
+/**
+ * §6.3 — the owner chooses who helps her. Before LAUNCH-PUBLIC-001 D1 the
+ * helper was matched by scanning the device, so on a shared tablet a child
+ * could land in another family's journal. The invitation is now explicit.
+ */
+function HelpersSection({
+  journal,
+  ownerId,
+  onToggleHelper,
+}: {
+  journal: PuppyJournal;
+  ownerId: string;
+  onToggleHelper: (helperId: string) => void;
+}) {
+  const candidates = loadProfiles().filter(
+    (p) => p.id !== ownerId && roleForAge(p.age) === "helper",
+  );
+  const invited = journal.helperIds ?? [];
+
+  if (candidates.length === 0) return null;
+
+  return (
+    <section className="bg-surface rounded-3xl shadow-soft p-6 space-y-3">
+      <h2 className="font-display font-bold text-warm-dark">מי עוזרת לי</h2>
+      <p className="text-sm text-warm-muted leading-relaxed">
+        אפשר להזמין מישהי לעזור לך בפרויקט. היא תוכל לרשום איך הלך ולהוסיף
+        עובדות על הגזע — הפקודות נשארות שלך.
+      </p>
+      <ul className="space-y-2">
+        {candidates.map((c) => {
+          const isIn = invited.includes(c.id);
+          return (
+            <li key={c.id} className="flex items-center justify-between gap-3">
+              <span className="text-warm-dark">{c.name}</span>
+              <button
+                type="button"
+                onClick={() => onToggleHelper(c.id)}
+                className={`rounded-2xl px-4 py-2 text-sm font-semibold transition ${
+                  isIn
+                    ? "bg-terracotta text-white hover:bg-terracotta-dark"
+                    : "bg-cream text-warm-dark hover:shadow-warm"
+                }`}
+              >
+                {isIn ? "מוזמנת ✓" : "להזמין"}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
