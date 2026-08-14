@@ -3,7 +3,7 @@
     "id": "bm-001",
     "skill": "bar_models",
     "difficulty": 1,
-    "prompt": "לעמיליה 8 תפוחים. 3 אדומים והשאר ירוקים. כמה תפוחים ירוקים?",
+    "prompt": "לאמיליה 8 תפוחים. 3 מהם אדומים והשאר ירוקים. כמה תפוחים ירוקים יש לה?",
     "bars": [
       { "segments": [{ "label": "3", "weight": 3 }, { "label": "?", "weight": 5 }], "totalLabel": "8" }
     ],
@@ -47,7 +47,7 @@
     "id": "bm-005",
     "skill": "bar_models",
     "difficulty": 1,
-    "prompt": "לעלמה 10 סוכריות. אכלה 3. כמה נשאר לה?",
+    "prompt": "לאלמה 10 סוכריות. היא אכלה 3. כמה סוכריות נשארו לה?",
     "bars": [
       { "segments": [{ "label": "3", "weight": 3 }, { "label": "?", "weight": 7 }], "totalLabel": "10" }
     ],
