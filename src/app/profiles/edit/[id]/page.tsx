@@ -7,12 +7,14 @@ import {
   ageFromBirthDate,
   allowedSkillsForAge,
   loadProfiles,
+  setDifficultyOffset,
   updateProfile,
   type AddressForm,
   type Profile,
 } from "@/lib/profiles";
 import { TopicsPreview } from "@/components/TopicsPreview";
 import { AddressFormPicker } from "@/components/AddressFormPicker";
+import { DifficultyOffsetPicker } from "@/components/DifficultyOffsetPicker";
 
 /**
  * עריכת פרופיל קיים — שם, גיל ותאריך-לידה — בלי לגעת בהיסטוריה.
@@ -29,6 +31,7 @@ export default function EditProfilePage() {
   const [addressForm, setAddressForm] = useState<AddressForm | undefined>(
     undefined,
   );
+  const [difficultyOffset, setOffset] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -40,6 +43,11 @@ export default function EditProfilePage() {
       setAge(found.age);
       setBirthDate(found.birthDate ?? "");
       setAddressForm(found.addressForm);
+      // חסר = "רגיל" (0), ולא undefined: הרדיו של "רגיל" כבר מסומן
+      // מלכתחילה, ולכן לחיצה עליו אינה מייצרת onChange. עם undefined
+      // שמירה הייתה מדלגת על הכתיבה, וההורה שבחרה "רגיל" במפורש
+      // לא הייתה מקבלת ערך שמור בכלל.
+      setOffset(found.difficultyOffset ?? 0);
     }
   }, [params.id]);
 
@@ -73,13 +81,26 @@ export default function EditProfilePage() {
       return;
     }
     setSubmitting(true);
-    updateProfile(profile.id, {
+    const saved = updateProfile(profile.id, {
       name: trimmed,
       age: ageN,
       birthDate: birthDate === "" ? null : birthDate,
       // undefined = לא נגעו; לא דורסים בחירה קיימת.
       ...(addressForm !== undefined ? { addressForm } : {}),
     });
+    // הפרופיל נמחק בטאב אחר בזמן העריכה: בלי הבדיקה הזו המסך היה
+    // מנווט הביתה כאילו נשמר, והכתיבה של כיוון-הקושי הייתה נופלת
+    // בשקט (נמצא בסקירת-קוד).
+    if (!saved) {
+      setSubmitting(false);
+      setError("הפרופיל כבר לא קיים. חזרי לדף הבית ונסי שוב.");
+      return;
+    }
+    // נתיב-כתיבה נפרד מ-updateProfile (כמו setAddressForm בעבר): כך
+    // עריכת שם/גיל לעולם לא נוגעת בכיוון-הקושי בטעות.
+    if (difficultyOffset !== undefined) {
+      setDifficultyOffset(profile.id, difficultyOffset);
+    }
     router.push("/");
   }
 
@@ -163,6 +184,11 @@ export default function EditProfilePage() {
           </label>
 
           <AddressFormPicker value={addressForm} onChange={setAddressForm} />
+
+          <DifficultyOffsetPicker
+            value={difficultyOffset}
+            onChange={setOffset}
+          />
 
           {error && <p className="text-sm text-terracotta-dark">{error}</p>}
 

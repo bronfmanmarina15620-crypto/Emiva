@@ -12,11 +12,17 @@ export type Profile = {
   birthDate?: string;
   allowedSkills: Skill[];
   createdAt: number;
-  // Marina 2026-08-01: כיוון-קושי ידני. הרמה מחושבת מחדש אחרי כל שאלה
+  // Marina 2026-08-01: כיוון-קושי. הרמה מחושבת מחדש אחרי כל שאלה
   // לפי אחוז ההצלחה, ולכן הורדה חד-פעמית נמחקת תוך סשן. הערך הזה נשמר
   // בפרופיל ומופחת מהרמה המחושבת בכל פעם, כך שההורדה מחזיקה.
-  // רלוונטי כשההורה עוזרת לילדה: ההצלחות נרשמות כשלה, הציון מנופח,
+  // רלוונטי כשההורה עוזרת לילד/ה: ההצלחות נרשמות כשלו/ה, הציון מנופח,
   // והמערכת מסיקה רמה גבוהה מדי.
+  //
+  // **BL-021 (2026-08-14): מפורש פר-פרופיל, לעולם לא נגזר מגיל.**
+  // עד היום הערך נזרע אוטומטית ל-1 לכל פרופיל בגיל 7–8 — כיול שנכתב
+  // עבור ילדה אחת והפך לברירת-מחדל גלובלית כשהאתר נפתח לציבור. חסר
+  // (או 0) פירושו "בלי הורדה", והוא נקבע רק מבחירה מפורשת במסך
+  // עריכת הפרופיל.
   difficultyOffset?: number;
   // CORE-ENGLISH-PHONICS-001: מהירות ההקראה באנגלית, בשליטת הבת.
   // רעיון של Marina (2026-08-10) — כל בת מווסתת את הקצב שנוח לה
@@ -125,20 +131,19 @@ export function newProfileId(): string {
   return `p_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-// Marina 2026-08-01: אוולין מצליחה רק אחרי שמרינה מסבירה לה, ולכן הציון
-// שלה מנופח והמערכת מכוונת אותה לרמה גבוהה מדי.
-//
-// גרסה ראשונה של הזריעה הזו הותנתה בשם "אוולין" ולא הגיעה אליה בפועל
-// (השם השמור בפרופיל אינו בהכרח זהה). מהיום ההתניה היא על **גיל**
-// 7–8 — אין דרך לפספס, ואין תלות באיות. ערך שכבר קיים בפרופיל
-// לא נדרס, כך שכיוון ידני עתידי מנצח את הזריעה.
-const SEED_OFFSET_AGE_MIN = 7;
-const SEED_OFFSET_AGE_MAX = 8;
-
-function seedDifficultyOffset(age: number): number {
-  return age >= SEED_OFFSET_AGE_MIN && age <= SEED_OFFSET_AGE_MAX ? 1 : 0;
-}
-
+/**
+ * BL-021 (2026-08-14) — כיוון-הקושי נקבע כאן בלבד.
+ *
+ * עד היום הערך נזרע אוטומטית בטעינה לכל פרופיל בגיל 7–8. הזריעה
+ * נולדה נכון — אוולין הצליחה רק אחרי שמרינה הסבירה לה, ולכן הציון
+ * שלה היה מנופח — אבל היא הותנתה על **גיל** כדי לא לפספס אותה,
+ * וכך כיול של ילדה אחת הפך לברירת-מחדל של כל ילד בטווח. ברגע
+ * שהאתר נפתח לציבור, כל ילד חיצוני בן 7–8 התחיל דרגה מתחת לציון
+ * שלו — בלי סיבה שקשורה אליו.
+ *
+ * מהיום אין זריעה כלל: הערך מגיע רק מבחירה מפורשת של ההורה במסך
+ * עריכת הפרופיל, ולכן `setDifficultyOffset` הוא נתיב-הכתיבה היחיד.
+ */
 export function setDifficultyOffset(profileId: string, offset: number): void {
   const all = loadProfiles();
   saveProfiles(
@@ -149,9 +154,10 @@ export function setDifficultyOffset(profileId: string, offset: number): void {
 /**
  * CORE-ENGLISH-PHONICS-001 — שמירת מהירות ההקראה שהבת בחרה.
  *
- * בניגוד ל-difficultyOffset, אין כאן זריעה אוטומטית: ערך חסר פירושו
- * "עוד לא בחרה", והקורא נופל לברירת-המחדל. כך בחירה מפורשת של הבת
- * לעולם לא נדרסת בטעינה הבאה.
+ * אין כאן זריעה אוטומטית: ערך חסר פירושו "עוד לא בחרה", והקורא נופל
+ * לברירת-המחדל. כך בחירה מפורשת של הבת לעולם לא נדרסת בטעינה הבאה.
+ * (עד BL-021 היה כאן ניגוד ל-`difficultyOffset` — הוא בוטל כשהזריעה
+ * לפי גיל הוסרה, ומאז כל השדות פר-הפרופיל נוהגים אותו דבר.)
  */
 export function setSpeechRate(profileId: string, rate: number): void {
   const all = loadProfiles();
@@ -163,8 +169,8 @@ export function setSpeechRate(profileId: string, rate: number): void {
 /**
  * GENDER-INCLUSIVE-001 — שמירת לשון הפנייה.
  *
- * כמו `setSpeechRate` ובניגוד ל-`difficultyOffset`: אין זריעה
- * אוטומטית. ערך חסר פירושו "לא נבחר", והקורא נופל לנוסח הניטרלי.
+ * כמו `setSpeechRate`: אין זריעה אוטומטית. ערך חסר פירושו "לא נבחר",
+ * והקורא נופל לנוסח הניטרלי.
  */
 export function setAddressForm(profileId: string, form: AddressForm): void {
   const all = loadProfiles();
@@ -183,18 +189,16 @@ export function loadProfiles(): Profile[] {
     // Re-derive age from birthDate (when present) and allowedSkills from age
     // on every read, so birthdays and curriculum changes propagate to existing
     // profiles without a separate migration step.
+    // BL-021: הטעינה **אינה נוגעת** ב-difficultyOffset. עד 2026-08-14
+    // ישב כאן סעיף שזרע את הערך לפי גיל, והתנאי שלו כלל גם
+    // `=== 0` — כלומר בחירה מפורשת של "רגיל" נדרסה בחזרה ל-1 בטעינה
+    // הבאה. גם אחרי הסרת הזריעה, השארת הסעיף הייתה הופכת את המסך
+    // החדש לחסר-משמעות.
     return arr.map((p) => {
       const derived =
         p.birthDate !== undefined ? ageFromBirthDate(p.birthDate) : null;
       const age = derived ?? p.age;
-      // `0` נחשב "לא הוגדר" ולא רק `undefined`: גרסת-הזריעה הקודמת
-      // (לפי שם) כתבה 0 לפרופילים שלא התאימו, וזה היה חוסם את הזריעה
-      // לפי גיל. כיוון ידני שאינו-אפס תמיד מנצח.
-      const withOffset =
-        p.difficultyOffset === undefined || p.difficultyOffset === 0
-          ? { ...p, difficultyOffset: seedDifficultyOffset(age) }
-          : p;
-      return { ...withOffset, age, allowedSkills: allowedSkillsForAge(age) };
+      return { ...p, age, allowedSkills: allowedSkillsForAge(age) };
     });
   } catch {
     return [];
@@ -219,6 +223,14 @@ export function createProfile(
     ...(birthDate !== undefined ? { birthDate } : {}),
     // נשמר רק כשנבחר במפורש — חסר פירושו "לא נבחר" (ראי §AddressForm).
     ...(addressForm !== undefined ? { addressForm } : {}),
+    // BL-021: כל פרופיל חדש נפתח בלי הורדת-קושי, בכל גיל. בניגוד
+    // ל-addressForm כאן אין משמעות ל"לא נבחר" — חסר ו-0 מתנהגים זהה
+    // אצל כל הקוראים (`?? 0`), ולכן זו כתיבה מפורשת לשם בהירות בלבד.
+    //
+    // **לא** להסיק מהשדה "נקבע מול נזרע": פרופילים ותיקים ומשוחזרים
+    // נשארים `undefined`, ולכן ההבחנה הזו אינה תקפה בנתונים (נמצא
+    // בסקירת-קוד). מיגרציה שתרצה להבחין ביניהם — ראי BL-023.
+    difficultyOffset: 0,
     allowedSkills: allowedSkillsForAge(age),
     createdAt: Date.now(),
   };

@@ -22,3 +22,10 @@ src/content/review-packs/private/*
 !src/content/review-packs/private/index.ts
 .vercel
 .env*
+# קודי-שחזור שנשמרו בטעות בשורש הריפו. הקובץ עצמו נשאר במקומו —
+# רק מובטח שלא ייכנס לקומיט (נמצא לא-מוגן 2026-08-14).
+# מעוגן לשורש בכוונה: גלוב רחב (`*recovery-codes*`) היה בולע בשקט
+# גם `docs/recovery-codes-policy.md` או `src/lib/recovery-codes.ts`
+# עתידיים, בלי שום שגיאה שתסגיר את זה.
+/recovery-codes.txt
+
