@@ -51,15 +51,51 @@ const SESSION_LENGTH = 15;
  * (בניגוד להשערה המקורית ב-BACKLOG). הסף כאן הוא רשת-ביטחון
  * נגד רגרסיה עתידית, לא תיאור של תקלה קיימת.
  */
-const MAX_CONTEXT_RUN = 8;
+/**
+ * **תיקון אחרי סקירת-קוד (2026-08-14) — הספים היו רופפים מכדי
+ * להיכשל אי-פעם.** סבוטאז' מלא (ניטרול היחס) הפיל **בדיקה אחת
+ * מתוך שש**; שתי הבדיקות שנקראות על שם התקלה נשארו ירוקות, כי
+ * הסף 8 יושב מעל המקסימום הנמדד גם במצב השבור (6 עם היחס,
+ * ו-`MIN_MONEY=5` השאיר פער של 4 פריטים לשחיקה שקטה).
+ *
+ * הספים כאן צמודים למדידה בפועל (6,000 סשנים לכל מצב: 5
+ * נקודות-פתיחה × הצלחה/כישלון × 3 ערכי-`sessionCount` × 200
+ * זרעים), עם שוליים של 1 בלבד:
+ */
+/**
+ * **מה שהבדיקה הזאת באמת שווה — בכנות.**
+ *
+ * נמדד: 6 עם היחס, 12 בלעדיו. אבל הזנב הארוך נדיר (~2%), ועל
+ * מדגם-הזרעים של השומר עצמו (90 סשנים) המקסימום **במצב השבור
+ * הוא גם 6**. כלומר שום סף-רצף אינו יכול להבחין כאן בין תקין
+ * לשבור, וסף 7 היה סתם מסתיר את זה.
+ *
+ * הסף 6 נבחר כדי שהבדיקה תישאר **הדוקה** (כל חריגה מעל הנמדד
+ * נופלת), אבל **הגלאי האמיתי של התקלה הוא בדיקת-האיזון**
+ * (`MIN_MONEY_WHEN_RATIO_ON`), והיא היחידה שנכשלת בסבוטאז'.
+ * זה נכתב כאן במפורש כדי שאיש לא יסיק שיש כאן כיסוי כפול.
+ */
+const MAX_CONTEXT_RUN = 6;
+/** נמדד 9 עם היחס, 10 בלעדיו — פער של 1 בלבד, ולכן הבדיקה הזאת
+ *  היא **רשת-ביטחון נגד רגרסיה עתידית ולא גלאי-תקלה**. זה נאמר
+ *  כאן במפורש כדי שאיש לא יסיק ממנה שהדרגה מכוסה. */
 const MAX_LEVEL_RUN = 9;
-/** מינימום פריטי-כסף בסשן כשהיחס פעיל. נמדד: תמיד בדיוק 9. */
-const MIN_MONEY_WHEN_RATIO_ON = 5;
+/** נמדד: **תמיד בדיוק 9** כשהיחס פעיל, ו-1–9 בלעדיו. הסף הוא 9
+ *  ולא 5 — כל ערך נמוך יותר מרשה ליחס להישחק בשקט. */
+const MIN_MONEY_WHEN_RATIO_ON = 9;
 
 type Ctx = "money" | "plain";
 
+/** **עותק מדויק של `session/page.tsx:170`, כולל תנאי ה-`explanation`.**
+ *  סקירת-קוד תפסה שהשמטתו זהה היום אך נשברת בשקט ברגע שיתווסף
+ *  פריט-כסף בלי הסבר: הבדיקה הייתה סופרת אותו ככסף בעוד המוצר
+ *  סופר אותו כרגיל, והשומר היה מודד מציאות אחרת מזו של הילדה. */
 function isMoneyItem(item: Item): boolean {
-  return "context" in item && item.context === "money";
+  return (
+    "context" in item &&
+    item.context === "money" &&
+    typeof (item as { explanation?: string }).explanation === "string"
+  );
 }
 
 /** מריץ סשן שלם דרך הסלקטור האמיתי, במדויק כמו `session/page.tsx`:
@@ -70,11 +106,16 @@ function runSession(opts: {
   correct: boolean;
   seed: number;
   ratioOn: boolean;
+  /** כמה סשנים כבר היו. `0` = פעם ראשונה אי-פעם; ערך גדול מייצג
+   *  ילדה חוזרת, ואז ל-staleness יש משמעות בבחירה. בלי זה נבדק
+   *  רק סשן-ראשון — ודווקא אמיליה החוזרת נשארה לא-מכוסה. */
+  sessionCount?: number;
 }): { levels: Difficulty[]; contexts: Ctx[] } {
   let state: MasteryState = {
     ...emptyMastery("multiplication"),
     level: opts.startLevel,
     levelMeasured: true,
+    sessionCount: opts.sessionCount ?? 0,
   };
   const used = new Set<string>();
   const levels: Difficulty[] = [];
@@ -93,7 +134,19 @@ function runSession(opts: {
     const desired: DesiredContext | undefined = opts.ratioOn
       ? nextDesiredContext(money, plain)
       : undefined;
-    const item = selectNextItem(state, opts.items, used, rand, desired);
+    // `startingLevel` מועבר כמו בפרודקשן. בלעדיו תרחיש BL-017
+    // ("מחפשים אתגר" → פתיחה בתקרה) לא נבדק כלל, למרות שהוא
+    // מוזכר בהערה למטה — נתפס בסקירת-קוד.
+    const item = selectNextItem(
+      state,
+      opts.items,
+      used,
+      rand,
+      desired,
+      false,
+      0,
+      opts.startLevel,
+    );
     if (!item) break;
     used.add(item.id);
     levels.push(item.difficulty);
@@ -118,7 +171,7 @@ function runSession(opts: {
       ],
       itemLastSeen: { ...state.itemLastSeen, [item.id]: state.sessionCount },
     } as MasteryState;
-    state = advanceLevel(state);
+    state = advanceLevel(state, opts.startLevel);
   }
 
   return { levels, contexts };
@@ -154,24 +207,31 @@ const SCENARIOS: ReadonlyArray<{ start: Difficulty; correct: boolean }> = [
 
 const SEEDS = [1, 7, 13, 29, 101, 977];
 
+/** `0` = סשן ראשון אי-פעם; `3`/`10` = ילדה חוזרת, שאצלה
+ *  ל-staleness יש משמעות. בלי הציר הזה נבדק רק היום הראשון. */
+const SESSION_COUNTS = [0, 3, 10];
+
 describe("BL-018 — סשן מגוון, לא 15 פעמים אותו דבר", () => {
   for (const [bankName, items] of BANKS) {
     it(`${bankName}: אף סשן אינו נעול על הקשר אחד`, () => {
       const failures: string[] = [];
       for (const sc of SCENARIOS) {
         for (const seed of SEEDS) {
-          const { contexts } = runSession({
-            items,
-            startLevel: sc.start,
-            correct: sc.correct,
-            seed,
-            ratioOn: true,
-          });
-          const run = longestRun(contexts);
-          if (run > MAX_CONTEXT_RUN) {
-            failures.push(
-              `start=${sc.start} correct=${sc.correct} seed=${seed}: רצף-הקשר ${run} — ${contexts.join(",")}`,
-            );
+          for (const sessionCount of SESSION_COUNTS) {
+            const { contexts } = runSession({
+              items,
+              startLevel: sc.start,
+              correct: sc.correct,
+              seed,
+              ratioOn: true,
+              sessionCount,
+            });
+            const run = longestRun(contexts);
+            if (run > MAX_CONTEXT_RUN) {
+              failures.push(
+                `start=${sc.start} correct=${sc.correct} seed=${seed} n=${sessionCount}: רצף-הקשר ${run} — ${contexts.join(",")}`,
+              );
+            }
           }
         }
       }
@@ -182,18 +242,21 @@ describe("BL-018 — סשן מגוון, לא 15 פעמים אותו דבר", () 
       const failures: string[] = [];
       for (const sc of SCENARIOS) {
         for (const seed of SEEDS) {
-          const { levels } = runSession({
-            items,
-            startLevel: sc.start,
-            correct: sc.correct,
-            seed,
-            ratioOn: true,
-          });
-          const run = longestRun(levels);
-          if (run > MAX_LEVEL_RUN) {
-            failures.push(
-              `start=${sc.start} correct=${sc.correct} seed=${seed}: רצף-דרגה ${run} — ${levels.join(",")}`,
-            );
+          for (const sessionCount of SESSION_COUNTS) {
+            const { levels } = runSession({
+              items,
+              startLevel: sc.start,
+              correct: sc.correct,
+              seed,
+              ratioOn: true,
+              sessionCount,
+            });
+            const run = longestRun(levels);
+            if (run > MAX_LEVEL_RUN) {
+              failures.push(
+                `start=${sc.start} correct=${sc.correct} seed=${seed} n=${sessionCount}: רצף-דרגה ${run} — ${levels.join(",")}`,
+              );
+            }
           }
         }
       }
@@ -206,17 +269,22 @@ describe("BL-018 — סשן מגוון, לא 15 פעמים אותו דבר", () 
     for (const [bankName, items] of BANKS) {
       for (const sc of SCENARIOS) {
         for (const seed of SEEDS) {
-          const { contexts } = runSession({
-            items,
-            startLevel: sc.start,
-            correct: sc.correct,
-            seed,
-            ratioOn: true,
-          });
-          const money = contexts.filter((c) => c === "money").length;
-          const plain = contexts.length - money;
-          if (money < MIN_MONEY_WHEN_RATIO_ON || plain < 2) {
-            failures.push(`${bankName} start=${sc.start} seed=${seed}: money=${money} plain=${plain}`);
+          for (const sessionCount of SESSION_COUNTS) {
+            const { contexts } = runSession({
+              items,
+              startLevel: sc.start,
+              correct: sc.correct,
+              seed,
+              ratioOn: true,
+              sessionCount,
+            });
+            const money = contexts.filter((c) => c === "money").length;
+            const plain = contexts.length - money;
+            if (money < MIN_MONEY_WHEN_RATIO_ON || plain < 2) {
+              failures.push(
+                `${bankName} start=${sc.start} seed=${seed} n=${sessionCount}: money=${money} plain=${plain}`,
+              );
+            }
           }
         }
       }
@@ -232,38 +300,38 @@ describe("BL-018 — סשן מגוון, לא 15 פעמים אותו דבר", () 
    * `desiredContext: undefined`, וההקשר נבחר כתופעת-לוואי של
    * staleness בלבד.
    *
-   * הבדיקה הזאת מתעדת שהמצב הזה **מייצר בפועל** רצף ארוך מהסף —
-   * כלומר היא ההוכחה שהתקלה קיימת, ולא הערכה. אם מישהו ירחיב את
-   * היחס לכל הגילאים, הבדיקה תיכשל ותדרוש למחוק אותה **במודע**,
-   * יחד עם עדכון `parent-guide`.
+   * הבדיקה הזאת מתעדת שהמצב הזה **מייצר בפועל** סשן לא-מאוזן —
+   * כלומר היא ההוכחה שהתקלה קיימת, ולא הערכה.
+   *
+   * **היא בודקת את המנגנון, לא את המדיניות** (תוקן בסקירת-קוד
+   * 2026-08-14): הגרסה הראשונה קבעה שהתקלה *חייבת* להתקיים, ולכן
+   * התיקון המתוכנן — הרחבת היחס לגיל 9 — היה צובע אותה באדום,
+   * כלומר השומר היה מעניש את מי שמתקן. הניסוח כאן שואל במקום זאת
+   * *"האם יחס-ההקשרים הוא זה שמייצר את האיזון?"*, וזה נשאר נכון
+   * גם אחרי שהיחס יורחב לכל הגילאים.
    */
-  it("תיעוד-תקלה: בלי יחס-הקשרים נוצר רצף ארוך מהסף (המצב של אמיליה, גיל 9)", () => {
-    const runs: number[] = [];
-    const moneyCounts: number[] = [];
-    // 200 זרעים ולא 6: הזנב הארוך מופיע ב~2% מהסשנים, ומדגם קטן
-    // מפספס אותו — בדיוק מה שקרה בניסיון הראשון (ראי ההערה למעלה).
-    for (const sc of SCENARIOS) {
-      for (let seed = 1; seed <= 200; seed++) {
-        const { contexts } = runSession({
-          items: multBank as unknown as readonly Item[],
-          startLevel: sc.start,
-          correct: sc.correct,
-          seed,
-          ratioOn: false,
-        });
-        runs.push(longestRun(contexts));
-        moneyCounts.push(contexts.filter((c) => c === "money").length);
+  it("המנגנון: בלי יחס-ההקשרים אין איזון (המצב של אמיליה, גיל 9)", () => {
+    for (const [bankName, items] of BANKS) {
+      const moneyCounts: number[] = [];
+      // 200 זרעים ולא 6: הזנב הארוך מופיע ב~2% מהסשנים, ומדגם קטן
+      // מפספס אותו — בדיוק מה שקרה בניסיון הראשון (ראי ההערה למעלה).
+      for (const sc of SCENARIOS) {
+        for (let seed = 1; seed <= 200; seed++) {
+          const { contexts } = runSession({
+            items,
+            startLevel: sc.start,
+            correct: sc.correct,
+            seed,
+            ratioOn: false,
+          });
+          moneyCounts.push(contexts.filter((c) => c === "money").length);
+        }
       }
+      // המדד החד: בלי היחס יש סשנים עם כמעט רק עטיפה אחת.
+      expect(
+        Math.min(...moneyCounts),
+        `${bankName}: בלי יחס-ההקשרים היה צפוי סשן לא-מאוזן, אך המינימום שנמדד הוא ${Math.min(...moneyCounts)}. אם האיזון מגיע היום ממקור אחר — יש לעדכן את הבדיקה ואת parent-guide.`,
+      ).toBeLessThan(MIN_MONEY_WHEN_RATIO_ON);
     }
-    const worst = Math.max(...runs);
-    expect(
-      worst,
-      `כשהיחס כבוי נמדד רצף-הקשר מקסימלי של ${worst}. אם זה ירד מתחת לסף — היחס הורחב, ויש לעדכן את הבדיקה ואת parent-guide.`,
-    ).toBeGreaterThan(MAX_CONTEXT_RUN);
-    // המדד החד: יש סשנים עם פריט-כסף בודד מתוך 15.
-    expect(
-      Math.min(...moneyCounts),
-      "כשהיחס כבוי, סשן יכול להגיש כמעט רק עטיפה אחת.",
-    ).toBeLessThan(MIN_MONEY_WHEN_RATIO_ON);
   });
 });
