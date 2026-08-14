@@ -59,6 +59,8 @@ import { resolveEffectiveSkill } from "@/lib/parent-focus";
 import { resolveActiveTarget } from "@/lib/review-packs";
 import {
   correctMessage,
+  readyForNextStage,
+  readyToStart,
   retryMessage,
   revealIntro,
 } from "@/lib/feedback-messages";
@@ -678,7 +680,9 @@ export default function SessionPage() {
             <p className="text-2xl font-display font-extrabold text-warm-dark leading-relaxed">
               {greeting}
             </p>
-            <p className="text-warm-muted text-sm">מוכנה להתחיל?</p>
+            <p className="text-warm-muted text-sm">
+              {readyToStart(Math.random, addressForm)}
+            </p>
           </div>
           <button
             type="button"
@@ -752,7 +756,7 @@ export default function SessionPage() {
 
           {!graduated && ready && (
             <p className="text-sage font-semibold text-lg">
-              הגעת ליעד 80% — מוכנה לשלב הבא ✨
+              {readyForNextStage(Math.random, addressForm)}
             </p>
           )}
           {!graduated && !ready && (

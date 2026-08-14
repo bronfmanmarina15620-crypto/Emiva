@@ -74,6 +74,33 @@ const REVEAL_INTRO_WORD: Pools = {
   masculine: ["בוא נכיר אותה:", "בוא נסתכל עליה יחד:"],
 };
 
+/**
+ * GENDER-INCLUSIVE-001 — טקסטים של **המסך עצמו**, לא של ההודעות.
+ *
+ * נמצא בסשן חי (Marina, 2026-08-14): פרופיל בלשון זכר קיבל
+ * *"מוכנה להתחיל?"*. שתי המחרוזות האלה היו **מקובעות בקוד** של
+ * `session/page.tsx` ולא עברו דרך מנגנון לשון-הפנייה כלל — למרות
+ * ש-G2 ערכה בדיוק את הקובץ הזה.
+ *
+ * הלקח: G2 ניטרלה את **ספריות ההודעות** והניחה שזה כל הטקסט.
+ * טקסט שיושב ישירות ב-JSX נשאר מחוץ לרשת. לכן הוא מרוכז כאן —
+ * מקום אחד, מכוסה בבדיקות, ולא פזור במסכים.
+ */
+const READY_TO_START: Pools = {
+  neutral: ["אפשר להתחיל?", "מתחילים?"],
+  feminine: ["מוכנה להתחיל?"],
+  masculine: ["מוכן להתחיל?"],
+};
+
+const READY_NEXT_STAGE: Pools = {
+  neutral: [
+    "הגעת ליעד 80% — אפשר לעבור לשלב הבא ✨",
+    "הגעת ליעד 80% — השלב הבא מחכה ✨",
+  ],
+  feminine: ["הגעת ליעד 80% — מוכנה לשלב הבא ✨"],
+  masculine: ["הגעת ליעד 80% — מוכן לשלב הבא ✨"],
+};
+
 function pick<T>(pool: readonly T[], rand: () => number): T {
   const idx = Math.floor(rand() * pool.length);
   return pool[idx] ?? pool[0]!;
@@ -110,11 +137,29 @@ export function revealIntro(
   return pick(poolFor(kind === "word" ? REVEAL_INTRO_WORD : REVEAL_INTRO, form), rand);
 }
 
+/** *"מוכן/מוכנה להתחיל?"* — מסך פתיחת הסשן. */
+export function readyToStart(
+  rand: () => number = Math.random,
+  form: AddressForm = "neutral",
+): string {
+  return pick(poolFor(READY_TO_START, form), rand);
+}
+
+/** *"מוכן/מוכנה לשלב הבא"* — מסך סיום, אחרי חציית יעד השליטה. */
+export function readyForNextStage(
+  rand: () => number = Math.random,
+  form: AddressForm = "neutral",
+): string {
+  return pick(poolFor(READY_NEXT_STAGE, form), rand);
+}
+
 /**
  * לבדיקות בלבד — מאפשר לאמת שכל לשון מקבלת ≥2 וריאציות (כלל
  * הפדגוגיה), בלי לייצא את המאגרים עצמם לשימוש רגיל.
  */
 export const __POOLS_FOR_TESTS = {
+  READY_TO_START,
+  READY_NEXT_STAGE,
   RETRY_FIRST,
   RETRY_LAST,
   CORRECT_FIRST_TRY,
