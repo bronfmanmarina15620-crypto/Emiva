@@ -140,15 +140,36 @@ function banksOnDisk(dir: string, suffix = ""): string[] {
     .map((f) => f.replace(/\.json$/, "").replace(/-holdout$/, "").replace(/-/g, "_") + suffix);
 }
 
-/** מאגרי-המדידה מכילים גם עברית ואנגלית — לא מתמטיקה. הכיסוי כאן
- *  הוא על נושאי-המתמטיקה בלבד, ולכן ה-holdout נגזר משמות התרגול. */
+/** מאגרי-המדידה מכילים גם עברית ואנגלית — לא מתמטיקה. אלה
+ *  **הנושאים הלא-מתמטיים בלבד**; כל השאר נחשב מתמטיקה. */
+const NON_MATH_MEASUREMENT = new Set([
+  "hebrew_comprehension",
+  "english_vocab",
+]);
+
+/** **איחוד של שתי התיקיות, לא גזירה מהתרגול.**
+ *
+ *  סקירת-קוד שנייה (2026-08-14) תפסה שגם הגרסה ה"נקראת-מהדיסק"
+ *  הייתה עיוורת בציר אחד: היא צירפה holdout רק אם קיים קובץ-תרגול
+ *  באותו שם. מאגר-מדידה שנוסף **בלי** תרגול מקביל לא נבדק כלל,
+ *  והשער דיווח ירוק — בדיוק כשל T7ב ("ירוק שלא נסרק אינו ירוק"),
+ *  רק על הציר השני. אומת: `geometry-holdout.json` עבר בשקט.
+ *
+ *  עכשיו כל קובץ בשתי התיקיות נספר, פרט לנושאים הלא-מתמטיים
+ *  המפורשים למעלה. */
 const ALL_MATH_BANK_NAMES = (() => {
-  const practice = banksOnDisk("math");
-  const holdoutFiles = new Set(banksOnDisk("measurement", "-holdout"));
-  return practice.flatMap((name) => {
-    const holdout = `${name}-holdout`;
-    return holdoutFiles.has(holdout) ? [name, holdout] : [name];
-  });
+  const names = new Set<string>();
+  for (const name of banksOnDisk("math")) names.add(name);
+  for (const file of readdirSync(join(CONTENT_ROOT, "measurement"))) {
+    if (!file.endsWith(".json")) continue;
+    const skill = file
+      .replace(/\.json$/, "")
+      .replace(/-holdout$/, "")
+      .replace(/-/g, "_");
+    if (NON_MATH_MEASUREMENT.has(skill)) continue;
+    names.add(`${skill}-holdout`);
+  }
+  return [...names];
 })();
 
 describe("BL-022 — בעיה מילולית מנוסחת כשאלה שלמה", () => {
