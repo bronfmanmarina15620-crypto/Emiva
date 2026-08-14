@@ -22,7 +22,15 @@ export type TelemetryEvent =
   | { t: "action_line_shown"; at: number; trigger: "wheel_spin" | "inactivity" | "srs_due" | "default" }
   | { t: "session_feeling"; at: number; skill: string; rating: "happy" | "ok" | "hard" }
   | { t: "comprehension_bank_exhausted"; at: number; skill: string }
-  | { t: "external_test_completed"; at: number; skill: string; score: number; total: number; verdict: "passed" | "gap" | "false_mastery" };
+  | { t: "external_test_completed"; at: number; skill: string; score: number; total: number; verdict: "passed" | "gap" | "false_mastery" }
+  // BL-017 — נקודת-הפתיחה. `level: null` = ההורה דילג/ה על השאלה.
+  // אחוז-הדילוג הוא האות המרכזי: שאלה שרוב ההורים מדלגים עליה
+  // נכשלה, גם אם מי שכן ענה קיבל שירות טוב.
+  | { t: "starting_level_chosen"; at: number; level: number | null }
+  // האם התשובה החזיקה. נמדד על **חמשת הניסיונות הראשונים** — אלה
+  // שהוגשו לפי נקודת-הפתיחה. אחרי זה הדרגה נקבעת מנתונים ואין מה
+  // למדוד. הצלחה נמוכה עקבית ב-startingLevel גבוה = ההורים מגזימים.
+  | { t: "early_outcome"; at: number; skill: string; startingLevel: number | null; attempts: number; correctFirstTry: number };
 
 function key(profileId: string): string {
   return `${PREFIX}.${profileId}`;

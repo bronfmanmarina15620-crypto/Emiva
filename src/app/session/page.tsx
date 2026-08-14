@@ -25,7 +25,7 @@ import type {
   MultItem,
   Skill,
 } from "@/lib/types";
-import { MASTERY_TARGET } from "@/lib/types";
+import { LEVEL_CHANGE_MIN_ATTEMPTS, MASTERY_TARGET } from "@/lib/types";
 import {
   emptyMastery,
   incrementSession,
@@ -37,16 +37,18 @@ import {
 import { applySrsUpdate, decaySrsForNewSession } from "@/lib/srs";
 import {
   nextDesiredContext,
-  nextLevel,
+  advanceLevel,
   selectNextItem,
   type DesiredContext,
 } from "@/lib/adaptive";
 import {
   hasBankExhaustedFlag,
+  hasEarlyOutcomeFlag,
   hasGraduatedFlag,
   loadLastSessionTime,
   loadMastery,
   markBankExhausted,
+  markEarlyOutcome,
   markGraduated,
   saveLastSessionTime,
   saveMastery,
@@ -324,6 +326,7 @@ export default function SessionPage() {
       firstDesired,
       suppressRepeats,
       active.difficultyOffset ?? 0,
+      active.startingLevel ?? 1,
     );
     if (first) {
       if (isMoneyItem(first)) moneyShownRef.current++;
@@ -362,6 +365,30 @@ export default function SessionPage() {
 
   useEffect(() => {
     if (phase !== "summary" || !profile || !skill) return;
+
+    // BL-017 — האם התשובה של ההורה החזיקה. נמדד פעם אחת פר-מיומנות,
+    // בסשן הראשון שחוצה את הסף שבו נקודת-הפתיחה מפסיקה להשפיע.
+    // **לפני** ענף ה-graduation, שיוצא ב-return ואחרת היה בולע את זה.
+    // `slice(0, N)` ולא `slice(-N)`: מודדים את הניסיונות שהוגשו לפי
+    // נקודת-הפתיחה, לא כאלה שכבר אחרי ההעברה.
+    if (
+      !hasEarlyOutcomeFlag(profile.id, skill) &&
+      state.attempts.length >= LEVEL_CHANGE_MIN_ATTEMPTS
+    ) {
+      markEarlyOutcome(profile.id, skill);
+      const early = state.attempts.slice(0, LEVEL_CHANGE_MIN_ATTEMPTS);
+      logEvent(profile.id, {
+        t: "early_outcome",
+        at: Date.now(),
+        skill,
+        startingLevel: profile.startingLevel ?? null,
+        // סך-הכול הניסיונות במיומנות ברגע הרישום — לא אורך החלון
+        // (שהוא קבוע ולכן חסר-מידע). מבדיל בין ילד/ה שענה/תה 5
+        // לבין מי שכבר ענה/תה 40 לפני שהאירוע נרשם.
+        attempts: state.attempts.length,
+        correctFirstTry: early.filter((a) => a.correct).length,
+      });
+    }
 
     const grad = skillGraduated(state, itemsPerSession);
     const justGraduated = grad.graduated && !hasGraduatedFlag(profile.id, skill);
@@ -438,7 +465,9 @@ export default function SessionPage() {
       correct,
     );
     // מדרגות: הדרגה זזה לכל היותר ב-1 מהמקום הנוכחי (Marina 2026-08-01).
-    const next = { ...recorded, level: nextLevel(recorded) };
+    // BL-017: הסולם מטפס מנקודת-הפתיחה, ו-`advanceLevel` מרים גם את
+    // הדגל שמסמן שהדרגה נמדדה — משם נקודת-הפתיחה מפסיקה להשפיע.
+    const next = advanceLevel(recorded, profile.startingLevel ?? 1);
     setState(next);
     saveMastery(profile.id, next);
     if (correct) setCorrectCount((c) => c + 1);
@@ -574,6 +603,7 @@ export default function SessionPage() {
       desired,
       shouldSuppressRepeats(skill),
       profile.difficultyOffset ?? 0,
+      profile.startingLevel ?? 1,
     );
     if (next) {
       if (isMoneyItem(next)) moneyShownRef.current++;

@@ -5,13 +5,15 @@ import type {
   PuppyJournal,
   Skill,
 } from "./types";
-import { WINDOW_SIZE } from "./types";
+import { LEVEL_CHANGE_MIN_ATTEMPTS, WINDOW_SIZE } from "./types";
 import { emptyMastery } from "./mastery";
 
 const MASTERY_PREFIX = "emiva.mastery.v1";
 const LAST_SESSION_PREFIX = "emiva.last_session.v1";
 const GRADUATED_PREFIX = "emiva.graduated.v1";
 const BANK_EXHAUSTED_PREFIX = "emiva.bank_exhausted.v1";
+// BL-017 — האם אירוע `early_outcome` כבר נרשם למיומנות הזו.
+const EARLY_OUTCOME_PREFIX = "emiva.early_outcome.v1";
 const MEASUREMENT_PREFIX = "emiva.measurement.v1";
 /**
  * הפריטים שכבר נשאלו במבחן החיצוני (BL-008). **מפתח נפרד בכוונה**
@@ -118,6 +120,27 @@ function normalizeMastery(raw: unknown, skill: Skill): MasteryState {
     // ביותר, ולכן נגזרת כאן דרגת-פתיחה מהציון הקיים — פעם אחת בלבד,
     // ומכאן ואילך היא זזה במדרגות.
     level: isDifficulty(r.level) ? r.level : seedLevelFromHistory(r),
+    // BL-017: הדגל **נטען כפי שנשמר** ואינו משוחזר מ-`level`.
+    //
+    // **זו הייתה הטעות הרביעית והחמורה מכולן** (סקירת-קוד, כש-966
+    // בדיקות היו ירוקות): הגרסה הקודמת גזרה את הדגל מ-
+    // `isDifficulty(r.level)`. אבל `emptyMastery` תמיד כותב
+    // `level: 1`, ו-`beginSession` שומר את המצב לפני התשובה הראשונה
+    // — ולכן כבר בטעינה הראשונה הדגל עלה, נקודת-הפתיחה כובתה,
+    // וילד/ה ש"מחפש/ת אתגר" קיבל/ה שאלות בדרגה 1 **לתמיד**. בדיוק
+    // התלונה שהמשימה נפתחה כדי לתקן.
+    //
+    // הלקח החוזר: כל ניסיון לשחזר "האם נמדד" מתוך ערך-הדרגה נכשל,
+    // כי הערך אינו נושא את המידע הזה. הדגל נשמר בנפרד — נקודה.
+    //
+    // פרופילים ותיקים (לפני הדגל) מטופלים בתנאי הנפרד ב-
+    // `hasRealData`: דרגה שאינה 1 היא עדות עצמאית שמישהו הזיז אותה.
+    // ערך בוליאני שנשמר — נטען כמו שהוא, כולל `false`. השמטת `false`
+    // הייתה מחזירה את המצב להיסק-הישן בטעינה הבאה, כלומר רענון-דף
+    // היה משנה בשקט את הקושי שמוגש.
+    ...(typeof r.levelMeasured === "boolean"
+      ? { levelMeasured: r.levelMeasured }
+      : {}),
   };
 }
 
@@ -193,6 +216,29 @@ export function hasGraduatedFlag(profileId: string, skill: Skill): boolean {
 export function markGraduated(profileId: string, skill: Skill): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(graduatedKey(profileId, skill), "1");
+}
+
+/**
+ * BL-017 — סימון שאירוע `early_outcome` כבר נרשם למיומנות הזו.
+ *
+ * דגל **מתמיד ופר-מיומנות**, בדיוק כמו `hasGraduatedFlag`. הגרסה
+ * הראשונה השתמשה ב-`useRef` בודד, וזה נשבר בשני כיוונים (נתפס
+ * בסקירה): ref אחד למסך שלם חסם רישום לכל מיומנות **נוספת** באותה
+ * טעינה, ומנגד הוא מתאפס בכל רענון — כך שילד/ה ותיק/ה היה/הייתה
+ * מייצר/ת שורה זהה בכל סשן, לנצח.
+ */
+function earlyOutcomeKey(profileId: string, skill: Skill): string {
+  return `${EARLY_OUTCOME_PREFIX}.${profileId}.${skill}`;
+}
+
+export function hasEarlyOutcomeFlag(profileId: string, skill: Skill): boolean {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(earlyOutcomeKey(profileId, skill)) === "1";
+}
+
+export function markEarlyOutcome(profileId: string, skill: Skill): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(earlyOutcomeKey(profileId, skill), "1");
 }
 
 function bankExhaustedKey(profileId: string, skill: Skill): string {
@@ -419,6 +465,7 @@ export const PER_PROFILE_PREFIXES = [
   GRADUATED_PREFIX,
   LAST_SESSION_PREFIX,
   BANK_EXHAUSTED_PREFIX,
+  EARLY_OUTCOME_PREFIX,
   MEASUREMENT_PREFIX,
   // מפתח נפרד — אינו נתפס ע"י ה-prefix שמעליו.
   MEASUREMENT_SEEN_PREFIX,

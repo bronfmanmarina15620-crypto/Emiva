@@ -62,6 +62,15 @@ describe("storage — per-skill mastery", () => {
     expect(state.skill).toBe("add_sub_100");
   });
 
+  // BL-017 — בדיקה **שלילית** שנועלת את הארכיטקטורה: האחסון אינו
+  // יודע דבר על נקודת-הפתיחה. היא מוחלת בזמן בחירת-הפריט
+  // (`targetDifficulty`), כמו `difficultyOffset`, ולא נכתבת למצב.
+  // אם מישהו בעתיד "יתקן" את BL-017 בחיווט דרך loadMastery — הבדיקה
+  // הזו תאדים ותכריח דיון במקום שינוי שקט.
+  it("loadMastery מחזיר דרגה 1 למיומנות שלא נשמרה — נקודת-הפתיחה מוחלת אחר כך, לא כאן", () => {
+    expect(loadMastery("p1", "add_sub_100").level).toBe(1);
+  });
+
   it("saveMastery + loadMastery round-trips", () => {
     const s = recordAttempt(emptyMastery("add_sub_100"), "i1", true);
     saveMastery("p1", s);

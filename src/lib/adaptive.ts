@@ -22,8 +22,75 @@ export type DesiredContext = "money" | "plain";
 //
 // מהיום: מדרגות, כפי שהמסמך מבטיח. מעל 80% → +1. מתחת ל-50% → −1.
 // באמצע (אזור-היעד) → נשארים. הילדה מתייצבת סביב 80% במקום לקפוץ.
-export function nextLevel(state: MasteryState): Difficulty {
-  const current = state.level ?? 1;
+// BL-017 — הגבול בין "נקודת-הפתיחה של ההורה" ל"הדרגה של הילד/ה".
+//
+// `startingLevel` הוא **ניחוש** של הורה בהרשמה, לפני שנראתה ולו
+// תשובה אחת. ברגע שהדרגה נמדדה בפועל, הניחוש הופך למיותר — ומכאן
+// ואילך `state.level` הוא מקור-האמת הבלעדי, לתמיד.
+//
+// **התנאי הוא הדגל `levelMeasured` — לא היסק מערך-הדרגה.**
+//
+// **שלוש טעויות שנתפסו לפני שהגיעו לילדים** (השלישית בסקירת-קוד,
+// אחרי ששתי הראשונות כבר תוקנו — כל אחת נראתה נכונה בזמנה):
+//
+// 1. *ספירת-ניסיונות* — אחרי 5 ניסיונות המצב הוא
+//    `{level: 1, attempts: 5}`: הדרגה עדיין לא זזה, כי `nextLevel`
+//    רץ רק **אחרי** הניסיון החמישי. ספירה הייתה מכריזה "יש נתונים",
+//    חוזרת לדרגה 1, ומפילה ילד/ה שהתחיל/ה בדרגה 4 לדרגה 2.
+// 2. *`level === undefined`* — הייתה הופכת את הפיצ'ר למת, כי
+//    `emptyMastery` תמיד כותב 1.
+// 3. *`level !== 1`* — נשברה בדיוק במקרה הכי כואב. ילד/ה שההורה
+//    אמר/ה עליו/ה "מחפשים אתגר" ומתקשה יורד/ת 5→4→3→2→1 כמו
+//    שצריך; ברגע שהגיע/ה ל-1 ההיסק הכריז "אין נתונים", נקודת-
+//    הפתיחה חזרה, והילד/ה **הוקפץ/ה בחזרה ל-5** — ונלכד/ה שם.
+//    דווקא מי שהכי מתקשה. ילד/ה שההורה דילג/ה עליו/ה קיבל/ה
+//    דרגה 1 כמו שצריך, כך שהבאג העניש **רק** את מי שההורה ענה/תה.
+//
+// המסקנה: ערך-הדרגה הוא מדד מאבד-מידע **בגבול התחתון בלבד**. לכן
+// שני תנאים, וכל אחד מספיק:
+//
+//   1. `levelMeasured` — הדגל המפורש. הוא זה שמכסה את המקרה של
+//      דרגה 1, שבו הערך עצמו אינו מבדיל בין "התחלה" ל"ירדנו לכאן".
+//   2. דרגה שאינה 1 — עדות עצמאית שמישהו הזיז את הדרגה. נחוץ
+//      למצבים שנבנו לפני הדגל ולכל קורא שמרכיב מצב ישירות; בלי זה
+//      דרגה שנקבעה במפורש הייתה נדרסת בשקט על ידי ברירת-המחדל.
+//      **האחריות על טוהר התנאי הזה היא של הכותב**: `normalizeMastery`
+//      מסמן את הדגל רק לדרגה ששמורה בפועל, ולא לדרגה שנגזרה
+//      מהיסטוריה — אחרת שני ניסיונות היו מספיקים כדי "לברך" דרגה.
+export function hasRealData(state: MasteryState): boolean {
+  // דגל מפורש — בשני הכיוונים — מנצח תמיד. `false` מפורש פירושו
+  // "נבדק ונקבע שלא נמדד", ואסור להיסק לדרוס אותו.
+  if (state.levelMeasured !== undefined) return state.levelMeasured;
+  // בלי דגל כלל: נתונים ותיקים מלפני BL-017. כאן **חייבים** שני
+  // סימנים, ולא רק דרגה שאינה 1:
+  //
+  // ילד/ה ותיק/ה שמתקשה יושב/ת על דרגה 1 עם היסטוריה ארוכה. תנאי
+  // של "דרגה שאינה 1" בלבד היה מכריז עליו/ה "אין נתונים" ומקפיץ
+  // אותו/ה לנקודת-הפתיחה של ההורה — אותה לכידה בדיוק שהדגל בא
+  // למנוע, רק על נתונים ישנים (נתפס בסקירה חמישית).
+  //
+  // היסטוריה ארוכה היא עדות עצמאית: מי שענה/תה על מספיק שאלות
+  // כבר נמדד/ה, לא משנה איפה הדרגה נחתה.
+  //
+  // **חד-משמעית גדול-מ ולא גדול-או-שווה:** בדיוק בסף, `nextLevel`
+  // רץ בפעם הראשונה ועדיין **לא** הזיז את הדרגה. שוויון היה מבטל
+  // את נקודת-הפתיחה צעד אחד מוקדם מדי, וילד/ה שהתחיל/ה בדרגה 4
+  // היה/הייתה מטפס/ת מ-1 (נתפס בשתי בדיקות קיימות).
+  if (state.attempts.length > LEVEL_CHANGE_MIN_ATTEMPTS) return true;
+  return (state.level ?? 1) !== 1;
+}
+
+// startingLevel — נקודת-הפתיחה מהפרופיל (BL-017). מוחלת רק כל עוד
+// אין נתונים אמיתיים; ברירת-המחדל 1 משמרת את ההתנהגות הקודמת
+// לחלוטין עבור כל קורא שלא מעביר אותה.
+export function nextLevel(
+  state: MasteryState,
+  startingLevel: Difficulty = 1,
+): Difficulty {
+  // גם כאן ולא רק ב-targetDifficulty: בלעדיו ילד/ה שהתחיל/ה בדרגה 4
+  // היה/הייתה מטפס/ת מ-1 בניסיון החמישי — כלומר **צונח/ת לדרגה 2**
+  // בדיוק ברגע שההעברה קורית, והפיצ'ר היה מבטל את עצמו.
+  const current = hasRealData(state) ? (state.level ?? 1) : startingLevel;
   const recent = state.attempts.slice(-WINDOW_SIZE);
   // מעט מדי נתונים — לא מזיזים דרגה על סמך שאלה או שתיים.
   if (recent.length < LEVEL_CHANGE_MIN_ATTEMPTS) return current;
@@ -38,14 +105,52 @@ export function nextLevel(state: MasteryState): Difficulty {
   return current;
 }
 
-// offset — כיוון-קושי ידני מהפרופיל (Marina 2026-08-01). מופחת מהדרגה
-// הנוכחית, ולכן הורדה ידנית מחזיקה גם כשהדרגה עצמה זזה.
+/**
+ * BL-017 — מקדם את הדרגה **ומסמן שהיא נמדדה**.
+ *
+ * `nextLevel` מחזיר דרגה בלבד, ולכן מי שקורא לו חייב גם להרים את
+ * הדגל. ריכוז שני הצעדים כאן מונע את המצב שבו קורא אחד מעדכן דרגה
+ * ושוכח את הדגל — ואז נקודת-הפתיחה חוזרת להשפיע על ילד/ה שכבר
+ * נמדד/ה.
+ *
+ * הדגל עולה רק כשהדרגה באמת חושבה מנתונים (יש מספיק ניסיונות),
+ * ולא בכל קריאה — אחרת ילד/ה עם שתי תשובות היה/הייתה מסומן/ת
+ * כ"נמדד/ה" ומאבד/ת את נקודת-הפתיחה מיד.
+ */
+export function advanceLevel(
+  state: MasteryState,
+  startingLevel: Difficulty = 1,
+): MasteryState {
+  const level = nextLevel(state, startingLevel);
+  // הדגל עולה כשהדרגה באמת חושבה מנתונים — כלומר כש-`nextLevel`
+  // עבר את סף-המדגם. מרגע זה נקודת-הפתיחה מפסיקה להשפיע.
+  const measuredNow =
+    state.attempts.slice(-WINDOW_SIZE).length >= LEVEL_CHANGE_MIN_ATTEMPTS;
+  return {
+    ...state,
+    level,
+    levelMeasured: state.levelMeasured === true || measuredNow,
+  };
+}
+
+// שני כיווני-קושי מהפרופיל, ובכוונה נפרדים:
+//
+// `startingLevel` (BL-017) — **מאיפה הסולם מתחיל.** נשאל פעם אחת
+//   בהרשמה, לפני שההורה ראה את הילד/ה מתרגל/ת, ופג אחרי 5 ניסיונות
+//   בכל מיומנות. עונה על "מה הילד/ה כבר יודע/ת?".
+//
+// `offset` (Marina 2026-08-01) — **תיקון קבוע לסולם.** נקבע במסך
+//   העריכה, אחרי שההורה ראה, ולא פג לעולם. עונה על "האם המדידה של
+//   האפליקציה מוטה?" (בדרך כלל: ההורה יושב/ת ליד ומסביר/ה).
+//
+// הם מצטרפים: נקודת-פתיחה 4 עם הורדה של 1 מגישים דרגה 3.
 export function targetDifficulty(
   state: MasteryState,
   offset: number = 0,
+  startingLevel: Difficulty = 1,
 ): Difficulty {
-  const current = state.level ?? 1;
-  const clamped = Math.max(1, Math.min(5, current - offset));
+  const base = hasRealData(state) ? (state.level ?? 1) : startingLevel;
+  const clamped = Math.max(1, Math.min(5, base - offset));
   return clamped as Difficulty;
 }
 
@@ -84,6 +189,7 @@ export function selectNextItem(
   desiredContext?: DesiredContext,
   noRepeatUntilExhausted: boolean = false,
   difficultyOffset: number = 0,
+  startingLevel: Difficulty = 1,
 ): Item | null {
   const unused = bank.filter((i) => !usedIds.has(i.id));
   if (unused.length === 0) return null;
@@ -104,7 +210,7 @@ export function selectNextItem(
     : ctxPool;
   const pool = neverSeen.length > 0 ? neverSeen : ctxPool;
 
-  const target = targetDifficulty(state, difficultyOffset);
+  const target = targetDifficulty(state, difficultyOffset, startingLevel);
 
   // Marina 2026-08-01 — לולאת-החזרות.
   //

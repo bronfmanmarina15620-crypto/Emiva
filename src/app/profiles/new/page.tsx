@@ -10,8 +10,11 @@ import {
   setActiveProfileId,
   type AddressForm,
 } from "@/lib/profiles";
+import type { Difficulty } from "@/lib/types";
+import { logEvent } from "@/lib/telemetry";
 import { TopicsPreview } from "@/components/TopicsPreview";
 import { AddressFormPicker } from "@/components/AddressFormPicker";
+import { StartingLevelPicker } from "@/components/StartingLevelPicker";
 
 export default function NewProfilePage() {
   const router = useRouter();
@@ -20,6 +23,11 @@ export default function NewProfilePage() {
   const [birthDate, setBirthDate] = useState("");
   // GENDER-INCLUSIVE-001 — לא נבחר עד שנוגעים; חסר = ניטרלי.
   const [addressForm, setAddressForm] = useState<AddressForm | undefined>(
+    undefined,
+  );
+  // BL-017 — נקודת-הפתיחה. `undefined` = דילגו, וזה מצב אמיתי:
+  // שום אפשרות אינה מסומנת מראש, ולכן הוא נשאר ניתן-לייצוג.
+  const [startingLevel, setStartingLevel] = useState<Difficulty | undefined>(
     undefined,
   );
   const [error, setError] = useState<string | null>(null);
@@ -61,7 +69,15 @@ export default function NewProfilePage() {
       ageN,
       birthDate || undefined,
       addressForm,
+      startingLevel,
     );
+    // נורה **תמיד, כולל בדילוג** (`level: null`) — אחוז-הדילוג הוא
+    // האות המרכזי לשאלה אם השאלה הזו עובדת בכלל.
+    logEvent(profile.id, {
+      t: "starting_level_chosen",
+      at: Date.now(),
+      level: startingLevel ?? null,
+    });
     setActiveProfileId(profile.id);
     router.push("/session");
   }
@@ -125,6 +141,11 @@ export default function NewProfilePage() {
           </label>
 
           <AddressFormPicker value={addressForm} onChange={setAddressForm} />
+
+          <StartingLevelPicker
+            value={startingLevel}
+            onChange={setStartingLevel}
+          />
 
           {error && (
             <p className="text-sm text-terracotta-dark">{error}</p>

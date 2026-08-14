@@ -1,4 +1,4 @@
-import type { Skill } from "./types";
+import type { Difficulty, Skill } from "./types";
 import { purgeProfileStorage } from "./storage";
 import { clearTelemetry } from "./telemetry";
 
@@ -39,6 +39,19 @@ export type Profile = {
   // שנוצרו לפני השדה ממשיכים לעבוד בלי לגעת בהם, ואף אחת לא נדרשת
   // למלא כלום (אותה קונבנציה כמו `speechRate`).
   addressForm?: AddressForm;
+  // BL-017: נקודת-הפתיחה — שאלה אחת להורה בהרשמה.
+  //
+  // **דרגה אחת לכל המיומנויות** (הכרעת Marina 2026-08-14): הורה יודע
+  // לומר "כבר מכיר/ה את זה" באופן כללי, לא נושא-נושא.
+  //
+  // **חסר = דילגו על השאלה** ⇒ מתחילים בדרגה 1 כמו קודם. אותה
+  // קונבנציה כמו `addressForm`. חשוב שדילוג יישאר חסר ולא ייכתב כ-1:
+  // אחרת אי-אפשר להבחין בטלמטריה בין "ענו: מההתחלה" ל"דילגו".
+  //
+  // **תוקף מוגבל בכוונה:** הערך משפיע רק עד שהדרגה במיומנות נמדדה
+  // בפועל (כלומר זזה מ-1). מרגע זה `nextLevel` הוא הבעלים הבלעדי
+  // של הדרגה, לתמיד. ראי `hasRealData` ב-`adaptive.ts`.
+  startingLevel?: Difficulty;
 };
 
 /**
@@ -215,6 +228,7 @@ export function createProfile(
   age: number,
   birthDate?: string,
   addressForm?: AddressForm,
+  startingLevel?: Difficulty,
 ): Profile {
   const profile: Profile = {
     id: newProfileId(),
@@ -231,6 +245,10 @@ export function createProfile(
     // נשארים `undefined`, ולכן ההבחנה הזו אינה תקפה בנתונים (נמצא
     // בסקירת-קוד). מיגרציה שתרצה להבחין ביניהם — ראי BL-023.
     difficultyOffset: 0,
+    // BL-017: **רק אם נבחר** — בניגוד ל-difficultyOffset שלמעלה.
+    // שם חסר ו-0 מתנהגים זהה ולכן אין משמעות ל"לא ענו"; כאן יש,
+    // והמדידה שמרינה ביקשה תלויה בהבחנה בין דילוג לבין "מההתחלה".
+    ...(startingLevel !== undefined ? { startingLevel } : {}),
     allowedSkills: allowedSkillsForAge(age),
     createdAt: Date.now(),
   };
