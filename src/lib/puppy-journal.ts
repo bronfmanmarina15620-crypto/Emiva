@@ -318,12 +318,20 @@ export function journalStage(journal: PuppyJournal | null): JournalStage {
   return "training";
 }
 
+/**
+ * GENDER-INCLUSIVE-001 — תוויות השלבים שהמסך מציג לילד/ה.
+ *
+ * ⚠️ ארבע התוויות היו **רבים-בנקבה** ("לומדות", "מתאמנות") — מגדר
+ * בתחפושת, אותה מלכודת שמתועדת ב-greetings.ts. הן חמקו משומר
+ * `ui-address-form` רק משום שהוא סורק את `src/app`, בעוד שהמחרוזות
+ * יושבות כאן ומרונדרות משם. הצורה הניטרלית היא רבים-סתמי.
+ */
 export const STAGE_HEBREW: Record<JournalStage, string> = {
   setup: "התחלה",
-  learning: "שלב 1 — לומדות את השיטה",
-  training: "שלב 2 — מתאמנות",
-  testing: "שלב 3 — בודקות בכל מקום",
-  presenting: "שלב 4 — מציגות",
+  learning: "שלב 1 — לומדים את השיטה",
+  training: "שלב 2 — מתאמנים",
+  testing: "שלב 3 — בודקים בכל מקום",
+  presenting: "שלב 4 — מציגים",
 };
 
 // §6.2 stage 4 — the booklet is produced at home (Canva). The app only
