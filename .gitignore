@@ -29,3 +29,6 @@ src/content/review-packs/private/*
 # עתידיים, בלי שום שגיאה שתסגיר את זה.
 /recovery-codes.txt
 
+
+# עותקי-עבודה זמניים של סוכנים — לא שייכים לריפו
+.claude/worktrees/

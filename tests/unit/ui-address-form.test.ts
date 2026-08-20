@@ -32,6 +32,20 @@ const APP_ROOT = join(process.cwd(), "src", "app");
 const LIB_ROOT = join(process.cwd(), "src", "lib");
 
 /**
+ * **גם `src/components` נסרק** (נוסף 2026-08-20, בדיקה חזותית של האתר החי).
+ *
+ * *"כבר מכיר/ה את החומר"* ישב ב-`StartingLevelPicker.tsx` ונראה
+ * במסך יצירת הפרופיל — והשומר לא ראה אותו כלל, כי סרק `src/app`
+ * ואת רשימת ה-`lib` בלבד.
+ *
+ * **זו הפעם השלישית שאותו כשל חוזר**: תחילה נסרק `src/app` בלבד,
+ * ב-19.8 נוסף `src/lib`, ו-`src/components` נשאר בחוץ. הסריקה
+ * כאן היא של כל התיקייה (ולא רשימה מפורשת כמו ב-`lib`) בדיוק
+ * כדי שקובץ-רכיב חדש ייכנס לשומר מעצמו, בלי שמישהו יזכור.
+ */
+const COMPONENTS_ROOT = join(process.cwd(), "src", "components");
+
+/**
  * **קובצי-`lib` שמחזיקים תוויות שהילד/ה רואה** — רשימה מפורשת.
  *
  * *למה רשימה ולא סריקה של כל `src/lib`:* `visibleText` נכתב ל-JSX,
@@ -120,6 +134,15 @@ function imperativeIn(text: string): string | null {
  */
 const EXEMPT_DIRS = ["parent"];
 
+/**
+ * **בורר-הלשון עצמו פטור.**
+ *
+ * `AddressFormPicker` מציג את *"מוכנה להתחיל?"* / *"מוכן להתחיל?"*
+ * כ**דוגמאות** שבהן הילדה בוחרת. הן חייבות להיות מגודרות — זה
+ * בדיוק תפקידן, ולא מחרוזת שמקבעת לשון על מסך.
+ */
+const EXEMPT_FILES = ["AddressFormPicker.tsx"];
+
 function screenFiles(dir: string, acc: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -127,6 +150,7 @@ function screenFiles(dir: string, acc: string[] = []): string[] {
       if (EXEMPT_DIRS.includes(entry)) continue;
       screenFiles(full, acc);
     } else if (entry.endsWith(".tsx")) {
+      if (EXEMPT_FILES.includes(entry)) continue;
       acc.push(full);
     }
   }
@@ -136,6 +160,10 @@ function screenFiles(dir: string, acc: string[] = []): string[] {
 /** שולף רק טקסט שהילד/ה באמת רואה: בין תגיות, או מחרוזת ב-JSX. */
 function visibleText(source: string): string[] {
   const out: string[] = [];
+  // הערות-תיעוד אינן טקסט על מסך. בלי זה השומר מתריע על פרוזה
+  // בתוך /** ... */ (נמדד: "בטוחה" מתוך StartingLevelPicker), ושומר
+  // שמתריע על הערות מאמן את הקורא להתעלם ממנו.
+  source = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
   // טקסט עברי בין > ל-<
   for (const m of source.matchAll(/>([^<>{}]*[א-ת][^<>{}]*)</g)) {
     out.push(m[1]!);
@@ -150,6 +178,7 @@ function visibleText(source: string): string[] {
 describe("GENDER-INCLUSIVE-001 — מסכים לא מקבעים לשון", () => {
   const files = [
     ...screenFiles(APP_ROOT),
+    ...screenFiles(COMPONENTS_ROOT),
     ...CHILD_LABEL_LIB_FILES.map((f) => join(LIB_ROOT, f)),
   ];
 

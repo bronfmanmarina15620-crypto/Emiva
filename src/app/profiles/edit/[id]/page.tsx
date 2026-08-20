@@ -93,7 +93,7 @@ export default function EditProfilePage() {
     // בשקט (נמצא בסקירת-קוד).
     if (!saved) {
       setSubmitting(false);
-      setError("הפרופיל כבר לא קיים. חזרי לדף הבית ונסי שוב.");
+      setError("הפרופיל כבר לא קיים. כדאי לחזור לדף הבית ולנסות שוב.");
       return;
     }
     // נתיב-כתיבה נפרד מ-updateProfile (כמו setAddressForm בעבר): כך
