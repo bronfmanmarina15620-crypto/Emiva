@@ -7,6 +7,7 @@ import {
   deleteProfile,
   getActiveProfileId,
   loadProfiles,
+  runAddressFormMigration,
   setActiveProfileId,
   type Profile,
 } from "@/lib/profiles";
@@ -24,6 +25,10 @@ export default function Home() {
     // חייבת לרוץ לפני קריאת הפרופילים — מאפסת ציוני אנגלית לא-אמינים
     // שנצברו כשהתשובה הנכונה הייתה תמיד הכפתור הראשון (ראי storage.ts).
     runEnglishResetMigration();
+    // GENDER-INCLUSIVE-001 §M — פרופיל מלפני שדה לשון-הפנייה מקבל
+    // `feminine`, כדי שאוולין ואמיליה לא יאבדו את החום שיש להן היום.
+    // בניגוד למיגרציה שמעליה — כאן ריצה חוזרת היא תכונה (ראי profiles.ts).
+    runAddressFormMigration();
     setProfiles(loadProfiles());
     setParentReminder(computeParentReminderNeeded());
   }, []);
@@ -133,7 +138,7 @@ export default function Home() {
                       }}
                       className="text-sm text-warm-muted hover:text-terracotta-dark transition pr-2"
                     >
-                      🐕 פתחי את יומן הגור
+                      🐕 יומן הגור
                     </button>
                   )}
                   {/* שכבה 2 (MyLevel §1) — פתוחה לכל גיל, בניגוד ליומן הגור. */}
@@ -174,7 +179,12 @@ export default function Home() {
               : "inline-block text-warm-muted hover:text-terracotta text-sm underline"
           }
         >
-          {profiles.length === 0 ? "הוסיפי משתמשת" : "הוסיפי משתמשת חדשה"}
+          {/*
+            שם-פעולה ולא ציווי: הכפתור יושב במסך הבית, שהילד/ה רואה.
+            "פרופיל" במקום "משתמשת" — שם-עצם ניטרלי, ולכן אין צורך
+            בלוכסן (שאסור: התקן הממשלתי + קורא/ת מתחיל/ה).
+          */}
+          {profiles.length === 0 ? "הוספת פרופיל" : "הוספת פרופיל חדש"}
         </Link>
 
         <div className="pt-6 border-t border-warm-line/50">

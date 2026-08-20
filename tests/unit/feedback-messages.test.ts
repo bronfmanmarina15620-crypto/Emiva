@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   correctMessage,
+  helperRoleBanner,
   retryMessage,
   revealIntro,
   __POOLS_FOR_TESTS,
@@ -133,6 +134,55 @@ describe("feedback-messages — address forms", () => {
       for (const s of poolFor(pool as never, "neutral")) {
         expect(s).not.toMatch(/בואי|קחי|את יכולה|בוא |קח |אתה יכול/);
       }
+    }
+  });
+});
+
+/**
+ * GENDER-INCLUSIVE-001 — באנר-התפקיד ביומן הגור.
+ *
+ * הבדיקה `ui-address-form` פטרה את `journal/` בטענה שאלה "מסכי-הורה",
+ * אבל יומן הגור הוא מסך של הילדה — היא פותחת אותו מכרטיס-הפרופיל שלה.
+ * תחת הפטור ישבו שם 8 מחרוזות מגודרות. רובן נוטרלו; המחרוזת הזאת היא
+ * היחידה שפוצלה, כי היא פנייה חמה בשם ו*"את העוזרת"* הוא לב המסר.
+ */
+describe("helperRoleBanner — יומן הגור", () => {
+  const FORMS = ["neutral", "feminine", "masculine"] as const;
+
+  const drawList = (form: (typeof FORMS)[number]) =>
+    Array.from({ length: 12 }, (_, i) => helperRoleBanner(() => i / 12, form));
+
+  const draws = (form: (typeof FORMS)[number]) => drawList(form).join(" | ");
+
+  /**
+   * **כל הגרלה, לא "לפחות אחת"** *(הודק 2026-08-19, סקירת-קוד).*
+   *
+   * הגרסה הקודמת בדקה שהנוסח המגודר *מופיע* ב-12 הגרלות — ולכן
+   * עברה גם כשהוא הופיע בשליש מהן בלבד. זה בדיוק מה שקרה:
+   * `poolFor` מיזג את הניטרלי לתוך המגודר, והילדה קיבלה
+   * *"את העוזרת"* ב-1 מ-3. המחרוזת הזאת **פוצלה** במקום לנוטרל
+   * דווקא כי הניטרלי קר יותר — סטייה כזאת מבטלת את הסיבה לפיצול.
+   */
+  it("מציע את הנוסח החם בלשון שנבחרה — בכל הגרלה", () => {
+    for (const line of drawList("feminine")) {
+      expect(line, "הגרלה בלשון נקבה שאינה הנוסח הנשי").toMatch(/את העוזרת/);
+    }
+    for (const line of drawList("masculine")) {
+      expect(line, "הגרלה בלשון זכר שאינה הנוסח הזכרי").toMatch(/אתה העוזר/);
+    }
+  });
+
+  it("הניטרלי אינו מסגיר לשון — גם לא ברבים-בנקבה", () => {
+    const neutral = draws("neutral");
+    expect(neutral).not.toMatch(/את העוזרת|אתה העוזר|יכולה|יכול /);
+    // רבים-בנקבה הוא מגדר בתחפושת (אותה מלכודת כמו "מתחילות").
+    expect(neutral).not.toMatch(/עוזרות|רושמות|מוסיפות/);
+  });
+
+  it("שומר על התוכן: מה מותר לעוזר/ת לעשות נאמר בכל לשון", () => {
+    for (const form of FORMS) {
+      expect(draws(form)).toMatch(/לרשום איך הלך/);
+      expect(draws(form)).toMatch(/עובדות על הגזע/);
     }
   });
 });
