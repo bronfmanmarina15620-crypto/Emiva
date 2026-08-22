@@ -2,16 +2,16 @@
 /**
  * 🔴 ACCOUNTS-001 · P1 — מסלול התשובה **הנכונה**.
  *
- * **הפער שנמצא בסקירה (22.8):** `processAnswer` יוצא בענף
- * `correct` ובענף `reveal` **בלי לשחרר את השומר** — השחרור נשען
- * כולו על `advance()`. הבדיקה הקודמת כיסתה רק את מסלול ה-retry,
- * ולכן הסרת השחרור מ-`advance` עברה ירוקה ב-120 בדיקות.
+ * **הפער:** `processAnswer` יוצא בענף `correct` ובענף `reveal` בלי
+ * לשחרר את השומר — השחרור נשען כולו על `advance()`. אם הוא לא
+ * קורה, ילדה שענתה **נכון** ולחצה "המשך" נתקעת מול מסך מת.
  *
- * התרחיש שנשאר לא-מכוסה הוא **מסלול הרוב**: ילדה עונה נכון,
- * לוחצת "המשך" — ואם השומר לא השתחרר, הפריט הבא לא מגיב ללחיצות.
- * מסך מת בלי הודעה.
- *
- * הבדיקה עונה נכון, ממשיכה, ועונה שוב — ומוודאת שהניסיון השני נרשם.
+ * **⚠️ למה הבדיקה עונה נכון ולא "מנסה משהו" (תוקן 22.8):**
+ * הגרסה הראשונה הזינה ערך קבוע ("4") ו-30 מתוך 30 סשנים הגיעו
+ * למסך-**החשיפה**, לא למסך-הנכון. כלומר היא נשאה את השם של מסלול
+ * ה-correct ובדקה את מסלול ה-reveal. מוטציה שמשאירה **בדיוק**
+ * ילדה שענתה נכון תקועה (`if (phase !== "correct")`) עברה אצלה
+ * ירוק. לכן התשובה נגזרת **מהתרגיל שעל המסך**.
  */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -20,6 +20,8 @@ const routerMock = { push: vi.fn(), replace: vi.fn() };
 vi.mock("next/navigation", () => ({ useRouter: () => routerMock }));
 
 import SessionPage from "@/app/session/page";
+import ADD_SUB from "@/content/math/add-sub-100.json";
+import MULT from "@/content/math/multiplication.json";
 import { createProfile, setActiveProfileId } from "@/lib/profiles";
 import { exportTelemetry, type TelemetryEvent } from "@/lib/telemetry";
 
@@ -30,26 +32,34 @@ function attemptsOf(profileId: string): AttemptEvent[] {
   return all.filter((e): e is AttemptEvent => e.t === "attempt");
 }
 
-/** לוחץ על כל כפתור-המשך שמופיע (נכון / חשיפה). */
-function clickContinue(): boolean {
-  const btn =
-    screen.queryByRole("button", { name: "המשך" }) ??
-    screen.queryByRole("button", { name: "הבנתי — המשך" });
-  if (!btn) return false;
-  fireEvent.click(btn);
-  return true;
+/**
+ * מוצא את התשובה הנכונה לפריט שעל המסך — **לפי המאגר**, לא לפי
+ * פענוח-טקסט. שליש מפריטי גיל 8 הם בעיות-מילים ("קניתי גלידה
+ * ב-3₪..."), שאין בהן תבנית "a + b = ?" כלל.
+ */
+function correctAnswerOnScreen(): string {
+  const text = document.body.textContent ?? "";
+  const bank = [...ADD_SUB, ...MULT] as Array<{
+    prompt: string;
+    answer: number;
+  }>;
+  const hit = bank.find((i) => text.includes(i.prompt));
+  if (!hit) {
+    throw new Error("לא זוהה פריט על המסך: " + text.slice(0, 140));
+  }
+  return String(hit.answer);
 }
 
-/** עונה על הפריט הנוכחי; מנסה את כל האפשרויות עד שאחת נכונה. */
-function answerAnything(): void {
-  const choices = screen.queryAllByRole("button", { name: /^\d+$/ });
-  if (choices.length > 0) {
-    fireEvent.click(choices[0]!);
+/** עונה **נכון** על הפריט הנוכחי. */
+function answerCorrectly(): void {
+  const value = correctAnswerOnScreen();
+  const choice = screen.queryByRole("button", { name: value });
+  if (choice) {
+    fireEvent.click(choice);
     return;
   }
-  const input = screen.queryByRole("spinbutton");
-  if (!input) return;
-  fireEvent.change(input, { target: { value: "4" } });
+  const input = screen.getByRole("spinbutton");
+  fireEvent.change(input, { target: { value } });
   fireEvent.submit(input.closest("form")!);
 }
 
@@ -58,7 +68,7 @@ beforeEach(() => {
 });
 
 describe("🔴 סשן — השומר משתחרר גם אחרי תשובה נכונה", () => {
-  it("עונים, ממשיכים, ועונים שוב — הניסיון השני נרשם", async () => {
+  it("עונים נכון, ממשיכים, ועונים נכון שוב — הניסיון השני נרשם", async () => {
     const p = createProfile("ילדה", 8, "2018-01-01");
     setActiveProfileId(p.id);
 
@@ -68,20 +78,29 @@ describe("🔴 סשן — השומר משתחרר גם אחרי תשובה נכ�
       expect(screen.queryByRole("button", { name: "נתחיל" })).toBeNull(),
     );
 
-    // פריט ראשון — עונים עד שמגיעים למסך-המשך (נכון או חשיפה).
-    for (let i = 0; i < 4 && !clickContinue(); i++) {
-      answerAnything();
-      await waitFor(() => expect(attemptsOf(p.id).length).toBeGreaterThan(0));
-    }
-    // כאן כבר עברנו את הפריט הראשון דרך advance().
-    const afterFirstItem = attemptsOf(p.id).length;
-    expect(afterFirstItem).toBeGreaterThan(0);
+    // פריט ראשון — תשובה נכונה בניסיון הראשון.
+    answerCorrectly();
+    await waitFor(() => expect(attemptsOf(p.id).length).toBe(1));
 
-    // 🔴 הרגע הקריטי: הפריט הבא. אם השומר נשאר נעול — כלום לא יקרה.
-    answerAnything();
-    await waitFor(
-      () => expect(attemptsOf(p.id).length).toBeGreaterThan(afterFirstItem),
-      { timeout: 3000 },
-    );
+    const first = attemptsOf(p.id)[0]!;
+    // 🔴 הליבה: זה **חייב** להיות מסלול ה-correct, אחרת הבדיקה
+    // בודקת משהו אחר משמה — הכשל שתוקן ב-22.8.
+    expect(first.correct).toBe(true);
+    expect(first.attemptIdx).toBe(0);
+
+    // מסך "נכון" → "המשך" → advance() משחרר את השומר.
+    const cont = await screen.findByRole("button", { name: "המשך" });
+    fireEvent.click(cont);
+
+    // 🔴 הרגע הקריטי: הפריט הבא. שומר נעול = מסך מת.
+    await waitFor(() => expect(screen.getByRole("spinbutton")).toBeTruthy());
+    answerCorrectly();
+    await waitFor(() => expect(attemptsOf(p.id).length).toBe(2), {
+      timeout: 3000,
+    });
+
+    // הניסיון השני על פריט **אחר** — כלומר באמת התקדמנו.
+    const second = attemptsOf(p.id)[1]!;
+    expect(second.itemId).not.toBe(first.itemId);
   });
 });

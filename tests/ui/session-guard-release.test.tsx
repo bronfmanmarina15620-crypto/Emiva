@@ -72,9 +72,13 @@ describe("🔴 סשן — השומר משתחרר, הילדה אינה נתקע�
 
     const first = attemptsOf(p.id);
     const firstEvent = first[first.length - 1]!;
-    // הבדיקה רלוונטית רק כשהניסיון היה שגוי — אחרת הפריט התקדם
-    // וזה כבר מסך אחר. בפריטי-קלט זה תמיד המצב.
-    if (firstEvent.correct) return;
+    // 🔴 **קביעה, לא יציאה-מוקדמת** (תוקן 22.8 בסקירה).
+    // קודם ישב כאן `if (firstEvent.correct) return;` — ענף שהיה
+    // הופך את הבדיקה לריקה **בשקט** אם התשובה תצא נכונה במקרה.
+    // נמדד: 40 מתוך 40 סשנים הגיעו למסלול השגוי, כי "999999" אינו
+    // תשובה של אף פריט. אבל אם ברירת-המחדל לגיל 8 תשתנה לפריטי-
+    // בחירה, השקט הזה היה חוזר. עכשיו זה נכשל בקול.
+    expect(firstEvent.correct).toBe(false);
 
     const itemId = firstEvent.itemId;
     const countBefore = first.length;
