@@ -7,7 +7,7 @@
 לא-אפליקציה וחיים בסביבת הבית. ה-roadmap הזה מכסה את מה ש-Emiva
 (האפליקציה) אמורה לבנות.*
 
-**עדכון אחרון:** 2026-08-12
+**עדכון אחרון:** 2026-08-22
 
 ---
 
@@ -54,7 +54,7 @@ Marina ביקשה **גישה לכולם, עם רישום דרך מייל של ה
 |---|---|---|---|
 | ~~1~~ | ✅ [LAUNCH-PUBLIC-001](tasks/done/LAUNCH-PUBLIC-001/INSTRUCTIONS.md) | **הושלם 2026-08-12** — האתר באוויר | ב-000 |
 | ~~2~~ | ✅ [GENDER-INCLUSIVE-001](tasks/done/GENDER-INCLUSIVE-001/INSTRUCTIONS.md) | **הושלם 2026-08-22** — האפליקציה מדברת גם לבנים | [📄](plans/GENDER-INCLUSIVE-001.md) |
-| **3** 🟢 | [ACCOUNTS-001](tasks/active/ACCOUNTS-001/INSTRUCTIONS.md) | **נפתחה 2026-08-21** — הורה במייל, ילדים תחתיה | [📄](plans/ACCOUNTS-001.md) |
+| **3** 🟢 | [ACCOUNTS-001](tasks/active/ACCOUNTS-001/INSTRUCTIONS.md) | **בביצוע** — הורה במייל, ילדים תחתיה. **P1 (שכבת-גישה async) הושלמה 22.8**; P0 ממתינה לפתיחת Supabase | [📄](plans/ACCOUNTS-001.md) · [P1](plans/ACCOUNTS-001-P1.md) |
 | **4** | [PUBLIC-READY-001](tasks/active/PUBLIC-READY-001/INSTRUCTIONS.md) | פרטיות, הסכמה, מחיקה, עו"ד | [📄](plans/PUBLIC-READY-001.md) |
 
 🔗 **הכתובת החיה: [emiva.vercel.app](https://emiva.vercel.app)**
