@@ -11,7 +11,7 @@
 - references:
   - `MyLevel.docx` §6 — פרויקט הדגל (§6.2 שלבים, §6.3 שילוב אווה)
   - `plans/ALIGN-MYLEVEL-001.md` §T8ב
-  - [FLAGSHIP-PUPPY-001](../../active/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md) — סליס 1
+  - [FLAGSHIP-PUPPY-001](../../done/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md) — סליס 1
 
 ## מטרה
 
