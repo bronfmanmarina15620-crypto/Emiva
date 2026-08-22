@@ -25,12 +25,39 @@
 # גם במבנה השטוח הישן וגם בחדש; ה-TASK-ID נגזר מהסגמנט האחרון לפני
 # INSTRUCTIONS.md, כי plans/ נשאר שטוח.
 #
-# איך מסמנים שנסקר: `.claude/.review-done` נוצר על ידי הרצת
-# /code-review, או ידנית על ידי Marina כשהיא מוותרת במודע.
+# איך מסמנים שנסקר: `node scripts/mark-review.mjs --findings <N>`.
+# ויתור מודע: `--waive "<סיבה>"`. הסימון הוא **רשומת JSON**, לא קובץ
+# ריק — ראי §הסימון למטה.
+#
+# 2026-08-22 — שלושה בורות שנסגרו אחרי שמרינה שאלה "עשינו review?"
+# בפעם השלישית ברצף:
+#
+#   1. **פיצול-קומיט עקף את השער לגמרי.** התנאי דרש `src/` **וגם**
+#      קובץ-משימה באותו קומיט; פיצול לשני קומיטים עבר בשקט. עכשיו
+#      השער נדלק על כל קומיט שנוגע בקוד.
+#   2. **הסימון היה קובץ ריק.** `touch` וסקירה-אמיתית היו זהים
+#      לשער. עכשיו נדרשת רשומה עם `findings`.
+#   3. **`tests/` ו-`scripts/` לא היו מוגנים** — כולל ההוק הזה עצמו.
+#
+# מה זה עדיין **לא** עושה, ביושר: אינו מוכיח שסקירה רצה (סוכן יכול
+# לכתוב רשומה שקרית), ואינו רץ למי שמקמט מחוץ ל-Claude Code — זהו
+# הוק של הכלי, לא `.git/hooks/`. המטרה: להפוך דילוג שקט לדילוג רועם.
 
 input=$(cat)
 
-cmd=$(printf '%s' "$input" | grep -o '"command"[[:space:]]*:[[:space:]]*"\(\\.\|[^"\\]\)*"' | head -1)
+# 🔴 חילוץ הפקודה דרך node, לא grep גלובלי (תוקן 2026-08-22).
+#
+# הצורה הקודמת תפסה את **המפתח "command" הראשון בכל מקום** בקלט.
+# מטען שבו מופיע "command" לפני tool_input — למשל בתוך description —
+# היה מחזיר את הערך הלא-נכון, והשער היה **נכבה בשקט**. זהו בדיוק
+# מצב-הכשל שההוק נולד למנוע, ושכבר קרה כאן פעם (^tasks/[A-Z]).
+cmd=$(printf '%s' "$input" | node -e '
+  let s = "";
+  process.stdin.on("data", (d) => (s += d)).on("end", () => {
+    try { console.log(JSON.parse(s)?.tool_input?.command ?? ""); }
+    catch { console.log(""); }
+  });
+' 2>/dev/null)
 
 # רלוונטי רק ל-git commit.
 case "$cmd" in
@@ -38,7 +65,11 @@ case "$cmd" in
   *) exit 0 ;;
 esac
 
-cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || cd "$(dirname "$0")/../.." || exit 0
+# נגזר **לפני** ה-cd: `$0` יכול להיות נתיב יחסי, ואחרי מעבר-תיקייה
+# הוא כבר לא יפתור נכון.
+HOOK_DIR=$(cd "$(dirname "$0")" && pwd)
+
+cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || cd "$HOOK_DIR/../.." || exit 0
 
 # מה מוכן ל-commit?
 staged=$(git diff --cached --name-only 2>/dev/null)
@@ -48,11 +79,25 @@ staged=$(git diff --cached --name-only 2>/dev/null)
 # מוגדר פעם אחת כדי ששורת-הזיהוי ושורת-גזירת-ה-ID לא יסטו זו מזו.
 TASK_FILE_RE='^tasks/\(active/\|done/\)\?[^/]\{1,\}/INSTRUCTIONS\.md$'
 
-touches_src=$(printf '%s\n' "$staged" | grep -c '^src/')
-touches_task=$(printf '%s\n' "$staged" | grep -c "$TASK_FILE_RE")
+# קוד = כל מה שמריץ או בודק, לא רק src/.
+#
+# 2026-08-22: קודם נבדק רק `^src/`, ולכן `tests/`, `scripts/`, `evals/`
+# — **וההוק הזה עצמו** — היו ניתנים לשינוי בלי סקירה. בדיקה שגויה
+# מסוכנת כמו קוד שגוי: היא מכריזה "ירוק" על מה שאינו.
+CODE_RE='^\(src/\|tests/\|scripts/\|evals/\|\.claude/hooks/\)'
+touches_code=$(printf '%s\n' "$staged" | grep -c "$CODE_RE")
 
-# לא קוד + מסמך-משימה יחד → לא סגירת-משימה. עובר.
-if [ "$touches_src" -eq 0 ] || [ "$touches_task" -eq 0 ]; then
+# 🔴 השער נדלק על **כל** קומיט שנוגע בקוד — לא רק כשקובץ-משימה
+# מקומט איתו.
+#
+# הצורה הקודמת (`touches_src == 0 || touches_task == 0`) דרשה ששניהם
+# יופיעו **באותו קומיט**, ולכן פיצול טריוויאלי עקף אותה לגמרי: קומיט
+# אחד עם הקוד, קומיט שני עם ה-INSTRUCTIONS — **שניהם עוברים בשקט**,
+# בלי הודעה ובלי קוד-שגיאה. זהו בדיוק מצב הכשל שההוק נולד למנוע,
+# והוא כבר קרה כאן פעם אחת (הרגרסיה של 22.8, `^tasks/[A-Z]`).
+#
+# תיעוד בלבד — CHANGELOG, ROADMAP, docs/, plans/ — ממשיך לעבור חופשי.
+if [ "$touches_code" -eq 0 ]; then
   exit 0
 fi
 
@@ -75,16 +120,49 @@ for tid in $task_ids; do
   fi
 done
 
-# נסקר? הסימון תקף רק אם הוא חדש יותר מהקוד שנערך.
+# נסקר?
+#
+# 🔴 הסימון הוא **רשומה**, לא קובץ ריק (שונה 2026-08-22).
+#
+# עד היום הוא היה 0 bytes, ולכן "סקירה שמצאה 6 באגים" ו-`touch`
+# היו **זהים לחלוטין** לשער — הוא בדק קיום-קובץ, לא התרחשות-סקירה.
+# עכשיו נדרש JSON תקין עם `findings`, ו-`waived: true` מחייב `reason`
+# לא-ריק. העקיפה נשארה בסמכות Marina (הכרעה 22.8) — אבל היא
+# **משאירה עקבות** במקום להיבלע בשקט.
 marker=".claude/.review-done"
 if [ -f "$marker" ]; then
-  newer=$(printf '%s\n' "$staged" | grep '^src/' | while read -r f; do
-    [ -f "$f" ] && [ "$f" -nt "$marker" ] && echo "stale"
-  done)
-  if [ -z "$newer" ]; then
-    exit 0
+  # ולידציה של תוכן הרשומה. node קיים בריפו; jq אינו.
+  #
+  # ⚠️ הנתיב נגזר מ-**מיקום ההוק**, לא מ-`CLAUDE_PROJECT_DIR`: ההוק
+  # כבר עשה `cd` לתיקיית-העבודה, ובבדיקות זו תיקייה זמנית שאין בה
+  # `scripts/`. גזירה מ-`$0` עובדת בשני המקרים.
+  verifier="$HOOK_DIR/../../scripts/verify-review-marker.mjs"
+  verdict=$(node "$verifier" "$marker" 2>/dev/null || echo "BAD_MARKER")
+
+  if [ "$verdict" != "OK" ]; then
+    case "$verdict" in
+      BAD_MARKER) reason="הסימון קיים אבל אינו רשומה תקינה (JSON פגום או ריק)." ;;
+      WAIVED_NO_REASON) reason="ויתור מסומן בלי סיבה כתובה. ויתור מודע חייב לומר למה." ;;
+      *) reason="$verdict" ;;
+    esac
+  else
+    # 🔴 השוואה מול **רשימת-הקבצים שנסקרה**, לא רק מול mtime.
+    #
+    # mtime לבדו הוא אות סביבתי ושברירי: קובץ-קוד חדש עם mtime ישן
+    # (מעבר-ענף, `stash pop`, patch שהוחל) היה עובר בלי סקירה, וקובץ
+    # **שנמחק** לא נבדק כלל כי `[ -f ]` מדלג עליו. הרשומה כבר שומרת
+    # את `files` — פשוט אף אחד לא קרא אותה.
+    #
+    # עכשיו: כל קובץ-קוד מקומט חייב להופיע ברשומה. זה תופס גם מחיקות
+    # וגם קבצים שה-mtime שלהם משקר.
+    uncovered=$(printf '%s\n' "$staged" | grep "$CODE_RE" \
+      | node "$HOOK_DIR/../../scripts/review-coverage.mjs" "$marker" 2>/dev/null)
+
+    if [ -z "$uncovered" ]; then
+      exit 0
+    fi
+    reason="הסקירה לא כיסתה: $uncovered"
   fi
-  reason="הסקירה רצה, אבל קוד השתנה אחריה."
 else
   reason="לא נמצאה סקירה למשימה הזאת."
 fi
@@ -97,6 +175,10 @@ echo "התחנה הזאת נשמטה פעמיים ב-2026-08-10 (T1 ו-T2 של �
 echo "בשתי הפעמים Marina היא ששאלה, ובשתיהן נמצא באג שהחזיר את" >&2
 echo "המשימה לנקודת-ההתחלה. הבדיקות היו ירוקות בשני המקרים." >&2
 echo "" >&2
-echo "הרץ /code-review לפני ה-commit." >&2
-echo "ויתור מודע של Marina: touch .claude/.review-done" >&2
+echo "1. הרץ /code-review" >&2
+echo "2. תקן את מה שנמצא" >&2
+echo "3. node scripts/mark-review.mjs --findings <N> --fixed <N>" >&2
+echo "" >&2
+echo 'ויתור מודע של Marina: node scripts/mark-review.mjs --waive "<סיבה>"' >&2
+echo '(touch לבדו אינו מספיק יותר — סימון ריק אינו רשומה.)' >&2
 exit 2

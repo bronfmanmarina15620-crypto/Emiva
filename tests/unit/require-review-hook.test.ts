@@ -38,6 +38,8 @@ type Fixture = {
   plans?: string[];
   /** האם קיים סימון-סקירה תקף. */
   reviewed?: boolean;
+  /** תוכן גולמי לסימון — לבדיקת רשומות פגומות. */
+  markerBody?: string;
 };
 
 /**
@@ -47,7 +49,7 @@ type Fixture = {
  * ריפו אמיתי ולא mock: ההוק קורא ל-`git diff --cached`, ובדיקה
  * שמזייפת את git הייתה בודקת את המוק במקום את ההוק.
  */
-function runHook({ staged, plans = [], reviewed = false }: Fixture) {
+function runHook({ staged, plans = [], reviewed = false, markerBody }: Fixture) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "emiva-hook-"));
   tmpRoots.push(dir);
 
@@ -62,10 +64,19 @@ function runHook({ staged, plans = [], reviewed = false }: Fixture) {
     execFileSync("git", ["add", "-f", ...staged], { cwd: dir });
   }
 
-  if (reviewed) {
+  if (reviewed || markerBody !== undefined) {
     const marker = path.join(dir, ".claude", ".review-done");
     fs.mkdirSync(path.dirname(marker), { recursive: true });
-    fs.writeFileSync(marker, "");
+    // ברירת-המחדל היא **רשומה תקינה**, לא קובץ ריק. עד 22.8 הבדיקה
+    // כתבה `""` — כלומר היא אישרה בדיוק את הסימון-הריק שהשער נועד
+    // לפסול, ולכן "סימון תקף" ו-`touch` נראו לה זהים.
+    // ברירת-המחדל מכסה את **כל** הקבצים שמקומטים — כמו שרשומה
+    // אמיתית עושה. השער משווה מול `files`, לא מול mtime בלבד.
+    fs.writeFileSync(
+      marker,
+      markerBody ??
+        JSON.stringify({ findings: 0, fixed: 0, waived: false, files: staged }),
+    );
     // הסימון תקף רק אם הוא חדש מהקוד — מקדמים אותו לעתיד.
     const future = new Date(Date.now() + 60_000);
     fs.utimesSync(marker, future, future);
@@ -145,21 +156,33 @@ describe("שער-הסקירה — מה עובר חופשי", () => {
     expect(res.status).toBe(0);
   });
 
-  it("קומיט קוד בלי קובץ-משימה עובר", () => {
+  /**
+   * 🔴 שלוש הבדיקות האלה **התהפכו ב-2026-08-22**, והן הראיה שהבאג
+   * היה אמיתי.
+   *
+   * עד אז הן טענו ש"קוד בלי קובץ-משימה **עובר**" — כלומר הן קיבעו
+   * את **פיצול-הקומיט** כהתנהגות רצויה: קומיט אחד עם הקוד, קומיט
+   * שני עם ה-INSTRUCTIONS, ושניהם עוברים בשקט. זו הייתה עקיפה
+   * מלאה של השער, בשתי פקודות, בלי שום הודעה.
+   *
+   * בדיקה יכולה לקבע באג בדיוק כמו שהיא מגינה מפניו. הן הפכו
+   * לדרישה ההפוכה: **כל** קומיט שנוגע בקוד דורש סקירה.
+   */
+  it("קומיט קוד בלי קובץ-משימה נחסם (פיצול-קומיט אינו עוקף)", () => {
     const res = runHook({ staged: [SRC] });
-    expect(res.status).toBe(0);
+    expect(res.status).toBe(2);
   });
 
-  it("קבצים רופפים תחת tasks/ אינם נחשבים קובץ-משימה", () => {
+  it("קוד + קובץ רופף תחת tasks/ עדיין דורש סקירה", () => {
     const res = runHook({ staged: [SRC, "tasks/BACKLOG.md"] });
-    expect(res.status).toBe(0);
+    expect(res.status).toBe(2);
   });
 
-  it("ארטיפקט נלווה במשימה (research.md) אינו מפעיל את השער לבדו", () => {
+  it("קוד + ארטיפקט נלווה (research.md) עדיין דורש סקירה", () => {
     const res = runHook({
       staged: [SRC, "tasks/done/DASHBOARD-PARENT-001/research.md"],
     });
-    expect(res.status).toBe(0);
+    expect(res.status).toBe(2);
   });
 
   it("סימון-סקירה תקף פותח את השער", () => {
@@ -167,6 +190,160 @@ describe("שער-הסקירה — מה עובר חופשי", () => {
       staged: [SRC, "tasks/active/ACCOUNTS-001/INSTRUCTIONS.md"],
       reviewed: true,
     });
+    expect(res.status).toBe(0);
+  });
+});
+
+/**
+ * הרשומה, לא הקובץ-הריק (נוסף 2026-08-22).
+ *
+ * עד אז הסימון היה 0 bytes, ולכן **סקירה שמצאה 6 באגים ו-`touch`
+ * היו זהים לחלוטין** לשער — הוא בדק קיום-קובץ, לא התרחשות-סקירה.
+ * העקיפה נשארה בסמכות Marina (הכרעה 22.8), אבל היא חייבת לומר למה.
+ */
+describe("שער-הסקירה — הסימון חייב להיות רשומה", () => {
+  const TASK = "tasks/active/ACCOUNTS-001/INSTRUCTIONS.md";
+
+  it("סימון ריק (הצורה הישנה) נדחה", () => {
+    const res = runHook({ staged: [SRC, TASK], markerBody: "" });
+    expect(res.status).toBe(2);
+    expect(res.output).toContain("אינו רשומה תקינה");
+  });
+
+  it("‏JSON פגום נדחה", () => {
+    const res = runHook({ staged: [SRC, TASK], markerBody: "{not json" });
+    expect(res.status).toBe(2);
+    expect(res.output).toContain("אינו רשומה תקינה");
+  });
+
+  it("ויתור בלי סיבה נדחה", () => {
+    const res = runHook({
+      staged: [SRC, TASK],
+      markerBody: JSON.stringify({ waived: true }),
+    });
+    expect(res.status).toBe(2);
+    expect(res.output).toContain("בלי סיבה כתובה");
+  });
+
+  it("ויתור עם סיבה כתובה עובר", () => {
+    const res = runHook({
+      staged: [SRC, TASK],
+      markerBody: JSON.stringify({ waived: true, reason: "תיעוד בלבד" }),
+    });
+    expect(res.status).toBe(0);
+  });
+
+  it("רשומת סקירה עם findings עוברת — כולל 0 ממצאים", () => {
+    const res = runHook({
+      staged: [SRC, TASK],
+      markerBody: JSON.stringify({
+        findings: 0,
+        fixed: 0,
+        waived: false,
+        files: [SRC, TASK],
+      }),
+    });
+    expect(res.status).toBe(0);
+  });
+
+  /**
+   * 🔴 כיסוי לפי **רשימת-הקבצים**, לא לפי mtime (נוסף 2026-08-22
+   * בעקבות סקירה עצמאית של תיקון-השער עצמו).
+   *
+   * mtime הוא אות סביבתי: קובץ חדש עם mtime ישן (מעבר-ענף,
+   * `stash pop`) היה עובר בלי סקירה, וקובץ **שנמחק** לא נבדק כלל.
+   */
+  it("קובץ-קוד שאינו ברשומה נחסם, גם אם הסימון טרי", () => {
+    const res = runHook({
+      staged: [SRC, "src/lib/untouched.ts"],
+      markerBody: JSON.stringify({ findings: 0, waived: false, files: [SRC] }),
+    });
+    expect(res.status).toBe(2);
+    expect(res.output).toContain("src/lib/untouched.ts");
+  });
+
+  it("ויתור מכסה גם קבצים שאינם ברשומה", () => {
+    const res = runHook({
+      staged: [SRC, "src/lib/other.ts"],
+      markerBody: JSON.stringify({ waived: true, reason: "חירום", files: [] }),
+    });
+    expect(res.status).toBe(0);
+  });
+
+  it("רשומה בלי findings נדחית", () => {
+    const res = runHook({
+      staged: [SRC, TASK],
+      markerBody: JSON.stringify({ waived: false }),
+    });
+    expect(res.status).toBe(2);
+  });
+});
+
+/**
+ * קוד אינו רק `src/`. בדיקה שגויה מסוכנת כמו קוד שגוי — היא מכריזה
+ * "ירוק" על מה שאינו. עד 22.8 `tests/`, `scripts/` ו**ההוק עצמו**
+ * היו ניתנים לשינוי בלי סקירה.
+ */
+/**
+ * 🔴 חילוץ הפקודה — הכשל-השקט הקלאסי (נוסף 2026-08-22).
+ *
+ * הצורה הקודמת הייתה `grep -o '"command"...' | head -1`, כלומר היא
+ * תפסה את **המפתח הראשון בשם `command` בכל מקום בקלט** — לא את זה
+ * שתחת `tool_input`. מטען שבו `"command"` מופיע קודם (למשל בתוך
+ * `description`) היה מחזיר ערך אחר, והשער היה **נכבה בשקט**:
+ * בלי הודעה, בלי קוד-שגיאה. בדיוק הכשל שההוק נולד למנוע.
+ */
+describe("שער-הסקירה — חילוץ הפקודה מהמטען", () => {
+  function runRaw(payload: unknown, staged: string[]) {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "emiva-hook-raw-"));
+    tmpRoots.push(dir);
+    execFileSync("git", ["init", "-q"], { cwd: dir });
+    for (const rel of staged) {
+      const abs = path.join(dir, rel);
+      fs.mkdirSync(path.dirname(abs), { recursive: true });
+      fs.writeFileSync(abs, "x\n");
+    }
+    execFileSync("git", ["add", "-f", ...staged], { cwd: dir });
+    try {
+      execFileSync("bash", [HOOK], {
+        cwd: dir,
+        input: JSON.stringify(payload),
+        encoding: "utf8",
+        env: { ...process.env, CLAUDE_PROJECT_DIR: dir },
+        timeout: 60_000,
+      });
+      return 0;
+    } catch (e) {
+      return (e as { status?: number }).status ?? 1;
+    }
+  }
+
+  it("מטען עם 'command' מטעה לפני tool_input עדיין נחסם", () => {
+    const status = runRaw(
+      { description: { command: "ls" }, tool_input: { command: "git commit -m x" } },
+      [SRC],
+    );
+    expect(status, "השער נכבה בשקט בגלל מפתח קודם בשם command").toBe(2);
+  });
+
+  it("פקודה שאינה git commit עוברת חופשי", () => {
+    expect(runRaw({ tool_input: { command: "npm test" } }, [SRC])).toBe(0);
+  });
+});
+
+describe("שער-הסקירה — היקף הקוד המוגן", () => {
+  it.each([
+    ["tests/unit/foo.test.ts", "בדיקות"],
+    ["scripts/judge-content.mjs", "סקריפטים"],
+    ["evals/backlog/x.eval.ts", "evals"],
+    [".claude/hooks/require-review.sh", "השומר עצמו"],
+  ])("%s דורש סקירה (%s)", (file) => {
+    const res = runHook({ staged: [file] });
+    expect(res.status).toBe(2);
+  });
+
+  it("תיעוד טהור עדיין עובר חופשי", () => {
+    const res = runHook({ staged: ["CHANGELOG.md", "docs/adr/005-x.md"] });
     expect(res.status).toBe(0);
   });
 });
