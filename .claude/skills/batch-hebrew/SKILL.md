@@ -72,7 +72,7 @@ npx vitest run tests/unit/hebrew-comprehension-emilia-bank.test.ts
 
 - `ROADMAP.md` — כמה פריטים יש עכשיו מתוך 60
 - `CHANGELOG.md` — רשומה ל-batch
-- `tasks/CORE-HEBREW-EMILIA-001/INSTRUCTIONS.md` — סעיף
+- `tasks/active/CORE-HEBREW-EMILIA-001/INSTRUCTIONS.md` — סעיף
   "מצב התקדמות": המספר העדכני ומזהה הפריט הבא
 
 > **למה זה מודגש כך (2026-08-11):** השלב הזה נכתב כאן מההתחלה

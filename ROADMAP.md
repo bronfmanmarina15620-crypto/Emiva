@@ -52,10 +52,10 @@ Marina ביקשה **גישה לכולם, עם רישום דרך מייל של ה
 
 | סדר | משימה | מה זה | תוכנית |
 |---|---|---|---|
-| ~~1~~ | ✅ [LAUNCH-PUBLIC-001](tasks/LAUNCH-PUBLIC-001/INSTRUCTIONS.md) | **הושלם 2026-08-12** — האתר באוויר | ב-000 |
-| **2** 🟢 | [GENDER-INCLUSIVE-001](tasks/GENDER-INCLUSIVE-001/INSTRUCTIONS.md) | **הבא בתור** — האפליקציה מדברת גם לבנים | [📄](plans/GENDER-INCLUSIVE-001.md) |
-| **3** 🟢 | [ACCOUNTS-001](tasks/ACCOUNTS-001/INSTRUCTIONS.md) | **נפתחה 2026-08-21** — הורה במייל, ילדים תחתיה | [📄](plans/ACCOUNTS-001.md) |
-| **4** | [PUBLIC-READY-001](tasks/PUBLIC-READY-001/INSTRUCTIONS.md) | פרטיות, הסכמה, מחיקה, עו"ד | [📄](plans/PUBLIC-READY-001.md) |
+| ~~1~~ | ✅ [LAUNCH-PUBLIC-001](tasks/done/LAUNCH-PUBLIC-001/INSTRUCTIONS.md) | **הושלם 2026-08-12** — האתר באוויר | ב-000 |
+| **2** 🟢 | [GENDER-INCLUSIVE-001](tasks/active/GENDER-INCLUSIVE-001/INSTRUCTIONS.md) | **הבא בתור** — האפליקציה מדברת גם לבנים | [📄](plans/GENDER-INCLUSIVE-001.md) |
+| **3** 🟢 | [ACCOUNTS-001](tasks/active/ACCOUNTS-001/INSTRUCTIONS.md) | **נפתחה 2026-08-21** — הורה במייל, ילדים תחתיה | [📄](plans/ACCOUNTS-001.md) |
+| **4** | [PUBLIC-READY-001](tasks/active/PUBLIC-READY-001/INSTRUCTIONS.md) | פרטיות, הסכמה, מחיקה, עו"ד | [📄](plans/PUBLIC-READY-001.md) |
 
 🔗 **הכתובת החיה: [emiva.vercel.app](https://emiva.vercel.app)**
 
@@ -278,12 +278,12 @@ BL-002 נשאר 🟡 — נחסמה סיבה ידועה אחת. 839 → 846.
 | ~~CORE-HEBREW-EVELYN-001~~ | אוולין | ~~פוניקה + פענוח~~ | ❌ בוטל (שתי הבנות קוראות בשטף — ראי memory) |
 | **CORE-HEBREW-EVELYN-002** | אוולין | הבנת הנקרא: פסקה + 2 שאלות אמריקאיות, 5 דרגות (עובדתי → הסקה רב-שלבית) | ✅ יום 7 |
 | **CORE-HEBREW-EVELYN-003** | אוולין | הרחבת מאגר 30→60 + אנטי-חזרה ייחודי (טקסט לא חוזר עד שכל המאגר נוצל) | ✅ יום 8 |
-| **[CORE-HEBREW-EMILIA-001](tasks/CORE-HEBREW-EMILIA-001/INSTRUCTIONS.md)** | אמיליה | הבנה מתקדמת + טקסטים מאתגרים (30 מאמרים + 30 סיפורים, כיתה ד'-ה'). | ✅ **הושלם 2026-08-12** — 60/60, 6 סבבים, 12 בכל דרגה |
+| **[CORE-HEBREW-EMILIA-001](tasks/active/CORE-HEBREW-EMILIA-001/INSTRUCTIONS.md)** | אמיליה | הבנה מתקדמת + טקסטים מאתגרים (30 מאמרים + 30 סיפורים, כיתה ד'-ה'). | ✅ **הושלם 2026-08-12** — 60/60, 6 סבבים, 12 בכל דרגה |
 
 ### אנגלית (`MyLevel.docx §3.3`)
 | משימה | משתמשת | תוכן | סטטוס |
 |---|---|---|---|
-| **[CORE-ENGLISH-001](tasks/CORE-ENGLISH-001/INSTRUCTIONS.md)** | שתיהן | אוצר מילים בלבד (בלי phonics): A1 לאוולין + A2 לאמיליה, **100 מילים פר בת** (הורחב מ-50), רב-ברירה EN↔HE עם SRS קיים. | ✅ יום 9 (הורחב 2026-05-31) |
+| **[CORE-ENGLISH-001](tasks/done/CORE-ENGLISH-001/INSTRUCTIONS.md)** | שתיהן | אוצר מילים בלבד (בלי phonics): A1 לאוולין + A2 לאמיליה, **100 מילים פר בת** (הורחב מ-50), רב-ברירה EN↔HE עם SRS קיים. | ✅ יום 9 (הורחב 2026-05-31) |
 
 ---
 
@@ -317,7 +317,7 @@ BL-002 נשאר 🟡 — נחסמה סיבה ידועה אחת. 839 → 846.
 
 | פריט | משימה | הערות |
 |---|---|---|
-| יומן אילוף גור | **[FLAGSHIP-PUPPY-001](tasks/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** + **FLAGSHIP-PUPPY-002** | ✅ סקאפולד 2026-05-31; יושר ל-§6 במלואו 2026-08-12 (4 שלבים · 3 הקשרים · אווה כעוזרת). ייצוא PDF **בוטל** — הספרון מופק ב-Canva בבית. הפיצ'ר הראשון של Emiva שאינו לולאת תרגול. |
+| יומן אילוף גור | **[FLAGSHIP-PUPPY-001](tasks/active/FLAGSHIP-PUPPY-001/INSTRUCTIONS.md)** + **FLAGSHIP-PUPPY-002** | ✅ סקאפולד 2026-05-31; יושר ל-§6 במלואו 2026-08-12 (4 שלבים · 3 הקשרים · אווה כעוזרת). ייצוא PDF **בוטל** — הספרון מופק ב-Canva בבית. הפיצ'ר הראשון של Emiva שאינו לולאת תרגול. |
 | דשבורד הורה | **DASHBOARD-PARENT-001** | ✅ MVP נשלח 2026-04-23. עבודת המשך (גרפי מגמה, drill-down לכל מיומנות, דייג'סט במייל כשיהיה שרת) נשארת ב-v3. |
 | הערכה חיצונית | **MEASUREMENT-EXTERNAL-TEST-001/002** | ✅ סליס 1 (יום 9) + ✅ **T7א (2026-08-12)** — כל 6 המיומנויות החשבוניות, 120 פריטים חדשים. נותר T7ב: 3 המיומנויות המילוליות (עבודת תוכן). |
 | תצוגת תוכנית שבועית | ✅ **PLAN-WEEKLY-001** (2026-08-12) | מסך `/plan` — לוח §7 מותאם לגיל, היום הנוכחי מודגש. **בלי סימון-בוצע**: §7 קובע *"מתווה, לא תוכנית ברזל"*. |
@@ -393,29 +393,29 @@ BL-002 נשאר 🟡 — נחסמה סיבה ידועה אחת. 839 → 846.
 
 | משימה | תוצאה |
 |---|---|
-| [CORE-HEBREW-EVELYN-002](tasks/CORE-HEBREW-EVELYN-002/INSTRUCTIONS.md) | מסלול הבנת הנקרא בעברית לאוולין — מיומנות חדשה `hebrew_comprehension`. 30 פריטים (פסקה + 2 שאלות אמריקאיות, 4 אפשרויות לכל אחת, 5 דרגות מעובדתי עד הסקה רב-שלבית). דילוג מודע על פוניקה (CORE-HEBREW-EVELYN-001 בוטל — הבנות קוראות בשטף). דף הסשן עוקב currentQuestionIndex ועובר Q1→Q2 על אותו טקסט. סה"כ: 322→336 טסטים עוברים. |
+| [CORE-HEBREW-EVELYN-002](tasks/done/CORE-HEBREW-EVELYN-002/INSTRUCTIONS.md) | מסלול הבנת הנקרא בעברית לאוולין — מיומנות חדשה `hebrew_comprehension`. 30 פריטים (פסקה + 2 שאלות אמריקאיות, 4 אפשרויות לכל אחת, 5 דרגות מעובדתי עד הסקה רב-שלבית). דילוג מודע על פוניקה (CORE-HEBREW-EVELYN-001 בוטל — הבנות קוראות בשטף). דף הסשן עוקב currentQuestionIndex ועובר Q1→Q2 על אותו טקסט. סה"כ: 322→336 טסטים עוברים. |
 
 ### יום 6 (2026-04-27)
 
 | משימה | תוצאה |
 |---|---|
-| [MATH-EVELYN-MONEY-001](tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md) | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` של בת 7–8. 60 פריטים חדשים בעברית (30 לכל מאגר, 6 לכל דרגה), שדה `context`+`explanation` אופציונלי על AddSubItem/MultItem, `selectNextItem` עם סינון הקשר, חיווט 3-מ-5 בדף הסשן, רינדור עברי לפריטי money. נאמן ל-MyLevel §3.1+§5.4. סה"כ: 306→322 טסטים עוברים. |
+| [MATH-EVELYN-MONEY-001](tasks/done/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md) | ערבוב 3-מ-5 פריטי בעיות-כסף בתוך `add_sub_100` ו-`multiplication` של בת 7–8. 60 פריטים חדשים בעברית (30 לכל מאגר, 6 לכל דרגה), שדה `context`+`explanation` אופציונלי על AddSubItem/MultItem, `selectNextItem` עם סינון הקשר, חיווט 3-מ-5 בדף הסשן, רינדור עברי לפריטי money. נאמן ל-MyLevel §3.1+§5.4. סה"כ: 306→322 טסטים עוברים. |
 
 ### יום 5 (2026-04-23)
 
 | משימה | תוצאה |
 |---|---|
-| [DASHBOARD-PARENT-001](tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md) | MVP דשבורד הורה: PIN + math-gate, verdict לכל בת, שורת פעולה בהזמנה אוטונומית, סיבה אפשרית, אריחי-מיומנות, חיווי wheel-spinning, פתק אמונה שבועי, דייג'סט שבועי. ADR-003 + כלל guardrails. שיפורי V1.1: תגית kind לפתק אמונה, אזהרת מדגם קטן, מטריקת דקות שבועיות, חץ מגמה, נקודת תזכורת. |
+| [DASHBOARD-PARENT-001](tasks/done/DASHBOARD-PARENT-001/INSTRUCTIONS.md) | MVP דשבורד הורה: PIN + math-gate, verdict לכל בת, שורת פעולה בהזמנה אוטונומית, סיבה אפשרית, אריחי-מיומנות, חיווי wheel-spinning, פתק אמונה שבועי, דייג'סט שבועי. ADR-003 + כלל guardrails. שיפורי V1.1: תגית kind לפתק אמונה, אזהרת מדגם קטן, מטריקת דקות שבועיות, חץ מגמה, נקודת תזכורת. |
 
 ### יום 4 (2026-04-22)
 
 | משימה | תוצאה |
 |---|---|
-| [MATH-GRADUATION-001](tasks/MATH-GRADUATION-001/INSTRUCTIONS.md) | קריטריון graduation של מיומנות: 20 נכון-בראשון × ≥2 סשנים × ≥24 שעות מרווח. UI + telemetry חד-פעמי + סנכרון parent-guide. |
-| [MATH-BAT9-002](tasks/MATH-BAT9-002/INSTRUCTIONS.md) | מיומנות `ops_1000`: מאגר 30 פריטים ב-5 רמות (3-ספרות ± 1/2/3-ספרות). routing אוטומטי אחרי graduation של `fractions_intro`. |
-| [MATH-EVELYN-MULT-001](tasks/MATH-EVELYN-MULT-001/INSTRUCTIONS.md) | מיומנות `multiplication`: מאגר 30 פריטים, לוחות 2–10, חשיפות CPA מבוססות-עוגן (×2 הכפלה, ×5 חצי-×10, טריק ×9). routing אוטומטי אחרי graduation של `add_sub_100`. |
-| [MATH-BAT9-003](tasks/MATH-BAT9-003/INSTRUCTIONS.md) | מיומנות `long_division`: מאגר 60 פריטים ב-5 רמות, בלי שאריות, הסבר CPA עם אימות הכפלה. routing אוטומטי אחרי graduation של `ops_1000`. |
-| [MATH-EMILIA-BARMODELS-001](tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md) | מיומנות `bar_models`: 30 בעיות מילוליות בעברית עם דיאגרמות bar בסגנון סינגפור (SVG). part-whole, השוואה, דו-שלבי, ויחס. routing אוטומטי אחרי graduation של `long_division`. |
+| [MATH-GRADUATION-001](tasks/done/MATH-GRADUATION-001/INSTRUCTIONS.md) | קריטריון graduation של מיומנות: 20 נכון-בראשון × ≥2 סשנים × ≥24 שעות מרווח. UI + telemetry חד-פעמי + סנכרון parent-guide. |
+| [MATH-BAT9-002](tasks/done/MATH-BAT9-002/INSTRUCTIONS.md) | מיומנות `ops_1000`: מאגר 30 פריטים ב-5 רמות (3-ספרות ± 1/2/3-ספרות). routing אוטומטי אחרי graduation של `fractions_intro`. |
+| [MATH-EVELYN-MULT-001](tasks/done/MATH-EVELYN-MULT-001/INSTRUCTIONS.md) | מיומנות `multiplication`: מאגר 30 פריטים, לוחות 2–10, חשיפות CPA מבוססות-עוגן (×2 הכפלה, ×5 חצי-×10, טריק ×9). routing אוטומטי אחרי graduation של `add_sub_100`. |
+| [MATH-BAT9-003](tasks/done/MATH-BAT9-003/INSTRUCTIONS.md) | מיומנות `long_division`: מאגר 60 פריטים ב-5 רמות, בלי שאריות, הסבר CPA עם אימות הכפלה. routing אוטומטי אחרי graduation של `ops_1000`. |
+| [MATH-EMILIA-BARMODELS-001](tasks/done/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md) | מיומנות `bar_models`: 30 בעיות מילוליות בעברית עם דיאגרמות bar בסגנון סינגפור (SVG). part-whole, השוואה, דו-שלבי, ויחס. routing אוטומטי אחרי graduation של `long_division`. |
 | **הרחבת מאגרים + ריכוך adaptive + anti-repeat** | כל 4 המאגרים הורחבו 30→60 (fractions 26→60). התאמת קושי עם סבולת ±1. סשנים זוכרים היסטוריית פריטים לכל מיומנות כדי להימנע מחזרות קרובות. |
 | **מחיקת פרופיל** | כפתור ✕ בדף הבית; מנקה את כל מצב mastery/telemetry/graduation של הפרופיל שנמחק. בדיקת גיל הוקשחה ל-7–10. |
 
@@ -423,9 +423,9 @@ BL-002 נשאר 🟡 — נחסמה סיבה ידועה אחת. 839 → 846.
 
 | משימה | תוצאה |
 |---|---|
-| [MATH-MVP-001](tasks/MATH-MVP-001/INSTRUCTIONS.md) | Scaffold + loop של Model A לאוולין, חיבור/חיסור עד 100 |
-| [UI-NEO-MONTESSORI-001](tasks/UI-NEO-MONTESSORI-001/INSTRUCTIONS.md) | פלטת Neo-Montessori, Heebo + Rubik, MasteryJar, קונפטי |
-| [MATH-PROFILES-001](tasks/MATH-PROFILES-001/INSTRUCTIONS.md) | בידוד לכל פרופיל |
+| [MATH-MVP-001](tasks/done/MATH-MVP-001/INSTRUCTIONS.md) | Scaffold + loop של Model A לאוולין, חיבור/חיסור עד 100 |
+| [UI-NEO-MONTESSORI-001](tasks/done/UI-NEO-MONTESSORI-001/INSTRUCTIONS.md) | פלטת Neo-Montessori, Heebo + Rubik, MasteryJar, קונפטי |
+| [MATH-PROFILES-001](tasks/done/MATH-PROFILES-001/INSTRUCTIONS.md) | בידוד לכל פרופיל |
 | שכבת פדגוגיה | retry של 3 ניסיונות + הסברי CPA + טון growth-mindset |
 | ברוכה הבאה + ברכות | ברכות בעברית מודעות-זמן ורציפות |
 | מערכת backlog של 4 שכבות | BACKLOG + evals + telemetry + FEEDBACK-LOG |
@@ -439,7 +439,7 @@ BL-002 נשאר 🟡 — נחסמה סיבה ידועה אחת. 839 → 846.
 - **שבועית:** בדקי ש-**עכשיו** ו-**הבא** עדכניים. הזיזי פריטים שהתיישנו.
 - **כשמשימה עולה:** בוצע + CHANGELOG + weeknote.
 - **בזמן דחייה:** → אחר כך (עם טריגר) + שיקוף ב-`tasks/BACKLOG.md`.
-- **בהתחלת מסלול הבא:** המירי 🔲 *מתוכנן* ל-**עכשיו** על ידי יצירת `tasks/<TASK-ID>/INSTRUCTIONS.md`.
+- **בהתחלת מסלול הבא:** המירי 🔲 *מתוכנן* ל-**עכשיו** על ידי יצירת `tasks/active/<TASK-ID>/INSTRUCTIONS.md`.
 - פריטים מסומנים 🔲 הם מחויבויות טווח בלי מפרט. הם בתוכנית אך עדיין לא פורקו. מפרטים נכתבים כשהמשימה נכנסת ל-**הבא**.
 
 *ראי גם: [tasks/BACKLOG.md](tasks/BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [docs/devlog/](docs/devlog/) · [docs/adr/](docs/adr/) · [docs/parent-guide.md](docs/parent-guide.md).*

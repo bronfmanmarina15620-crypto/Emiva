@@ -843,7 +843,7 @@ Marina 21.8).
 |---|---|
 | `docs/adr/004-...md` (חדש) | הוסף: שליחת מייל ב-Gmail SMTP · ההיקף האמיתי (~161) · הראיה מ-`virtual-school` |
 | `ROADMAP.md` | המספר *"110–130"* — **נכון**, לא לתקן (התיקון-לתיקון) |
-| `tasks/ACCOUNTS-001/INSTRUCTIONS.md` | *"52 קובצי בדיקה"* → **29** · ההיקף נשאר |
+| `tasks/active/ACCOUNTS-001/INSTRUCTIONS.md` | *"52 קובצי בדיקה"* → **29** · ההיקף נשאר |
 | `plans/ACCOUNTS-001.md` | להחליף בגרסה המעודכנת מכאן |
 | `CHANGELOG.md` | לתקן את פסקת ההיקף |
 | `tasks/BACKLOG.md` | להוסיף: נגישות מלאה · דומיין · Service Worker |
@@ -859,7 +859,7 @@ Marina 21.8).
 - `ROADMAP.md` — ACCOUNTS-001 מ"ממתין" ל"עכשיו"; BL-014 (תנאי ההמתנה)
   מסומן כמבוטל בהכרעת Marina.
 - `CHANGELOG.md` · `tasks/BACKLOG.md` (הורים גרושים · הדומיין ·
-  נגישות מלאה) · `tasks/ACCOUNTS-001/INSTRUCTIONS.md` ·
+  נגישות מלאה) · `tasks/active/ACCOUNTS-001/INSTRUCTIONS.md` ·
   `plans/ACCOUNTS-001.md`.
 - ✅ **בוצע 22.8 — המספרים אומתו והמסמכים עודכנו.** בשלב ביניים
   נכתב כאן שההערכה *"110–130"* מנופחת ושהאמת היא 61. **הסקירה

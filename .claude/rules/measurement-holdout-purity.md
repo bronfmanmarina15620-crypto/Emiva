@@ -85,5 +85,5 @@ mastery לא יזוהה, ו-passed יכול להיות שינון.
 
 - [docs/parent-guide.md §6](../../docs/parent-guide.md) — תיאור
   ההורה־המופנה של המבחן.
-- [tasks/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md](../../tasks/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md)
+- [tasks/done/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md](../../tasks/done/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md)
 - [CLAUDE.md §כלל מדידה](../../CLAUDE.md)

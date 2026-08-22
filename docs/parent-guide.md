@@ -752,7 +752,7 @@ Bark (weekly email anatomy) · Nanit (verdict framing) · Greenlight
 (dual view).
 
 ADR מפורט: [docs/adr/003-parent-dashboard-design.md](adr/003-parent-dashboard-design.md).
-פרוטוקול מחקר מלא: [tasks/DASHBOARD-PARENT-001/research.md](../tasks/DASHBOARD-PARENT-001/research.md).
+פרוטוקול מחקר מלא: [tasks/done/DASHBOARD-PARENT-001/research.md](../tasks/done/DASHBOARD-PARENT-001/research.md).
 
 ### חבילות חזרה
 

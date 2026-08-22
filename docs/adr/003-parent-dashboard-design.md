@@ -4,7 +4,7 @@
 - **סטטוס:** מאושר
 - **אחראית:** Marina
 - **מחליף:** —
-- **קשור:** [CLAUDE.md §כלל מדידה](../../CLAUDE.md), [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md)
+- **קשור:** [CLAUDE.md §כלל מדידה](../../CLAUDE.md), [tasks/done/DASHBOARD-PARENT-001/research.md](../../tasks/done/DASHBOARD-PARENT-001/research.md)
 
 ## הקשר
 
@@ -15,7 +15,7 @@
 היא עיוורת.
 
 קריאה לזה "דשבורד הורה" רומזת לדפוס מובן היטב. ארבעה סבבי
-מחקר (מתועדים ב-`tasks/DASHBOARD-PARENT-001/research.md`) הראו שהדפוס
+מחקר (מתועדים ב-`tasks/done/DASHBOARD-PARENT-001/research.md`) הראו שהדפוס
 אינו מובן היטב — רוב דשבורדי ההורה ב-edtech לא מזיזים מדידית
 תוצאות למידה (Kaliisa et al. 2024 LAK review), וספרות אמפירית
 קטנה אבל גדלה מראה שחלק מהעיצובים *פוגעים* בתוצאות על ידי השראת
@@ -26,7 +26,7 @@
 
 ## החלטה
 
-לבנות את ה-MVP שצוין ב-[tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md)
+לבנות את ה-MVP שצוין ב-[tasks/done/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/done/DASHBOARD-PARENT-001/INSTRUCTIONS.md)
 עם עקרונות העיצוב הבאים מקובעים כאילוצים:
 
 ### דפוסים נעולים
@@ -159,8 +159,8 @@ Eval ב-`evals/backlog/dashboard-followthrough.eval.ts` נהפך לאדום
 
 ## הפניות
 
-- [tasks/DASHBOARD-PARENT-001/research.md](../../tasks/DASHBOARD-PARENT-001/research.md) — log ארבעת הסבבים המלא
-- [tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/DASHBOARD-PARENT-001/INSTRUCTIONS.md) — מפרט המימוש
+- [tasks/done/DASHBOARD-PARENT-001/research.md](../../tasks/done/DASHBOARD-PARENT-001/research.md) — log ארבעת הסבבים המלא
+- [tasks/done/DASHBOARD-PARENT-001/INSTRUCTIONS.md](../../tasks/done/DASHBOARD-PARENT-001/INSTRUCTIONS.md) — מפרט המימוש
 - [.claude/rules/parent-dashboard-guardrails.md](../../.claude/rules/parent-dashboard-guardrails.md) — אכיפה ברמת הקוד
 - [CLAUDE.md §כלל מדידה](../../CLAUDE.md)
 - [CLAUDE.md §טון](../../CLAUDE.md)

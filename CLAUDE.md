@@ -75,14 +75,21 @@ Mastery Gating + Adaptive Difficulty + Spaced Repetition. בסיס של מדע
 פורמט תגובה.
 
 אל תשים כאן: משימות ספציפיות, briefים של פיצ'רים, ניסויים, או כל דבר
-שמשתנה בין שיחות. אלה נכנסים ל-`tasks/<TASK-ID>/INSTRUCTIONS.md`.
+שמשתנה בין שיחות. אלה נכנסים ל-`tasks/active/<TASK-ID>/INSTRUCTIONS.md`.
 
 ## מפת הרפו — מה שלא מובן מאליו
 
 `src/app` `src/lib` `src/content` `tests` `docs` — לפי השם.
 מה שכן צריך הסבר:
 
-- `tasks/<TASK-ID>/` — INSTRUCTIONS.md + ארטיפקטים למשימה
+- `tasks/active/<TASK-ID>/` — INSTRUCTIONS.md + ארטיפקטים למשימה **פתוחה**.
+  משימה חדשה נולדת כאן. `tasks/done/<TASK-ID>/` — משימות סגורות.
+  **בסגירה מזיזים את התיקייה ל-`done/` באותו commit** שמעדכן
+  CHANGELOG/ROADMAP (תחנת §סגירה ב-TASK-CHECKLIST). שלושת הקבצים
+  הרופפים — BACKLOG.md, TASK-CHECKLIST.md, FEEDBACK-LOG.md —
+  נשארים ברמה העליונה של `tasks/`.
+  *(סודר 2026-08-22: 35 תיקיות בשורה שטוחה אחת הפכו את "מה פתוח
+  עכשיו?" לשאלה שדורשת לפתוח קבצים אחד-אחד.)*
 - `plans/<TASK-ID>.md` — תוכניות ביצוע. **המקום היחיד.** מצב-תכנון
   של הכלי כותב כברירת-מחדל לתיקייה גלובלית מחוץ לריפו, עם שם אקראי —
   קובץ ש-Marina לא רואה ושלא עולה לגיט (קרה 2026-08-10). בסיום תכנון:
@@ -229,4 +236,4 @@ Claude אינו מדלג בשקט על הצ'קים האלה. הוא או מבצ�
 - קונבנציה repo-wide משתנה
 
 אם הכלל תלוי-נתיב → `.claude/rules/`.
-אם הכלל תלוי-משימה → `tasks/<TASK-ID>/INSTRUCTIONS.md`.
+אם הכלל תלוי-משימה → `tasks/active/<TASK-ID>/INSTRUCTIONS.md`.

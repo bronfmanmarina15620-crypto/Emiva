@@ -265,7 +265,7 @@ Marina החליטה לפתוח לבנים. בעברית אין דרך לעקוף
 5. מאגרי הבנת-הנקרא **לא השתנו** — 16 המופעים שם הם סיפורים (§4).
 6. `npm run judge:content` נקי.
 
-**המשימה:** [tasks/GENDER-INCLUSIVE-001/INSTRUCTIONS.md](../tasks/GENDER-INCLUSIVE-001/INSTRUCTIONS.md)
+**המשימה:** [tasks/active/GENDER-INCLUSIVE-001/INSTRUCTIONS.md](../tasks/active/GENDER-INCLUSIVE-001/INSTRUCTIONS.md)
 
 ---
 

@@ -74,4 +74,4 @@ type Item = {
 | מאגר פריטים מונוטוני | ≥ 6 פריטים לכל רמת קושי, אופרציות חיבור וחיסור מעורבבות |
 
 ## הגדרת DoD (לפי INSTRUCTIONS)
-ראה `tasks/MATH-MVP-001/INSTRUCTIONS.md §הגדרת DoD`.
+ראה `tasks/done/MATH-MVP-001/INSTRUCTIONS.md §הגדרת DoD`.

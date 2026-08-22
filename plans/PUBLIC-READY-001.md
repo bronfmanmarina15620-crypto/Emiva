@@ -109,4 +109,4 @@
 - **חוסם:** `ACCOUNTS-001` — אין טעם במדיניות לפני שיש מידע שנשמר.
 - **דורש:** ייעוץ משפטי (החלטת Marina).
 
-**המשימה:** [tasks/PUBLIC-READY-001/INSTRUCTIONS.md](../tasks/PUBLIC-READY-001/INSTRUCTIONS.md)
+**המשימה:** [tasks/active/PUBLIC-READY-001/INSTRUCTIONS.md](../tasks/active/PUBLIC-READY-001/INSTRUCTIONS.md)

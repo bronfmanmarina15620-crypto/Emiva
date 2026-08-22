@@ -5,7 +5,7 @@
 - **אחראית:** Marina
 - **מחליף:** —
 - **קשור:** [plans/ACCOUNTS-001.md](../../plans/ACCOUNTS-001.md),
-  [tasks/ACCOUNTS-001/INSTRUCTIONS.md](../../tasks/ACCOUNTS-001/INSTRUCTIONS.md),
+  [tasks/active/ACCOUNTS-001/INSTRUCTIONS.md](../../tasks/active/ACCOUNTS-001/INSTRUCTIONS.md),
   [ADR-003 §אילוצי טווח](003-parent-dashboard-design.md)
 
 ## הקשר

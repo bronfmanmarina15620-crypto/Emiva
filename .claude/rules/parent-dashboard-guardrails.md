@@ -64,6 +64,6 @@
 
 ## הפניות
 
-- [log מחקר DASHBOARD-PARENT-001](../../tasks/DASHBOARD-PARENT-001/research.md)
+- [log מחקר DASHBOARD-PARENT-001](../../tasks/done/DASHBOARD-PARENT-001/research.md)
 - [ADR-003 — עיצוב דשבורד הורה](../../docs/adr/003-parent-dashboard-design.md)
 - [parent-guide.md](../../docs/parent-guide.md) — מסמך ניראה-למשתמשת לחוקים האלה

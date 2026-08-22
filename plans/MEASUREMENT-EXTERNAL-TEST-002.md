@@ -3,7 +3,7 @@
 **מזהה משימה:** MEASUREMENT-EXTERNAL-TEST-002
 **נכתב:** 2026-08-12 · **סטטוס:** 📋 תכנון בלבד — **לא מומש**
 **מקור סמכות:** `MyLevel.docx` §11.3 · `plans/ALIGN-MYLEVEL-001.md` §T7
-· `tasks/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md` §מחוץ לטווח
+· `tasks/done/MEASUREMENT-EXTERNAL-TEST-001/INSTRUCTIONS.md` §מחוץ לטווח
 
 > ⚠️ **קובץ תכנון בלבד.** לא נכתבה שורת קוד.
 
