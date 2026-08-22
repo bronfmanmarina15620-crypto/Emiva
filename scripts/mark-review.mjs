@@ -82,7 +82,12 @@ let sha = "unknown";
 let files = [];
 try {
   sha = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
-  files = execSync("git diff --cached --name-only", { encoding: "utf8" })
+  // `-c core.quotePath=false` — חייב להיות **זהה** לזה שבהוק, אחרת
+  // שם לא-ASCII נרשם כאן בצורה אחת ונבדק שם בצורה אחרת, והכיסוי
+  // לעולם לא יתאים. ראי ההערה ב-`require-review.sh`.
+  files = execSync("git -c core.quotePath=false diff --cached --name-only", {
+    encoding: "utf8",
+  })
     .split("\n")
     .map((s) => s.trim())
     .filter(Boolean);

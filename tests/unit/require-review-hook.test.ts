@@ -329,6 +329,76 @@ describe("שער-הסקירה — חילוץ הפקודה מהמטען", () => {
   it("פקודה שאינה git commit עוברת חופשי", () => {
     expect(runRaw({ tool_input: { command: "npm test" } }, [SRC])).toBe(0);
   });
+
+  /**
+   * 🔴 fail-closed כש-node אינו זמין (נמצא 2026-08-22 בהרצה הראשונה
+   * של `emiva-reviewer`, הסוכן הייעודי).
+   *
+   * חילוץ-הפקודה עבר מ-grep לפרסור JSON — שיפור בדיוק, אבל הוא
+   * הכניס **תלות בכלי חיצוני**. בלי node המשתנה יוצא ריק, מחרוזת
+   * ריקה אינה מכילה "git commit", והשער היה **נעלם בשקט**. זהו
+   * מצב-הכשל שההוק נולד למנוע, בגלגול הרביעי — והפעם הוא נכנס
+   * דווקא דרך תיקון של אותו הוק.
+   *
+   * הכיוון הבטוח כשכלי חסר: **לחסום ולהסביר**, לא לוותר.
+   */
+  it("‏node שבור אינו מכבה את השער", () => {
+    const fakeBin = fs.mkdtempSync(path.join(os.tmpdir(), "emiva-nonode-"));
+    tmpRoots.push(fakeBin);
+    const shim = path.join(fakeBin, "node");
+    fs.writeFileSync(shim, "#!/bin/sh\nexit 127\n");
+    fs.chmodSync(shim, 0o755);
+
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "emiva-hook-nonode-"));
+    tmpRoots.push(dir);
+    execFileSync("git", ["init", "-q"], { cwd: dir });
+    const abs = path.join(dir, SRC);
+    fs.mkdirSync(path.dirname(abs), { recursive: true });
+    fs.writeFileSync(abs, "x\n");
+    execFileSync("git", ["add", "-f", SRC], { cwd: dir });
+
+    let status = 0;
+    try {
+      execFileSync("bash", [HOOK], {
+        cwd: dir,
+        input: JSON.stringify({ tool_input: { command: "git commit -m x" } }),
+        encoding: "utf8",
+        env: { ...process.env, PATH: `${fakeBin}${path.delimiter}${process.env.PATH}`, CLAUDE_PROJECT_DIR: dir },
+        timeout: 60_000,
+      });
+    } catch (e) {
+      status = (e as { status?: number }).status ?? 1;
+    }
+    expect(status, "השער נעלם בשקט כש-node אינו זמין").toBe(2);
+  });
+});
+
+/**
+ * 🔴 שמות-קבצים לא-ASCII (נמצא 2026-08-22, `emiva-reviewer`).
+ *
+ * `core.quotePath` דלוק כברירת-מחדל, ולכן git מחזיר שם עברי **בתוך
+ * מרכאות ובקידוד-octal**: `"src/lib/\327\236..."`. המרכאה הפותחת
+ * שוברת את העוגן `^src/`, ה-grep מחזיר 0, והשער **נכבה בשקט על
+ * הקומיט כולו** — לא רק על הקובץ העברי.
+ *
+ * בריפו שכל התיעוד בו בעברית ויש בו `src/content/hebrew/`, זו פצצה
+ * מתוזמנת. הגלגול הרביעי של דפוס הכשל-השקט אחרי `^tasks/[A-Z]`.
+ */
+describe("שער-הסקירה — שמות לא-ASCII", () => {
+  const HEB = "src/lib/מילון.ts";
+
+  it("שם-קובץ עברי אינו מכבה את השער", () => {
+    const res = runHook({ staged: [HEB] });
+    expect(res.status, "שם עברי החליק מתחת לשער").toBe(2);
+  });
+
+  it("שם עברי מכוסה ברשומה עובר — הרשומה וההוק מסכימים על הצורה", () => {
+    const res = runHook({
+      staged: [HEB],
+      markerBody: JSON.stringify({ findings: 0, waived: false, files: [HEB] }),
+    });
+    expect(res.status).toBe(0);
+  });
 });
 
 describe("שער-הסקירה — היקף הקוד המוגן", () => {

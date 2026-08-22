@@ -59,6 +59,17 @@ cmd=$(printf '%s' "$input" | node -e '
   });
 ' 2>/dev/null)
 
+# 🔴 fail-closed: אם node אינו זמין, `cmd` יוצא ריק — והשער היה
+# **נעלם בשקט**, כי מחרוזת ריקה אינה מכילה "git commit" ולכן
+# `exit 0`. זהו בדיוק מצב-הכשל שההוק נולד למנוע, בגלגול רביעי
+# (נמצא 2026-08-22 בהרצה הראשונה של `emiva-reviewer`).
+#
+# נפילה-לאחור ל-grep: פחות מדויק מפרסור JSON — ולכן הוא **לא**
+# ברירת-המחדל — אבל הכיוון הבטוח כשהכלי חסר הוא לבדוק, לא לוותר.
+if [ -z "$cmd" ]; then
+  cmd=$(printf '%s' "$input" | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | tail -1)
+fi
+
 # רלוונטי רק ל-git commit.
 case "$cmd" in
   *"git commit"*) ;;
@@ -72,7 +83,16 @@ HOOK_DIR=$(cd "$(dirname "$0")" && pwd)
 cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || cd "$HOOK_DIR/../.." || exit 0
 
 # מה מוכן ל-commit?
-staged=$(git diff --cached --name-only 2>/dev/null)
+#
+# 🔴 `-c core.quotePath=false` — בלעדיו git מחזיר שם לא-ASCII **בתוך
+# מרכאות ובקידוד-octal**: `"src/lib/\327\236..."`. המרכאה הפותחת
+# שוברת את העוגן `^src/`, ה-grep מחזיר 0, והשער **נכבה בשקט** על
+# הקומיט כולו.
+#
+# בריפו שכל התיעוד בו בעברית ויש בו `src/content/hebrew/`, זו לא
+# תיאוריה. נמצא 2026-08-22 בהרצה הראשונה של `emiva-reviewer` —
+# הגלגול הרביעי של אותו דפוס כשל-שקט.
+staged=$(git -c core.quotePath=false diff --cached --name-only 2>/dev/null)
 [ -n "$staged" ] || exit 0
 
 # קובץ-משימה: tasks/<ID>/INSTRUCTIONS.md או tasks/<active|done>/<ID>/INSTRUCTIONS.md.
