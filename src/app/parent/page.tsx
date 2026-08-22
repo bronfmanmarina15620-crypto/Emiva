@@ -179,7 +179,7 @@ export default function ParentEntry() {
             {title}
           </h1>
           <p className="text-sm text-warm-muted">
-            אל תפתחי את הדף הזה כשהילדה ליד המסך.
+            אל תפתחי את הדף הזה כשהילד או הילדה ליד המסך.
           </p>
         </div>
 

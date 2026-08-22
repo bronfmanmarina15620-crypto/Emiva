@@ -40,7 +40,7 @@ describe("<ParentDashboard> — empty state", () => {
       expect(screen.getByText("האזור להורים")).toBeInTheDocument(),
     );
     expect(
-      screen.getByText(/עוד לא נוספו ילדות/),
+      screen.getByText(/עוד לא נוספו פרופילים/),
     ).toBeInTheDocument();
   });
 });
@@ -52,10 +52,10 @@ describe("<ParentDashboard> — with profiles", () => {
     createProfile("Emilia", 9);
   });
 
-  it("renders a card per daughter", async () => {
+  it("renders a card per child", async () => {
     render(<ParentDashboard />);
     await screen.findAllByText(/Evelyn|Emilia/);
-    // Names appear in both weekly digest and the card header → 2 per daughter
+    // Names appear in both weekly digest and the card header → 2 per child
     expect(screen.getAllByText("Evelyn").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Emilia").length).toBeGreaterThanOrEqual(1);
   });

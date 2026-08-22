@@ -276,7 +276,7 @@ export function computeActionLine(
     return {
       trigger: "wheel_spin",
       skill: s.skill,
-      text: `היום את יכולה להציע ל${name} לחזור על ${s.skillHebrew}, ולתת לה לבחור אם זה רגע טוב.`,
+      text: `היום את יכולה להציע ל${name} לחזור על ${s.skillHebrew}, ולתת לבחור אם זה רגע טוב.`,
     };
   }
 
@@ -287,7 +287,7 @@ export function computeActionLine(
     return {
       trigger: "inactivity",
       skill: null,
-      text: `היום את יכולה להזמין את ${name} לסשן קצר, ולתת לה לבחור נושא.`,
+      text: `היום את יכולה להזמין את ${name} לסשן קצר, ולתת לבחור נושא.`,
     };
   }
 
@@ -322,7 +322,7 @@ export function computePossibleCause(
   const cause = POSSIBLE_CAUSE_HEBREW[skill];
   if (!cause) return null;
   void now;
-  return `אם היא מתקשה, סביר שהסיבה היא ${cause}.`;
+  return `אם יש קושי, סביר שהסיבה היא ${cause}.`;
 }
 
 export function computeBeliefComparison(

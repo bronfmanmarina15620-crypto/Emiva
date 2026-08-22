@@ -89,7 +89,7 @@ type PuppySummary = {
   learnedCommands: number;
 };
 
-type DaughterView = {
+type ChildView = {
   profile: Profile;
   verdict: Verdict;
   action: ActionLine;
@@ -147,10 +147,10 @@ const COVERAGE_DOT: Record<CoverageRow["status"], string> = {
 };
 
 const COVERAGE_STATUS_LABEL: Record<CoverageRow["status"], string> = {
-  not_started: "לא התחילה",
+  not_started: "טרם נפתחה",
   in_progress: "בתהליך",
-  mastered: "שלטה",
-  mastered_review: "שלטה — כדאי לרענן",
+  mastered: "שליטה",
+  mastered_review: "שליטה — כדאי לרענן",
 };
 
 const TREND_LABEL: Record<Trend, string> = {
@@ -193,7 +193,7 @@ function formatDuration(ms: number): string {
   return `${h}:${String(rm).padStart(2, "0")} שע׳`;
 }
 
-function buildView(profile: Profile): DaughterView {
+function buildView(profile: Profile): ChildView {
   const verdict = computeVerdict(profile);
   const action = computeActionLine(profile);
   const cause = computePossibleCause(profile, verdict);
@@ -263,7 +263,7 @@ function buildView(profile: Profile): DaughterView {
 
 export default function ParentDashboard() {
   const router = useRouter();
-  const [views, setViews] = useState<DaughterView[] | null>(null);
+  const [views, setViews] = useState<ChildView[] | null>(null);
   const [beliefDraft, setBeliefDraft] = useState<Record<string, string>>({});
   const [beliefKind, setBeliefKind] = useState<Record<string, BeliefKind>>({});
   const lastActiveRef = useRef<number>(Date.now());
@@ -371,7 +371,7 @@ export default function ParentDashboard() {
             האזור להורים
           </h1>
           <p className="text-sm text-warm-muted">
-            אל תפתחי את הדף הזה כשהילדה ליד המסך.
+            אל תפתחי את הדף הזה כשהילד או הילדה ליד המסך.
           </p>
         </div>
         <div className="flex gap-2">
@@ -408,7 +408,7 @@ export default function ParentDashboard() {
         </h2>
         {views.length === 0 && (
           <p className="text-warm-muted text-sm">
-            עוד לא נוספו ילדות. הוסיפי פרופיל בדף הבית.
+            עוד לא נוספו פרופילים. אפשר להוסיף פרופיל בדף הבית.
           </p>
         )}
         {views.map((v) => {
@@ -426,7 +426,7 @@ export default function ParentDashboard() {
               </p>
               {feelingsTotal > 0 && (
                 <p className="text-sm text-warm-muted">
-                  איך היה לה השבוע: {feelings.happy} 😊 · {feelings.ok} 😐 · {feelings.hard} 😟
+                  איך היה השבוע: {feelings.happy} 😊 · {feelings.ok} 😐 · {feelings.hard} 😟
                 </p>
               )}
               <p className="text-sm text-warm-dark mt-1">
@@ -702,7 +702,7 @@ function BackupSection() {
         שמירת גיבוי
       </h2>
       <p className="text-sm text-warm-muted leading-relaxed">
-        ההתקדמות של הבנות שמורה בדפדפן הזה בלבד. אם תנקי את היסטוריית
+        ההתקדמות שמורה בדפדפן הזה בלבד. אם תנקי את היסטוריית
         הדפדפן או תעברי למחשב אחר — היא תימחק. כדאי לשמור קובץ גיבוי
         מדי פעם.
       </p>
@@ -803,7 +803,7 @@ function PackSection({
       </ul>
       {activePackId && (
         <p className="text-xs text-warm-muted">
-          בזמן שהחבילה פעילה, הסשן הבא של הילדה ירוץ עם תרגילי החבילה במקום
+          בזמן שהחבילה פעילה, הסשן הבא ירוץ עם תרגילי החבילה במקום
           ראוטר הרגיל.
         </p>
       )}
@@ -816,7 +816,7 @@ function CoveragePicker({
   onPick,
   onAuto,
 }: {
-  view: DaughterView;
+  view: ChildView;
   onPick: (skill: Skill) => void;
   onAuto: () => void;
 }) {
@@ -938,7 +938,7 @@ function PuppySection({ summary }: { summary: PuppySummary }) {
         </div>
       )}
       <p className="text-xs text-warm-muted leading-relaxed">
-        זה היומן האישי שלה. את רואה כאן רק סיכום — לא אמורה לערוך.
+        זה יומן אישי. את רואה כאן רק סיכום — לא אמורה לערוך.
       </p>
     </section>
   );

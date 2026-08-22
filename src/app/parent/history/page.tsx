@@ -27,7 +27,7 @@ const RANGES: HistoryRange[] = [
   "month_30",
 ];
 
-type DaughterView = {
+type ChildView = {
   profile: Profile;
   summary: WindowSummary;
   perSkill: SkillRow[];
@@ -35,7 +35,7 @@ type DaughterView = {
   daily: DayPoint[];
 };
 
-function buildView(profile: Profile, range: HistoryRange): DaughterView {
+function buildView(profile: Profile, range: HistoryRange): ChildView {
   return {
     profile,
     summary: computeHistoryWindow(profile, range),
@@ -85,7 +85,7 @@ function dayLabel(date: string): string {
 export default function ParentHistoryPage() {
   const router = useRouter();
   const [range, setRange] = useState<HistoryRange>("month_30");
-  const [views, setViews] = useState<DaughterView[] | null>(null);
+  const [views, setViews] = useState<ChildView[] | null>(null);
   const lastActiveRef = useRef<number>(Date.now());
 
   const rebuild = useCallback((r: HistoryRange) => {
@@ -144,7 +144,7 @@ export default function ParentHistoryPage() {
             מבט אחורה
           </h1>
           <p className="text-sm text-warm-muted">
-            אל תפתחי את הדף הזה כשהילדה ליד המסך.
+            אל תפתחי את הדף הזה כשהילד או הילדה ליד המסך.
           </p>
         </div>
         <div className="flex gap-2">
@@ -191,7 +191,7 @@ export default function ParentHistoryPage() {
       {views.length === 0 && (
         <section className="max-w-3xl mx-auto bg-surface rounded-3xl shadow-soft p-6">
           <p className="text-warm-muted text-sm">
-            עוד לא נוספו ילדות. הוסיפי פרופיל בדף הבית.
+            עוד לא נוספו פרופילים. אפשר להוסיף פרופיל בדף הבית.
           </p>
         </section>
       )}

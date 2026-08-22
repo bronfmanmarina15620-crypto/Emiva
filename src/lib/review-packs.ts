@@ -38,7 +38,7 @@ export type ReviewPack = {
  *
  * The pack that existed here was one school's class-ד assessment review,
  * labelled with a specific child's name which renders on screen. Filtering by
- * exact name match served it to any family whose daughter shares that common
+ * exact name match served it to any family whose child shares that common
  * Hebrew name, and two code paths bypassed the filter entirely.
  *
  * ⚠️ **A runtime flag was not enough, and the build proved it.** The first fix

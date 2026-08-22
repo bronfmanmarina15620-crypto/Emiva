@@ -85,7 +85,7 @@ export default function ParentFoundationPage() {
     hydrate(entryFor(l, month));
   }, [router, month, hydrate]);
 
-  // guardrails §5 — האזור סגור כשהילדה נוכחת. אותו timeout כמו הדשבורד.
+  // guardrails §5 — האזור סגור כשהילד נוכח. אותו timeout כמו הדשבורד.
   useEffect(() => {
     function bump() {
       lastActiveRef.current = Date.now();
@@ -171,8 +171,8 @@ export default function ParentFoundationPage() {
           <RowCard
             emoji="😴"
             title="שינה"
-            question="האם שתיהן ישנות 9–11 שעות?"
-            hint="בת 7 בערך ב-20:30, בת 9 בערך ב-21:00. בלי מסכים שעה לפני."
+            question="האם כולם ישנים 9–11 שעות?"
+            hint="בגיל 7 בערך ב-20:30, בגיל 9 בערך ב-21:00. בלי מסכים שעה לפני."
           >
             <ChoiceRow
               options={SLEEP_OPTIONS}
@@ -186,11 +186,11 @@ export default function ParentFoundationPage() {
             emoji="📚"
             title="קריאה עצמאית"
             question="כמה ספרים סיימו החודש?"
-            hint="15–20 דקות כל לילה, ספר לבחירתן. לא ככלי ענישה."
+            hint="15–20 דקות כל לילה, ספר לבחירה אישית. לא ככלי ענישה."
           >
             <div className="space-y-3">
               {profiles.map((p) => (
-                <PerGirlChoice
+                <PerChildChoice
                   key={p.id}
                   name={p.name}
                   options={BOOKS_OPTIONS}
@@ -206,7 +206,7 @@ export default function ParentFoundationPage() {
             emoji="🌱"
             title="זמן ריק"
             question="האם היה יום ריק מוחלט בכל שבוע?"
-            hint="שעה ביום בלי מסך ובלי הוראה, ויום שלם ריק בשבוע. לא להציל אותן מהשעמום."
+            hint="שעה ביום בלי מסך ובלי הוראה, ויום שלם ריק בשבוע. לא להציל מהשעמום."
           >
             <ChoiceRow
               options={EMPTY_DAY_OPTIONS}
@@ -219,13 +219,13 @@ export default function ParentFoundationPage() {
           <RowCard
             emoji="🙂"
             title="אווירה"
-            question="האם הן שמחות בזמן הלמידה?"
-            hint="ההתרשמות שלך. למטה מופיע גם מה שהן עצמן דיווחו — כאינדיקציה, לא במקום."
+            question="האם יש שמחה בזמן הלמידה?"
+            hint="ההתרשמות שלך. למטה מופיע גם הדיווח העצמי — כאינדיקציה, לא במקום."
           >
             <div className="space-y-3">
               {profiles.map((p) => (
                 <div key={p.id} className="space-y-1">
-                  <PerGirlChoice
+                  <PerChildChoice
                     name={p.name}
                     options={MOOD_OPTIONS}
                     value={mood[p.id]}
@@ -241,7 +241,7 @@ export default function ParentFoundationPage() {
           <RowCard
             emoji="📈"
             title="התקדמות"
-            question="בת 7: עוברת רמה? בת 9: הפרויקט זז?"
+            question="גיל 7: יש מעבר רמה? גיל 9: הפרויקט זז?"
             hint="השורה היחידה שהאפליקציה כבר יודעת לבד — אין מה למלא."
           >
             <div className="space-y-2">
@@ -338,7 +338,7 @@ function ChoiceRow<T extends string>({
   );
 }
 
-function PerGirlChoice<T extends string>({
+function PerChildChoice<T extends string>({
   name,
   options,
   value,
@@ -358,9 +358,9 @@ function PerGirlChoice<T extends string>({
 }
 
 /**
- * מה שהבת עצמה דיווחה אחרי סשנים השבוע.
+ * מה שהילד עצמו דיווח אחרי סשנים השבוע (כל מגדר).
  * 🔴 מוצג **לצד** שאלת האווירה ולא במקומה: §11.2 שואל את ההורה,
- * וזה דיווח של הילדה. שתי שאלות שונות.
+ * וזה דיווח של הילד. שתי שאלות שונות.
  */
 function SelfReported({ profile }: { profile: Profile }) {
   const { feelings } = computeWeeklyDigest(profile);
@@ -368,13 +368,13 @@ function SelfReported({ profile }: { profile: Profile }) {
   if (total === 0) {
     return (
       <p className="text-xs text-warm-muted px-3">
-        אין דיווח שלה מהשבוע האחרון.
+        אין דיווח מהשבוע האחרון.
       </p>
     );
   }
   return (
     <p className="text-xs text-warm-muted px-3">
-      היא דיווחה השבוע: 😊 {feelings.happy} · 😐 {feelings.ok} · 😣{" "}
+      הדיווח השבוע: 😊 {feelings.happy} · 😐 {feelings.ok} · 😣{" "}
       {feelings.hard}
     </p>
   );

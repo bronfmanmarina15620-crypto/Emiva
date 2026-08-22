@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { hasPinSet } from "@/lib/parent-auth";
-import { loadProfiles, type Profile } from "@/lib/profiles";
+import {
+  addressFormOf,
+  loadProfiles,
+  type AddressForm,
+  type Profile,
+} from "@/lib/profiles";
 import {
   computeVerdict,
   MEASURABLE_SKILLS,
@@ -203,6 +208,26 @@ export default function MeasurementPage() {
   );
 }
 
+/**
+ * GENDER-INCLUSIVE-001 G5 — התסריט שההורה **מקריאה לילד**.
+ *
+ * זו אינה מחרוזת-ממשק להורה אלא דיבור אל הילד, ולכן היא **מגודרת
+ * לפי `addressForm` של הפרופיל** ואינה מנוטרלת — בדיוק כמו
+ * `greetings.ts`. ניטרול כאן ("לראות איפה הדברים עומדים") היה
+ * מקרר משפט שכל תפקידו להרגיע לפני מבחן.
+ *
+ * הצורה הניטרלית קיימת בשביל פרופיל שבחר "לא רוצה לומר", ולכן היא
+ * נשענת על עבר ורבים-מכלילים ("נעשה", "לראות") ולא על רבים-נקבה.
+ */
+const SCRIPT: Record<AddressForm, string> = {
+  feminine:
+    "בואי נעשה סיבוב מהיר — 10 שאלות, בלי רמזים, בלי ׳נסי שוב׳. רק לראות איפה את היום.",
+  masculine:
+    "בוא נעשה סיבוב מהיר — 10 שאלות, בלי רמזים, בלי ׳נסה שוב׳. רק לראות איפה אתה היום.",
+  neutral:
+    "נעשה סיבוב מהיר — 10 שאלות, בלי רמזים, בלי ׳ננסה שוב׳. רק לראות איפה הדברים עומדים היום.",
+};
+
 function PickStage({
   profiles,
   onStart,
@@ -221,7 +246,7 @@ function PickStage({
     return (
       <section className="max-w-3xl mx-auto bg-surface rounded-3xl shadow-soft p-6">
         <p className="text-warm-muted text-sm">
-          עוד לא נוספו ילדות. הוסיפי פרופיל בדף הבית.
+          עוד לא נוספו פרופילים. אפשר להוסיף פרופיל בדף הבית.
         </p>
       </section>
     );
@@ -230,7 +255,7 @@ function PickStage({
   return (
     <section className="max-w-3xl mx-auto bg-surface rounded-3xl shadow-soft p-6 space-y-5">
       <div className="space-y-2">
-        <label className="block text-warm-dark font-semibold">בחרי ילדה</label>
+        <label className="block text-warm-dark font-semibold">בחירת פרופיל</label>
         <div className="flex gap-2 flex-wrap">
           {profiles.map((p) => (
             <button
@@ -274,8 +299,7 @@ function PickStage({
       </div>
 
       <div className="border-t border-warm-line pt-4 text-xs text-warm-muted leading-relaxed">
-        ההסבר לילדה: <span className="text-warm-dark">״בואי נעשה סיבוב מהיר —
-        10 שאלות, בלי רמזים, בלי &apos;נסי שוב&apos;. רק לראות איפה את היום.״</span>
+        ההסבר לקראת המבחן: <span className="text-warm-dark">״{SCRIPT[addressFormOf(selected)]}״</span>
       </div>
     </section>
   );
@@ -318,7 +342,7 @@ function TestStage({
         <span>
           שאלה {stage.index + 1} מתוך {total}
         </span>
-        <span>ילדה: {stage.profile.name}</span>
+        <span>{stage.profile.name}</span>
       </div>
 
       <div className="w-full bg-warm-line/40 rounded-full h-2 overflow-hidden">
@@ -436,7 +460,7 @@ function ItemInput({
     if (frac.answer.kind === "choice") {
       const isVisualType = frac.type === "name_to_visual";
       // ערבוב — בלעדיו התשובה הנכונה יושבת במקום קבוע (11 מ-18 ראשונות)
-      // וילדה שלוחצת תמיד ראשון מקבלת "יש פער" במקום "לא יודעת".
+      // וילד שלוחץ תמיד ראשון מקבל "יש פער" במקום "לא יודעת".
       const shown = shuffleOptions(frac.answer.options, `${optionSalt}:${frac.id}`);
       return (
         <div className="grid gap-3 grid-cols-2">

@@ -359,7 +359,7 @@ export function computeFocusAreas(
       skillHebrew: SKILL_HEBREW[skill],
       reason: "low_pct",
       reasonText: `${pctCur}% נכון בניסיון ראשון בחלון הזה`,
-      actionText: `היום את יכולה להציע ל${name} לחזור על ${SKILL_HEBREW[skill]} בקצב שלה, ולתת לה לבחור מתי.`,
+      actionText: `היום את יכולה להציע ל${name} לחזור על ${SKILL_HEBREW[skill]} בקצב שמתאים, ולתת לבחור מתי.`,
       severity: reasonRank("low_pct") * 1000 + (FOCUS_LOW_PCT_THRESHOLD - pctCur),
     });
     taken.add(skill);
@@ -374,8 +374,8 @@ export function computeFocusAreas(
       skill,
       skillHebrew: SKILL_HEBREW[skill],
       reason: "negative_feeling",
-      reasonText: `סימנה 😣 ב-${f.hard} סשנים בחלון הזה`,
-      actionText: `היום כדאי להציע ל${name} לבחור נושא אחר, ולחזור ל${SKILL_HEBREW[skill]} כשתרצה.`,
+      reasonText: `סומן 😣 ב-${f.hard} סשנים בחלון הזה`,
+      actionText: `היום כדאי להציע ל${name} לבחור נושא אחר, ולחזור ל${SKILL_HEBREW[skill]} בהמשך.`,
       severity: reasonRank("negative_feeling") * 1000 + f.hard,
     });
     taken.add(skill);

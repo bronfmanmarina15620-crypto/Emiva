@@ -222,9 +222,9 @@ export function rememberTestItems(
 }
 
 const VERDICT_HEBREW: Record<ExternalTestVerdict, string> = {
-  passed: "השליטה אמיתית — הילדה העבירה את הידע גם לפריטים שלא ראתה.",
+  passed: "השליטה אמיתית — הידע עבר גם לפריטים חדשים שלא נראו בתרגול.",
   gap: "יש פער בין מה שהאפליקציה מראה לבין מה שמועבר לפריטים חדשים. כדאי להישאר עוד שבועיים על הנושא לפני שעוברים הלאה.",
-  false_mastery: "אות לכך שהאפליקציה אולי 'העבירה' את הילדה מהר מדי. כדאי לחזור לרמת קושי נמוכה יותר ולבסס.",
+  false_mastery: "אות לכך שהאפליקציה אולי הריצה את הקצב מהר מדי. כדאי לחזור לרמת קושי נמוכה יותר ולבסס.",
 };
 
 export function verdictHebrew(verdict: ExternalTestVerdict): string {

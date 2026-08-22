@@ -92,7 +92,41 @@ describe("<MeasurementPage> — pick stage", () => {
 
   it("shows empty hint when no profile exists", async () => {
     render(<MeasurementPage />);
-    expect(await screen.findByText(/עוד לא נוספו ילדות/)).toBeInTheDocument();
+    expect(await screen.findByText(/עוד לא נוספו פרופילים/)).toBeInTheDocument();
+  });
+
+  /**
+   * GENDER-INCLUSIVE-001 G5 — התסריט שההורה **מקריאה לילד**.
+   *
+   * זו המחרוזת היחידה במסכי ההורה שנשארה **מגודרת בכוונה**: היא
+   * דיבור אל הילד, לא ממשק להורה, ולכן ניטרול היה מקרר משפט שכל
+   * תפקידו להרגיע לפני מבחן. השומר `parent-screens-address-form`
+   * מוודא שאין מחרוזות מגודרות — הבדיקה הזו מוודאת שהמגדר **כן**
+   * מגיע לכאן, ושתי הבדיקות יחד סוגרות את שני הכיוונים.
+   */
+  it("read-aloud script follows the child's addressForm", async () => {
+    createProfile("Daniel", 7, undefined, "masculine");
+    render(<MeasurementPage />);
+    expect(await screen.findByText(/בוא נעשה סיבוב מהיר/)).toBeInTheDocument();
+    expect(screen.queryByText(/בואי נעשה סיבוב מהיר/)).not.toBeInTheDocument();
+  });
+
+  it("read-aloud script stays feminine for a girl's profile", async () => {
+    createProfile("Evelyn", 7, undefined, "feminine");
+    render(<MeasurementPage />);
+    expect(await screen.findByText(/בואי נעשה סיבוב מהיר/)).toBeInTheDocument();
+  });
+
+  /**
+   * פרופיל בלי `addressForm` נופל ל-`ADDRESS_FORM_DEFAULT` (ניטרלי) —
+   * הקונבנציה של *"חסר = לא נבחר"*. הניטרלי נשען על רבים-מכלילים
+   * (*"נעשה"*) ולא על רבים-נקבה, שהוא מגדר בתחפושת (§2 של התוכנית).
+   */
+  it("profile without addressForm gets the neutral script", async () => {
+    createProfile("Noa", 7);
+    render(<MeasurementPage />);
+    const script = await screen.findByText(/נעשה סיבוב מהיר/);
+    expect(script.textContent).not.toMatch(/בואי|בוא נעשה/);
   });
 });
 
