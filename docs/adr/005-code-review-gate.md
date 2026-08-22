@@ -92,5 +92,7 @@ Emiva נבנית כמעט כולה על ידי סוכן. הבדיקות הן מ�
 - [.claude/hooks/require-review.sh](../../.claude/hooks/require-review.sh)
 - [.claude/agents/emiva-reviewer.md](../../.claude/agents/emiva-reviewer.md)
 - [postmortems/2026-08-22-review-gate-gaps.md](../postmortems/2026-08-22-review-gate-gaps.md)
+- **[מחקר מלא עם כל המקורות ודירוג-סמכות](../research/2026-08-22-ai-code-review-research.md)**
+- [plans/REVIEW-GATE-001.md](../../plans/REVIEW-GATE-001.md) — תוכנית הביצוע
 - מקורות (א) מדע קוגניטיבי: [Self-Correction Bench](https://arxiv.org/abs/2507.02778) ·
   [Cross-Context Review](https://arxiv.org/html/2603.12123)
