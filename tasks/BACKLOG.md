@@ -834,11 +834,11 @@ build הוא מירוץ-כתיבה** — שני תהליכים כותבים לא
 מסיח שגם הוא תרגום נכון תוקנו — `correct` ו-`id` נשמרו (היסטוריית
 השליטה של אמיליה שלמה), רק המסיחים הוחלפו במילים מאותו עולם שאינן
 נרדפות. הלקח קודד בטסט אנטי-נרדפים ב-`english-vocab-bank.test.ts`.
-ראי [tasks/ENGLISH-VOCAB-FIX-001/INSTRUCTIONS.md](done/ENGLISH-VOCAB-FIX-001/INSTRUCTIONS.md).
+ראי [tasks/done/ENGLISH-VOCAB-FIX-001/INSTRUCTIONS.md](done/ENGLISH-VOCAB-FIX-001/INSTRUCTIONS.md).
 
 ### BL-003 — variant של בעיות-כסף בתוך `add_sub_100` *(הוסר 2026-04-27)*
 
 הוסר באותו יום שנוסף, אחרי קריאה צמודה של MyLevel.docx §3.1 + §5.4.
 התברר שהערבוב הוא **בדיוק** מה ש-MyLevel דורש — לא variant עתידי
 "אם משהו". MATH-EVELYN-MONEY-001 נכתב מחדש לכלול את הערבוב כהוראת
-הליבה, ולא כמיומנות נפרדת. ראי [tasks/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md](done/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md).
+הליבה, ולא כמיומנות נפרדת. ראי [tasks/done/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md](done/MATH-EVELYN-MONEY-001/INSTRUCTIONS.md).

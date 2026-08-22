@@ -7,8 +7,8 @@
 - priority: P1
 - references:
   - `MyLevel.docx §3.1` — אמיליה: "חלוקה ארוכה"
-  - `tasks/MATH-BAT9-002/INSTRUCTIONS.md` — תבנית סלייס מקבילה
-  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — שער graduation
+  - `tasks/done/MATH-BAT9-002/INSTRUCTIONS.md` — תבנית סלייס מקבילה
+  - `tasks/done/MATH-GRADUATION-001/INSTRUCTIONS.md` — שער graduation
 
 ## מטרה
 מיומנות שלישית במסלול של אמיליה: **חלוקה ארוכה עם תוצאות מנה-בלבד (ללא

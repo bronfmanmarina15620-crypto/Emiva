@@ -9,7 +9,7 @@
 - references:
   - **MyLevel.docx §3.2** — "בת 7: 5-8 דק' ליום. פוניקה + קריאה חוזרת + 2 שאלות הבנה."
   - **memory/project_girls_reading_level.md** — שתי הבנות קוראות עברית בשטף, מדלגים על פוניקה.
-  - `tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md` — תבנית של פריט עם prompt עברי + תשובה.
+  - `tasks/done/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md` — תבנית של פריט עם prompt עברי + תשובה.
   - `src/lib/types.ts` — `FractionItem` עם `answer.kind: "choice"` כדוגמה לרב-ברירה קיימת.
 
 ## מטרה

@@ -9,7 +9,7 @@
 - references:
   - **MyLevel.docx §3.1** — "בת 7: 10-12 דק' ליום. נושא נוכחי: חיבור וחיסור עד 100, לאט מתקדמים לכפל. **3 מתוך 5 תרגילים בהקשר כסף (שילוב חינוך פיננסי).**"
   - **MyLevel.docx §5.4** — "חינוך פיננסי — לא נושא נפרד. **מבוזר על פני מתמטיקה (תרגילים בהקשר כסף).**"
-  - `tasks/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md` — תבנית לפריטי בעיות-מילוליות בעברית עם תשובה מספרית והסבר embedded.
+  - `tasks/done/MATH-EMILIA-BARMODELS-001/INSTRUCTIONS.md` — תבנית לפריטי בעיות-מילוליות בעברית עם תשובה מספרית והסבר embedded.
   - `src/content/math/add-sub-100.json` + `src/content/math/multiplication.json` — המאגרים שיורחבו.
   - `src/lib/adaptive.ts` — `selectNextItem` שיקבל מגבלת יחס סשן.
 

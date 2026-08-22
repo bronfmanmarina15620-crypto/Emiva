@@ -7,7 +7,7 @@
 - priority: P0 (קופץ לפני MATH-EVELYN-MONEY-001)
 - target_branch: feat/dashboard-parent-001
 - references:
-  - `tasks/DASHBOARD-PARENT-001/research.md` — יומן מחקר ארבעה-סיבובים
+  - `tasks/done/DASHBOARD-PARENT-001/research.md` — יומן מחקר ארבעה-סיבובים
   - `CLAUDE.md §כלל מדידה` — proxy פנימי חייב להיות נראה
   - `CLAUDE.md §טון` — growth-mindset לכל מחרוזת פונה-למשתמש
   - `CLAUDE.md §כלל מקור מחקר` — (a) מדע קוגניטיבי מופרד מ-(b) פרקטיקת מוצר

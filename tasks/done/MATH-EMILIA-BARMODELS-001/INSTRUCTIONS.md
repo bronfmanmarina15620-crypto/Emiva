@@ -7,7 +7,7 @@
 - priority: P1
 - references:
   - `MyLevel.docx §3.1` — Singapore CPA, Bar Models לבעיות מילוליות
-  - `tasks/MATH-BAT9-001/INSTRUCTIONS.md` — תבנית סלייס שברים (SVG + מיומנות חדשה)
+  - `tasks/done/MATH-BAT9-001/INSTRUCTIONS.md` — תבנית סלייס שברים (SVG + מיומנות חדשה)
 
 ## מטרה
 להוסיף מיומנות Bar Models בסגנון סינגפור לאמיליה. כל פריט הוא בעיה

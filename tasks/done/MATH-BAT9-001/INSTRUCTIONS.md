@@ -10,7 +10,7 @@
   - `CLAUDE.md` — הנדסה + פורמט תגובה + Exercise UX rule + Tone rule
   - `MyLevel.docx §3.1` — תכנית הלימודים של אמיליה: שברים, ops-1000, חלוקה ארוכה; CPA (סינגפור)
   - `MyLevel.docx §11.3` — מבחן חיצוני רבעוני (Khan Grade Level)
-  - `tasks/MATH-MVP-001/INSTRUCTIONS.md` — תבנית לעקוב אחריה
+  - `tasks/done/MATH-MVP-001/INSTRUCTIONS.md` — תבנית לעקוב אחריה
   - `plans/MATH-MVP-001.md` — baseline ארכיטקטוני (Leitner, mastery, adaptive)
 
 ## מטרה

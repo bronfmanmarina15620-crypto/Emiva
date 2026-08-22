@@ -8,8 +8,8 @@
 - target_branch: feat/math-bat9-002
 - references:
   - `MyLevel.docx §3.1` — אמיליה: "פעולות עד 1000, חלוקה ארוכה"
-  - `tasks/MATH-BAT9-001/INSTRUCTIONS.md` — תבנית סלייס 1
-  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — קריטריון שפותח את זה
+  - `tasks/done/MATH-BAT9-001/INSTRUCTIONS.md` — תבנית סלייס 1
+  - `tasks/done/MATH-GRADUATION-001/INSTRUCTIONS.md` — קריטריון שפותח את זה
   - `src/content/math/add-sub-100.json` — צורת פריט להרחבה
 
 ## מטרה

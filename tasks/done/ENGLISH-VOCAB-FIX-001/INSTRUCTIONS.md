@@ -8,9 +8,9 @@
 - target_branch: main
 - references:
   - **tasks/BACKLOG.md — BL-004** — הגדרת הבעיה והסיכון.
-  - **tasks/CORE-ENGLISH-001/INSTRUCTIONS.md** — המשימה שיצרה את המאגר.
+  - **tasks/done/CORE-ENGLISH-001/INSTRUCTIONS.md** — המשימה שיצרה את המאגר.
     הכוונה המקורית: מסיחים ברורים ("cat" → חתול/כלב/חסה/שולחן).
-  - **tasks/CONTENT-JUDGE-001** — הממצא. השופט (מבנה) לא תופס דו-משמעות.
+  - **tasks/done/CONTENT-JUDGE-001** — הממצא. השופט (מבנה) לא תופס דו-משמעות.
 
 ## הבעיה
 

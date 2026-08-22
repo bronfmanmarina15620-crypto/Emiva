@@ -8,12 +8,12 @@
 - target_branch: feat/core-hebrew-evelyn-003
 - references:
   - **FEEDBACK-LOG 2026-05-06** — bat7: "הבנת הנקרא חוזר על עצמו מסשן לסשן".
-  - `tasks/CORE-HEBREW-EVELYN-002/INSTRUCTIONS.md` — המסלול המקורי
+  - `tasks/done/CORE-HEBREW-EVELYN-002/INSTRUCTIONS.md` — המסלול המקורי
     (30 פריטים, מבנה טקסט + 2 שאלות).
   - `src/content/hebrew/comprehension-evelyn.json` — המאגר הקיים.
   - `src/lib/adaptive.ts` — `selectNextItem` + מנגנון staleness.
   - **MyLevel.docx §3.2** — "2 שאלות הבנה לטקסט".
-  - `tasks/MATH-BAT9-001/INSTRUCTIONS.md` — תקדים להרחבת מאגר 30→60.
+  - `tasks/done/MATH-BAT9-001/INSTRUCTIONS.md` — תקדים להרחבת מאגר 30→60.
 
 ## מטרה
 

@@ -8,8 +8,8 @@
 - target_branch: feat/math-evelyn-mult-001
 - references:
   - `MyLevel.docx §3.1` — אוולין: "חיבור וחיסור עד 100, לאט מתקדמים לכפל"
-  - `tasks/MATH-BAT9-002/INSTRUCTIONS.md` — תבנית סלייס-מקבילה (מיומנות חדשה + ניתוב)
-  - `tasks/MATH-GRADUATION-001/INSTRUCTIONS.md` — קריטריון שפותח את זה
+  - `tasks/done/MATH-BAT9-002/INSTRUCTIONS.md` — תבנית סלייס-מקבילה (מיומנות חדשה + ניתוב)
+  - `tasks/done/MATH-GRADUATION-001/INSTRUCTIONS.md` — קריטריון שפותח את זה
   - `src/lib/explain.ts` — יעד חשיפה מבוססת-שיטה להרחבה
 
 ## מטרה
