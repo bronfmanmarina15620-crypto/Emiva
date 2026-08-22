@@ -256,6 +256,22 @@ export default function SessionPage() {
   // GENDER-INCLUSIVE-001 — נגזר מהפרופיל שכבר ב-state, כמו speechRate.
   const addressForm = addressFormOf(profile);
   const inputRef = useRef<HTMLInputElement>(null);
+  /**
+   * 🔴 ACCOUNTS-001 · P1 — השומר נגד ניסיון-רפאים.
+   *
+   * `formLocked` (למטה) נגזר מ-`phase`, שהוא state של React ומתעדכן
+   * רק ב-render הבא. כל עוד השמירה סינכרונית זה הספיק. ברגע שיש
+   * `await` באמצע `processAnswer`, שתי לחיצות מהירות נכנסות **באותו
+   * tick**, שתיהן רואות `phase === "active"` ושתיהן רושמות ניסיון.
+   *
+   * המחיר הפדגוגי: ניסיון שני מדומה הופך `attempts === 0` ל-1 —
+   * כלומר **קרדיט-השליטה נשלל מילדה שענתה נכון מיד**, ואות
+   * ה-adaptive difficulty מזדהם.
+   *
+   * ref נכתב ונקרא **סינכרונית**, ולכן הוא סוגר את החלון. `phase`
+   * נשאר לתצוגה; זה השומר.
+   */
+  const submittingRef = useRef(false);
   const startMasteryRef = useRef(0);
   const celebratedRef = useRef(false);
   const graduatedCelebratedRef = useRef(false);
@@ -480,6 +496,10 @@ export default function SessionPage() {
     if (!current || !profile) return;
     if (phase !== "active" && phase !== "retry") return;
     if (rawInput.trim() === "") return;
+    // 🔴 השומר הסינכרוני — חייב להיות לפני כל `await` עתידי, אחרת
+    // הוא חסר-ערך. ראי את ההערה על `submittingRef`.
+    if (submittingRef.current) return;
+    submittingRef.current = true;
 
     const correct = isItemCorrect(current, rawInput, currentQuestionIndex);
     const nextAttempts = attempts + 1;
@@ -519,6 +539,8 @@ export default function SessionPage() {
       });
       setInput("");
       setPhase("retry");
+      // הילדה עונה שוב על אותו פריט — הקלט נפתח מיד.
+      submittingRef.current = false;
       return;
     }
 
@@ -555,6 +577,8 @@ export default function SessionPage() {
 
   function advance() {
     if (!profile || !skill) return;
+    // עוברים לפריט הבא (או לשאלה השנייה) — השומר נפתח לתשובה הבאה.
+    submittingRef.current = false;
 
     // For hebrew_comprehension: after Q1 finishes (correct or revealed), move
     // to Q2 of the same item. Only after Q2 do we advance to a new item.
